@@ -1,0 +1,145 @@
+/* header styles */
+ .navbar.header{
+     background-color: white;
+ }
+    
+ .container-fluid.header{
+     padding-bottom: 0px;
+     padding-top: 0px;
+     padding-left: 10px;
+ }
+ .navbar-brand.header{
+     padding-top: 0px;
+ }
+ 
+ img.header{
+     max-width: 100%;
+     max-height : 100%;
+     min-width:200px;
+     min-height: 49px; 
+ }
+ .col-md-4.header{
+     padding-top:18px;
+ }
+ 
+ .nav.navbar-nav.navbar-right.header {
+     padding-top: 0.5%;
+ }
+
+ a.glyphicon.glyphicon-log-in.utente{
+     padding-top: 5px;
+ }
+ 
+ a.glyphicon.glyphicon-wrench.utente{
+     padding-top: 5px;
+ }
+ 
+ a.glyphicon.glyphicon-log-out.utente{
+     padding-top: 5px;
+ }
+ 
+ a.glyphicon.glyphicon-user.utente{
+     padding-top: 5px;
+ }
+ 
+ .navbar.search{
+     background-color: green;
+     border-radius:0px;
+ }
+
+/* fine css header */
+
+.navbar {
+    margin : 0px;
+}
+
+.container-fluid {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+/* make sidebar nav vertical */ 
+@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+    display: block;      /*TODO: COPIARE COSE UTILI DA STYLES, SISTEMARE PUDDING*/
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+#centro{
+    padding-left: 3%;
+}
+#riquadro_ristorante{
+    background-color: activecaption;
+    border-radius: 20px;
+}
+
+/* footer styles */
+#footer{
+    padding: 0.5%;
+}
+
+#text_footer{
+    font-size: 80%;
+    padding-left: 3%;
+}
+#div_footer{
+    padding:0px;
+    background-color: green;
+    color:white; bottom: 0px;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    position: fixed;
+    line-height:0.5em; 
+}
+/* fine css footer */
+#min_max{
+    display: initial;
+}
+
+
+
+
+.rating {
+    width:20%;
+}
+.rating span { 
+    float:right; 
+    position:relative;
+}
+.rating span input {
+    position:absolute;
+    top:0px;
+    left:0px;
+    opacity:0;
+    
+}
+.rating span label {
+    
+    display:inline-block;
+    width:20px;
+    height:20px;
+    background:white;
+    margin-right:2px;
+    line-height:30px;
+    border-radius: 50%;
+}
+.rating span:hover ~ span label,
+.rating span:hover label,
+.rating span.checked label,
+.rating span.checked ~ span label {
+    background:green;
+}
