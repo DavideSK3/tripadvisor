@@ -15,7 +15,7 @@
         
         <p><c:out value='${requestScope.message}'/></p>
         
-        <h1>Salve <c:out value='${sessionScope.change_password_user.fullname}'/></h1>
+        <h1>Salve <c:out value='${sessionScope.change_password_user.name}'/> <c:out value='${sessionScope.change_password_user.surname}'/></h1>
         <h2>Completa il seguente form per impostare una nuova password</h2>
         
         <form method="POST" action="ValidateChangePassword">

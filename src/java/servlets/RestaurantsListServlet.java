@@ -8,10 +8,12 @@ package servlets;
 import db.DBManager;
 import db.Restaurant;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -39,41 +41,41 @@ public class RestaurantsListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
-        
-        
+       
         
         String r_query = req.getParameter("restaurant");
         String p_query = req.getParameter("place");
         
         
         
-        List<Restaurant> results = new ArrayList<>(4);
-        results.add(new Restaurant("Sushi", "via del sushi"));
-        results.add(new Restaurant("Pizza", "via della pizza"));
-        results.add(new Restaurant("Gelato", "via del gelato"));
-        results.add(new Restaurant("Pasta", "via dellla pasta"));
+        List<Restaurant> results;
         
-        
-        /*try{
-            if(r_query != null && p_query != null){
-                results = manager.getRestaurant(r_query, p_query);
-            }else if(r_query != null && p_query == null){
-                results = manager.getRestaurantByName(r_query);
-            }else if(r_query == null && p_query != null){
-                results = manager.getRestaurantByPlace(p_query);
+        long inizio = new Date().getTime();
+        try{
+            if(!r_query.equals("") && !p_query.equals("")){
+                results = manager.getRestaurants(r_query, p_query);
+            }else if(!r_query.equals("") && p_query.equals("")){
+                results = manager.getRestaurantsByNameSimilarity2(r_query);
+            }else if(r_query.equals("") && !p_query.equals("")){
+                results = manager.getRestaurantsByPlace(p_query);
             }else{
                 //TODO - scegliere cosa fare se non è specificata alcuna richiesta 
                 results = new ArrayList<>();
             }
         }catch (SQLException ex){
-            
-        }*/
+            results = new ArrayList<>();
+            Logger.getLogger(PasswordRecoveryServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        long fine = new Date().getTime();
+        
         if(r_query == null) r_query = "";
         if(p_query == null) p_query = "";
         
         String url = getServletContext().getContextPath()+"/RestaurantsList?restaurant=" + r_query + "&place=" + p_query;
         
         
+        System.out.println("Result size = " +results.size());
+        System.out.println("Risultati calcolati in " + (fine - inizio)/1000.0 + " secondi");
         
         
         req.setAttribute("restaurantsList", results);

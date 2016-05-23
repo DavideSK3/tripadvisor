@@ -8,7 +8,6 @@ package servlets;
 import db.DBManager;
 import db.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,7 +66,7 @@ public class ValidateChangePasswordServlet extends HttpServlet {
                 rd.forward(request, response);
             }else{
                 try {
-                    manager.changePassword(user.getUsername(), password1);
+                    manager.changePassword(user.getId(), password1);
                 } catch (SQLException ex) {
                     Logger.getLogger(ValidateChangePasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }

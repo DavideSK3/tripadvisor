@@ -40,8 +40,8 @@ public class LoginServlet extends HttpServlet {
         String redirectPage = req.getParameter("redirectPage");
         
         
-        /*
-        String username = req.getParameter("username");
+        
+        String email = req.getParameter("email");
 
         String password = req.getParameter("password");
         
@@ -52,17 +52,13 @@ public class LoginServlet extends HttpServlet {
 
         try {
 
-            user = manager.authenticate(username, password);
+            user = manager.authenticate(email, password);
 
         } catch (SQLException ex) {
 
             throw new ServletException(ex);
 
-        }*/
-        
-
-        User user = new User();
-        user.setUsername("Pinco Pallino");
+        }
         
         
 

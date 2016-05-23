@@ -10,6 +10,7 @@ import db.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,41 +39,28 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String username = req.getParameter("username");
-
+        String name = req.getParameter("name");
+        String surname = req.getParameter("surname");
+        String email = req.getParameter("email");
         String password = req.getParameter("password");
         
-        String user_type = req.getParameter("user_type");
+        
         // controllo nel DB se esiste un utente con lo stesso username + password
 
         User user = null;
-
+        String message;
         try {
-            if(user_type.equals("Restaurant")){
-                user = manager.registerResturant(username, password);
-            }else{
-                user = manager.registerUser(username, password);
-            }
+            manager.registerUser(name, surname,email, password);
             
-
+            message = "Registrazione effettuata con successo!\nEffettua il login per continuare.";
         } catch (SQLException ex) {
-
+            message = "La registrazione non è andata a buon fine...";
             throw new ServletException(ex);
 
         }
-        
-        
-
-        /*
-        HttpSession session = req.getSession(true);
-
-        session.setAttribute("user", user);
-        
-        */
-        
-        // mando un redirect alla servlet che carica i prodotti
-
-        resp.sendRedirect(getServletContext().getContextPath());
+        req.setAttribute("message", message);
+        RequestDispatcher rd = req.getRequestDispatcher("/message.jsp");
+        rd.forward(req, resp);
 
     }
 }

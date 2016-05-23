@@ -76,7 +76,7 @@ public class PasswordRecoveryServlet extends HttpServlet {
                 Logger.getLogger(PasswordRecoveryServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            sendMail(user.getMail(), user.getFullname(), token);
+            sendMail(user.getEmail(), user.getName() + " " + user.getSurname(), token);
             
             request.setAttribute("message", "E' stata inviata una mail al suo indirizzo di posta elettronica contenente un link alla pagina per reimpostare la sua password.");
             RequestDispatcher rd = request.getRequestDispatcher("/message.jsp");
