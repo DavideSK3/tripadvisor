@@ -1,0 +1,44 @@
+insert into USERS VALUES (default, 'Gabriele', 'Cesa', 'prova', 'gabriele.cesa@gmail.com', 'u');
+
+
+insert into RESTAURANTS VALUES
+(
+    default,
+    'Pizza&Pizza',
+    'Vieni a mangiare da noi la pizza, è buona!',   
+    'www.ma_che_ne_so.it',
+    2,
+    10.0,
+    10.0,
+    10.0,
+    10.0,
+    10.0,
+    null,
+    1,
+    'via Taramelli 24, Trento',
+    12345678.0,
+    12345678.0,
+    2,
+    50
+);
+
+insert into RESTAURANTS VALUES
+(
+    default,
+    'Gelato&Gelato',
+    'Vieni a mangiare da noi il gelato, è buono!\n(Non siamo in alcun modo associati con Pizza&Pizza)',   
+    'www.ma_che_ne_so_io.it',
+    3,
+    15.0,
+    14.0,
+    13.0,
+    12.0,
+    11.0,
+    null,
+    1,
+    'via Taramelli 14, Trento',
+    12345678.0,
+    12345678.0,
+    1,
+    100
+);

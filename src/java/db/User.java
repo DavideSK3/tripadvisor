@@ -14,10 +14,14 @@ import java.io.Serializable;
 public class User implements Serializable{
     
     private Integer id;
-    private String username;
-    private String fullname;
-    private String mail;
+    private String name;
+    private String surname;
+    private String email;
+    private USER_TYPE type;
+
     
+    
+    public enum USER_TYPE {U, A, R};
     
     public User() {}
 
@@ -36,48 +40,87 @@ public class User implements Serializable{
     }
 
     /**
-     * @return the username
+     * @return the name
      */
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
     /**
-     * @param username the username to set
+     * @param name the name to set
      */
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
-     * @return the fullname
+     * @return the surname
      */
-    public String getFullname() {
-        return fullname;
+    public String getSurname() {
+        return surname;
     }
 
     /**
-     * @param fullname the fullname to set
+     * @param surname the surname to set
      */
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
     
-    public String toString(){
-        return "utente: " + id + " " +username + " " + fullname;
+    
+    /**
+     * @return the type
+     */
+    public USER_TYPE getType() {
+        return type;
     }
 
     /**
-     * @return the mail
+     * @param type the type to set
      */
-    public String getMail() {
-        return mail;
+    public void setType(USER_TYPE type) {
+        this.type = type;
+    }
+    
+    public static USER_TYPE toType(char c){
+        switch(c){
+            case 'u':
+                return USER_TYPE.U;
+            case 'a':
+                return USER_TYPE.A;
+            case 'r':
+                return USER_TYPE.R;
+            default:
+                return null;
+        }
+    }
+    
+    
+    public static char toChar(USER_TYPE t){
+        switch(t){
+            case U:
+                return 'u';
+            case A:
+                return 'a';
+            case R:
+                return 'r';
+            default:
+                return 'u';
+        }
     }
 
-    /**
-     * @param mail the mail to set
-     */
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
 }
