@@ -1,3 +1,4 @@
  NO Utili:
 
 Usare GitHub tramite NetBeans: https://netbeans.org/kb/docs/ide/git.html#initialize
+Dati Dropbox: https://www.dropbox.com/home/Progetto
