@@ -15,6 +15,7 @@ public class Restaurant {
     private String name;
     private String description;
     private String url;
+    private Integer review_count;
     private Double global_review;
     private Double atmposhpere_review;
     private Double food_review;
@@ -250,6 +251,20 @@ public class Restaurant {
      */
     public void setMax_price(Integer max_price) {
         this.max_price = max_price;
+    }
+
+    /**
+     * @return the review_count
+     */
+    public Integer getReview_count() {
+        return review_count;
+    }
+
+    /**
+     * @param review_count the review_count to set
+     */
+    public void setReview_count(Integer review_count) {
+        this.review_count = review_count;
     }
 
     

@@ -10,7 +10,17 @@
  }
  .navbar-brand.header{
      padding-top: 0px;
+     
  }
+ 
+.glyphicon.glyphicon-star.media{
+    font-size: 140%;
+    display: initial
+}
+.glyphicon.glyphicon-star-empty.media{
+    font-size: 140%;
+    display: initial
+}
  
  img.header{
      max-width: 100%;
@@ -19,27 +29,30 @@
      min-height: 49px; 
  }
  .col-md-4.header{
-     padding-top:18px;
+    
  }
  
  .nav.navbar-nav.navbar-right.header {
      padding-top: 0.5%;
  }
 
- a.glyphicon.glyphicon-log-in.utente{
+ a.form-control.glyphicon.glyphicon.glyphicon-log-in.utente{
      padding-top: 5px;
  }
  
- a.glyphicon.glyphicon-wrench.utente{
+ a.form-control.glyphicon.glyphicon.glyphicon-wrench.utente{
      padding-top: 5px;
+     top: 0px;
  }
  
  a.glyphicon.glyphicon-log-out.utente{
      padding-top: 5px;
  }
  
- a.glyphicon.glyphicon-user.utente{
+ a.form-control.glyphicon.glyphicon-user.utente{
      padding-top: 5px;
+     top: 0px;
+
  }
  
  .navbar.search{
@@ -81,7 +94,7 @@
 #centro{
     padding-left: 3%;
 }
-#riquadro_ristorante{
+.container-fluid.riquadro_ristorante{
     background-color: activecaption;
     border-radius: 20px;
 }
@@ -114,7 +127,7 @@
 
 
 .rating {
-    width:20%;
+    float:left;
 }
 .rating span { 
     float:right; 
@@ -130,11 +143,11 @@
 .rating span label {
     
     display:inline-block;
-    width:20px;
-    height:20px;
+    width:17px;
+    height:17px;
     background:white;
     margin-right:2px;
-    line-height:30px;
+    line-height:20px;
     border-radius: 50%;
 }
 .rating span:hover ~ span label,

@@ -1,6 +1,5 @@
 $(function () {
     
-
     $("#search_name").autocomplete({
         source: function (request, response) {
             $.ajax({
