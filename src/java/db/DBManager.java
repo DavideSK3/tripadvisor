@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -493,6 +495,117 @@ public class DBManager implements Serializable{
         
     }
     
+    
+    
+    public List<String> getPlaces(String term) throws SQLException {
+        String[] words = term.toLowerCase().trim().split(" ");
+        ArrayList<String> r_l = new ArrayList<>();
+        
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.states");
+        try {
+                ResultSet rs = stm.executeQuery();
+                PriorityQueue<Place> queue = new PriorityQueue<>(new Place.PlaceComparator());
+                try{
+                    while(rs.next()) {
+                        Place p = new Place();
+                        p.setState(rs.getString("name"));
+                        p.d = 0;
+                        String r_name = p.toString().toLowerCase();
+                        
+                        for(String word : words){
+                            if(r_name.contains(word)){
+                                p.d++;
+                            }
+                        }
+                        
+                        if(p.d > 0) queue.add(p);
+                        
+                    }
+                }finally {
+                    rs.close();
+                }
+                //aggiungo solo 2 stati
+                for(int i=0; i<2; i++)
+                    if(queue.peek() != null) r_l.add(queue.poll().toString());
+                
+                
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+        
+        
+        stm = con.prepareStatement("SELECT * FROM APP.regions");
+        try {
+                ResultSet rs = stm.executeQuery();
+                PriorityQueue<Place> queue = new PriorityQueue<>(new Place.PlaceComparator());
+                try{
+                    while(rs.next()) {
+                        Place p = new Place();
+                        p.setState(rs.getString("state"));
+                        p.setRegion(rs.getString("name"));
+                        p.d = 0;
+                        
+                        String r_name = p.toString().toLowerCase();
+                        
+                        for(String word : words){
+                            if(r_name.contains(word)){
+                                p.d++;
+                            }
+                        }
+                        
+                        if(p.d > 0) queue.add(p);
+                        
+                    }
+                }finally {
+                    rs.close();
+                }
+                //aggiungo solo 3 regioni
+                for(int i=0; i<3; i++)
+                    if(queue.peek() != null) r_l.add(queue.poll().toString());
+                
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+        
+        stm = con.prepareStatement("SELECT * FROM APP.cities");
+        try {
+                ResultSet rs = stm.executeQuery();
+                PriorityQueue<Place> queue = new PriorityQueue<>(new Place.PlaceComparator());
+                try{
+                    while(rs.next()) {
+                        Place p = new Place();
+                        p.setState(rs.getString("state"));
+                        p.setRegion(rs.getString("region"));
+                        p.setCity(rs.getString("name"));
+                        p.d = 0;
+                        
+                        String r_name = p.toString().toLowerCase();
+                        
+                        for(String word : words){
+                            if(r_name.contains(word)){
+                                p.d++;
+                            }
+                        }
+                        
+                        if(p.d > 0) queue.add(p);
+                        
+                    }
+                }finally {
+                    rs.close();
+                }
+                //aggiungo solo 5 città
+                for(int i=0; i<5; i++)
+                    if(queue.peek() != null) r_l.add(queue.poll().toString());
+                
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+        
+        
+        return r_l;
+        
+    }
+    
     public void genereteNearNameTerms() throws SQLException{
         PreparedStatement stm = con.prepareStatement("SELECT id, name FROM APP.restaurants");
         ArrayList<Restaurant> restaurants = new ArrayList();
@@ -529,5 +642,57 @@ public class DBManager implements Serializable{
     }
     
     
+    public Integer insertPhoto(String name, String path, int restaurant_id)throws SQLException{
+         
+        PreparedStatement stm = con.prepareStatement("INSERT INTO APP.photos VALUES(default,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+        int k=-1;
+        try {
+            stm.setString(1, name);
+            stm.setString(2, path);
+            stm.setInt(3, restaurant_id);
+            
+            int rs = stm.executeUpdate();
+            ResultSet keys = stm.getGeneratedKeys();
+            try{
+                if(keys.next()){
+                    k= keys.getInt(1);
+                }
+            }finally{
+                keys.close();
+            }
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+        
+        return k;
+    }
+    
+     public void insertReview(Integer global_value, Integer food, Integer service, Integer value_for_money, 
+                              Integer atmosphere, String title, String description,
+                              Integer id_restaurant, Integer id_creator, Integer id_photo)throws SQLException{
+         
+        PreparedStatement stm = con.prepareStatement("INSERT INTO APP.reviews VALUES(?,?,?,?,?,?,?,default,?,?,?)");
+        try {
+            stm.setInt(1, global_value);
+            stm.setInt(2, food);
+            stm.setInt(3, service);
+            stm.setInt(4, value_for_money);
+            stm.setInt(5, atmosphere);
+            stm.setString(6, title);
+            stm.setString(7, description);
+            stm.setInt(8, id_restaurant);
+            stm.setInt(9, id_creator);
+            stm.setInt(10, id_photo);
+            
+            int rs = stm.executeUpdate();
+            
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+    }
+    
+    
+    
 }
-                       
+   
+

@@ -1,7 +1,8 @@
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
+
+<%--
 <!DOCTYPE html>
 <html>
     
@@ -17,7 +18,7 @@
         <link href="http://code.jquery.com/ui/1.11.4/themes/redmond/jquery-ui.css" rel="stylesheet">
         
     </head>
-    <body style=" background-color: gainsboro">
+    <body style=" background-color: gainsboro"> --%>
         <nav class="navbar header">
             <div class="container-fluid header" >
                     
@@ -79,7 +80,7 @@
                                     <h4 class="modal-title">Notifiche</h4>
                                   </div>
                                   <div class="modal-body" style="background-color: gainsboro; border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
-                                    <p>Questa Ã¨ una notifica.</p>
+                                    <p>Questa è una notifica.</p>
                                   </div>
                                   <div class="modal-footer" style="border-top-width: 0;">
                                       <span><a href="#" class="glyphicon glyphicon-plus" style="float:left; top: 10px;"> Vedi tutte</a></span>
@@ -99,7 +100,7 @@
                   <div class="row">
                       <form class="navbar-search" role="search" action="RestaurantsList">
 
-                          <div class=" col-md-5"><input type="text" class="form-control" placeholder="Dove vai?" name="place"></div>
+                          <div class=" col-md-5"><input type="text" class="form-control" placeholder="Dove vai?" name="place" id ="search_place"></div>
                           <div class=" col-md-5 ui-widget ui-widget"> <input type="text" class="form-control" placeholder="Ricerca ristorante" name="restaurant" id ="search_name"></div>
                           <div class=" col-md-2"> <button type="submit" class="btn btn-default"> <span class="glyphicon glyphicon-search" style="color: black"></span> </button></div>
 
@@ -108,9 +109,7 @@
               </div>
         </div>
         
-        <script src="http://code.jquery.com/jquery-2.2.3.js" integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4=" crossorigin="anonymous"></script>
-        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js" integrity="sha256-DI6NdAhhFRnO2k51mumYeDShet3I8AKCQf/tf7ARNhI=" crossorigin="anonymous"></script>
-        <script src="js/autocomplete.js"></script> 
-    </body>
+        
+    <%--</body>
     
-</html>
+</html>--%>

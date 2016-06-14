@@ -1,8 +1,4 @@
-<%-- 
-    Document   : result_list
-    Created on : 11-mag-2016, 14.08.07
-    Author     : gabriele
---%>
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,28 +7,21 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Ristoranti Trovati</title>
         
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-        <link rel="stylesheet" href="styles.css">
         
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <%@include file="header_head.jsp" %>
         
-        
-        <!--<link rel="stylesheet" type="text/css" href="media/css/jquery.dataTables.css">
-        
-	<script type="text/javascript" language="javascript" src="media/js/jquery.js"></script>
-	<script type="text/javascript" language="javascript" src="media/js/jquery.dataTables.js"></script>	
-        <script type="text/javascript" language="javascript" class="init">
-            $(document).ready(function() {
+        <%--<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>--%>
 
-                    $('#ristoranti').dataTable();
-
-            } );
-        </script>-->
+        <link rel="stylesheet" type="text/css" href="media/css/jquery.dataTables.css">
+        
+        
+	
+        
     </head>
     <body style=" background-color: gainsboro">
         <%@include file="header.jsp" %>
         
-        <div class="container-fluid" style=" padding-top: 0px;">
+       <div class="container-fluid" style=" padding-top: 0px;">
             <div class="row">
                 <div class="col-sm-3">
                     <div class="sidebar-nav"  >
@@ -89,7 +78,7 @@
                             </div>
                             <a href="Restaurant?restaurantID=<c:out value="${r.id}"/>"> <span style="font-size: 200%; color: royalblue"><b><c:out value="${r.name}"/></b></span> </a>
                             <div class="col-md-8">
-                                <span style="color: green;"><b>N. 1 dei ristoranti a Pisellolandia</b></span><br>
+                                <span style="color: green;"><b>N. 1 dei ristoranti in Italia</b></span><br>
                                 <div>
                                     <span class="glyphicon glyphicon-star media"></span>
                                     <span class="glyphicon glyphicon-star media"></span>
@@ -124,8 +113,8 @@
               <li><a href="#" style="background-color:limegreen; color: black;">Next</a></li>
             </ul>
         </div>
-        <%--  
-        <table id ="ristoranti" border="1px">
+       
+        <%--<table id ="ristoranti" border="1px">
             <thead>
                 <th>Nome</th>
                 <th>Indirizzo</th>
@@ -134,7 +123,7 @@
         <c:forEach var='r' items="${restaurantsList}">
                 <tr>
                     <td>
-                        <c:out value="${r.name}"/>
+                        <a href="Restaurant?restaurantID=<c:out value="${r.id}"/>"><b><c:out value="${r.name}"/></b></a>
 
                     </td>
                     <td>
@@ -145,11 +134,24 @@
                     </td>
                 </tr>
             </c:forEach>
-        </table>
+        </table>--%>
         
-        --%>
+        
             
         <%@include file="footer.html" %>
+        
+        
+       
+        <%--<script type="text/javascript" language="javascript" src="media/js/jquery.js"></script>
+	<script type="text/javascript" language="javascript" src="media/js/jquery.dataTables.js"></script>	
+        <script type="text/javascript" language="javascript" class="init">
+            $(document).ready(function() {
+
+                    $('#ristoranti').dataTable();
+
+            } );
+        </script>--%>
+         <%@include file="js_include.jsp" %>
         
     </body>
 </html>

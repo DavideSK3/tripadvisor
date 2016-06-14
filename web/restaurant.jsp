@@ -7,29 +7,8 @@
     <head>
         <!-- This meta tags makes sure accents and other special caracters are displayed correctly -->
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-        <link rel="stylesheet" href="styles.css">
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         
-        <script>
-            
-            $(document).ready(function(){
-                $('[data-toggle="tooltip"]').tooltip();   
-            });
-        </script>
-        <!--<script type="text/javascript">
-            $(document).ready(function(){
-            //  Check Radio-box
-                $(".str3").attr("checked", true);
-                $(".rating input:radio").attr("checked", false);
-                $('.rating input').click(function () {
-                    $(".rating span").removeClass('checked');
-                    $(this).parent().addClass('checked');
-                });
-        });
-        </script> -->
-        
+        <%@include file="header_head.jsp"%>
         <title><c:out value='${restaurant.name}'/></title>
     </head>
     
@@ -49,7 +28,7 @@
                     <span class="glyphicon glyphicon-star media"></span>
                     <span class="glyphicon glyphicon-star-empty media"></span> &nbsp;
                     <span class="badge"><c:out value='${restaurant.global_review}'/>&nbsp;<span class="glyphicon glyphicon-star-empty"></span>&nbsp; su <c:out value='${restaurant.review_count}'/> recensioni</span>
-                    <span style="color: green; padding-left: 1%; font-size: 135%;"> |&nbsp; &nbsp; &nbsp;N. 1 dei ristoranti a Pisellolandia</span>
+                    <span style="color: green; padding-left: 1%; font-size: 135%;"> |&nbsp; &nbsp; &nbsp;N. 1 dei ristoranti in Italia</span>
                 </div>
             </div>
             <div class="col-md-12" style="padding-left: 2%; padding-bottom: 10px;">
@@ -134,6 +113,13 @@
 
 
         <%@include file="footer.html" %>
+        <%@include file="js_include.jsp" %>
         
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('[data-toggle="tooltip"]').tooltip();   
+            });
+        </script>
     </body>
 </html>
