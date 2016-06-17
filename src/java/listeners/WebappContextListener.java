@@ -24,7 +24,8 @@ public class WebappContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         String dburl = sce.getServletContext().getInitParameter("dburl");
-
+        
+        
         try {
 
             DBManager manager = new DBManager(dburl);

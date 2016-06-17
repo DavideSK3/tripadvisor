@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
-        String redirectPage = req.getParameter("redirectPage");
+        //String redirectPage = req.getParameter("redirectPage");
         
         
         
@@ -69,12 +69,13 @@ public class LoginServlet extends HttpServlet {
         
         
         // mando un redirect alla servlet che carica i prodotti
-        if(redirectPage != null){
+        /*if(redirectPage != null){
             resp.sendRedirect(resp.encodeRedirectURL(redirectPage));
         }else{
             resp.sendRedirect(resp.encodeRedirectURL(getServletContext().getContextPath()));
-        }
+        }*/
         
+        resp.sendRedirect(resp.encodeRedirectURL(getServletContext().getContextPath()));
 
     }
 }

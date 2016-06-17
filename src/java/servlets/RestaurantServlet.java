@@ -11,6 +11,8 @@ import db.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -41,33 +43,31 @@ public class RestaurantServlet extends HttpServlet {
         RequestDispatcher rd;
         
         String key = req.getParameter("restaurantID");
-        /*
+        
         if(key != null){
             Restaurant r = null;
             
             try{
-                r = manager.getRestaurant((Integer)req.getAttribute("r_key"));
-            }catch (SQLException ex){
+                r = manager.getRestaurant(Integer.parseInt(key));
+                req.setAttribute("restaurant", r);
+                rd = req.getRequestDispatcher("/restaurant.jsp");
                 
+            }catch (SQLException ex){
+                rd = req.getRequestDispatcher("/error_page.jsp");
+                Logger.getLogger(PasswordRecoveryServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }catch(NumberFormatException ex){
+                req.setAttribute("error", key);
+                rd = req.getRequestDispatcher("/error_page.jsp");
             }
             
-            req.setAttribute("restaurant", r);
-            rd = req.getRequestDispatcher("/restaurant.jsp");
-            //TODO - se la query sul database non trova il ristorante??????
+            
             
             
         }else{
             
             rd = req.getRequestDispatcher("/restaurant_list.jsp");
         }
-        */
-        //if(key == null) key ="";
-        
-        String url = getServletContext().getContextPath()+"/Restaurant?restaurantID=" + key;
-        req.setAttribute("redirectURL", url);
-        req.setAttribute("restaurantID", key);
-        rd = req.getRequestDispatcher("/restaurant.jsp");
-        
         rd.forward(req, resp);
+        
     }
 }

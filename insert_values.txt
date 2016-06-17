@@ -42,3 +42,60 @@ insert into RESTAURANTS VALUES
     1,
     100
 );
+
+
+
+
+
+insert into STATES VALUES('Italia');
+insert into STATES VALUES('Francia');
+insert into STATES VALUES('Regno Unito');
+insert into STATES VALUES('Stati Uniti America');
+insert into STATES VALUES('Spagna');
+insert into STATES VALUES('Russia');
+insert into STATES VALUES('Germania');
+insert into STATES VALUES('Cina');
+insert into STATES VALUES('Giappone');
+
+insert into REGIONS VALUES('Italia', 'Lombardia');
+insert into REGIONS VALUES('Italia', 'Trentino Alto-Adige');
+insert into REGIONS VALUES('Italia', 'Veneto');
+insert into REGIONS VALUES('Italia', 'Friuli Venezia-Giulia');
+insert into REGIONS VALUES('Italia', 'Piemonte');
+insert into REGIONS VALUES('Italia', 'Lazio');
+insert into REGIONS VALUES('Italia', 'Sicilia');
+insert into REGIONS VALUES('Italia', 'Basilicata');
+insert into REGIONS VALUES('Italia', 'Puglia');
+insert into REGIONS VALUES('Italia', 'Molise');
+insert into REGIONS VALUES('Regno Unito', 'Inghilterra');
+insert into REGIONS VALUES('Regno Unito', 'Galles');
+insert into REGIONS VALUES('Regno Unito', 'Scozia');
+insert into REGIONS VALUES('Regno Unito', 'Irlanda del Nord');
+insert into REGIONS VALUES('Francia', 'Ile de France');
+insert into REGIONS VALUES('Francia', 'Bordeaux');
+insert into REGIONS VALUES('Stati Uniti America', 'Michigan');
+insert into REGIONS VALUES('Stati Uniti America', 'Washington');
+insert into REGIONS VALUES('Stati Uniti America', 'New York');
+insert into REGIONS VALUES('Stati Uniti America', 'Texas');
+
+
+insert into CITIES VALUES('Italia', 'Lombardia', 'Mantova');
+insert into CITIES VALUES('Italia', 'Lombardia', 'Milano');
+insert into CITIES VALUES('Italia', 'Trentino Alto-Adige', 'Trento');
+insert into CITIES VALUES('Italia', 'Trentino Alto-Adige', 'Bolzano');
+insert into CITIES VALUES('Italia', 'Veneto', 'Verona');
+insert into CITIES VALUES('Italia', 'Veneto', 'Venezia');
+insert into CITIES VALUES('Italia', 'Veneto', 'Padova');
+insert into CITIES VALUES('Italia', 'Lazio', 'Roma');
+insert into CITIES VALUES('Italia', 'Piemonte', 'Torino');
+insert into CITIES VALUES('Italia', 'Friuli Venezia-Giulia', 'Pordenone');
+insert into CITIES VALUES('Italia', 'Friuli Venezia-Giulia', 'Trieste');
+insert into CITIES VALUES('Italia', 'Sicilia', 'Palermo');
+
+insert into CITIES VALUES('Regno Unito', 'Inghilterra', 'Londra');
+insert into CITIES VALUES('Regno Unito', 'Inghilterra', 'Liverpool');
+insert into CITIES VALUES('Regno Unito', 'Inghilterra', 'Manchester');
+insert into CITIES VALUES('Regno Unito', 'Scozia', 'Edimburgo');
+
+insert into CITIES VALUES('Francia', 'Ile de France', 'Parigi');
+

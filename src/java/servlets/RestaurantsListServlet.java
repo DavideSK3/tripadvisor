@@ -53,11 +53,17 @@ public class RestaurantsListServlet extends HttpServlet {
         long inizio = new Date().getTime();
         try{
             if(!r_query.equals("") && !p_query.equals("")){
+                
                 results = manager.getRestaurants(r_query, p_query);
+                
             }else if(!r_query.equals("") && p_query.equals("")){
+                
                 results = manager.getRestaurantsByNameSimilarity2(r_query);
+                
             }else if(r_query.equals("") && !p_query.equals("")){
+                
                 results = manager.getRestaurantsByPlace(p_query);
+                
             }else{
                 //TODO - scegliere cosa fare se non è specificata alcuna richiesta 
                 results = new ArrayList<>();

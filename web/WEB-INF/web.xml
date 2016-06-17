@@ -4,6 +4,10 @@
         <param-name>dburl</param-name>
         <param-value>jdbc:derby:/home/gabriele/NetBeansProjects/TripAdvisor/db</param-value>
     </context-param>
+    <context-param>
+        <param-name>photoDir</param-name>
+        <param-value>photo</param-value>
+    </context-param>
     <welcome-file-list>
         <welcome-file>home.jsp</welcome-file>
     </welcome-file-list>
@@ -14,6 +18,7 @@
     <filter-mapping>
         <filter-name>LoggedInFilter</filter-name>
         <servlet-name>ProfileServlet</servlet-name>
+        <servlet-name>ReviewServlet</servlet-name>
     </filter-mapping>
     <listener>
         <description>ServletContextListener</description>
@@ -55,6 +60,14 @@
         <servlet-name>ValidateChangePasswordServlet</servlet-name>
         <servlet-class>servlets.ValidateChangePasswordServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReviewServlet</servlet-name>
+        <servlet-class>servlets.ReviewServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PhotoUploadServlet</servlet-name>
+        <servlet-class>servlets.PhotoUploadServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -90,6 +103,14 @@
     <servlet-mapping>
         <servlet-name>ValidateChangePasswordServlet</servlet-name>
         <url-pattern>/ValidateChangePassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReviewServlet</servlet-name>
+        <url-pattern>/Review</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PhotoUploadServlet</servlet-name>
+        <url-pattern>/PhotoUpload</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

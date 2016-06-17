@@ -59,9 +59,10 @@ public class AutocompleteResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("{term}")
+    @Path("/restaurants/{term}")
     @Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-    public String getLanguages(@PathParam("term") String term) {
+    public String getRestaurants(@PathParam("term") String term) {
+        System.out.println("ci sono " + term);
         
         DBManager manager = (DBManager)servletContext.getAttribute("dbmanager");
         
@@ -73,6 +74,41 @@ public class AutocompleteResource {
         }
         
         if(results != null){
+            Gson gson = new Gson();
+            return gson.toJson(results);
+        }else{
+            return null;
+        }
+        
+    }
+    
+    
+    /**
+     * Retrieves representation of an instance of
+     * services.AutoCompleteService
+     *
+     * @param term
+     * @return an instance of java.lang.String
+     */
+    @GET
+    @Path("/places/{term}")
+    @Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+    public String getPlaces(@PathParam("term") String term) {
+        
+        DBManager manager = (DBManager)servletContext.getAttribute("dbmanager");
+        
+        List<String> results = null;
+        try {
+            results = manager.getPlaces(term);
+        } catch (SQLException ex) {
+            Logger.getLogger(AutocompleteResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        if(results != null){
+            /*if(results.isEmpty()){
+                results.add("");
+            }*/
             Gson gson = new Gson();
             return gson.toJson(results);
         }else{
