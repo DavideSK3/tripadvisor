@@ -31,9 +31,9 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("autocomplete")
 public class AutocompleteResource {
-    
+    /*
     private DBManager manager;
-    
+    */
     @Context
     private UriInfo context;
     
@@ -62,19 +62,20 @@ public class AutocompleteResource {
     @Path("/restaurants/{term}")
     @Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
     public String getRestaurants(@PathParam("term") String term) {
-        System.out.println("ci sono " + term);
+        
         
         DBManager manager = (DBManager)servletContext.getAttribute("dbmanager");
         
         List<String> results = null;
         try {
-            results = manager.getRestaurantsNamesByTerm(term, 10);
+            results = manager.getRestaurantsNamesByTerm(term.toLowerCase(), 10);
         } catch (SQLException ex) {
             Logger.getLogger(AutocompleteResource.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         if(results != null){
             Gson gson = new Gson();
+            System.out.println(results.size());
             return gson.toJson(results);
         }else{
             return null;
@@ -99,7 +100,7 @@ public class AutocompleteResource {
         
         List<String> results = null;
         try {
-            results = manager.getPlaces(term);
+            results = manager.getPlaces(term.toLowerCase());
         } catch (SQLException ex) {
             Logger.getLogger(AutocompleteResource.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -496,7 +496,45 @@ public class DBManager implements Serializable{
     }
     
     
+    private static final boolean USE_APPROXIMATE_MATCHING = true;
+    private static final boolean USE_APPROXIMATE_CONTAIN = true;
     
+    private void valuta(Place p, String[] words){
+        p.d = 0;
+        String r_name = p.toString().toLowerCase();
+        if(USE_APPROXIMATE_MATCHING){
+            if(USE_APPROXIMATE_CONTAIN){
+                
+                for(String word : words){
+                    int k = 1 + Math.round(word.length()/8.0f);
+                    int d = StringDistanceUtil.containingDistanceLimited(word, r_name, k);
+                    if(d < k){
+                        //p.d += 1.0/(d+1.0);
+                        p.d += 1.0 - d/((double)k);
+                    }
+                } 
+            }else{
+                String[] name_ws = r_name.split(" ");
+                for(String word : words){
+                    for(String w : name_ws){
+                        int d = StringDistanceUtil.editDistanceLimited(word, w, 3);
+                        if(d < 3){
+                            p.d += 1.0/(d+1);
+                        }
+                    }
+                }
+            }
+            
+        }else{
+            for(String word : words){
+                if(r_name.contains(word)){
+                    p.d++;
+                }
+            }       
+        }
+    }
+    
+     
     public List<String> getPlaces(String term) throws SQLException {
         String[] words = term.toLowerCase().trim().split(" ");
         ArrayList<String> r_l = new ArrayList<>();
@@ -509,14 +547,7 @@ public class DBManager implements Serializable{
                     while(rs.next()) {
                         Place p = new Place();
                         p.setState(rs.getString("name"));
-                        p.d = 0;
-                        String r_name = p.toString().toLowerCase();
-                        
-                        for(String word : words){
-                            if(r_name.contains(word)){
-                                p.d++;
-                            }
-                        }
+                        valuta(p, words);
                         
                         if(p.d > 0) queue.add(p);
                         
@@ -543,15 +574,7 @@ public class DBManager implements Serializable{
                         Place p = new Place();
                         p.setState(rs.getString("state"));
                         p.setRegion(rs.getString("name"));
-                        p.d = 0;
-                        
-                        String r_name = p.toString().toLowerCase();
-                        
-                        for(String word : words){
-                            if(r_name.contains(word)){
-                                p.d++;
-                            }
-                        }
+                        valuta(p, words);
                         
                         if(p.d > 0) queue.add(p);
                         
@@ -577,15 +600,8 @@ public class DBManager implements Serializable{
                         p.setState(rs.getString("state"));
                         p.setRegion(rs.getString("region"));
                         p.setCity(rs.getString("name"));
-                        p.d = 0;
                         
-                        String r_name = p.toString().toLowerCase();
-                        
-                        for(String word : words){
-                            if(r_name.contains(word)){
-                                p.d++;
-                            }
-                        }
+                        valuta(p, words);
                         
                         if(p.d > 0) queue.add(p);
                         
@@ -605,6 +621,7 @@ public class DBManager implements Serializable{
         return r_l;
         
     }
+    
     
     public void genereteNearNameTerms() throws SQLException{
         PreparedStatement stm = con.prepareStatement("SELECT id, name FROM APP.restaurants");
@@ -663,7 +680,6 @@ public class DBManager implements Serializable{
         } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
             stm.close();
         }
-        
         return k;
     }
     

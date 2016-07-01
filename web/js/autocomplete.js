@@ -17,7 +17,7 @@ $(function () {
                 }
             });
         },
-        minLength: 3,
+        minLength: 4,
         delay: 400
     });
     
@@ -40,7 +40,7 @@ $(function () {
                 }
             });
         },
-        minLength: 3,
+        minLength: 4,
         delay: 400
     });
 });

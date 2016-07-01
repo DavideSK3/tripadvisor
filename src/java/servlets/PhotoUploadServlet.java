@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import com.google.common.io.Files;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.oreilly.servlet.multipart.FileRenamePolicy;
@@ -36,6 +37,8 @@ public class PhotoUploadServlet extends HttpServlet {
     private DBManager manager;
 
     private String dirName;
+    
+    private RenamePolicy rp = new RenamePolicy();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -45,68 +48,63 @@ public class PhotoUploadServlet extends HttpServlet {
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
         
         // read the uploadDir from the servlet parameters
-        dirName = super.getServletContext().getInitParameter("photoDir");
-
+        dirName = getServletContext().getRealPath("/WEB-INF") + "/" + super.getServletContext().getInitParameter("photoDir");
+        File p_dir = new File(dirName);    
+        p_dir.mkdirs();
     }
     
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        Integer id_restaurant = Integer.parseInt(request.getParameter("id_restaurant"));
-        String name = request.getParameter("photoName");
-        String path = null;
+        
+        Integer id_restaurant;
+        String name;
+        String path;
         try {
 
-            // Use an advanced form of the constructor that specifies a character
-
-            // encoding of the request (not of the file contents) and a file
-
-            // rename policy.
-            File dir = new File(dirName+"/"+id_restaurant);    
-            dir.mkdirs();
-            MultipartRequest multi = new MultipartRequest(request, dirName+"/"+id_restaurant, 50*1024*1024, "ISO-8859-1", new RenamePolicy(dirName+"/"+id_restaurant));
-
             
-           
-            Enumeration files = multi.getFileNames();
-
-            if (files.hasMoreElements()) {
-
-                path = multi.getFilesystemName(name);
-
-            }
-
-        }catch (IOException lEx) {
-            this.getServletContext().log("error saving file", lEx);
-        }
-        
-        if(path!= null){
+            /*
+             * TODO - meglio usare una sola istanza di RenamePolicy o questo può avere problemi in caso di richieste concorrenti gestite in multithread???
+             */
+            MultipartRequest multi = new MultipartRequest(request, dirName+"/temp", 50*1024*1024, "ISO-8859-1", rp);
+            
+            
+            name = multi.getParameter("photoName");
+            
+            id_restaurant = Integer.parseInt(multi.getParameter("id_restaurant"));
+            
+            
+            
+            File photo = multi.getFile("img");
+            
+            File copy = new File(dirName+"/"+id_restaurant + "/" + photo.getName());
+            
+            Files.move(photo, copy);
+            photo.delete();
+            
+            path = copy.getAbsolutePath();
+            System.out.println("Salvata immagine al percorso: " + path);
+            
             int id = -1;
             try {
                 id = manager.insertPhoto(name, path, id_restaurant);
             } catch (SQLException ex) {
                 Logger.getLogger(PhotoUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if(id >=0){
-                request.setAttribute("photo_id", id);
-            }
+            
+            
+            request.setAttribute("photo_id", id);
+            
+            request.setAttribute("multi", multi);
+        }catch (IOException lEx) {
+            this.getServletContext().log("error saving file", lEx);
         }
-    
     }
     
     private class RenamePolicy implements FileRenamePolicy{
-
-        private String dirName;
-        
-        public RenamePolicy(String dir){
-            super();
-            dirName = dir;
-                   
-        }
-        
+ 
         @Override
         public File rename(File f) {
-            File f1 = new File(dirName + "/" + new Date().toString().replace(" ", "") + "." + FilenameUtils.getExtension(f.getName()));
+            File f1 = new File(dirName + "/temp/" + new Date().toString().replace(" ", "") + "." + FilenameUtils.getExtension(f.getName()));
             
             f.renameTo(f1);
             return f1;

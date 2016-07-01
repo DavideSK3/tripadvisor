@@ -133,4 +133,53 @@ public final class StringDistanceUtil {
         return d[end-st+1];
     }
     
+     public static int containingDistanceLimited(String s1, String s2, int k){
+        int n = s1.length();
+        int m = s2.length();
+        
+        int d[][] = new int[2][n+1];
+        
+        
+        for(int i=0; i<=n; i++){
+            d[0][i] = d[1][i] = i;
+        }
+        
+        for(int j=1; j<=m; j++){
+            int s = Math.max(1, j-m+n-k+1);
+            d[(j+1)%2][s-1] = 0;
+            for(int i=s; i<=n; i++){
+            
+                if(s1.charAt(i-1) == s2.charAt(j-1)){
+                    d[(j+1)%2][i] = Math.min(d[j%2][i-1], ((i == n) ? 0 : 1) + d[j%2][i]);
+                }else{
+                    d[(j+1)%2][i] = Math.min(1 + d[j%2][i-1], Math.min(((i == n) ? 0 : 1) + d[j%2][i], 1 + d[(j+1)%2][i-1]));
+                }
+            }
+        }
+        return d[(m+1)%2][n];
+    }
+    
+    public static int containingDistance(String s1, String s2){
+        int n = s1.length();
+        int m = s2.length();
+        int d[][] = new int[n+1][m+1];
+        for(int i=0; i<=n; i++){
+            d[i][0] = i;
+        }
+        for(int j=1; j<=m; j++){
+            d[0][j] = 0;
+        }
+        for(int i=1; i<=n; i++){
+            for(int j=1; j<=m; j++){
+                if(s1.charAt(i-1) == s2.charAt(j-1)){
+                    d[i][j] = Math.min(d[i-1][j-1], ((i == n) ? 0 : 1) + d[i][j-1]);
+                }else{
+                    d[i][j] = Math.min(1 + d[i-1][j-1], Math.min(((i == n) ? 0 : 1) + d[i][j-1], 1 + d[i-1][j]));
+                }
+            }
+        }
+        return d[n][m];
+    }
+    
+    
 }
