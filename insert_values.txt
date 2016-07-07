@@ -99,3 +99,23 @@ insert into CITIES VALUES('Regno Unito', 'Scozia', 'Edimburgo');
 
 insert into CITIES VALUES('Francia', 'Ile de France', 'Parigi');
 
+
+
+
+
+
+insert into cuisines values (default, 'europeo');
+insert into cuisines values (default, 'cinese');
+insert into cuisines values (default, 'italiano');
+insert into cuisines values (default, 'giapponese');
+insert into cuisines values (default, 'francese');
+insert into cuisines values (default, 'pizza');
+
+insert into RESTAURANTS_CUISINES values(4, 3);
+insert into RESTAURANTS_CUISINES values(4, 6);
+insert into RESTAURANTS_CUISINES values(6, 3);
+insert into RESTAURANTS_CUISINES values(6, 6);
+insert into RESTAURANTS_CUISINES values(8, 3);
+insert into RESTAURANTS_CUISINES values(8, 6);
+
+

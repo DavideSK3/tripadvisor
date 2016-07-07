@@ -100,8 +100,8 @@
                   <div class="row">
                       <form class="navbar-search" role="search" action="RestaurantsList">
 
-                          <div class=" col-md-5"><input type="text" class="form-control" placeholder="Dove vai?" name="place" id ="search_place"></div>
-                          <div class=" col-md-5 ui-widget ui-widget"> <input type="text" class="form-control" placeholder="Ricerca ristorante" name="restaurant" id ="search_name"></div>
+                          <div class=" col-md-5"><input type="text" class="form-control" placeholder="Dove vai?" name="place" id ="search_place" value="<c:out value='${requestScope.place}'/>"></div>
+                          <div class=" col-md-5 ui-widget ui-widget"> <input type="text" class="form-control" placeholder="Ricerca ristorante" name="restaurant" id ="search_name" value="<c:out value='${requestScope.restaurant}'/>"></div>
                           <div class=" col-md-2"> <button type="submit" class="btn btn-default"> <span class="glyphicon glyphicon-search" style="color: black"></span> </button></div>
 
                       </form>

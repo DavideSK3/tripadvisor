@@ -3,14 +3,20 @@
     <context-param>
         <param-name>dburl</param-name>
         <param-value>jdbc:derby:/home/gabriele/NetBeansProjects/TripAdvisor/db</param-value>
+        <!--<param-value>jdbc:postgresql://localhost/tripadvisordb</param-value>-->
+        
     </context-param>
     <context-param>
         <param-name>photoDir</param-name>
         <param-value>photo</param-value>
     </context-param>
+    
+    
     <welcome-file-list>
         <welcome-file>home.jsp</welcome-file>
     </welcome-file-list>
+    
+    
     <filter>
         <filter-name>LoggedInFilter</filter-name>
         <filter-class>filters.LoggedInFilter</filter-class>
@@ -20,10 +26,14 @@
         <servlet-name>ProfileServlet</servlet-name>
         <servlet-name>ReviewServlet</servlet-name>
     </filter-mapping>
+    
+    
     <listener>
         <description>ServletContextListener</description>
         <listener-class>listeners.WebappContextListener</listener-class>
     </listener>
+    
+    
     <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>servlets.LoginServlet</servlet-class>
@@ -68,6 +78,11 @@
         <servlet-name>PhotoUploadServlet</servlet-name>
         <servlet-class>servlets.PhotoUploadServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdvancedResearchServlet</servlet-name>
+        <servlet-class>servlets.AdvancedResearchServlet</servlet-class>
+    </servlet>
+    
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -112,6 +127,12 @@
         <servlet-name>PhotoUploadServlet</servlet-name>
         <url-pattern>/PhotoUpload</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdvancedResearchServlet</servlet-name>
+        <url-pattern>/AdvancedResearch</url-pattern>
+    </servlet-mapping>
+    
+    
     <session-config>
         <session-timeout>
             30

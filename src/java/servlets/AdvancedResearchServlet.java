@@ -26,7 +26,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author gabriele
  */
-public class RestaurantsListServlet extends HttpServlet {
+public class AdvancedResearchServlet extends HttpServlet {
 
     private DBManager manager;
 
@@ -39,10 +39,14 @@ public class RestaurantsListServlet extends HttpServlet {
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
     }
     
-    
+    private List<Restaurant> filter(HttpServletRequest req, List<Restaurant> list){
+        
+        
+        return list;
+    }
     
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
        
         
@@ -55,16 +59,62 @@ public class RestaurantsListServlet extends HttpServlet {
         if(r_query == null) r_query = "";
         if(p_query == null) p_query = "";
         
+        String m = req.getParameter("min_price");
+        String M = req.getParameter("max_price");
+        
+        Integer minPrice = null;
+        try{
+            minPrice = Integer.parseInt(m);
+        }catch (NumberFormatException e){
+            minPrice = null;
+            System.out.println("min null");
+        }
+        
+        Integer maxPrice = null;
+        try{
+            maxPrice = Integer.parseInt(M);
+        }catch (NumberFormatException e){
+            maxPrice = null;
+            System.out.println("max null");
+        }
+        
+        String[] cuisines = req.getParameterValues("cusines");
+        String[] valutazioni = req.getParameterValues("valutazione");
+        
+        ArrayList<Integer> val = new ArrayList<>();
+        if(valutazioni != null){
+            for(String v : valutazioni){
+                try{
+                    val.add(Integer.parseInt(v));
+                }catch (NumberFormatException e) {}
+            }
+        }else{
+            System.out.println("valutazioni null");
+        }
+        
+        if(cuisines == null){
+            System.out.println("cuisines null");
+        }
+        
+        
+        String distance = req.getParameter("distance");
+        String latitude = req.getParameter("latitude");
+        String longitude = req.getParameter("longitude");
+        
         String url = getServletContext().getContextPath()+"/RestaurantsList?restaurant=" + URLEncoder.encode(r_query, "UTF-8") + "&place=" + URLEncoder.encode(p_query, "UTF-8") + "&order=" + order;
         
+        String query = r_query + ";" + p_query + ";" +(m!=null ? m  +";" : "") + (M!=null ? M +";": "");
+        if(cuisines != null) for(String s :cuisines) query+=s + ";";
+        if(valutazioni != null) for(String s :valutazioni) query+=s+ ";";
         
-        String query = r_query + p_query;
+        if(distance != null) query += distance+ ";";
+        if(longitude != null) query += longitude+ ";";
+        if(latitude != null) query += latitude+ ";";
+        
                 
         HttpSession session = req.getSession(true);
         
         List<Restaurant> results = (List<Restaurant>)session.getAttribute(query);
-        
-        
         String p = req.getParameter("page");
         
         
@@ -72,20 +122,13 @@ public class RestaurantsListServlet extends HttpServlet {
             long inizio = new Date().getTime();
             try{
                 if(!r_query.equals("") && !p_query.equals("")){
-
                     results = manager.getRestaurants(r_query, p_query);
-
                 }else if(!r_query.equals("") && p_query.equals("")){
-
-                    results = manager.getRestaurantsByNameSimilarityOrderedBy(r_query, order);
-
+                    results = manager.getRestaurantsByNameSimilarityFilteredOrderedBy(r_query, order, minPrice, maxPrice, cuisines, val);
                 }else if(r_query.equals("") && !p_query.equals("")){
-
                     results = manager.getRestaurantsByPlace(p_query);
-
                 }else{
-                    //TODO - scegliere cosa fare se non è specificata alcuna richiesta 
-                    results = new ArrayList<>();
+                    results = manager.getRestaurantsFilteredOrderedBy(order, minPrice, maxPrice, cuisines, val);
                 }
             }catch (SQLException ex){
                 results = new ArrayList<>();
@@ -96,9 +139,12 @@ public class RestaurantsListServlet extends HttpServlet {
             System.out.println("Risultati calcolati in " + (fine - inizio)/1000.0 + " secondi");
             
             session.setAttribute(query, results);
+            
         }
         
+        
         int page = 0;
+        
         if(p != null){ page = Integer.parseInt(p); }
         
         if(page < 0) page = 0;
@@ -114,6 +160,22 @@ public class RestaurantsListServlet extends HttpServlet {
         }
         req.setAttribute("restaurant", r_query);
         req.setAttribute("place", p_query);
+        
+        req.setAttribute("min_price", minPrice);
+        req.setAttribute("max_price", maxPrice);
+        
+        if(cuisines != null){
+            for(String s :cuisines){
+                req.setAttribute(s, true);
+            }
+        }
+        if(valutazioni != null){
+            for(String s: valutazioni){
+                req.setAttribute("v"+s, true);
+            }
+        }
+        req.setAttribute("distance", distance);
+        
         req.setAttribute("page", page);
         req.setAttribute("results", results.subList(page*LIMIT, Math.min((page+1)*LIMIT, results.size())));
         req.setAttribute("redirectURL", url);

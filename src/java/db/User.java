@@ -21,7 +21,7 @@ public class User implements Serializable{
 
     
     
-    public enum USER_TYPE {U, A, R};
+    public static enum USER_TYPE {U, A, R};
     
     public User() {}
 
@@ -94,6 +94,14 @@ public class User implements Serializable{
      */
     public void setType(USER_TYPE type) {
         this.type = type;
+    }
+    
+    public char getCharType(){
+        return User.toChar(type);
+    }
+    
+    public void setCharType(char c){
+        type = User.toType(c);
     }
     
     public static USER_TYPE toType(char c){

@@ -32,9 +32,11 @@ public class DBManager implements Serializable{
     private transient Connection con;
     
     public DBManager(String dburl) throws SQLException {
+        
+
 
         try {
-
+            //Class.forName("org.postgresql.Driver");
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver", true, getClass().getClassLoader());
 
         } catch(Exception e) {
@@ -42,7 +44,9 @@ public class DBManager implements Serializable{
         }
         
         Connection con = DriverManager.getConnection(dburl, "db_manager", "tripadvisor");
-        //System.out.println(dburl);
+        //Connection con = DriverManager.getConnection(dburl, "tripadvisor", "tripadvisor");
+        
+
         this.con = con;
 
     }
@@ -55,6 +59,12 @@ public class DBManager implements Serializable{
             Logger.getLogger(DBManager.class.getName()).info(ex.getMessage());
         }
     }
+    
+    
+    /**
+     * --------GESTIONE UTENTE-----------
+     */
+    
     
     /**
      * Autentica un utente in base a un nome utente e a una password
@@ -199,6 +209,12 @@ public class DBManager implements Serializable{
     }
     
     
+    
+    /**
+     * --------GESTIONE RISTORANTE-----------
+     */
+    
+    
     public void registerRestaurant(Restaurant r) throws SQLException {
         PreparedStatement stm = con.prepareStatement("INSERT INTO APP.resturants VALUES(default,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         
@@ -287,42 +303,13 @@ public class DBManager implements Serializable{
     }
     
     public Restaurant getRestaurant(int key) throws SQLException {
-        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants WHERE id = ?");
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE id = ?");
         try {
             stm.setInt(1, key);
             ResultSet rs = stm.executeQuery();
             try {
                 if (rs.next()) {
-                    Restaurant r = new Restaurant();
-                    
-                    
-                    double count = rs.getInt("review_counter");
-                    
-                    r.setId(key);
-                    r.setName(rs.getString("name"));
-                    r.setDescription(rs.getString("description"));
-                    r.setUrl(rs.getString("web_site_url"));
-                    if(count > 0){
-                        r.setGlobal_review(rs.getDouble("global_review")/count);
-                        r.setFood_review(rs.getDouble("food_review")/count);
-                        r.setAtmposhpere_review(rs.getDouble("atmosphere_review")/count);
-                        r.setMoney_review(rs.getDouble("value_for_money_review")/count);
-                    }else{
-                        r.setGlobal_review(.0);
-                        r.setFood_review(.0);
-                        r.setAtmposhpere_review(.0);
-                        r.setMoney_review(.0);
-                    }
-                    r.setId_owner(rs.getInt("id_owner") > 0 ? rs.getInt("id_owner") : null);
-                    r.setId_creator(rs.getInt("id_creator") >  0 ? rs.getInt("id_creator") : null);
-                    r.setAddress(rs.getString("address"));
-                    r.setLatitude(rs.getDouble("latitude") > 0 ? rs.getDouble("latitude") : null);
-                    r.setLongitude(rs.getDouble("longitude") > 0 ? rs.getDouble("longitude") : null);
-                    r.setMin_price(rs.getInt("min_price") > 0 ? rs.getInt("max_price") : null);
-                    r.setMax_price(rs.getInt("max_price") > 0 ? rs.getInt("max_price") : null);
-                    
-                    
-                    return r;
+                    return getRestaurant(rs);
                 } else {
                     return null;
                 }
@@ -336,43 +323,14 @@ public class DBManager implements Serializable{
     }
     
     public List<Restaurant> getRestaurantsByName(String name) throws SQLException {
-        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants WHERE name = ?");
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE name = ?");
         try {
             stm.setString(1, name);
             ResultSet rs = stm.executeQuery();
             try {
                 ArrayList<Restaurant> r_l = new ArrayList<>();
                 while(rs.next()) {
-                    Restaurant r = new Restaurant();
-                    
-                    
-                    double count = rs.getInt("review_counter");
-                    
-                    r.setId(rs.getInt("id"));
-                    r.setName(rs.getString("name"));
-                    r.setDescription(rs.getString("description"));
-                    r.setUrl(rs.getString("web_site_url"));
-                    if(count > 0){
-                        r.setGlobal_review(rs.getDouble("global_review")/count);
-                        r.setFood_review(rs.getDouble("food_review")/count);
-                        r.setAtmposhpere_review(rs.getDouble("atmosphere_review")/count);
-                        r.setMoney_review(rs.getDouble("value_for_money_review")/count);
-                    }else{
-                        r.setGlobal_review(.0);
-                        r.setFood_review(.0);
-                        r.setAtmposhpere_review(.0);
-                        r.setMoney_review(.0);
-                    }
-                    r.setId_owner(rs.getInt("id_owner") > 0 ? rs.getInt("id_owner") : null);
-                    r.setId_creator(rs.getInt("id_creator") >  0 ? rs.getInt("id_creator") : null);
-                    r.setAddress(rs.getString("address"));
-                    r.setLatitude(rs.getDouble("latitude") > 0 ? rs.getDouble("latitude") : null);
-                    r.setLongitude(rs.getDouble("longitude") > 0 ? rs.getDouble("longitude") : null);
-                    r.setMin_price(rs.getInt("min_price") > 0 ? rs.getInt("max_price") : null);
-                    r.setMax_price(rs.getInt("max_price") > 0 ? rs.getInt("max_price") : null);
-                    
-                    
-                    r_l.add(r);
+                    r_l.add(getRestaurant(rs));
                 }
                 return r_l;
             } finally {
@@ -384,6 +342,8 @@ public class DBManager implements Serializable{
         }
     }
     
+    
+    
     public List<Restaurant> getRestaurants(String name, String place) throws SQLException {
         
         return null;
@@ -394,18 +354,94 @@ public class DBManager implements Serializable{
         return null;
     }
     
+    public List<Restaurant> getRestaurantsFilteredOrderedBy(String order,
+            Integer minPrice, Integer maxPrice,
+            String[] cuisines, ArrayList<Integer> valutazioni
+            ) throws SQLException {
+        
+        
+        StringBuilder query = new StringBuilder("SELECT DISTINCT R.* FROM APP.restaurants R");
+        
+        if(cuisines.length > 0){
+            String cond =" JOIN APP.Restaurants_Cuisines RC ON R.id =  RC.id_restaurant JOIN (SELECT * FROM APP.Cuisines WHERE ";
+            for(int i=0; i<cuisines.length; i++){
+                if(i>0) cond += " OR ";
+                cond += "name = '" + cuisines[i] + "'";
+            }
+            cond += ")";
+            
+            cond += " C ON RC.id_cuisine = C.id"; 
+            
+            query.append(cond);
+        }
+        
+        
+        
+        ArrayList<String> conditions = new ArrayList<>();
+        
+        if(minPrice != null){
+            conditions.add("min_price >= " + minPrice);
+        }
+        if(maxPrice != null){
+            conditions.add(" max_price <= " + maxPrice);
+        }
+        if(valutazioni.size() > 0){
+            StringBuilder cond = new StringBuilder();
+            for(int i=0; i<valutazioni.size(); i++){
+                if(i > 0) cond.append(" OR ");
+                cond.append("FLOOR(global_review/review_counter) = ").append(valutazioni.get(i));
+            }
+            conditions.add(cond.toString());
+        }
+        
+        if(conditions.size() > 0){
+            query.append(" WHERE ");
+            for(int i=0; i<conditions.size(); i++){
+                if(i>0) query.append(" AND ");
+                query.append(conditions.get(i));
+            }
+        }
+        
+        
+        
+        switch(order){
+            case "name":
+                query .append(" ORDER BY name");
+                break;
+            case "price":
+                query.append(" ORDER BY min_price + max_price");
+                break;
+            case "position":
+                query.append(" ORDER BY (global_review/review_counter)");
+                break;
+            default:
+                break;
+        }
+        System.out.println(query.toString());
+        PreparedStatement stm = con.prepareStatement(query.toString());
+        
+        try {
+            return getRestaurantsUnfiltered(stm);
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+        
+        
+    }
+    
     public List<String> getRestaurantsNamesByTerm(String term, int limit) throws SQLException {
         
         List<String> result = new ArrayList<String>();
-        PreparedStatement stm = con.prepareStatement("SELECT name FROM APP.restaurants WHERE name LIKE '%"+term+"%'");
+        PreparedStatement stm = con.prepareStatement("SELECT name FROM APP.restaurants R WHERE name LIKE '%"+term+"%'");
         try {
-                //stm.setString(1, term);
                 ResultSet rs = stm.executeQuery();
+                
                 try{
                     int count = 0;
                     while(rs.next() && count++ < limit) {
                         result.add(rs.getString("name"));
                     }
+                    
                 }finally {
                     rs.close();
                 }
@@ -416,85 +452,209 @@ public class DBManager implements Serializable{
         
     }
     
-    public List<Restaurant> getRestaurantsByNameSimilarity(String name) throws SQLException {
-        Set<String> terms = StringDistanceUtil.generateNearTerms(name);
-        Set<Integer> ids = new HashSet<Integer>();
-        PreparedStatement stm;
-        for(String t : terms){
-            stm = con.prepareStatement("SELECT id FROM APP.names_term WHERE term = ?");
-            try {
-                    stm.setString(1, t);
-                    ResultSet rs = stm.executeQuery();
-                    try{
-                        while(rs.next()) {
-                            ids.add(rs.getInt("id"));
-                        }
-                    }finally {
-                        rs.close();
-                    }
-            } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-                stm.close();
-            }
-        }
-        ArrayList<Restaurant> restaurants = new ArrayList<>(ids.size());
-        for(Integer id : ids){
-            restaurants.add(getRestaurant(id));
-        }
-        return restaurants;
-        
-    }
     
-    public List<Restaurant> getRestaurantsByNameSimilarity2(String name) throws SQLException {
+    
+    /**
+     * Diversi metodi per ottenere una lista di ristoranti filtrati e ordinati in modo predefinito
+     */
+    
+    public List<Restaurant> getRestaurantsByNameSimilarityOrderedBy(String name, String order) throws SQLException {
         ArrayList<Restaurant> r_l = new ArrayList<>();
-        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants");
+        PreparedStatement stm;
+        switch(order){
+            case "name":
+                stm = con.prepareStatement("SELECT * FROM APP.restaurants R ORDER BY name");
+                break;
+            case "price":
+                stm = con.prepareStatement("SELECT * FROM APP.restaurants R ORDER BY min_price + max_price");
+                break;
+            case "position":
+                stm = con.prepareStatement("SELECT * FROM APP.restaurants R ORDER BY global_review/review_counter");
+                break;
+            default:
+                stm = con.prepareStatement("SELECT * FROM APP.restaurants R");
+                break;
+        }
         try {
-                ResultSet rs = stm.executeQuery();
-                try{
-                    while(rs.next()) {
-                        String r_name = rs.getString("name");
-                        if(StringDistanceUtil.editDistanceLimited(name, r_name, 4) < 4){
-                            Restaurant r = new Restaurant();
-
-
-                            double count = rs.getInt("review_counter");
-
-                            r.setId(rs.getInt("id"));
-                            r.setName(r_name);
-                            r.setDescription(rs.getString("description"));
-                            r.setUrl(rs.getString("web_site_url"));
-                            if(count > 0){
-                                r.setGlobal_review(rs.getDouble("global_review")/count);
-                                r.setFood_review(rs.getDouble("food_review")/count);
-                                r.setAtmposhpere_review(rs.getDouble("atmosphere_review")/count);
-                                r.setMoney_review(rs.getDouble("value_for_money_review")/count);
-                            }else{
-                                r.setGlobal_review(.0);
-                                r.setFood_review(.0);
-                                r.setAtmposhpere_review(.0);
-                                r.setMoney_review(.0);
-                            }
-                            r.setId_owner(rs.getInt("id_owner") > 0 ? rs.getInt("id_owner") : null);
-                            r.setId_creator(rs.getInt("id_creator") >  0 ? rs.getInt("id_creator") : null);
-                            r.setAddress(rs.getString("address"));
-                            r.setLatitude(rs.getDouble("latitude") > 0 ? rs.getDouble("latitude") : null);
-                            r.setLongitude(rs.getDouble("longitude") > 0 ? rs.getDouble("longitude") : null);
-                            r.setMin_price(rs.getInt("min_price") > 0 ? rs.getInt("max_price") : null);
-                            r.setMax_price(rs.getInt("max_price") > 0 ? rs.getInt("max_price") : null);
-
-
-                            r_l.add(r);
-                        }
-                    }
-                }finally {
-                    rs.close();
-                }
+            return getRestaurantsFilteredByNameSimilarity(stm, name);
         } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
             stm.close();
         }
-        return r_l;
+        
         
     }
     
+    
+    public List<Restaurant> getRestaurantsByNameSimilarityFilteredOrderedBy(String name, String order,
+            Integer minPrice, Integer maxPrice,
+            String[] cuisines, ArrayList<Integer> valutazioni
+            ) throws SQLException {
+        
+        
+        StringBuilder query = new StringBuilder("SELECT DISTINCT R.* FROM APP.restaurants R");
+        
+        if(cuisines != null && cuisines.length > 0){
+            String cond =" JOIN APP.Restaurants_Cuisines RC ON R.id =  RC.id_restaurant JOIN (SELECT * FROM APP.Cuisines WHERE ";
+            for(int i=0; i<cuisines.length; i++){
+                if(i>0) cond += " OR ";
+                cond += "name = '" + cuisines[i] +"'";
+            }
+            cond += ")";
+            
+            cond += " C ON RC.id_cuisine = C.id"; 
+            
+            query.append(cond);
+        }
+        
+        
+        
+        ArrayList<String> conditions = new ArrayList<>();
+        
+        if(minPrice != null){
+            conditions.add("min_price >= " + minPrice);
+        }
+        if(maxPrice != null){
+            conditions.add(" max_price <= " + maxPrice);
+        }
+        if(valutazioni.size() > 0){
+            StringBuilder cond = new StringBuilder();
+            for(int i=0; i<valutazioni.size(); i++){
+                if(i > 0) cond.append(" OR ");
+                cond.append("FLOOR(global_review/review_counter) = ").append(valutazioni.get(i));
+            }
+            conditions.add(cond.toString());
+        }
+        
+        if(conditions.size() > 0){
+            query.append(" WHERE ");
+            for(int i=0; i<conditions.size(); i++){
+                if(i>0) query.append(" AND ");
+                query.append(conditions.get(i));
+            }
+        }
+        
+        
+        
+        switch(order){
+            case "name":
+                query .append(" ORDER BY name");
+                break;
+            case "price":
+                query.append(" ORDER BY min_price + max_price");
+                break;
+            case "position":
+                query.append(" ORDER BY (global_review/review_counter)");
+                break;
+            default:
+                break;
+        }
+        PreparedStatement stm = con.prepareStatement(query.toString());
+        
+        try {
+            return getRestaurantsFilteredByNameSimilarity(stm, name);
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+        
+        
+    }
+    
+    
+    public List<Restaurant> getRestaurantsByNameSimilarity(String name) throws SQLException {
+        ArrayList<Restaurant> r_l = new ArrayList<>();
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R");
+        try {
+            return getRestaurantsFilteredByNameSimilarity(stm, name);
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+        
+        
+    }
+    
+    
+    
+    
+    /**
+     * Costruisce e ritorna il prossimo oggetto restaurant letto dal database
+     * N.B.: DEVE ESSERE ESEGUITO DOPO rs.next() E SOLO SE QUESTA HA RESTITUITO true
+     * N.B.: FUNZIONA SOLO SE LA QUERY RITORNA UNA RIGA DELLA TABELLA RISTORANTE, e la tabella ristorante è chiamata R
+     * 
+     * @param rs
+     * @return
+     * @throws SQLException 
+     */
+    private Restaurant getRestaurant(ResultSet rs) throws SQLException{
+        
+        Restaurant r = new Restaurant();
+        
+        
+        r.setName(rs.getString("name"));
+        r.setId(rs.getInt("id"));
+        double count = rs.getInt("review_counter");
+        r.setDescription(rs.getString("description"));
+        r.setUrl(rs.getString("web_site_url"));
+        if(count > 0){
+            r.setGlobal_review(rs.getDouble("global_review")/count);
+            r.setFood_review(rs.getDouble("food_review")/count);
+            r.setAtmposhpere_review(rs.getDouble("atmosphere_review")/count);
+            r.setMoney_review(rs.getDouble("value_for_money_review")/count);
+        }else{
+            r.setGlobal_review(.0);
+            r.setFood_review(.0);
+            r.setAtmposhpere_review(.0);
+            r.setMoney_review(.0);
+        }
+        r.setId_owner(rs.getInt("id_owner") > 0 ? rs.getInt("id_owner") : null);
+        r.setId_creator(rs.getInt("id_creator") >  0 ? rs.getInt("id_creator") : null);
+        r.setAddress(rs.getString("address"));
+        r.setLatitude(rs.getDouble("latitude") > 0 ? rs.getDouble("latitude") : null);
+        r.setLongitude(rs.getDouble("longitude") > 0 ? rs.getDouble("longitude") : null);
+        r.setMin_price(rs.getInt("min_price") > 0 ? rs.getInt("max_price") : null);
+        r.setMax_price(rs.getInt("max_price") > 0 ? rs.getInt("max_price") : null);
+        
+        return r;
+    }
+    
+    private List<Restaurant> getRestaurantsUnfiltered(PreparedStatement stm) throws SQLException{
+        
+        ArrayList<Restaurant> r_l = new ArrayList<>();
+        ResultSet rs = stm.executeQuery();
+        try{
+            while(rs.next()) {
+                r_l.add(getRestaurant(rs));
+            }
+        }finally {
+            rs.close();
+        }
+        
+        return r_l;
+    }
+    
+    private List<Restaurant> getRestaurantsFilteredByNameSimilarity(PreparedStatement stm, String name) throws SQLException{
+        
+        ArrayList<Restaurant> r_l = new ArrayList<>();
+        ResultSet rs = stm.executeQuery();
+        try{
+            while(rs.next()) {
+                String r_name = rs.getString("name");
+                if(StringDistanceUtil.editDistanceLimited(name, r_name, 4) < 4){
+                    
+                    r_l.add(getRestaurant(rs));
+                }
+            }
+        }finally {
+            rs.close();
+        }
+        
+        return r_l;
+    }
+    
+    
+    
+    /**
+     * --------GESTIONE LUOGHI-----------
+     */
     
     private static final boolean USE_APPROXIMATE_MATCHING = true;
     private static final boolean USE_APPROXIMATE_CONTAIN = true;
@@ -534,7 +694,6 @@ public class DBManager implements Serializable{
         }
     }
     
-     
     public List<String> getPlaces(String term) throws SQLException {
         String[] words = term.toLowerCase().trim().split(" ");
         ArrayList<String> r_l = new ArrayList<>();
@@ -622,7 +781,88 @@ public class DBManager implements Serializable{
         
     }
     
+    public List<String> getCuisines() throws SQLException {
+        
+        ArrayList<String> r_l = new ArrayList<>();
+        
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.cuisines");
+        try {
+                ResultSet rs = stm.executeQuery();
+                
+                try{
+                    while(rs.next()) {
+                        r_l.add(rs.getString("name"));
+                        
+                    }
+                }finally {
+                    rs.close();
+                }
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+        
+        
+        return r_l;
+        
+    }
     
+    
+    
+    
+    /**
+     * --------GESTIONE RECENSIONI/FOTO-----------
+     */
+    
+    public Integer insertPhoto(String name, String path, int restaurant_id)throws SQLException{
+         
+        PreparedStatement stm = con.prepareStatement("INSERT INTO APP.photos VALUES(default,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+        int k=-1;
+        try {
+            stm.setString(1, name);
+            stm.setString(2, path);
+            stm.setInt(3, restaurant_id);
+            
+            int rs = stm.executeUpdate();
+            ResultSet keys = stm.getGeneratedKeys();
+            try{
+                if(keys.next()){
+                    k= keys.getInt(1);
+                }
+            }finally{
+                keys.close();
+            }
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+        return k;
+    }
+    
+    public void insertReview(Integer global_value, Integer food, Integer service, Integer value_for_money, 
+                              Integer atmosphere, String title, String description,
+                              Integer id_restaurant, Integer id_creator, Integer id_photo)throws SQLException{
+         
+        PreparedStatement stm = con.prepareStatement("INSERT INTO APP.reviews VALUES(?,?,?,?,?,?,?,default,?,?,?)");
+        try {
+            stm.setInt(1, global_value);
+            stm.setInt(2, food);
+            stm.setInt(3, service);
+            stm.setInt(4, value_for_money);
+            stm.setInt(5, atmosphere);
+            stm.setString(6, title);
+            stm.setString(7, description);
+            stm.setInt(8, id_restaurant);
+            stm.setInt(9, id_creator);
+            stm.setInt(10, id_photo);
+            
+            int rs = stm.executeUpdate();
+            
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+    }
+    
+    
+    /*
     public void genereteNearNameTerms() throws SQLException{
         PreparedStatement stm = con.prepareStatement("SELECT id, name FROM APP.restaurants");
         ArrayList<Restaurant> restaurants = new ArrayList();
@@ -658,57 +898,34 @@ public class DBManager implements Serializable{
         }
     }
     
-    
-    public Integer insertPhoto(String name, String path, int restaurant_id)throws SQLException{
-         
-        PreparedStatement stm = con.prepareStatement("INSERT INTO APP.photos VALUES(default,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-        int k=-1;
-        try {
-            stm.setString(1, name);
-            stm.setString(2, path);
-            stm.setInt(3, restaurant_id);
-            
-            int rs = stm.executeUpdate();
-            ResultSet keys = stm.getGeneratedKeys();
-            try{
-                if(keys.next()){
-                    k= keys.getInt(1);
-                }
-            }finally{
-                keys.close();
+    public List<Restaurant> getRestaurantsByNameSimilarity(String name) throws SQLException {
+        Set<String> terms = StringDistanceUtil.generateNearTerms(name);
+        Set<Integer> ids = new HashSet<Integer>();
+        PreparedStatement stm;
+        for(String t : terms){
+            stm = con.prepareStatement("SELECT id FROM APP.names_term WHERE term = ?");
+            try {
+                    stm.setString(1, t);
+                    ResultSet rs = stm.executeQuery();
+                    try{
+                        while(rs.next()) {
+                            ids.add(rs.getInt("id"));
+                        }
+                    }finally {
+                        rs.close();
+                    }
+            } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+                stm.close();
             }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
         }
-        return k;
-    }
-    
-     public void insertReview(Integer global_value, Integer food, Integer service, Integer value_for_money, 
-                              Integer atmosphere, String title, String description,
-                              Integer id_restaurant, Integer id_creator, Integer id_photo)throws SQLException{
-         
-        PreparedStatement stm = con.prepareStatement("INSERT INTO APP.reviews VALUES(?,?,?,?,?,?,?,default,?,?,?)");
-        try {
-            stm.setInt(1, global_value);
-            stm.setInt(2, food);
-            stm.setInt(3, service);
-            stm.setInt(4, value_for_money);
-            stm.setInt(5, atmosphere);
-            stm.setString(6, title);
-            stm.setString(7, description);
-            stm.setInt(8, id_restaurant);
-            stm.setInt(9, id_creator);
-            stm.setInt(10, id_photo);
-            
-            int rs = stm.executeUpdate();
-            
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
+        ArrayList<Restaurant> restaurants = new ArrayList<>(ids.size());
+        for(Integer id : ids){
+            restaurants.add(getRestaurant(id));
         }
+        return restaurants;
+        
     }
-    
-    
-    
+    */
 }
    
 

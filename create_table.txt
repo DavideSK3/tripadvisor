@@ -1,5 +1,7 @@
 CREATE TABLE states (
 	name VARCHAR(100),
+	LATITUDE DOUBLE,
+	LONGITUDE DOUBLE,
 	PRIMARY KEY (name)
 );
 
@@ -7,6 +9,8 @@ CREATE TABLE states (
 CREATE TABLE regions (
 	state VARCHAR(100),
 	name VARCHAR(100),
+	LATITUDE DOUBLE,
+	LONGITUDE DOUBLE,
 	PRIMARY KEY(name, state),
 	FOREIGN KEY (state) REFERENCES states(name)
 );
@@ -16,6 +20,8 @@ CREATE TABLE cities (
 	state VARCHAR(100),
 	region VARCHAR(100),
 	name VARCHAR(100),
+	LATITUDE DOUBLE,
+	LONGITUDE DOUBLE,
 	PRIMARY KEY(name, region, state),
 	FOREIGN KEY (region, state) REFERENCES regions(name, state)
 );
@@ -153,11 +159,5 @@ CREATE INDEX name_term_index ON names_term (term);
 
 
 
-
-
-
-
-
-)	
 
 

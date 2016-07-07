@@ -1,5 +1,4 @@
 
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -10,15 +9,30 @@
         
         <%@include file="header_head.jsp" %>
         
-        <%--<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>--%>
 
-        <link rel="stylesheet" type="text/css" href="media/css/jquery.dataTables.css">
+        <!--<link rel="stylesheet" type="text/css" href="media/css/jquery.dataTables.css">-->
         
-        
+        <script>
+            
+            var y = document.getElementById("error");
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition);
+                } else {
+                    //y.innerHTML = "Geolocation is not supported by this browser.";
+                    //document.getElementById("min_max").disabled = true;
+                }
+            }
+            function showPosition(position) {
+                document.getElementById("lat").value = position.coords.latitude;
+                document.getElementById("long").value = position.coords.longitude; 
+            }
+        </script>
 	
         
     </head>
     <body style=" background-color: gainsboro">
+        
         <%@include file="header.jsp" %>
         
        <div class="container-fluid" style=" padding-top: 0px;">
@@ -27,37 +41,50 @@
                     <div class="sidebar-nav"  >
                         <nav class="navbar navbar-default" role="navigation" style="border-radius: 20px; margin-top: 3%;">
                             <div class = "collapse navbar-collapse" id = "example-navbar-collapse">
+                                <form action="AdvancedResearch" method="Post">
+                                    <ul class="nav navbar-nav">
+                                        <li><label style="padding-left: 5%; padding-top: 2%; font-size: 150%">Ricerca avanzata:</label>
+                                        <li><label style="padding-left: 4%;">Range di prezzo:</label>
+                                            <label style="padding-left: 5%;"> Min : &nbsp;<input type="number" class="form-control" id= "min_max"   style="max-width: 30%" name ="min_price" value ="<c:out value='${requestScope.min_price}'/>"/></label>
+                                            <label style="padding-left: 5%;"> Max : &nbsp;<input type="number" class="form-control" id= "min_max"  style="max-width: 30%" name ="max_price"  value ="<c:out value='${requestScope.max_price}'/>"/></label>
+                                        </li>
+                                        <li><label style="padding-left: 4%; ">Categorie:</label>
+                                              <!--<form style="padding-left: 10%">-->
+                                              <c:forEach var ='c' items ='${cuisines}'>
+                                                  <input type="checkbox" name= "cusines" value="<c:out value='${c}'/>" <c:if test='${requestScope[c] == true}'>checked</c:if>>
+                                                  <c:out value='${c}'/><br>
+                                              </c:forEach>  
+                                            <!--<input type="checkbox" name= "cusines" value="italiano" <c:if test='${requestScope.italiano == true}'>checked</c:if>>Italiano<br>
+                                            <input type="checkbox" name="cusines" value="giapponese" <c:if test='${requestScope.giapponese == true}'>checked</c:if>>Giapponese<br>
+                                            <input type="checkbox" name="cusines" value="cinese" <c:if test='${requestScope.giapponese == true}'>checked</c:if>">Cinese<br>
+                                            <input type="checkbox" name="cusines" value="steakhouse" <c:if test='${requestScope.giapponese == true}'>checked</c:if>">SteakHouse<br>
+                                            <input type="checkbox" name="cusines" value="messicano" <c:if test='${requestScope.giapponese == true}'>checked</c:if>">Messicano<br>
+                                            <input type="checkbox" name="cusines" value="europeo" <c:if test='${requestScope.giapponese == true}'>checked</c:if>>Europeo<br>-->
+                                            <!--</form>-->
+                                        </li>
+                                        <li><label style="padding-left: 4%;">Valutazione:</label>
+                                              <!--<form style="padding-left: 10%">-->
+                                                  <input type="checkbox" name="valutazione" value="5" <c:if test='${requestScope.v5 == true}'>checked</c:if>> 5<span class="glyphicon glyphicon-star-empty"></span>
+                                                  <input type="checkbox" name="valutazione" value="4" <c:if test='${requestScope.v4 == true}'>checked</c:if>> 4<span class="glyphicon glyphicon-star-empty"></span>
+                                                  <input type="checkbox" name="valutazione" value="3" <c:if test='${requestScope.v3 == true}'>checked</c:if>> 3<span class="glyphicon glyphicon-star-empty"></span>
+                                                  <input type="checkbox" name="valutazione" value="2" <c:if test='${requestScope.v2 == true}'>checked</c:if>> 2<span class="glyphicon glyphicon-star-empty"></span>
+                                                  <input type="checkbox" name="valutazione" value="1" <c:if test='${requestScope.v1 == true}'>checked</c:if>> 1<span class="glyphicon glyphicon-star-empty"></span>
+                                              <!--</form>-->
+                                        </li>
+                                        <li id ="gl_distance_form" onclick="getLocation()">
+                                            <label style="padding-left: 4%;" id ="error"></label>
+                                            <label style="padding-left: 4%;">Distanza massima:</label>
+                                            
+                                            <label style="padding-left: 5%;"> Max : &nbsp;<input type="number" class="form-control" id= "min_max" onclick="getLocation()"  style="max-width: 30%" name ="distance" value = "<c:out value='${requestScope.distance}'/>"/></label>
+                                        </li>
+                                        <li>
+                                            <input type="submit" value ="Search">
+                                        </li>
+                                        <input type="hidden" name ="longitude" id ="long">
+                                        <input type="hidden" name ="latitude" id ="lat">
 
-                                <ul class="nav navbar-nav">
-                                    <li><label style="padding-left: 5%; padding-top: 2%; font-size: 150%">Ricerca avanzata:</label>
-                                    <li><label style="padding-left: 4%;">Range di prezzo:</label>
-                                        <label style="padding-left: 5%;"> Min : &nbsp;<input type="number" class="form-control" id= "min_max"   style="max-width: 30%"/></label>
-                                        <label style="padding-left: 5%;"> Max : &nbsp;<input type="number" class="form-control" id= "min_max"  style="max-width: 30%" /></label>
-                                    </li>
-                                    <li><label style="padding-left: 4%; ">Categorie:</label>
-                                          <form style="padding-left: 10%">
-                                              <input type="checkbox" name="italiano" >Italiano<br>
-                                              <input type="checkbox" name="giapponese" >Giapponese<br>
-                                              <input type="checkbox" name="cinese" >Cinese<br>
-                                              <input type="checkbox" name="steakhouese" >SteakHouse<br>
-                                              <input type="checkbox" name="messicano" >Messicano<br>
-                                              <input type="checkbox" name="europeo" value="No">Europeo<br>
-                                          </form>
-                                    </li>
-                                    <li><label style="padding-left: 4%;">Valutazione:</label>
-                                          <form style="padding-left: 10%">
-                                              <input type="checkbox" name="5stelle" > 5<span class="glyphicon glyphicon-star-empty"></span>
-                                              <input type="checkbox" name="4stelle" > 4<span class="glyphicon glyphicon-star-empty"></span>
-                                              <input type="checkbox" name="3stelle" > 3<span class="glyphicon glyphicon-star-empty"></span>
-                                              <input type="checkbox" name="2stelle" > 2<span class="glyphicon glyphicon-star-empty"></span>
-                                              <input type="checkbox" name="1stella" > 1<span class="glyphicon glyphicon-star-empty"></span>
-                                          </form>
-                                    </li>
-                                    <li><label style="padding-left: 4%;">Distanza massima:</label>
-                                        <label style="padding-left: 5%;"> Max : &nbsp;<input type="number" class="form-control" id= "min_max"   style="max-width: 30%"/></label>
-                                    </li>
-                          
-                                </ul>
+                                    </ul>
+                                </form>
                             </div>
                         </nav>
                     </div>
@@ -66,12 +93,29 @@
                     <div class="container-fluid" style ="padding-top: 1%" >
                         
                         <label> Ordina per : </label>
-                        <button class="btn-lg" style= "background-color: limegreen" data-sort-by="prezzo">Prezzo</button>
+                        <!--<button class="btn-lg" style= "background-color: limegreen" data-sort-by="prezzo">Prezzo</button>
                         <button class="btn-lg" style= "background-color: limegreen" data-sort-by="posizione">Posizione in classifica</button>
-                        <button class="btn-lg" style= "background-color: limegreen" data-sort-by="distanza">Alfabetico</button>
+                        <button class="btn-lg" style= "background-color: limegreen" data-sort-by="distanza">Alfabetico</button>-->
+                        <form action = "RestaurantsList" method="GET">
+                            <input type="hidden" name ="restaurant" value ="<c:out value='${restaurant}'/>">
+                            <input type="hidden" name ="place" value ="<c:out value='${place}'/>">
+                            <input type="hidden" name ="order" value ="price">
+                            <button class="btn-lg" style= "background-color: limegreen">Prezzo</button>
+                        </form>
+                        <form action = "RestaurantsList" method="GET">
+                            <input type="hidden" name ="restaurant" value ="<c:out value='${requestScope.restaurant}'/>">
+                            <input type="hidden" name ="place" value ="<c:out value='${requestScope.place}'/>">
+                            <input type="hidden" name ="order" value ="name">
+                            <button class="btn-lg" style= "background-color: limegreen">Alfabetico</button>
+                        </form>
+                        <form action = "RestaurantsList" method="GET">
+                            <input type="hidden" name ="restaurant" value ="<c:out value='${requestScope.restaurant}'/>">
+                            <input type="hidden" name ="place" value ="<c:out value='${requestScope.place}'/>">
+                            <input type="hidden" name ="order" value ="position">
+                            <button class="btn-lg" style= "background-color: limegreen">Posizione in classifica</button>
+                        </form>
                     </div>
-                    
-                    <c:forEach var='r' items="${restaurantsList}">
+                    <c:forEach var='r' items="${results}">
                         <div class="container-fluid riquadro_ristorante">
                             <div class="col-md-4" style=" padding-left: 1%; padding-top: 1%; padding-bottom: 1%; ">
                               <img src="data/sfondo_restaurant.jpg" class="img-rounded" alt="<c:out value="${r.name}"/>" style ="max-width: 100%; max-height : 100%; min-width:160px; min-height: 49px;">
@@ -109,8 +153,14 @@
         
         <div class="container-fluid">                 
             <ul class="pager">
-              <li><a href="#" style="background-color:limegreen; color: black;">Previous</a></li>
-              <li><a href="#" style="background-color:limegreen; color: black;">Next</a></li>
+                <li><a href= "
+                       <c:if test="${page > 0}">
+                           <c:out value='${redirectURL}${"&page="}${page-1}'/>
+                       </c:if>"
+                       style="background-color:limegreen; color: black;">Previous</a></li>
+                
+              
+              <li><a href="<c:out value='${redirectURL}${"&page="}${page+1}'/>" style="background-color:limegreen; color: black;">Next</a></li>
             </ul>
         </div>
        
