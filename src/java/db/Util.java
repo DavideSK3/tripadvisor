@@ -14,7 +14,7 @@ import java.util.Set;
  *
  * @author gabriele
  */
-public final class StringDistanceUtil {
+public final class Util {
     
     
     public static String deleteAt(String s, int i){
@@ -179,6 +179,34 @@ public final class StringDistanceUtil {
             }
         }
         return d[n][m];
+    }
+    
+    
+    public static double degToRad(double a){
+        return Math.PI*a/180.0;
+    }
+    public static final double R = 6371e3;
+    
+    /**
+     * si assume che gli angoli siano già in radianti!!!
+     * @param lo1
+     * @param la1
+     * @param lo2
+     * @param la2
+     * @return 
+     */
+    public static double computeLinearDistance(double lo1, double la1, double lo2, double la2){
+        double df = lo1- lo2;
+        double dl = la1 - la2;
+        double sin_half_df = Math.sin(df/2);
+        double sin_half_dl = Math.sin(dl/2);
+        
+        double a = sin_half_df*sin_half_df * Math.cos(lo1)*Math.cos(lo2)*sin_half_dl*sin_half_dl;
+        
+        double c = Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return R*c;
+        
+        
     }
     
     

@@ -7,6 +7,7 @@ package servlets;
 
 import db.DBManager;
 import db.Restaurant;
+import db.Util;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.sql.SQLException;
@@ -151,6 +152,11 @@ public class AdvancedResearchServlet extends HttpServlet {
             System.out.println("Result size = " +results.size());
             System.out.println("Risultati calcolati in " + (fine - inizio)/1000.0 + " secondi");
             
+            if(distance != null && longitude != null && latitude != null){
+                results = filterByDistance(results, distance, longitude, latitude);
+            }
+            
+            
             session.setAttribute(query, results);
             
         }
@@ -195,5 +201,24 @@ public class AdvancedResearchServlet extends HttpServlet {
         
         RequestDispatcher rd = req.getRequestDispatcher("result_list.jsp");
         rd.forward(req, resp);
+    }
+    
+    public static final List<Restaurant> filterByDistance(List<Restaurant> restaurants, String distance, String longitude, String latitude){
+        try{
+            ArrayList<Restaurant> results = new ArrayList<>();
+            Double d = Double.parseDouble(distance);
+            Double lo = Double.parseDouble(longitude);
+            Double la = Double.parseDouble(latitude);
+
+            for(Restaurant r :restaurants){
+                if(Util.computeLinearDistance(lo, la, r.getLongitude(), r.getLatitude()) <= d){
+                    results.add(r);
+                }
+            }
+            return results;
+        }catch (NumberFormatException e){
+            return restaurants;
+        }
+        
     }
 }

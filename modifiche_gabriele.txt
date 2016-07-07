@@ -1,4 +1,5 @@
- 
+(leggere a schermo intero, se no si incasinano tutte le righe, ops...)
+
 MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
 
  - ricerca ristorante non è più CASE SENSITIVE					
@@ -14,10 +15,13 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
    dinamicamente dal database
  - migliorato il riutilizzo del codice all'interno della classe
    DBManager, evitando di ripetere per ogni metodo parti di codice comuni
-   (es la creazione dell'oggetto Ristorante dato un risultato dal ResultSet)
+   (es la creazione dell'oggetto Ristorante dato un risultato dal
+   ResultSet)
  - implementata ricerca per Luogo e per Luogo e Ristorante
- - nella ricerca per luogo, una volta invata la query, si sceglie il Place
-   più simile alla query inviata (permettendo quindi di inviare qualunque stringa,
-   non solo una tra quelle consigliate)
-
-
+ - nella ricerca per luogo, una volta invata la query, si sceglie
+   il Place più simile alla query inviata (permettendo quindi di 
+   inviare qualunque stringa, non solo una tra quelle consigliate)
+ - nella ricerca avanzata implementato il filtro per distanza dalla	- attenzione, necessario esprimere tutte le longitudini e latitudii in radianti non
+   posizione attuale							  in gradi decimali
+ - messi gli stili e js per l'header in message.jsp			- mettere uno stile per il messaggio
+   

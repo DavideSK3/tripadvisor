@@ -95,6 +95,8 @@ insert into RESTAURANTS VALUES
     null,
     1,
     'via Taramelli 14',
+    0.788036490359,
+    0.18845762622895723126,
     12345678.0,
     12345678.0,
     1,

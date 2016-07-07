@@ -287,7 +287,7 @@ public class DBManager implements Serializable{
             
             
             if(rs > 0){
-                Set<String> terms = StringDistanceUtil.generateNearTerms(r.getName());
+                Set<String> terms = Util.generateNearTerms(r.getName());
                 for(String t : terms){
                     
                     stm2.setInt(1, r.getId());
@@ -421,7 +421,7 @@ public class DBManager implements Serializable{
         
         StringBuilder query = new StringBuilder("SELECT DISTINCT R.* FROM APP.restaurants R");
         
-        if(cuisines.length > 0){
+        if(cuisines != null && cuisines.length > 0){
             String cond =" JOIN APP.Restaurants_Cuisines RC ON R.id =  RC.id_restaurant JOIN (SELECT * FROM APP.Cuisines WHERE ";
             for(int i=0; i<cuisines.length; i++){
                 if(i>0) cond += " OR ";
@@ -669,7 +669,7 @@ public class DBManager implements Serializable{
         r.setAddress(rs.getString("address"));
         r.setLatitude(rs.getDouble("latitude") > 0 ? rs.getDouble("latitude") : null);
         r.setLongitude(rs.getDouble("longitude") > 0 ? rs.getDouble("longitude") : null);
-        r.setMin_price(rs.getInt("min_price") > 0 ? rs.getInt("max_price") : null);
+        r.setMin_price(rs.getInt("min_price") > 0 ? rs.getInt("min_price") : null);
         r.setMax_price(rs.getInt("max_price") > 0 ? rs.getInt("max_price") : null);
         
         return r;
@@ -697,7 +697,7 @@ public class DBManager implements Serializable{
         try{
             while(rs.next()) {
                 String r_name = rs.getString("name");
-                if(StringDistanceUtil.editDistanceLimited(name, r_name, 4) < 4){
+                if(Util.editDistanceLimited(name, r_name, 4) < 4){
                     
                     r_l.add(getRestaurant(rs));
                 }
@@ -726,7 +726,7 @@ public class DBManager implements Serializable{
                 
                 for(String word : words){
                     int k = 1 + Math.round(word.length()/8.0f);
-                    int d = StringDistanceUtil.containingDistanceLimited(word, r_name, k);
+                    int d = Util.containingDistanceLimited(word, r_name, k);
                     if(d < k){
                         //p.d += 1.0/(d+1.0);
                         p.d += 1.0 - d/((double)k);
@@ -736,7 +736,7 @@ public class DBManager implements Serializable{
                 String[] name_ws = r_name.split(" ");
                 for(String word : words){
                     for(String w : name_ws){
-                        int d = StringDistanceUtil.editDistanceLimited(word, w, 3);
+                        int d = Util.editDistanceLimited(word, w, 3);
                         if(d < 3){
                             p.d += 1.0/(d+1);
                         }
