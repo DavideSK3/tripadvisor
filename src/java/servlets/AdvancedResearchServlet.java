@@ -57,7 +57,20 @@ public class AdvancedResearchServlet extends HttpServlet {
         if(order == null){ order = "position"; }
         
         if(r_query == null) r_query = "";
+        else r_query = r_query.trim();
+        
         if(p_query == null) p_query = "";
+        else{
+            p_query = p_query.trim();
+            if(!p_query.isEmpty()){
+                try {
+                    p_query = manager.getPlaceBySimilarity(p_query).toString();
+                } catch (SQLException ex) {
+                    Logger.getLogger(RestaurantsListServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
         
         String m = req.getParameter("min_price");
         String M = req.getParameter("max_price");
@@ -121,12 +134,12 @@ public class AdvancedResearchServlet extends HttpServlet {
         if(results == null || p == null){
             long inizio = new Date().getTime();
             try{
-                if(!r_query.equals("") && !p_query.equals("")){
-                    results = manager.getRestaurants(r_query, p_query);
-                }else if(!r_query.equals("") && p_query.equals("")){
+                if(!r_query.isEmpty() && !p_query.isEmpty()){
+                    results = manager.getRestaurantsOrderedBy(r_query, p_query, order);
+                }else if(!r_query.isEmpty() && p_query.isEmpty()){
                     results = manager.getRestaurantsByNameSimilarityFilteredOrderedBy(r_query, order, minPrice, maxPrice, cuisines, val);
-                }else if(r_query.equals("") && !p_query.equals("")){
-                    results = manager.getRestaurantsByPlace(p_query);
+                }else if(r_query.isEmpty() && !p_query.isEmpty()){
+                    results = manager.getRestaurantsByPlaceOrderedBy(p_query, order);
                 }else{
                     results = manager.getRestaurantsFilteredOrderedBy(order, minPrice, maxPrice, cuisines, val);
                 }

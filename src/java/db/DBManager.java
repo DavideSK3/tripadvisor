@@ -345,13 +345,72 @@ public class DBManager implements Serializable{
     
     
     public List<Restaurant> getRestaurants(String name, String place) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
+        try {
+                return getRestaurantsFilteredByNameSimilarity(stm, name);
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+    }
+    
+    public List<Restaurant> getRestaurantsOrderedBy(String name, String place, String order) throws SQLException {
         
-        return null;
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '").append(place).append("%'");
+        switch(order){
+            case "name":
+                query .append(" ORDER BY name");
+                break;
+            case "price":
+                query.append(" ORDER BY min_price + max_price");
+                break;
+            case "position":
+                query.append(" ORDER BY (global_review/review_counter)");
+                break;
+            default:
+                break;
+        }
+        PreparedStatement stm = con.prepareStatement(query.toString());
+        try {
+                return getRestaurantsFilteredByNameSimilarity(stm, name);
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
     }
     
     public List<Restaurant> getRestaurantsByPlace(String place) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
+        try {
+                return getRestaurantsUnfiltered(stm);
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }        
+    }
+    
+    
+    public List<Restaurant> getRestaurantsByPlaceOrderedBy(String place, String order) throws SQLException {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '").append(place).append("%'");
+        switch(order){
+            case "name":
+                query .append(" ORDER BY name");
+                break;
+            case "price":
+                query.append(" ORDER BY min_price + max_price");
+                break;
+            case "position":
+                query.append(" ORDER BY (global_review/review_counter)");
+                break;
+            default:
+                break;
+        }
+        PreparedStatement stm = con.prepareStatement(query.toString());
+        try {
+                return getRestaurantsUnfiltered(stm);
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
         
-        return null;
     }
     
     public List<Restaurant> getRestaurantsFilteredOrderedBy(String order,
@@ -778,6 +837,88 @@ public class DBManager implements Serializable{
         
         
         return r_l;
+        
+    }
+    
+    public Place getPlaceBySimilarity(String query) throws SQLException {
+        String[] words = query.toLowerCase().trim().split(" ");
+        Place place = new Place();
+        place.d = 0;
+        place.setCity("");
+        place.setRegion("");
+        place.setState("");
+        
+        
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.states");
+        try {
+                ResultSet rs = stm.executeQuery();
+                
+                try{
+                    while(rs.next()) {
+                        Place p = new Place();
+                        p.setState(rs.getString("name"));
+                        valuta(p, words);
+                        
+                        if(p.d > place.d){
+                            place = p;
+                        }
+                        
+                    }
+                }finally {
+                    rs.close();
+                }
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+        
+        
+        stm = con.prepareStatement("SELECT * FROM APP.regions");
+        try {
+                ResultSet rs = stm.executeQuery();
+                try{
+                    while(rs.next()) {
+                        Place p = new Place();
+                        p.setState(rs.getString("state"));
+                        p.setRegion(rs.getString("name"));
+                        valuta(p, words);
+                        
+                        if(p.d > place.d){
+                            place = p;
+                        }
+                    }
+                }finally {
+                    rs.close();
+                }
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+        
+        stm = con.prepareStatement("SELECT * FROM APP.cities");
+        try {
+                ResultSet rs = stm.executeQuery();
+                PriorityQueue<Place> queue = new PriorityQueue<>(new Place.PlaceComparator());
+                try{
+                    while(rs.next()) {
+                        Place p = new Place();
+                        p.setState(rs.getString("state"));
+                        p.setRegion(rs.getString("region"));
+                        p.setCity(rs.getString("name"));
+                        
+                        valuta(p, words);
+                        if(p.d > place.d){
+                            place = p;
+                        }
+                    }
+                }finally {
+                    rs.close();
+                }
+                
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+        
+        
+        return place;
         
     }
     

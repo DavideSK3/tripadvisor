@@ -15,5 +15,9 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
  - migliorato il riutilizzo del codice all'interno della classe
    DBManager, evitando di ripetere per ogni metodo parti di codice comuni
    (es la creazione dell'oggetto Ristorante dato un risultato dal ResultSet)
+ - implementata ricerca per Luogo e per Luogo e Ristorante
+ - nella ricerca per luogo, una volta invata la query, si sceglie il Place
+   più simile alla query inviata (permettendo quindi di inviare qualunque stringa,
+   non solo una tra quelle consigliate)
 
 
