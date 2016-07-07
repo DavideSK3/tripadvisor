@@ -68,7 +68,7 @@ public class AutocompleteResource {
         
         List<String> results = null;
         try {
-            results = manager.getRestaurantsNamesByTerm(term, 10);
+            results = manager.getRestaurantsNamesByTerm(term.toLowerCase(), 10);
         } catch (SQLException ex) {
             Logger.getLogger(AutocompleteResource.class.getName()).log(Level.SEVERE, null, ex);
         }

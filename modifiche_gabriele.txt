@@ -1,0 +1,19 @@
+ 
+MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
+
+ - ricerca ristorante non è più CASE SENSITIVE					
+ - implementato ordinamento ricerche ricaricando una nuova pagina	- mettere a posto i pulsanti per scegliere ordinamento
+ - implementata "paginazione" dei risulatati				- gestire meglio come salvare e recuperare la lista di risultati già calcolata
+ - implementata ricerca avanzata					- rimettere a posto la grafica spostata dopo aver inglobato il blocco in una form
+									- aggiungere form anche per ricerca luogo e ristorante
+ - nella ricerca avanzata implementato con JS la geolocalizzazione	- problema a gestire il caso in cui non sia supportata/sia stata bloccata
+									(mostrare messaggio di notifica che impedisca di inserire la distanza a cui cercare)
+ - nella ricerca normale ed avanzata, rimane segnato cosa si ha cercato
+	(es. checkbox spuntati e query scritta nei campi)
+ - nella ricerca avanzata le cucine disponibili vengono prese
+   dinamicamente dal database
+ - migliorato il riutilizzo del codice all'interno della classe
+   DBManager, evitando di ripetere per ogni metodo parti di codice comuni
+   (es la creazione dell'oggetto Ristorante dato un risultato dal ResultSet)
+
+
