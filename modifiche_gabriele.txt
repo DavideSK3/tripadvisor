@@ -40,3 +40,5 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
  - passando da una pagina all'altra o dopo la ricerca i vari form rimangono
    compilati come da ricerca
 
+ - aggiunta parte del Profile fatta da Davide
+

@@ -302,6 +302,17 @@ public class DBManager implements Serializable{
         }
     }
     
+    public List<Restaurant> getRestaurantsByOwnerID(int id) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants WHERE ID_OWNER = ?");
+        try {
+            stm.setInt(1, id);
+            
+            return getRestaurantsUnfiltered(stm);
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+    }
+    
     public Restaurant getRestaurant(int key) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE id = ?");
         try {

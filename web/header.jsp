@@ -50,7 +50,7 @@
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                  <li><a href="#" class="glyphicon glyphicon-user utente"> Profilo</a></li>
+                                  <li><a href="Profile" class="glyphicon glyphicon-user utente"> Profilo</a></li>
                                   <li><a href="Logout" class="glyphicon glyphicon-log-out utente"> Logout </a></li>
                                 </ul>
                             </div>
@@ -64,7 +64,7 @@
                                     <c:out value="${sessionScope.user.name} ${sessionScope.user.surname}"/>
                                 <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
-                                  <li><a href="#" class="glyphicon glyphicon-user utente"> Profilo</a></li>
+                                  <li><a href="Profile" class="glyphicon glyphicon-user utente"> Profilo</a></li>
                                   <li><a href="Logout" class="glyphicon glyphicon-log-out utente"> Logout </a></li>
                                 </ul>
                             </div>
