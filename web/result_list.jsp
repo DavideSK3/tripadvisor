@@ -1,4 +1,3 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -35,7 +34,7 @@
     </head>
     <body style=" background-color: gainsboro">
         
-        <%@include file="header.jsp" %>
+       <%@include file="header.jsp" %>
         
        <div class="container-fluid" style=" padding-top: 0px;">
             <div class="row">
@@ -45,6 +44,10 @@
                             <div class = "collapse navbar-collapse" id = "example-navbar-collapse">
                                 <form action="AdvancedResearch" method="Post">
                                     <ul class="nav navbar-nav">
+                                        <li><input type="text" class="form-control" placeholder="Dove vai?" name="place" id ="advanced_search_place" value="<c:out value='${requestScope.place}'/>"></li>
+                                        <li><input type="text" class="form-control" placeholder="Ricerca ristorante" name="restaurant" id ="advanced_search_name" value="<c:out value='${requestScope.restaurant}'/>"></li>
+                                        
+
                                         <li><label style="padding-left: 5%; padding-top: 2%; font-size: 150%">Ricerca avanzata:</label>
                                         <li><label style="padding-left: 4%;">Range di prezzo:</label>
                                             <label style="padding-left: 5%;"> Min : &nbsp;<input type="number" class="form-control" id= "min_max"   style="max-width: 30%" name ="min_price" value ="<c:out value='${requestScope.min_price}'/>"/></label>
@@ -55,14 +58,7 @@
                                               <c:forEach var ='c' items ='${cuisines}'>
                                                   <input type="checkbox" name= "cusines" value="<c:out value='${c}'/>" <c:if test='${requestScope[c] == true}'>checked</c:if>>
                                                   <c:out value='${c}'/><br>
-                                              </c:forEach>  
-                                            <!--<input type="checkbox" name= "cusines" value="italiano" <c:if test='${requestScope.italiano == true}'>checked</c:if>>Italiano<br>
-                                            <input type="checkbox" name="cusines" value="giapponese" <c:if test='${requestScope.giapponese == true}'>checked</c:if>>Giapponese<br>
-                                            <input type="checkbox" name="cusines" value="cinese" <c:if test='${requestScope.giapponese == true}'>checked</c:if>">Cinese<br>
-                                            <input type="checkbox" name="cusines" value="steakhouse" <c:if test='${requestScope.giapponese == true}'>checked</c:if>">SteakHouse<br>
-                                            <input type="checkbox" name="cusines" value="messicano" <c:if test='${requestScope.giapponese == true}'>checked</c:if>">Messicano<br>
-                                            <input type="checkbox" name="cusines" value="europeo" <c:if test='${requestScope.giapponese == true}'>checked</c:if>>Europeo<br>-->
-                                            <!--</form>-->
+                                              </c:forEach>
                                         </li>
                                         <li><label style="padding-left: 4%;">Valutazione:</label>
                                               <!--<form style="padding-left: 10%">-->
@@ -117,6 +113,19 @@
                             <button class="btn-lg" style= "background-color: limegreen">Posizione in classifica</button>
                         </form>
                     </div>
+                    <c:if test='${results.size() == 0}'>
+                        <div class="container-fluid riquadro_ristorante">
+                            
+                            
+                            <div class="col-md-8">
+                                <span style="color: green;"><b>Spiacenti, nessun risultato trovato</b></span><br>
+                                <div>
+                                    <span class="badge" style="margin-top:8px;">Prova a cercare una zona diversa, effettuare una ricerca meno specifica o controllare l'ortografia</span>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </c:if>
                     <c:forEach var='r' items="${results}">
                         <div class="container-fluid riquadro_ristorante">
                             <div class="col-md-4" style=" padding-left: 1%; padding-top: 1%; padding-bottom: 1%; ">
@@ -126,11 +135,13 @@
                             <div class="col-md-8">
                                 <span style="color: green;"><b>N. 1 dei ristoranti in Italia</b></span><br>
                                 <div>
-                                    <span class="glyphicon glyphicon-star media"></span>
-                                    <span class="glyphicon glyphicon-star media"></span>
-                                    <span class="glyphicon glyphicon-star media"></span>
-                                    <span class="glyphicon glyphicon-star media"></span>
-                                    <span class="glyphicon glyphicon-star-empty media"></span>&nbsp;
+                                    <c:forEach var='i' begin='1' end='${r.global_review}' step='1'>
+                                        <span class="glyphicon glyphicon-star media"></span>
+                                    </c:forEach>
+                                    <c:forEach var='i' begin='${r.global_review + 1}' end ='5' step='1'>
+                                        <span class="glyphicon glyphicon-star-empty media"></span>&nbsp;
+                                    </c:forEach>
+                                    
                                     <span class="badge" style="margin-top:8px;"><c:out value="${r.global_review}"/>&nbsp;<span class="glyphicon glyphicon-star-empty"></span>&nbsp; su <c:out value="${r.review_count}"/> recensioni</span>
                                 </div>
                                 <br>
@@ -141,8 +152,11 @@
                                 <div style="margin-top:10px;">
                                     <span class="glyphicon glyphicon-cutlery"></span>&nbsp;
                                     <span>Cucina:</span>&nbsp; 
-                                    <span class="btn btn-success" style="background-color:limegreen; color: white;">Pizza con le cozze</span>&nbsp; 
-                                    <span class="btn btn-success" style="background-color:limegreen; color: white;">Europene</span>
+                                    <c:forEach var='c' items="${r.cuisines}">
+                                        <span class="btn btn-success" style="background-color:limegreen; color: white;"><c:out value="${c}"/></span>&nbsp; 
+                                    </c:forEach>
+                                    
+                                    
                                 </div>
                             </div>
                         </div>
@@ -153,8 +167,32 @@
             </div>
         </div>
         
-        <div class="container-fluid">                 
-            <ul class="pager">
+        <div class="container-fluid">  
+            <form method="POST" action="<c:out value='${redirectURL}'/>">
+                <ul class="pager">
+                    <input type="hidden" name="query_id" value ="<c:out value='${query_id}' />">
+                    <input type="hidden" name="page" value ="<c:out value='${page}'/>">
+                    <input type="hidden" name ="min_price" value ="<c:out value='${requestScope.min_price}'/>">
+                    <input type="hidden" name ="max_price" value ="<c:out value='${requestScope.max_price}'/>">
+                    <c:forEach var ='c' items ='${cuisines}'>
+                        <c:if test='${requestScope[c] == true}'>
+                            <input type="hidden" name= "cusines" value="<c:out value='${c}'/>" >
+                        </c:if>
+                    </c:forEach>  
+                    <c:if test='${requestScope.v5 == true}'><input type="hidden" name="valutazione" value="5"></c:if>
+                    <c:if test='${requestScope.v4 == true}'><input type="hidden" name="valutazione" value="4"></c:if>
+                    <c:if test='${requestScope.v3 == true}'><input type="hidden" name="valutazione" value="3"></c:if>
+                    <c:if test='${requestScope.v2 == true}'><input type="hidden" name="valutazione" value="2"></c:if>
+                    <c:if test='${requestScope.v1 == true}'><input type="hidden" name="valutazione" value="1"></c:if>
+                            
+                    <input type="hidden" name ="distance" value = "<c:out value='${requestScope.distance}'/>" >
+                    
+                    <li><input type="submit" style="background-color:limegreen; color: black;" name="changePageButton" value="Previous"></li>
+                    <li><input type="submit" style="background-color:limegreen; color: black;" name="changePageButton" value="Next"></li>
+                </ul>
+            
+            </form>
+            <%--<ul class="pager">
                 <li><a href= "
                        <c:if test="${page > 0}">
                            <c:out value='${redirectURL}${"&page="}${page-1}'/>
@@ -163,7 +201,7 @@
                 
               
               <li><a href="<c:out value='${redirectURL}${"&page="}${page+1}'/>" style="background-color:limegreen; color: black;">Next</a></li>
-            </ul>
+            </ul>--%>
         </div>
        
         <%--<table id ="ristoranti" border="1px">

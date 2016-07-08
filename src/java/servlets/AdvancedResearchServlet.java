@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -81,7 +82,6 @@ public class AdvancedResearchServlet extends HttpServlet {
             minPrice = Integer.parseInt(m);
         }catch (NumberFormatException e){
             minPrice = null;
-            System.out.println("min null");
         }
         
         Integer maxPrice = null;
@@ -89,7 +89,6 @@ public class AdvancedResearchServlet extends HttpServlet {
             maxPrice = Integer.parseInt(M);
         }catch (NumberFormatException e){
             maxPrice = null;
-            System.out.println("max null");
         }
         
         String[] cuisines = req.getParameterValues("cusines");
@@ -102,12 +101,6 @@ public class AdvancedResearchServlet extends HttpServlet {
                     val.add(Integer.parseInt(v));
                 }catch (NumberFormatException e) {}
             }
-        }else{
-            System.out.println("valutazioni null");
-        }
-        
-        if(cuisines == null){
-            System.out.println("cuisines null");
         }
         
         
@@ -115,24 +108,28 @@ public class AdvancedResearchServlet extends HttpServlet {
         String latitude = req.getParameter("latitude");
         String longitude = req.getParameter("longitude");
         
-        String url = getServletContext().getContextPath()+"/RestaurantsList?restaurant=" + URLEncoder.encode(r_query, "UTF-8") + "&place=" + URLEncoder.encode(p_query, "UTF-8") + "&order=" + order;
+        String url = "AdvancedResearch?restaurant=" + URLEncoder.encode(r_query, "UTF-8") + "&place=" + URLEncoder.encode(p_query, "UTF-8") + "&order=" + order;
         
-        String query = r_query + ";" + p_query + ";" +(m!=null ? m  +";" : "") + (M!=null ? M +";": "");
+        /*String query = r_query + ";" + p_query + ";" +(m!=null ? m  +";" : "") + (M!=null ? M +";": "");
         if(cuisines != null) for(String s :cuisines) query+=s + ";";
         if(valutazioni != null) for(String s :valutazioni) query+=s+ ";";
         
         if(distance != null) query += distance+ ";";
         if(longitude != null) query += longitude+ ";";
         if(latitude != null) query += latitude+ ";";
+        */
         
                 
         HttpSession session = req.getSession(true);
         
-        List<Restaurant> results = (List<Restaurant>)session.getAttribute(query);
-        String p = req.getParameter("page");
+        String query_id;
         
+        List<Restaurant> results;
+        int page = 0;
         
-        if(results == null || p == null){
+        String button = req.getParameter("changePageButton");
+        
+        if(button == null){
             long inizio = new Date().getTime();
             try{
                 if(!r_query.isEmpty() && !p_query.isEmpty()){
@@ -156,21 +153,43 @@ public class AdvancedResearchServlet extends HttpServlet {
                 results = filterByDistance(results, distance, longitude, latitude);
             }
             
+            do{
+                query_id = UUID.randomUUID().toString();
+            }while(session.getAttribute(query_id) != null);
             
-            session.setAttribute(query, results);
+            session.setAttribute(query_id, results);
             
+            
+        }else{
+            query_id = req.getParameter("query_id");
+            results = (List<Restaurant>)session.getAttribute(query_id);
+            
+            String p = req.getParameter("page");
+            
+        
+            if(p != null){ page = Integer.parseInt(p); }
+            
+            switch (button) {
+                case "Next":
+                    page++;
+                    break;
+                case "Previous":
+                    page--;
+                    break;
+                default:
+                    page = 0;
+                    break;
+            }
+            
+            if(page < 0) page = 0;
+        
+            if(page > Math.floor(results.size()/(double)LIMIT)){
+                page = (int)Math.floor(results.size()/(double)LIMIT);
+            }
         }
         
         
-        int page = 0;
         
-        if(p != null){ page = Integer.parseInt(p); }
-        
-        if(page < 0) page = 0;
-        
-        if(page > Math.ceil(results.size()/(double)LIMIT)){
-            page = (int)Math.ceil(results.size()/(double)LIMIT);
-        }
         
         try {
             req.setAttribute("cuisines", manager.getCuisines());
@@ -179,6 +198,7 @@ public class AdvancedResearchServlet extends HttpServlet {
         }
         req.setAttribute("restaurant", r_query);
         req.setAttribute("place", p_query);
+        req.setAttribute("query_id", query_id);
         
         req.setAttribute("min_price", minPrice);
         req.setAttribute("max_price", maxPrice);
@@ -202,6 +222,10 @@ public class AdvancedResearchServlet extends HttpServlet {
         RequestDispatcher rd = req.getRequestDispatcher("result_list.jsp");
         rd.forward(req, resp);
     }
+    
+    
+    
+    
     
     public static final List<Restaurant> filterByDistance(List<Restaurant> restaurants, String distance, String longitude, String latitude){
         try{

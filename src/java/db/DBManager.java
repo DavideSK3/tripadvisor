@@ -650,7 +650,8 @@ public class DBManager implements Serializable{
         
         r.setName(rs.getString("name"));
         r.setId(rs.getInt("id"));
-        double count = rs.getInt("review_counter");
+        int count = rs.getInt("review_counter");
+        r.setReview_count(count);
         r.setDescription(rs.getString("description"));
         r.setUrl(rs.getString("web_site_url"));
         if(count > 0){
@@ -671,6 +672,8 @@ public class DBManager implements Serializable{
         r.setLongitude(rs.getDouble("longitude") > 0 ? rs.getDouble("longitude") : null);
         r.setMin_price(rs.getInt("min_price") > 0 ? rs.getInt("min_price") : null);
         r.setMax_price(rs.getInt("max_price") > 0 ? rs.getInt("max_price") : null);
+        
+        getRestaurantCuisines(r);
         
         return r;
     }
@@ -926,7 +929,7 @@ public class DBManager implements Serializable{
         
         ArrayList<String> r_l = new ArrayList<>();
         
-        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.cuisines");
+        PreparedStatement stm = con.prepareStatement("SELECT name FROM APP.cuisines");
         try {
                 ResultSet rs = stm.executeQuery();
                 
@@ -944,6 +947,32 @@ public class DBManager implements Serializable{
         
         
         return r_l;
+        
+    }
+    
+    public void getRestaurantCuisines(Restaurant r) throws SQLException {
+        
+        ArrayList<String> cuisines = new ArrayList<>();
+        
+        PreparedStatement stm = con.prepareStatement(
+                "SELECT name\n" +
+                "FROM APP.RESTAURANTS_CUISINES JOIN APP.CUISINES ON (ID_CUISINE = ID) \n" +
+                "WHERE id_restaurant = ?");
+        stm.setInt(1, r.getId());
+        try {
+                ResultSet rs = stm.executeQuery();
+                
+                try{
+                    while(rs.next()) {
+                        cuisines.add(rs.getString("name"));
+                    }
+                }finally {
+                    rs.close();
+                }
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+        r.setCuisines(cuisines);
         
     }
     

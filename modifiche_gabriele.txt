@@ -2,6 +2,8 @@
 
 MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
 
+(giovedì 7/7)
+
  - ricerca ristorante non è più CASE SENSITIVE					
  - implementato ordinamento ricerche ricaricando una nuova pagina	- mettere a posto i pulsanti per scegliere ordinamento
  - implementata "paginazione" dei risulatati				- gestire meglio come salvare e recuperare la lista di risultati già calcolata
@@ -25,3 +27,16 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
    posizione attuale							  in gradi decimali
  - messi gli stili e js per l'header in message.jsp			- mettere uno stile per il messaggio
    
+
+(venerdì 8/7)
+ - nella lista risultati appare messaggio se non è stato trovato niente
+ - nella visualizzazione della lista dei ristoranti, aggiunto
+   dinamicamente il numero di stelle, il numero di recensioni,
+   le cucine 
+ - migliorata implementazione salvataggio risultati per paginazione
+   e scorrimento (precedente/successiva) pagine
+ - aggiunta nella advanced research il form per ricerca luogo e ristorante
+   (con autocompletamento)
+ - passando da una pagina all'altra o dopo la ricerca i vari form rimangono
+   compilati come da ricerca
+

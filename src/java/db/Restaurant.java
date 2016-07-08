@@ -6,6 +6,7 @@
 package db;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -31,6 +32,8 @@ public class Restaurant implements Serializable{
     private Integer min_price;
     private Integer max_price;
 
+    private ArrayList<String> cuisines;
+    
     /**
      * @return the id
      */
@@ -267,6 +270,20 @@ public class Restaurant implements Serializable{
      */
     public void setReview_count(Integer review_count) {
         this.review_count = review_count;
+    }
+
+    /**
+     * @return the cuisines
+     */
+    public ArrayList<String> getCuisines() {
+        return cuisines;
+    }
+
+    /**
+     * @param cuisines the cuisines to set
+     */
+    public void setCuisines(ArrayList<String> cuisines) {
+        this.cuisines = cuisines;
     }
 
     
