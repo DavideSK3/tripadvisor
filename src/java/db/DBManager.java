@@ -683,7 +683,9 @@ public class DBManager implements Serializable{
         r.setLongitude(rs.getDouble("longitude") > 0 ? rs.getDouble("longitude") : null);
         r.setMin_price(rs.getInt("min_price") > 0 ? rs.getInt("min_price") : null);
         r.setMax_price(rs.getInt("max_price") > 0 ? rs.getInt("max_price") : null);
-        
+        r.setCity(rs.getString("city"));
+        r.setRegion(rs.getString("region"));
+        r.setState(rs.getString("state"));
         getRestaurantCuisines(r);
         
         return r;
@@ -994,6 +996,49 @@ public class DBManager implements Serializable{
      * --------GESTIONE RECENSIONI/FOTO-----------
      */
     
+    
+    public void getRestaurantPhotos(Restaurant r) throws SQLException{
+         PreparedStatement stm = con.prepareStatement("SELECT name, path FROM APP.photos WHERE id_restaurant = ?");
+         try {
+            stm.setInt(1, r.getId());
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    r.addPhoto(new Photo(rs.getString("name"), rs.getString("path")));
+                }
+            }finally{
+                rs.close();
+            }
+        }finally{ // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+    }
+    
+    public void getRestaurantTimes(Restaurant r) throws SQLException{
+         PreparedStatement stm = con.prepareStatement("SELECT giorno, apertura, chiusura FROM APP.ORARIO WHERE id = ? ORDER BY giorno, apertura");
+         try {
+            stm.setInt(1, r.getId());
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    r.addOrario(new Orario(rs.getString("giorno"), rs.getTime("apertura"), rs.getTime("chiusura")));
+                }
+            }finally{
+                rs.close();
+            }
+        }finally{ // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+    }
+    
+    /**
+     *
+     * @param name
+     * @param path
+     * @param restaurant_id
+     * @return
+     * @throws SQLException
+     */
     public Integer insertPhoto(String name, String path, int restaurant_id)throws SQLException{
          
         PreparedStatement stm = con.prepareStatement("INSERT INTO APP.photos VALUES(default,?,?,?)", Statement.RETURN_GENERATED_KEYS);

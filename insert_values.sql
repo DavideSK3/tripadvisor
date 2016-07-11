@@ -97,13 +97,35 @@ insert into RESTAURANTS VALUES
     'via Taramelli 14',
     0.788036490359,
     0.18845762622895723126,
-    12345678.0,
-    12345678.0,
     1,
     100,
     'Italia',
     'Lombardia',
     'Mantova'
+);
+
+insert into RESTAURANTS VALUES
+(
+    default,
+    'VivaIlKebab',
+    'Vieni a mangiare da noi il kebab, è buono!',   
+    'www.ma_che_buono_il_kebab.it',
+    4,
+    13.5,
+    17.0,
+    15.0,
+    10.0,
+    18.0,
+    null,
+    1,
+    'via Dalle Balle 1',
+    0.793499301105,
+    0.160401622564,
+    4,
+    10,
+    'Italia',
+    'Lombardia',
+    'Milano'
 );
 
 

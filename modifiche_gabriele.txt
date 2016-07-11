@@ -42,3 +42,13 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
 
  - aggiunta parte del Profile fatta da Davide
 
+(lunedì 11/7)
+
+ - aggiunta query per recuperare foto del ristorante
+ - iniziata dinamicizzazione pagina restaurant
+ - inseriti orari ristoranti da createtable della Sara
+   (e relativa query per recuperarli)
+ - cambiato nome parametro ricerca ristorante da "restaurant" a "r_query"
+   per evitare conflitti con nome parametro ristorante nella pagina del ristorante
+ - corretta formula calcolo distanze coordinate gps
+

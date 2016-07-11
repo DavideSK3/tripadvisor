@@ -60,7 +60,17 @@ public class RestaurantServlet extends HttpServlet {
                 rd = req.getRequestDispatcher("/error_page.jsp");
             }
             
+            try{
+                manager.getRestaurantPhotos(r);
+            } catch (SQLException ex) {
+                Logger.getLogger(RestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
+            try{
+                manager.getRestaurantTimes(r);
+            } catch (SQLException ex) {
+                Logger.getLogger(RestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             
         }else{

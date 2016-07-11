@@ -52,7 +52,7 @@ public class AdvancedResearchServlet extends HttpServlet {
         
        
         
-        String r_query = req.getParameter("restaurant");
+        String r_query = req.getParameter("r_query");
         String p_query = req.getParameter("place");
         
         String order = req.getParameter("order");
@@ -108,7 +108,7 @@ public class AdvancedResearchServlet extends HttpServlet {
         String latitude = req.getParameter("latitude");
         String longitude = req.getParameter("longitude");
         
-        String url = "AdvancedResearch?restaurant=" + URLEncoder.encode(r_query, "UTF-8") + "&place=" + URLEncoder.encode(p_query, "UTF-8") + "&order=" + order;
+        String url = "AdvancedResearch?r_query=" + URLEncoder.encode(r_query, "UTF-8") + "&place=" + URLEncoder.encode(p_query, "UTF-8") + "&order=" + order;
         
         /*String query = r_query + ";" + p_query + ";" +(m!=null ? m  +";" : "") + (M!=null ? M +";": "");
         if(cuisines != null) for(String s :cuisines) query+=s + ";";
@@ -196,7 +196,7 @@ public class AdvancedResearchServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(RestaurantsListServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        req.setAttribute("restaurant", r_query);
+        req.setAttribute("r_query", r_query);
         req.setAttribute("place", p_query);
         req.setAttribute("query_id", query_id);
         

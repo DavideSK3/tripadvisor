@@ -47,7 +47,7 @@ public class RestaurantsListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
        
-        String r_query = req.getParameter("restaurant");
+        String r_query = req.getParameter("r_query");
         String p_query = req.getParameter("place");
         
         String order = req.getParameter("order");
@@ -68,7 +68,7 @@ public class RestaurantsListServlet extends HttpServlet {
             }
         }
         
-        String url = "RestaurantsList?restaurant=" + URLEncoder.encode(r_query, "UTF-8") + "&place=" + URLEncoder.encode(p_query, "UTF-8") + "&order=" + order;
+        String url = "RestaurantsList?r_query=" + URLEncoder.encode(r_query, "UTF-8") + "&place=" + URLEncoder.encode(p_query, "UTF-8") + "&order=" + order;
         
         
         
@@ -116,7 +116,7 @@ public class RestaurantsListServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(RestaurantsListServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        req.setAttribute("restaurant", r_query);
+        req.setAttribute("r_query", r_query);
         req.setAttribute("place", p_query);
         req.setAttribute("page", 0);
         req.setAttribute("query_id", query_id);
@@ -132,7 +132,7 @@ public class RestaurantsListServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
        
-        String r_query = req.getParameter("restaurant");
+        String r_query = req.getParameter("r_query");
         String p_query = req.getParameter("place");
         
         String order = req.getParameter("order");
@@ -144,7 +144,7 @@ public class RestaurantsListServlet extends HttpServlet {
         if(p_query == null) p_query = "";
         else{  p_query = p_query.trim();  }
         
-        String url = "RestaurantsList?restaurant=" + URLEncoder.encode(r_query, "UTF-8") + "&place=" + URLEncoder.encode(p_query, "UTF-8") + "&order=" + order;
+        String url = "RestaurantsList?r_query=" + URLEncoder.encode(r_query, "UTF-8") + "&place=" + URLEncoder.encode(p_query, "UTF-8") + "&order=" + order;
         
         
         
@@ -187,7 +187,7 @@ public class RestaurantsListServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(RestaurantsListServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        req.setAttribute("restaurant", r_query);
+        req.setAttribute("r_query", r_query);
         req.setAttribute("place", p_query);
         req.setAttribute("page", page);
         req.setAttribute("query_id", query_id);

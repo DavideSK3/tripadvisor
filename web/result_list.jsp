@@ -45,7 +45,7 @@
                                 <form action="AdvancedResearch" method="Post">
                                     <ul class="nav navbar-nav">
                                         <li><input type="text" class="form-control" placeholder="Dove vai?" name="place" id ="advanced_search_place" value="<c:out value='${requestScope.place}'/>"></li>
-                                        <li><input type="text" class="form-control" placeholder="Ricerca ristorante" name="restaurant" id ="advanced_search_name" value="<c:out value='${requestScope.restaurant}'/>"></li>
+                                        <li><input type="text" class="form-control" placeholder="Ricerca ristorante" name="r_query" id ="advanced_search_name" value="<c:out value='${requestScope.r_query}'/>"></li>
                                         
 
                                         <li><label style="padding-left: 5%; padding-top: 2%; font-size: 150%">Ricerca avanzata:</label>
@@ -95,19 +95,19 @@
                         <button class="btn-lg" style= "background-color: limegreen" data-sort-by="posizione">Posizione in classifica</button>
                         <button class="btn-lg" style= "background-color: limegreen" data-sort-by="distanza">Alfabetico</button>-->
                         <form action = "RestaurantsList" method="GET">
-                            <input type="hidden" name ="restaurant" value ="<c:out value='${restaurant}'/>">
+                            <input type="hidden" name ="r_query" value ="<c:out value='${r_query}'/>">
                             <input type="hidden" name ="place" value ="<c:out value='${place}'/>">
                             <input type="hidden" name ="order" value ="price">
                             <button class="btn-lg" style= "background-color: limegreen">Prezzo</button>
                         </form>
                         <form action = "RestaurantsList" method="GET">
-                            <input type="hidden" name ="restaurant" value ="<c:out value='${requestScope.restaurant}'/>">
+                            <input type="hidden" name ="r_query" value ="<c:out value='${requestScope.r_query}'/>">
                             <input type="hidden" name ="place" value ="<c:out value='${requestScope.place}'/>">
                             <input type="hidden" name ="order" value ="name">
                             <button class="btn-lg" style= "background-color: limegreen">Alfabetico</button>
                         </form>
                         <form action = "RestaurantsList" method="GET">
-                            <input type="hidden" name ="restaurant" value ="<c:out value='${requestScope.restaurant}'/>">
+                            <input type="hidden" name ="r_query" value ="<c:out value='${requestScope.r_query}'/>">
                             <input type="hidden" name ="place" value ="<c:out value='${requestScope.place}'/>">
                             <input type="hidden" name ="order" value ="position">
                             <button class="btn-lg" style= "background-color: limegreen">Posizione in classifica</button>
@@ -139,9 +139,9 @@
                                         <span class="glyphicon glyphicon-star media"></span>
                                     </c:forEach>
                                     <c:forEach var='i' begin='${r.global_review + 1}' end ='5' step='1'>
-                                        <span class="glyphicon glyphicon-star-empty media"></span>&nbsp;
+                                        <span class="glyphicon glyphicon-star-empty media"></span>
                                     </c:forEach>
-                                    
+                                    &nbsp;
                                     <span class="badge" style="margin-top:8px;"><c:out value="${r.global_review}"/>&nbsp;<span class="glyphicon glyphicon-star-empty"></span>&nbsp; su <c:out value="${r.review_count}"/> recensioni</span>
                                 </div>
                                 <br>

@@ -31,8 +31,17 @@ public class Restaurant implements Serializable{
     private Double longitude;
     private Integer min_price;
     private Integer max_price;
+    
+    private String city;
+    private String region;
+    private String state;
 
     private ArrayList<String> cuisines;
+    
+    private ArrayList<Photo> photos;
+    
+    private ArrayList<Orario> orari;
+    
     
     /**
      * @return the id
@@ -286,5 +295,88 @@ public class Restaurant implements Serializable{
         this.cuisines = cuisines;
     }
 
+    /**
+     * @return the photos
+     */
+    public ArrayList<Photo> getPhotos() {
+        return photos;
+    }
+
+    /**
+     * @param photos the photos to set
+     */
+    public void setPhotos(ArrayList<Photo> photos) {
+        this.photos = photos;
+    }
+    
+    public void addPhoto(Photo photo){
+        if(photos == null){
+            photos = new ArrayList<>();
+        }
+        photos.add(photo);
+    }
+
+    /**
+     * @return the city
+     */
+    public String getCity() {
+        return city;
+    }
+
+    /**
+     * @param city the city to set
+     */
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    /**
+     * @return the region
+     */
+    public String getRegion() {
+        return region;
+    }
+
+    /**
+     * @param region the region to set
+     */
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    /**
+     * @return the state
+     */
+    public String getState() {
+        return state;
+    }
+
+    /**
+     * @param state the state to set
+     */
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    /**
+     * @return the orari
+     */
+    public ArrayList<Orario> getOrari() {
+        return orari;
+    }
+
+    /**
+     * @param orari the orari to set
+     */
+    public void setOrari(ArrayList<Orario> orari) {
+        this.orari = orari;
+    }
+    
+    public void addOrario(Orario o){
+        if(orari == null){
+            orari = new ArrayList<>();
+        }
+        orari.add(o);
+    }
     
 }
