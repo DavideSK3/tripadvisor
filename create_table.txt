@@ -70,10 +70,10 @@ CREATE TABLE RESTAURANTS (
 CREATE TABLE ORARIO (
 	id INTEGER,
 	giorno  VARCHAR(10),
-	h_apertura SHORTINT,
-	min_apertura SHORTINT,
-	h_chiusura SHORTINT,
-	min_chiusura SHORTINT,
+	h_apertura SMALLINT,
+	min_apertura SMALLINT,
+	h_chiusura SMALLINT,
+	min_chiusura SMALLINT,
 
 	PRIMARY KEY (ID , giorno, h_apertura, min_apertura),
 	FOREIGN KEY (ID) REFERENCES RESTAURANT (ID)
