@@ -73,7 +73,7 @@ CREATE TABLE ORARIO (
 	h_apertura SHORTINT,
 	min_apertura SHORTINT,
 	h_chiusura SHORTINT,
-	min_chiusura SHORTINT
+	min_chiusura SHORTINT,
 
 	PRIMARY KEY (ID , giorno, h_apertura, min_apertura),
 	FOREIGN KEY (ID) REFERENCES RESTAURANT (ID)
