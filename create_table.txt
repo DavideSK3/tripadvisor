@@ -166,12 +166,3 @@ CREATE TABLE names_term (
 CREATE INDEX name_term_index ON names_term (term);
 
 
-
-
-
-
-
-
-)	
-
-
