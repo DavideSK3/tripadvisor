@@ -72,6 +72,12 @@ public class RestaurantServlet extends HttpServlet {
                 Logger.getLogger(RestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             
+            try{
+                manager.calcolaPosizioneInClassifica(r);
+            } catch (SQLException ex) {
+                Logger.getLogger(RestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             
         }else{
             

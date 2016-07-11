@@ -133,7 +133,7 @@
                             </div>
                             <a href="Restaurant?restaurantID=<c:out value="${r.id}"/>"> <span style="font-size: 200%; color: royalblue"><b><c:out value="${r.name}"/></b></span> </a>
                             <div class="col-md-8">
-                                <span style="color: green;"><b>N. 1 dei ristoranti in Italia</b></span><br>
+                                <!--<span style="color: green;"><b>N. 1 dei ristoranti in Italia</b></span><br>-->
                                 <div>
                                     <c:forEach var='i' begin='1' end='${r.global_review}' step='1'>
                                         <span class="glyphicon glyphicon-star media"></span>

@@ -129,6 +129,31 @@ insert into RESTAURANTS VALUES
 );
 
 
+insert into RESTAURANTS VALUES
+(
+    default,
+    'SushiRadioattivo',
+    'Assaggia il nostro sushi speciale!',   
+    'www.sushi.rom',
+    8,
+    37.5,
+    46.0,
+    43.0,
+    30.0,
+    28.0,
+    null,
+    1,
+    'via Cernobyl 1986',
+    0.793499301405,
+    0.160401622964,
+    12,
+    45,
+    'Italia',
+    'Lombardia',
+    'Milano'
+);
+
+
 
 
 insert into cuisines values (default, 'europeo');

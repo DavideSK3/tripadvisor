@@ -997,9 +997,32 @@ public class DBManager implements Serializable{
      */
     
     
+    public void calcolaPosizioneInClassifica(Restaurant r) throws SQLException{
+        if(r.getCity() == null || r.getRegion() == null || r.getState() == null){ return; }
+        
+        PreparedStatement stm = con.prepareStatement("SELECT COUNT(*) FROM APP.RESTAURANTS WHERE (global_review/review_counter) > ? AND state = ? AND region = ? AND city = ?");
+        try {
+            stm.setDouble(1, r.getGlobal_review());
+            stm.setString(2, r.getState());
+            stm.setString(3, r.getRegion());
+            stm.setString(4, r.getCity());
+            ResultSet rs = stm.executeQuery();
+            try{
+                if(rs.next()){
+                    r.setPosizione(1 +rs.getInt(1));
+                }
+            }finally{
+                rs.close();
+            }
+        }finally{ // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+        
+    }
+    
     public void getRestaurantPhotos(Restaurant r) throws SQLException{
-         PreparedStatement stm = con.prepareStatement("SELECT name, path FROM APP.photos WHERE id_restaurant = ?");
-         try {
+        PreparedStatement stm = con.prepareStatement("SELECT name, path FROM APP.photos WHERE id_restaurant = ?");
+        try {
             stm.setInt(1, r.getId());
             ResultSet rs = stm.executeQuery();
             try{

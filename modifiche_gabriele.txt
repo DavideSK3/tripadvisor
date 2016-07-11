@@ -51,4 +51,7 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
  - cambiato nome parametro ricerca ristorante da "restaurant" a "r_query"
    per evitare conflitti con nome parametro ristorante nella pagina del ristorante
  - corretta formula calcolo distanze coordinate gps
+ - aggiunto calcolo posizione in graduatoria ristorante nella città
+ - alcune lievi modifiche pagine ristorante e lista ristorante  	- qualcuno che sa usare meglio di me html/css deve rimetterle a posto
+ - corretto href a sito web esterno
 

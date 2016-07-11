@@ -30,7 +30,11 @@
                     </c:forEach>
                         &nbsp;
                     <span class="badge"><c:out value='${restaurant.global_review}'/>&nbsp;<span class="glyphicon glyphicon-star-empty"></span>&nbsp; su <c:out value='${restaurant.review_count}'/> recensioni</span>
-                    <span style="color: green; padding-left: 1%; font-size: 135%;"> |&nbsp; &nbsp; &nbsp;N. 1 dei ristoranti in Italia</span>
+                    <c:if test='${restaurant.posizione != null}'>
+                        
+                    </c:if>
+                    <span style="color: green; padding-left: 1%; font-size: 135%;"> |&nbsp; &nbsp; &nbsp;N. <c:out value='${restaurant.posizione}'/> dei ristoranti in <c:out value='${restaurant.city}'/></span>    
+                    
                 </div>
             </div>
             <div class="col-md-12" style="padding-left: 2%; padding-bottom: 10px;">
@@ -94,14 +98,15 @@
                 <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
                     <div style="padding: 15px 18px; border-top: 1px solid #F4F3F0; overflow: hidden">
                         <span class="format_address">
-                            <span class="street-address"><c:out value='${restaurant.address}'/> </span>, 
+                            <span class="street-address"><c:out value='${restaurant.address}'/></span>, 
                             <span class="locality">
-                                <span>39040</span>,
+                                <%--<span>39040</span>,--%>
                                 <span><c:out value='${restaurant.city}'/></span>,
+                                <span class="country-name"><c:out value='${restaurant.region}'/>,&nbsp;</span>
                             </span>
-                            <span class="country-name"><c:out value='${restaurant.state}'/> &nbsp;</span>
-                            <span>
-                            </span>
+                            
+                            <span class="country-name"><c:out value='${restaurant.state}'/>&nbsp;</span>
+                            
                         </span>
                         <a href="#"><span class="glyphicon glyphicon-map-marker"></span>&nbsp; Mappa</a>
                     </div>
@@ -123,7 +128,7 @@
                     <div style="padding: 15px 18px; border-top: 1px solid #F4F3F0; overflow: hidden">
                         <span>Prezzo: <b><c:out value='${restaurant.min_price}'/> € - <c:out value='${restaurant.max_price}'/> €</b></span>
                         <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                        <a href="<c:out value='${restaurant.url}'/>"><span class="glyphicon glyphicon-globe"></span> Sito Web</a>
+                        <a href="http://<c:out value='${restaurant.url}'/>"><span class="glyphicon glyphicon-globe"></span> Sito Web</a>
                     </div>
                 </div>
             </div>

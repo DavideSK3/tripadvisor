@@ -43,6 +43,9 @@ public class Restaurant implements Serializable{
     private ArrayList<Orario> orari;
     
     
+    private Integer posizione = null;
+    private Integer numeroTotaleRistoranti = null;
+    
     /**
      * @return the id
      */
@@ -377,6 +380,34 @@ public class Restaurant implements Serializable{
             orari = new ArrayList<>();
         }
         orari.add(o);
+    }
+
+    /**
+     * @return the posizione
+     */
+    public Integer getPosizione() {
+        return posizione;
+    }
+
+    /**
+     * @param posizione the posizione to set
+     */
+    public void setPosizione(int posizione) {
+        this.posizione = posizione;
+    }
+
+    /**
+     * @return the numeroTotaleRistoranti
+     */
+    public Integer getNumeroTotaleRistoranti() {
+        return numeroTotaleRistoranti;
+    }
+
+    /**
+     * @param numeroTotaleRistoranti the numeroTotaleRistoranti to set
+     */
+    public void setNumeroTotaleRistoranti(int numeroTotaleRistoranti) {
+        this.numeroTotaleRistoranti = numeroTotaleRistoranti;
     }
     
 }
