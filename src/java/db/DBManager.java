@@ -1160,7 +1160,7 @@ public class DBManager implements Serializable{
     }
     
     
-    public void reclamaRistorante(int user, int restaurant) throws SQLException{
+    public void richiestaReclamoRistorante(int user, int restaurant) throws SQLException{
         PreparedStatement stm = con.prepareStatement("INSERT INTO NOTIFICATIONS_RESTAURANT VALUES (?, ?)");
         
         try{
@@ -1214,7 +1214,6 @@ public class DBManager implements Serializable{
         
         
         PreparedStatement stm = con.prepareStatement("SELECT * FROM App.REVIEWS WHERE ID_RESTAURANT = ?");
-        
         
         
         

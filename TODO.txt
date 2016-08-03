@@ -1,0 +1,12 @@
+
+ - (classificazione per numero di recensioni)
+ - possibilità di reclamare ristorante	(con notifica all'amministratore che deve confermare)		DA IMPLEMENTARE
+ - inserire recensioni e foto										DA FINIRE
+ - possibilità di segnalare foto non consone per proprietari						DA IMPLEMENTARE
+ - amministratore valuta segnalazioni dei proprietari							DA IMPLEMENTARE
+ - mettere la descrizione del ristorante nella pagina 							DA IMPLEMENTARE
+
+ - POSIZIONE IN CLASSIFICA PER CITTÀ ---> RICERCHE SOLO PER CITTÀ E NON PER STATO/REGIONE? (se cerco stato/regione mi dà elenco città)
+
+ - QR nei ristoranti											DA FINIRE
+ - mappa nei ristoranti											DA IMPLEMENTARE
