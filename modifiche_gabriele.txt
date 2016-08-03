@@ -55,3 +55,9 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
  - alcune lievi modifiche pagine ristorante e lista ristorante  	- qualcuno che sa usare meglio di me html/css deve rimetterle a posto
  - corretto href a sito web esterno
 
+(martedì 12/7)
+
+ - corretto confronto USER_TYPE nelle jsp
+ - aggiustata servlet Register
+
+

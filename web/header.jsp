@@ -19,6 +19,7 @@
         
     </head>
     <body style=" background-color: gainsboro"> --%>
+
         <nav class="navbar header">
             <div class="container-fluid header" >
                     
@@ -38,15 +39,15 @@
 			<div class="col-md-4 header">
                             <ul class="nav navbar-nav navbar-right header " >
                                 <li><a href="login.html" class="glyphicon glyphicon-log-in utente "> Accedi </a></li>
-                                <li><a href="registrazione.html" class="glyphicon glyphicon-user utente">  Registrati</a></li>
+                                <li><a href="register.html" class="glyphicon glyphicon-user utente">  Registrati</a></li>
                             </ul>
                         </div>
 		    </c:when>
-                    <c:when test="${sessionScope.user.type == User.USER_TYPE.U}">
+                    <c:when test="${sessionScope.user.type == 'U'}">
                         <div class="col-md-3 header" style=" padding-top: 10px; float: right">
                             <div class="dropdown" style="float:right;">
                                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: limegreen; border-color: limegreen;">
-                                    <c:out value="${sessionScope.user.name}"/>
+                                    <c:out value="${sessionScope.user.name} ${sessionScope.user.surname}"/>
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
@@ -64,7 +65,7 @@
                                     <c:out value="${sessionScope.user.name} ${sessionScope.user.surname}"/>
                                 <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
-                                  <li><a href="Profile" class="glyphicon glyphicon-user utente"> Profilo</a></li>
+                                  <li><a href="Profile" class="glyphicon glyphicon-user utente"> Profile</a></li>
                                   <li><a href="Logout" class="glyphicon glyphicon-log-out utente"> Logout </a></li>
                                 </ul>
                             </div>

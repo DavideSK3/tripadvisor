@@ -43,21 +43,28 @@ public class RegisterServlet extends HttpServlet {
         String surname = req.getParameter("surname");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
+        String password2 = req.getParameter("password_two");
         
         
-        // controllo nel DB se esiste un utente con lo stesso username + password
-
-        User user = null;
         String message;
-        try {
-            manager.registerUser(name, surname,email, password);
+        if(password!=null && password.equals(password2)){
+            User user = null;
             
-            message = "Registrazione effettuata con successo!\nEffettua il login per continuare.";
-        } catch (SQLException ex) {
-            message = "La registrazione non è andata a buon fine...";
-            throw new ServletException(ex);
+            try {
+                manager.registerUser(name, surname,email, password);
 
+                message = "Registrazione effettuata con successo!\nEffettua il login per continuare.";
+            } catch (SQLException ex) {
+                message = "La registrazione non è andata a buon fine...";
+                throw new ServletException(ex);
+
+            }
+        }else{
+            message = "La registrazione non è andata a buon fine...";
         }
+        
+
+        
         req.setAttribute("message", message);
         RequestDispatcher rd = req.getRequestDispatcher("/message.jsp");
         rd.forward(req, resp);

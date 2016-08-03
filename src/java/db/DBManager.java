@@ -584,7 +584,7 @@ public class DBManager implements Serializable{
             conditions.add("min_price >= " + minPrice);
         }
         if(maxPrice != null){
-            conditions.add(" max_price <= " + maxPrice);
+            conditions.add("max_price <= " + maxPrice);
         }
         if(valutazioni.size() > 0){
             StringBuilder cond = new StringBuilder();
@@ -1108,6 +1108,138 @@ public class DBManager implements Serializable{
         } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
             stm.close();
         }
+    }
+    
+    /**
+     * -------------- Gestione Notifiche -----------------
+     */
+    
+    public int getRestaurantOwner(int restaurant) throws SQLException{
+        PreparedStatement stm = con.prepareStatement("SELECT id_owner FROM APP.RESTAURANTS WHERE id = ?");
+        try{
+            stm.setInt(1, restaurant);
+            ResultSet rs = stm.executeQuery();
+            try{
+                if(rs.next()){
+                    return rs.getInt(1);
+                }else{
+                    return -1;
+                }
+            }finally{
+                rs.close();
+            }
+        }finally{
+            stm.close();
+        }
+    }
+    
+    /**
+     * Se target impostato ad un valore < 0, viene inserito il valore null
+     * In tal caso la notifica viene inviata a tutti gli admin
+     * @param photo
+     * @param target
+     * @throws SQLException 
+     */
+    public void newPhotoNotification(int photo, int target) throws SQLException{
+        PreparedStatement stm = con.prepareStatement("INSERT INTO NOTIFICATIONS_PHOTO VALUES (?, ?)");
+        
+        try{
+            stm.setInt(1, photo);
+            if(target < 0){
+                stm.setNull(2, java.sql.Types.INTEGER);
+            }else{
+                stm.setInt(2, target);
+            }
+            
+            stm.executeUpdate();
+            
+        }finally{
+            stm.close();
+        }
+        
+    }
+    
+    
+    public void reclamaRistorante(int user, int restaurant) throws SQLException{
+        PreparedStatement stm = con.prepareStatement("INSERT INTO NOTIFICATIONS_RESTAURANT VALUES (?, ?)");
+        
+        try{
+            stm.setInt(1, restaurant);
+            stm.setInt(2, user);
+            
+            stm.executeUpdate();
+            
+        }finally{
+            stm.close();
+        }
+        
+    }
+    
+    
+    public List<NotificaFoto> getNotificheFoto(User u) throws SQLException{
+        
+        StringBuilder builder = new StringBuilder("SELECT R.name, R.id, P.id, P.path, P.name FROM APP.NOTIFICATIONS_PHOTO N JOIN App.PHOTO P ON N.id_photo = P.id JOIN App.RESTAURANTS R ON P.id_restaurant = R.id ");
+        
+        if(u.getCharType() == 'r'){
+            builder.append("WHERE id_target = ").append(u.getId());
+        }else if(u.getCharType() == 'a'){
+            builder.append("WHERE id_target = NULL");
+        }
+        
+        
+        
+        PreparedStatement stm = con.prepareStatement(builder.toString());
+        
+        ArrayList<NotificaFoto> list = new ArrayList<>();
+        
+        try{
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    NotificaFoto nf = new NotificaFoto(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5));
+                    list.add(nf);
+                }
+            }finally{
+                rs.close();
+            }
+        }finally{
+            stm.close();
+        }
+        
+        return list;
+        
+    }
+    
+    public void getReviews(Restaurant res) throws SQLException{
+        
+        
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM App.REVIEWS WHERE ID_RESTAURANT = ?");
+        
+        
+        
+        
+        try{
+            stm.setInt(1, res.getId());
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    Review r = new Review();
+                    r.setAtmosphere(rs.getInt("atmosphere"));
+                    r.setCreation(rs.getDate("date_creation"));
+                    r.setTitle(rs.getString("title"));
+                    
+                    
+                    
+                    res.addRecensione(r);
+                }
+            }finally{
+                rs.close();
+            }
+        }finally{
+            stm.close();
+        }
+        
+        
     }
     
     

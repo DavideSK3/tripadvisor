@@ -78,6 +78,12 @@ public class RestaurantServlet extends HttpServlet {
                 Logger.getLogger(RestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             
+            try{
+                manager.getReviews(r);
+            }catch (SQLException ex) {
+                Logger.getLogger(RestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             
         }else{
             

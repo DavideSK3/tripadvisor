@@ -131,22 +131,227 @@
                         <a href="http://<c:out value='${restaurant.url}'/>"><span class="glyphicon glyphicon-globe"></span> Sito Web</a>
                     </div>
                 </div>
+                <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
+                    <div style="padding: 15px 18px; border-top: 1px solid #F4F3F0; overflow: hidden">
+                        <h5 style="margin: 0px 0px;padding-bottom: 10px"><b>Dettagli Voto :</b></h5>
+                        <span style="color: grey; padding: 10px 10px">Cucina :</span>
+                        <div style="padding-left:70% ;">
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span> &nbsp;
+                        </div><br>
+                        <span style="color: grey; padding: 10px 10px">Servizio :</span>
+                        <div style="padding-left:70% ;">
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span> &nbsp;
+                        </div><br>
+                        <span style="color: grey; padding: 10px 10px">Rapporto Qualità / Prezzo :</span>
+                        <div style="padding-left:70% ;">
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span> &nbsp;
+                        </div> <br>
+                        <span style="color: grey; padding: 10px 10px">Atmosfera :</span>
+                        <div style="padding-left:70% ;">
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span> &nbsp;
+                        </div>
+                    </div>
+                </div>
             </div>
         
         </div>
             
             
+        <div class="col-md-10 col-md-offset-1" style="background-color: whitesmoke; margin-top: 20px; padding: 15px 2%;">
             
+            <div class="col-md-8" style="padding-left: 0; padding-right: 0;">
+                <h3 style="margin: 0 0; color: green">1969 recensioni su questo ristorante</h3>
+            </div>
+            <div class="col-md-4" style="padding-left: 0; padding-right: 0;">
+                <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal" style="background-color: limegreen; border-color: limegreen;  float:right"> Scrivi una recensione</button>
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header" style="border-bottom-width: 0;">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h3 class="modal-title"> <b>Scrivi una recensione</b></h3>
+                             </div>
+                            <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
+                                <form ENCTYPE='multipart/form-data' method='POST' action='/myservlet'>
+                                    <span style="font-size: 120%"><b>Inserisci un voto</b></span> 
+                                    <div class="rating" id="rating" style="padding-right: 20%; padding-top: 10px; float:right">
+                                        <span><input type="radio" name="rating" id="str5" value="5"><label for="str5"></label></span>
+                                        <span><input type="radio" name="rating" id="str4" value="4"><label for="str4"></label></span>
+                                        <span><input type="radio" name="rating" id="str3" value="3"><label for="str3"></label></span>
+                                        <span><input type="radio" name="rating" id="str2" value="2"><label for="str2"></label></span>
+                                        <span><input type="radio" name="rating" id="str1" value="1"><label for="str1"></label></span>
+                                    </div><br><br>
+                                    <span style="font-size: 120%"><b>Titolo della recensione</b></span> <br><br>
+                                    <input type="text" name="ReviewTitle" style="width:100%" maxlength="120" placeholder="Riassumi la tua visita o concentrati su un dettaglio interessante">
+                                    <br><br>
+                                    <span style="font-size: 120%"><b>La tua recensione</b></span><br><br>
+                                    <textarea name="ReviewText" data-minlen="100" style="width:100%; min-height: 30%" placeholder="Racconta ai viaggiatori la tua esperienza: come descriveresti il cibo, l'atmosfera, il servizio?"></textarea>
+                                    <br><br>
+                                    <span style="font-size: 120%"><b>Ulteriori dettagli sul voto</b></span><br><br>
+                                    <div class="voti">
+                                        <span style="color: grey; padding: 10px 10px">Cucina :</span>
+                                        <input type="number" name="cucina" min="1" max="5">    
+                                        &nbsp;
+                                        <span style="color: grey; padding: 10px 10px">Servizio :</span>
+                                        <input type="number" name="servizio" min="1" max="5">     
+                                        &nbsp;
+                                        <span style="color: grey; padding: 10px 10px">Rapporto Qualità / Prezzo :</span>
+                                        <input type="number" name="rapporto" min="1" max="5"> 
+                                        &nbsp;
+                                        <span style="color: grey; padding: 10px 10px">Atmosfera :</span>
+                                        <input type="number" name="atmosfera" min="1" max="5">     
+                                    </div>
+                                    <div style="padding: 15px 10px;">
+                                        <span style="color: grey;" >Inserisci una foto: &nbsp; </span>
+                                        <input style=" display: initial"  TYPE='file' NAME='mptest'>
+                                        <input type="text" name="PhotoName" style="width:50%; padding: 5px 10px" maxlength="25" placeholder="Cosa rappresenta questa foto?">
+                                    </div>
+                                    <input style="float: right" class="btn btn-default" TYPE='submit'>
+                                    <button style="float: left" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer" style="border-top-width: 0;">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal2" style="background-color: limegreen; border-color: limegreen;  float:right; margin-right: 5%;"> Aggiungi una foto</button>
+                <div class="modal fade" id="myModal2" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header" style="border-bottom-width: 0;">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h3 class="modal-title"> <b>Aggiungi una foto</b></h3>
+                            </div>
+                            <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
+                                <form ENCTYPE='multipart/form-data' method='POST' action='/myservlet'>
+                                    <div style="padding-bottom: 20px; ">
+                                        <span style="color: grey; padding-bottom: 10px;" >Inserisci una foto: &nbsp; </span>
+                                        <input style=" display: initial"  TYPE='file' NAME='mptest'>
+                                        <input type="text" name="PhotoName" style="width:100%; padding: 5px 10px; margin: 10px 0px;" maxlength="25" placeholder="Cosa rappresenta questa foto?">
+                                    </div>
+                                    <input style="float: right" class="btn btn-default" TYPE='submit'>
+                                    <button style="float: left" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer" style="border-top-width: 0;">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  
+            </div>
+            
+            
+            
+            
+            
+            <c:forEach var='rec' items='${restaurant.recensioni}'>
+                
+
+                <div class="col-md-12" style="padding: 10px 0px;">
+                    <div style="background-color: white; border: 2px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
+                        <div style="padding: 15px 18px; border-top: 2px solid #F4F3F0; overflow: hidden">
+                            <div class="col-md-2" style="padding: 10px 0px; border-right: 2px solid limegreen;">
+                                <span style="color: #428bca;"><i><b>Ambrogio Fusella</b></i></span><br><br>
+                                <span>Recensito il 29/06/1995</span>
+                            </div>
+                            <div class="col-md-7" style="padding: 2px 5px;  border-right: 1px solid limegreen; ">
+                                <h4 style="margin: 0px 10px; color: green; border-bottom: 1px solid limegreen;"><i>"NOn mi è piaciuto"</i></h4>
+                                <div style="padding: 5px 3%;">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span> &nbsp;
+                                </div>
+                                <p style="padding: 5px 5%; margin:0 0; line-height: 1.7"><c:out value='${rec.title}'/><br>d<br>di<br>dio<br>di<br>di<br> terribile</p>
+
+                            </div>
+                            <div class="col-md-3" style="padding: 0px 15px; ">
+                                <h5 style="margin: 0px 0px;padding-top: 20px; padding-bottom: 10px">Dettagli Voto :</h5>
+                                <span style="color: grey; padding: 10px 10px">Cucina :</span>
+                                <div style="padding: 5px 10%;">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span> &nbsp;
+                                </div>
+                                <span style="color: grey; padding: 10px 10px">Servizio :</span>
+                                <div style="padding: 5px 10%;">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span> &nbsp;
+                                </div>
+                                <span style="color: grey; padding: 10px 10px">Rapporto Qualità / Prezzo :</span>
+                                <div style="padding: 5px 10%;">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span> &nbsp;
+                                </div>
+
+                                <span style="color: grey; padding: 10px 10px">Atmosfera :</span>
+                                <div style="padding: 5px 10%;">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span> &nbsp;
+                                </div>
 
 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </c:forEach>
+        
+        
         <%@include file="footer.html" %>
         <%@include file="js_include.jsp" %>
         
+        
+        <script type="text/javascript">
+            $(document).ready(function(){
+            //  Check Radio-box
+                $("#rating input:radio").attr("checked", false);
+                $('#rating input').click(function () {
+                    $("#rating span").removeClass('checked');
+                    $(this).parent().addClass('checked');
+                });
+        });
+        </script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script>
             $(document).ready(function(){
                 $('[data-toggle="tooltip"]').tooltip();   
             });
         </script>
+        
     </body>
 </html>

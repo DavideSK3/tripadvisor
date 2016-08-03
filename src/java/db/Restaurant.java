@@ -42,6 +42,8 @@ public class Restaurant implements Serializable{
     
     private ArrayList<Orario> orari;
     
+    private ArrayList<Review> recensioni;
+    
     
     private Integer posizione = null;
     private Integer numeroTotaleRistoranti = null;
@@ -396,18 +398,26 @@ public class Restaurant implements Serializable{
         this.posizione = posizione;
     }
 
+    
+
     /**
-     * @return the numeroTotaleRistoranti
+     * @return the recensioni
      */
-    public Integer getNumeroTotaleRistoranti() {
-        return numeroTotaleRistoranti;
+    public ArrayList<Review> getRecensioni() {
+        return recensioni;
     }
 
     /**
-     * @param numeroTotaleRistoranti the numeroTotaleRistoranti to set
+     * @param recensioni the recensioni to set
      */
-    public void setNumeroTotaleRistoranti(int numeroTotaleRistoranti) {
-        this.numeroTotaleRistoranti = numeroTotaleRistoranti;
+    public void setRecensioni(ArrayList<Review> recensioni) {
+        this.recensioni = recensioni;
     }
     
+    public void addRecensione(Review r){
+        if(recensioni == null){
+            recensioni = new ArrayList<>();
+        }
+        recensioni.add(r);
+    }
 }

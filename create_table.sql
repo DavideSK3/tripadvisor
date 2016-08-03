@@ -160,6 +160,26 @@ CREATE TABLE names_term (
 
 );
 
+CREATE TABLE NOTIFICATIONS_PHOTO (
+	id_target INTEGER,
+	id_photo INTEGER NOT NULL,
+	
+	PRIMARY KEY (id_photo),
+	FOREIGN KEY (id_photo) REFERENCES PHOTOS(ID),
+	FOREIGN KEY (id_target) REFERENCES USERS(ID)
+);
+
+CREATE TABLE NOTIFICATIONS_RESTAURANT (
+	id_restaurant INTEGER NOT NULL,
+	id_user INTEGER NOT NULL,
+	
+	PRIMARY KEY (id_restaurant, id_user),
+	FOREIGN KEY (id_restaurant) REFERENCES restaurants(ID),
+	FOREIGN KEY (id_user) REFERENCES USERS(ID)
+);
+
+
+
 CREATE INDEX name_term_index ON names_term (term);
 
 

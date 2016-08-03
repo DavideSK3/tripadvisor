@@ -25,10 +25,10 @@
                         <span class="caret"></span></button>
                         <ul class="dropdown-menu">
                             <c:choose>
-                                <c:when test="${sessionScope.user.getType() == USER_TYPE.R}">
+                                <c:when test="${sessionScope.user.getType() == 'R'}">
                                     <li><a href="#" class="glyphicon glyphicon-user utente"> Notifiche</a></li>
                                 </c:when>
-                                <c:when test="${sessionScope.user.getType() == USER_TYPE.A}">
+                                <c:when test="${sessionScope.user.getType() == 'A'}">
                                     <li><a href="#" class="glyphicon glyphicon-user utente"> Notifiche</a></li>
                                 </c:when>
                             </c:choose>

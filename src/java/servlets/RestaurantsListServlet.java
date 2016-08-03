@@ -6,7 +6,6 @@
 package servlets;
 
 import db.DBManager;
-import db.Place;
 import db.Restaurant;
 import java.io.IOException;
 import java.net.URLEncoder;
