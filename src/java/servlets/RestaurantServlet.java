@@ -40,12 +40,24 @@ public class RestaurantServlet extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        manageRequest(req, resp);
+    }
+    
+    
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        manageRequest(req, resp);
+    }
+    
+    protected void manageRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher rd;
         
         String key = req.getParameter("restaurantID");
         
+        Restaurant r = null;
+        
         if(key != null){
-            Restaurant r = null;
+            
             
             try{
                 r = manager.getRestaurant(Integer.parseInt(key));
@@ -60,12 +72,17 @@ public class RestaurantServlet extends HttpServlet {
                 rd = req.getRequestDispatcher("/error_page.jsp");
             }
             
+        }else{
+            
+            rd = req.getRequestDispatcher("/restaurant_list.jsp");
+        }
+        
+        if(r != null){
             try{
                 manager.getRestaurantPhotos(r);
             } catch (SQLException ex) {
                 Logger.getLogger(RestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
             try{
                 manager.getRestaurantTimes(r);
             } catch (SQLException ex) {
@@ -85,9 +102,6 @@ public class RestaurantServlet extends HttpServlet {
             }
             
             
-        }else{
-            
-            rd = req.getRequestDispatcher("/restaurant_list.jsp");
         }
         rd.forward(req, resp);
         

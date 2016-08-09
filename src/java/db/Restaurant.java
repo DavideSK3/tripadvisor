@@ -20,7 +20,7 @@ public class Restaurant implements Serializable{
     private String url;
     private Integer review_count;
     private Double global_review;
-    private Double atmposhpere_review;
+    private Double atmosphere_review;
     private Double food_review;
     private Double service_review;
     private Double money_review;
@@ -119,17 +119,17 @@ public class Restaurant implements Serializable{
     }
 
     /**
-     * @return the atmposhpere_review
+     * @return the atmosphere_review
      */
-    public Double getAtmposhpere_review() {
-        return atmposhpere_review;
+    public Double getAtmosphere_review() {
+        return atmosphere_review;
     }
 
     /**
-     * @param atmposhpere_review the atmposhpere_review to set
+     * @param atmosphere_review the atmposhpere_review to set
      */
-    public void setAtmposhpere_review(Double atmposhpere_review) {
-        this.atmposhpere_review = atmposhpere_review;
+    public void setAtmosphere_review(Double atmosphere_review) {
+        this.atmosphere_review = atmosphere_review;
     }
 
     /**

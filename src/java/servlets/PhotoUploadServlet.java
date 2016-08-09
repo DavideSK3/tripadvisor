@@ -48,7 +48,7 @@ public class PhotoUploadServlet extends HttpServlet {
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
         
         // read the uploadDir from the servlet parameters
-        dirName = getServletContext().getRealPath("/WEB-INF") + "/" + super.getServletContext().getInitParameter("photoDir");
+        dirName = getServletContext().getRealPath("") +  super.getServletContext().getInitParameter("photoDir");
         File p_dir = new File(dirName);    
         p_dir.mkdirs();
     }
@@ -59,6 +59,9 @@ public class PhotoUploadServlet extends HttpServlet {
         Integer id_restaurant;
         String name;
         String path;
+        
+        String isReview;
+        
         try {
 
             
@@ -68,7 +71,9 @@ public class PhotoUploadServlet extends HttpServlet {
             MultipartRequest multi = new MultipartRequest(request, dirName+"/temp", 50*1024*1024, "ISO-8859-1", rp);
             
             
+            
             name = multi.getParameter("photoName");
+            isReview = multi.getParameter("review");
             
             id_restaurant = Integer.parseInt(multi.getParameter("id_restaurant"));
             
@@ -76,12 +81,15 @@ public class PhotoUploadServlet extends HttpServlet {
             
             File photo = multi.getFile("img");
             
-            File copy = new File(dirName+"/"+id_restaurant + "/" + photo.getName());
+            File dir = new File(dirName+"/"+id_restaurant);
+            dir.mkdir();
             
+            File copy = new File(dirName+"/"+id_restaurant + "/" + photo.getName());
+            copy.createNewFile();
             Files.move(photo, copy);
             photo.delete();
             
-            path = copy.getAbsolutePath();
+            path = copy.getAbsolutePath().substring(getServletContext().getRealPath("").length());
             System.out.println("Salvata immagine al percorso: " + path);
             
             int id = -1;
@@ -96,6 +104,7 @@ public class PhotoUploadServlet extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(PhotoUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
+            System.out.println(owner + "    " + id);
             if(owner >=0 && id >=0){
                 try {
                     manager.newPhotoNotification(id, owner);
@@ -105,11 +114,15 @@ public class PhotoUploadServlet extends HttpServlet {
                 }
             }
             
+            if(isReview.equals("true")){
+                request.setAttribute("photo_id", id);
+                request.setAttribute("multi", multi);
+            }else{
+                String return_address = multi.getParameter("return_address");
+                
+                response.sendRedirect(return_address);
+            }
             
-            
-            request.setAttribute("photo_id", id);
-            
-            request.setAttribute("multi", multi);
         }catch (IOException lEx) {
             this.getServletContext().log("error saving file", lEx);
         }

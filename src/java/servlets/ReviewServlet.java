@@ -66,21 +66,18 @@ public class ReviewServlet extends HttpServlet {
         String return_address = multi.getParameter("return_address");
         
         
-        
-        
-        String message;
         try {
             manager.insertReview(global_value, food, service, value_for_money, atmosphere, title, description, id_restaurant, id_creator, id_photo);
+            resp.sendRedirect(return_address);
         } catch (SQLException ex) {
-            message = "Errore nella sottomissione della recensione";
+            String message = "Errore nella sottomissione della recensione";
+            rd = req.getRequestDispatcher("message.jsp");
+            req.setAttribute("message", message);
+            rd.forward(req, resp);
             throw new ServletException(ex);
-
         }
         
-        message = "La tua Recensione è stata inserita con successo!";
-        req.setAttribute("message", message);
-        rd = req.getRequestDispatcher(return_address);
-        rd.forward(req, resp);
+        
         
 
     }

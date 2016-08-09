@@ -61,3 +61,45 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
  - aggiustata servlet Register
 
 
+(martedì 9/8)
+
+ - finito di implementare il metodo getReview() di DBManager
+ - aggiustata gestione ristorante inesistente nel RestaurantServlet
+ - aggiunto "author" alla classe Review
+ - trasformazione da html statico in jsp della parte delle recensioni di restaurant.jsp
+ - messo a posto importazione JavaScripts in restaurant.jsp
+ - messo a posto upload photos e reviews (cambiata anche directory di salvataggio)
+ - implementata visualizzazione foto
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -10,3 +10,10 @@
 
  - QR nei ristoranti											DA FINIRE
  - mappa nei ristoranti											DA IMPLEMENTARE
+
+ - NEL DB MANAGER LA GESTIONE ATTUALE DEI VALORI NULL NON VA BENE: a volte un valore può anche essere zero (es id o min price) ma verrebbe scambiato per null. Meglio usare qualcosa tipo ' r.setId_photo((Integer)rs.getObject("id_photo")); '
+
+ - PERMETTERE DI INSERIRE FOTO/RECENSIONI SOLO A UTENTI REGISTRATI, E NEL CASO NON LO SIANO REINDIRIZZARE A PAGINA LOGIN
+
+ - LE IMMAGINI INSERITE DEVONO ESSERE VISUALIZZATE TUTTE CON LA STESSA DIMENSIONE
+ - NELLA PAGINA RISTORANTE L'ULTIMO PEZZO DELLA REVIEW VIENE COPERTO DALLA BARRA DEL FOOTER

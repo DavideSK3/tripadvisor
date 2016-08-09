@@ -23,6 +23,7 @@ public class Review {
     private Integer id_restaurant;
     private Integer id_creator;
     private Integer id_photo;
+    private String author;
 
     /**
      * @return the global_value
@@ -176,6 +177,20 @@ public class Review {
      */
     public void setId_photo(Integer id_photo) {
         this.id_photo = id_photo;
+    }
+
+    /**
+     * @return the author
+     */
+    public String getAuthor() {
+        return author;
+    }
+
+    /**
+     * @param author the author to set
+     */
+    public void setAuthor(String author) {
+        this.author = author;
     }
     
 }
