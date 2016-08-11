@@ -9,6 +9,7 @@ import db.DBManager;
 import db.User;
 import java.io.IOException;
 import java.sql.SQLException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -61,21 +62,17 @@ public class LoginServlet extends HttpServlet {
         }
         
         
-
-        
-        HttpSession session = req.getSession(true);
-
-        session.setAttribute("user", user);
-        
-        
-        // mando un redirect alla servlet che carica i prodotti
-        /*if(redirectPage != null){
-            resp.sendRedirect(resp.encodeRedirectURL(redirectPage));
+        if(user == null){
+            req.setAttribute("message", "Nome utente o Password errati, riprova");
+            RequestDispatcher rd = req.getRequestDispatcher("message.jsp");
+            rd.forward(req, resp);
         }else{
+            HttpSession session = req.getSession(true);
+            session.setAttribute("user", user);
             resp.sendRedirect(resp.encodeRedirectURL(getServletContext().getContextPath()));
-        }*/
+        }
         
-        resp.sendRedirect(resp.encodeRedirectURL(getServletContext().getContextPath()));
+        
 
     }
 }

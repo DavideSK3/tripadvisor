@@ -70,10 +70,10 @@
                                 </ul>
                             </div>
                                 
-                            <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal" style="background-color: limegreen; border-color: limegreen; float: right;">
+                            <button type="button" class="btn btn-info " data-toggle="modal" data-target="#notificationModal" style="background-color: limegreen; border-color: limegreen; float: right;">
                                 Notifiche
                             </button>
-                            <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal fade" id="notificationModal" role="dialog">
                               <div class="modal-dialog modal-sm">
                                 <div class="modal-content">
                                   <div class="modal-header" style="border-bottom-width: 0;">

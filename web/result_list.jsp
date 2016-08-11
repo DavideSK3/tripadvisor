@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -142,7 +143,7 @@
                                         <span class="glyphicon glyphicon-star-empty media"></span>
                                     </c:forEach>
                                     &nbsp;
-                                    <span class="badge" style="margin-top:8px;"><c:out value="${r.global_review}"/>&nbsp;<span class="glyphicon glyphicon-star-empty"></span>&nbsp; su <c:out value="${r.review_count}"/> recensioni</span>
+                                    <span class="badge" style="margin-top:8px;"><fmt:formatNumber type="number" maxFractionDigits="2" value="${r.global_review}" />&nbsp;<span class="glyphicon glyphicon-star-empty"></span>&nbsp; su <c:out value="${r.review_count}"/> recensioni</span>
                                 </div>
                                 <br>
                                 <div style="margin-top:-10px;">

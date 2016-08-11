@@ -59,6 +59,8 @@ public class DBManager implements Serializable {
     /**
      * --------GESTIONE UTENTE-----------
      */
+    
+    
     /**
      * Autentica un utente in base a un nome utente e a una password
      *
@@ -121,7 +123,6 @@ public class DBManager implements Serializable {
             stm.setTimestamp(3, new Timestamp(expTime));
 
             int rs = stm.executeUpdate();
-            //TODO -fare qualcosa??
 
         } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
             stm.close();
@@ -201,9 +202,12 @@ public class DBManager implements Serializable {
         }
     }
 
+    
     /**
      * --------GESTIONE RISTORANTE-----------
      */
+    
+    
     public void registerRestaurant(Restaurant r) throws SQLException {
         PreparedStatement stm = con.prepareStatement("INSERT INTO APP.resturants VALUES(default,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
@@ -362,7 +366,7 @@ public class DBManager implements Serializable {
                 query.append(" ORDER BY min_price + max_price");
                 break;
             case "position":
-                query.append(" ORDER BY (global_review/review_counter)");
+                query.append(" AND review_counter > 0 ORDER BY (global_review/review_counter) DESC");
                 break;
             default:
                 break;
@@ -395,7 +399,7 @@ public class DBManager implements Serializable {
                 query.append(" ORDER BY min_price + max_price");
                 break;
             case "position":
-                query.append(" ORDER BY (global_review/review_counter)");
+                query.append(" AND review_counter > 0 ORDER BY (global_review/review_counter) DESC");
                 break;
             default:
                 break;
@@ -445,7 +449,7 @@ public class DBManager implements Serializable {
                 if (i > 0) {
                     cond.append(" OR ");
                 }
-                cond.append("FLOOR(global_review/review_counter) = ").append(valutazioni.get(i));
+                cond.append("REVIEW_COUNTER > 0 AND FLOOR(global_review/review_counter) = ").append(valutazioni.get(i));
             }
             conditions.add(cond.toString());
         }
@@ -468,7 +472,7 @@ public class DBManager implements Serializable {
                 query.append(" ORDER BY min_price + max_price");
                 break;
             case "position":
-                query.append(" ORDER BY (global_review/review_counter)");
+                query.append(" AND review_counter > 0 ORDER BY (global_review/review_counter) DESC");
                 break;
             default:
                 break;
@@ -507,10 +511,13 @@ public class DBManager implements Serializable {
 
     }
 
+    
     /**
      * Diversi metodi per ottenere una lista di ristoranti filtrati e ordinati
      * in modo predefinito
      */
+    
+    
     public List<Restaurant> getRestaurantsByNameSimilarityOrderedBy(String name, String order) throws SQLException {
         ArrayList<Restaurant> r_l = new ArrayList<>();
         PreparedStatement stm;
@@ -522,7 +529,7 @@ public class DBManager implements Serializable {
                 stm = con.prepareStatement("SELECT * FROM APP.restaurants R ORDER BY min_price + max_price");
                 break;
             case "position":
-                stm = con.prepareStatement("SELECT * FROM APP.restaurants R ORDER BY global_review/review_counter");
+                stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE REVIEW_COUNTER > 0 ORDER BY global_review/review_counter DESC");
                 break;
             default:
                 stm = con.prepareStatement("SELECT * FROM APP.restaurants R");
@@ -595,7 +602,12 @@ public class DBManager implements Serializable {
                 query.append(" ORDER BY min_price + max_price");
                 break;
             case "position":
-                query.append(" ORDER BY (global_review/review_counter)");
+                if(conditions.size() > 0){
+                    query.append("AND ");
+                }else{
+                    query.append("WHERE ");
+                }
+                query.append("REVIEW_COUNTER > 0 ORDER BY (global_review/review_counter) DESC");
                 break;
             default:
                 break;
@@ -654,13 +666,13 @@ public class DBManager implements Serializable {
             r.setAtmosphere_review(.0);
             r.setMoney_review(.0);
         }
-        r.setId_owner(rs.getInt("id_owner") > 0 ? rs.getInt("id_owner") : null);
-        r.setId_creator(rs.getInt("id_creator") > 0 ? rs.getInt("id_creator") : null);
+        r.setId_owner((Integer)rs.getObject("id_owner"));
+        r.setId_creator((Integer)rs.getObject("id_creator"));
         r.setAddress(rs.getString("address"));
-        r.setLatitude(rs.getDouble("latitude") > 0 ? rs.getDouble("latitude") : null);
-        r.setLongitude(rs.getDouble("longitude") > 0 ? rs.getDouble("longitude") : null);
-        r.setMin_price(rs.getInt("min_price") > 0 ? rs.getInt("min_price") : null);
-        r.setMax_price(rs.getInt("max_price") > 0 ? rs.getInt("max_price") : null);
+        r.setLatitude((Double)rs.getObject("latitude"));
+        r.setLongitude((Double)rs.getObject("longitude"));
+        r.setMin_price((Integer)rs.getObject("min_price"));
+        r.setMax_price((Integer)rs.getObject("max_price"));
         r.setCity(rs.getString("city"));
         r.setRegion(rs.getString("region"));
         r.setState(rs.getString("state"));
@@ -1082,8 +1094,28 @@ public class DBManager implements Serializable {
             stm.setString(7, description);
             stm.setInt(8, id_restaurant);
             stm.setInt(9, id_creator);
-            stm.setInt(10, id_photo);
+            if(id_photo >= 0){
+                stm.setInt(10, id_photo);
+            }else{
+                stm.setNull(10, Types.INTEGER);
+            }
+            
 
+            int rs = stm.executeUpdate();
+
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+        
+        stm = con.prepareStatement("UPDATE APP.RESTAURANTS SET REVIEW_COUNTER = REVIEW_COUNTER + 1, GLOBAL_REVIEW = GLOBAL_REVIEW + ?, FOOD_REVIEW = FOOD_REVIEW + ?, ATMOSPHERE_REVIEW = ATMOSPHERE_REVIEW + ?, SERVICE_REVIEW = SERVICE_REVIEW + ?, VALUE_FOR_MONEY_REVIEW = VALUE_FOR_MONEY_REVIEW + ? WHERE id = ?");
+        try {
+            stm.setInt(1, global_value);
+            stm.setInt(2, food);
+            stm.setInt(3, atmosphere);
+            stm.setInt(4, service);
+            stm.setInt(5, value_for_money);
+            stm.setInt(6, id_restaurant);
+            
             int rs = stm.executeUpdate();
 
         } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 

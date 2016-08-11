@@ -71,6 +71,15 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
  - messo a posto upload photos e reviews (cambiata anche directory di salvataggio)
  - implementata visualizzazione foto
 
+(mercoledì 10/8)
+
+ - in caso di login sbagliato ora si mostra messaggio di errore
+ - dalla pagina profile, premendo sul logo si rimanda a /TripAdvisor invece che /TripAdvosr/home.jsp
+ - corretto bug in restaurant.jsp e header.jsp: c'era conflitto di ID tra finestrella notifiche (myModal) e finestrella recensione. Ho cambiato id alla 	finestrella notifiche
+ - supportata la possibilità di inserire una recensione senza allegare foto
+ - al'inserimento di una review vengono aggiornati anche i dati contenuti nel rispettivo ristorante
+ - aggiustato problema di divisione per zero nel caso in cui un ristorante non abbia recensioni, quando si ordinano i ristoranti per valutazione (ora di default con una ricerca i ristoranti non vengono ordinati)
+ - usato la formattazione (con fmt) della valutazione globale per impedire che stampi tutti i numeri decimali (sia in restaurant.jsp che in result_list.jsp)
 
 
 

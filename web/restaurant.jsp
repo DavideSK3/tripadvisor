@@ -1,6 +1,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -29,10 +30,8 @@
                         <span class="glyphicon glyphicon-star-empty media"></span>
                     </c:forEach>
                         &nbsp;
-                    <span class="badge"><c:out value='${restaurant.global_review}'/>&nbsp;<span class="glyphicon glyphicon-star-empty"></span>&nbsp; su <c:out value='${restaurant.review_count}'/> recensioni</span>
-                    <c:if test='${restaurant.posizione != null}'>
-                        
-                    </c:if>
+                    <span class="badge"><fmt:formatNumber type="number" maxFractionDigits="2" value="${restaurant.global_review}" />&nbsp;<span class="glyphicon glyphicon-star-empty"></span>&nbsp; su <c:out value='${restaurant.review_count}'/> recensioni</span>
+                    
                     <span style="color: green; padding-left: 1%; font-size: 135%;"> |&nbsp; &nbsp; &nbsp;N. <c:out value='${restaurant.posizione}'/> dei ristoranti in <c:out value='${restaurant.city}'/></span>    
                     
                 </div>
@@ -198,7 +197,7 @@
                                 <h3 class="modal-title"> <b>Scrivi una recensione</b></h3>
                              </div>
                             <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
-                                <form ENCTYPE='multipart/form-data' method='POST' action='Review'>
+                                <form ENCTYPE='multipart/form-data' method='POST' action='Review'accept-charset="ISO-8859-1">
                                     <input type="hidden" name ="id_restaurant" value ="<c:out value='${restaurant.id}'/>">
                                     <input type ="hidden" name ="return_address" value ="Restaurant?restaurantID=<c:out value='${restaurant.id}'/>">
                                     <input type ="hidden" name ="review" value ="true">

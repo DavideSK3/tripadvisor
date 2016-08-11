@@ -80,39 +80,42 @@ public class PhotoUploadServlet extends HttpServlet {
             
             
             File photo = multi.getFile("img");
-            
-            File dir = new File(dirName+"/"+id_restaurant);
-            dir.mkdir();
-            
-            File copy = new File(dirName+"/"+id_restaurant + "/" + photo.getName());
-            copy.createNewFile();
-            Files.move(photo, copy);
-            photo.delete();
-            
-            path = copy.getAbsolutePath().substring(getServletContext().getRealPath("").length());
-            System.out.println("Salvata immagine al percorso: " + path);
-            
             int id = -1;
-            try {
-                id = manager.insertPhoto(name, path, id_restaurant);
-            } catch (SQLException ex) {
-                Logger.getLogger(PhotoUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            int owner = -1;
-            try {
-                owner = manager.getRestaurantOwner(id_restaurant);
-            } catch (SQLException ex) {
-                Logger.getLogger(PhotoUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            System.out.println(owner + "    " + id);
-            if(owner >=0 && id >=0){
+            if(photo != null){
+                File dir = new File(dirName+"/"+id_restaurant);
+                dir.mkdir();
+
+                File copy = new File(dirName+"/"+id_restaurant + "/" + photo.getName());
+                copy.createNewFile();
+                Files.move(photo, copy);
+                photo.delete();
+
+                path = copy.getAbsolutePath().substring(getServletContext().getRealPath("").length());
+                System.out.println("Salvata immagine al percorso: " + path);
+
+                
                 try {
-                    manager.newPhotoNotification(id, owner);
                     id = manager.insertPhoto(name, path, id_restaurant);
                 } catch (SQLException ex) {
                     Logger.getLogger(PhotoUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                int owner = -1;
+                try {
+                    owner = manager.getRestaurantOwner(id_restaurant);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PhotoUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if(owner >=0 && id >=0){
+                    try {
+                        manager.newPhotoNotification(id, owner);
+                        id = manager.insertPhoto(name, path, id_restaurant);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(PhotoUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
+            
+            
             
             if(isReview.equals("true")){
                 request.setAttribute("photo_id", id);

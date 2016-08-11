@@ -12,7 +12,7 @@
         <nav class="navbar header">
             <div class="container-fluid header" >
                 <div class="col-md-4 header">
-                    <a class="navbar-brand header" href="home.jsp">
+                    <a class="navbar-brand header" href="/TripAdvisor">
                       <img src="data/TripAdvisor_logo.png" class=" header" alt="TripAdvisor"  /> 
                     </a>
                 </div>

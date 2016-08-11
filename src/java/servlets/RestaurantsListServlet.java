@@ -50,7 +50,7 @@ public class RestaurantsListServlet extends HttpServlet {
         String p_query = req.getParameter("place");
         
         String order = req.getParameter("order");
-        if(order == null){ order = "position"; }
+        if(order == null){ order = ""; }
         
         if(r_query == null) r_query = "";
         else r_query = r_query.trim();
