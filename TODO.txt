@@ -1,26 +1,46 @@
+	DAVIDE 
 
- - (classificazione per numero di recensioni)
  - possibilità di reclamare ristorante	(con notifica all'amministratore che deve confermare)		DA IMPLEMENTARE
  - possibilità di segnalare foto non consone per proprietari						DA IMPLEMENTARE
  - amministratore valuta segnalazioni dei proprietari							DA IMPLEMENTARE
- - mettere la descrizione del ristorante nella pagina 							DA IMPLEMENTARE
+ - gestione notifiche
 
+	PIER
+
+ - mettere la descrizione del ristorante nella pagina 							DA IMPLEMENTARE
+ - mappa nei ristoranti											DA IMPLEMENTARE
+ - LE IMMAGINI INSERITE DEVONO ESSERE VISUALIZZATE TUTTE CON LA STESSA DIMENSIONE	
+ - FARE GRAFICA PER "message.jsp"
+ - NELLA PAGINA RISTORANTE L'ULTIMO PEZZO DELLA REVIEW VIENE COPERTO DALLA BARRA DEL FOOTER
+ - RENDERE OBBLIGATORIO L'INSERIMENTO DI OGNI VALORE NELLE RECENSIONI (cucina, servizio, ecc...)
+
+	GABRI
+
+ - PERMETTERE DI INSERIRE FOTO/RECENSIONI SOLO A UTENTI REGISTRATI
+ - QR nei ristoranti											DA FINIRE
+ - NUOVA RECENSIONE DI UN UTENTE CANCELLA LA PRECEDENE? 
+ - aggiungere il campo "foto principale" al ristorante
+ - togliere i secondi da orari nei ristoranti
+ - nel ristorante mettere gli orari ordinati per giorno (e ora di inizio)
  - POSIZIONE IN CLASSIFICA PER CITTÀ ---> RICERCHE SOLO PER CITTÀ E NON PER STATO/REGIONE? (se cerco stato/regione mi dà elenco città)
 
- - QR nei ristoranti											DA FINIRE
- - mappa nei ristoranti											DA IMPLEMENTARE
 
- - PERMETTERE DI INSERIRE FOTO/RECENSIONI SOLO A UTENTI REGISTRATI, E NEL CASO NON LO SIANO REINDIRIZZARE A PAGINA LOGIN
 
- - LE IMMAGINI INSERITE DEVONO ESSERE VISUALIZZATE TUTTE CON LA STESSA DIMENSIONE
- - NELLA PAGINA RISTORANTE L'ULTIMO PEZZO DELLA REVIEW VIENE COPERTO DALLA BARRA DEL FOOTER
- - FARE GRAFICA PER "message.jsp"
- - NUOVA RECENSIONE DI UN UTENTE CANCELLA LA PRECEDENE?
+	SARA
+ - riscrivere orari nel formato giusto
+ - latitudine e longiudine
+ - giorni e luoghi con virgolette ' '
+ - finire ultimi ristoranti/ecc...
 
- - RENDERE OBBLIGATORIO L'INSERIMENTO DI OGNI VALORE NELLE RECENSIONI (cucina, servizio, ecc...)
+
+
+
+
+
+
 	BUG:
 
-
- - NEL DB MANAGER LA GESTIONE ATTUALE DEI VALORI NULL NON VA BENE: a volte un valore può anche essere zero (es id o min price) ma verrebbe scambiato per null. Meglio usare qualcosa tipo ' r.setId_photo((Integer)rs.getObject("id_photo")); '
+ - se non si hanno voti, non deve apparire la posizione
+ - NEL DB MANAGER LA GESTIONE ATTUALE DEI VALORI NULL NON VA BENE: a volte un valore può anche essere zero (es id o min price) ma verrebbe scambiato per null. Meglio usare qualcosa tipo ' r.setId_photo((Integer)rs.getObject("id_photo"));
 
 

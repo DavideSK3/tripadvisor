@@ -50,28 +50,30 @@
                                         
 
                                         <li><label style="padding-left: 5%; padding-top: 2%; font-size: 150%">Ricerca avanzata:</label>
+                                        <br>
                                         <li><label style="padding-left: 4%;">Range di prezzo:</label>
                                             <label style="padding-left: 5%;"> Min : &nbsp;<input type="number" class="form-control" id= "min_max"   style="max-width: 30%" name ="min_price" value ="<c:out value='${requestScope.min_price}'/>"/></label>
                                             <label style="padding-left: 5%;"> Max : &nbsp;<input type="number" class="form-control" id= "min_max"  style="max-width: 30%" name ="max_price"  value ="<c:out value='${requestScope.max_price}'/>"/></label>
+                                        </li><br>
+                                        <li><label style="padding-left: 4%; ">Categorie:</label><br>
+                                            <div style="padding-left: 10%">
+                                                <c:forEach var ='c' items ='${cuisines}'>
+                                                    <input type="checkbox" name= "cusines" value="<c:out value='${c}'/>" <c:if test='${requestScope[c] == true}'>checked</c:if>>
+                                                    <c:out value='${c}'/><br>
+                                                </c:forEach>
+                                            </div>
+                                        </li><br>
+                                        <li><label style="padding-left: 4%;">Valutazione:</label><br>
+                                            <div style="padding-left: 10%">  
+                                                <input type="checkbox" name="valutazione" value="5" <c:if test='${requestScope.v5 == true}'>checked</c:if>> 5<span class="glyphicon glyphicon-star-empty"></span>
+                                                <input type="checkbox" name="valutazione" value="4" <c:if test='${requestScope.v4 == true}'>checked</c:if>> 4<span class="glyphicon glyphicon-star-empty"></span>
+                                                <input type="checkbox" name="valutazione" value="3" <c:if test='${requestScope.v3 == true}'>checked</c:if>> 3<span class="glyphicon glyphicon-star-empty"></span>
+                                                <input type="checkbox" name="valutazione" value="2" <c:if test='${requestScope.v2 == true}'>checked</c:if>> 2<span class="glyphicon glyphicon-star-empty"></span>
+                                                <input type="checkbox" name="valutazione" value="1" <c:if test='${requestScope.v1 == true}'>checked</c:if>> 1<span class="glyphicon glyphicon-star-empty"></span>
+                                            </div>
                                         </li>
-                                        <li><label style="padding-left: 4%; ">Categorie:</label>
-                                              <!--<form style="padding-left: 10%">-->
-                                              <c:forEach var ='c' items ='${cuisines}'>
-                                                  <input type="checkbox" name= "cusines" value="<c:out value='${c}'/>" <c:if test='${requestScope[c] == true}'>checked</c:if>>
-                                                  <c:out value='${c}'/><br>
-                                              </c:forEach>
-                                        </li>
-                                        <li><label style="padding-left: 4%;">Valutazione:</label>
-                                              <!--<form style="padding-left: 10%">-->
-                                                  <input type="checkbox" name="valutazione" value="5" <c:if test='${requestScope.v5 == true}'>checked</c:if>> 5<span class="glyphicon glyphicon-star-empty"></span>
-                                                  <input type="checkbox" name="valutazione" value="4" <c:if test='${requestScope.v4 == true}'>checked</c:if>> 4<span class="glyphicon glyphicon-star-empty"></span>
-                                                  <input type="checkbox" name="valutazione" value="3" <c:if test='${requestScope.v3 == true}'>checked</c:if>> 3<span class="glyphicon glyphicon-star-empty"></span>
-                                                  <input type="checkbox" name="valutazione" value="2" <c:if test='${requestScope.v2 == true}'>checked</c:if>> 2<span class="glyphicon glyphicon-star-empty"></span>
-                                                  <input type="checkbox" name="valutazione" value="1" <c:if test='${requestScope.v1 == true}'>checked</c:if>> 1<span class="glyphicon glyphicon-star-empty"></span>
-                                              <!--</form>-->
-                                        </li>
-                                        <li id ="gl_distance_form" onclick="getLocation()">
-                                            <label style="padding-left: 4%;" id ="error"></label>
+                                        <li id ="gl_distance_form" onclick="getLocation()" >
+                                            <label style="padding-left: 4%;" id ="error"></label><br>
                                             <label style="padding-left: 4%;">Distanza massima:</label>
                                             
                                             <label style="padding-left: 5%;"> Max : &nbsp;<input type="number" class="form-control" id= "min_max" onclick="getLocation()"  style="max-width: 30%" name ="distance" value = "<c:out value='${requestScope.distance}'/>"/></label>
@@ -95,24 +97,31 @@
                         <!--<button class="btn-lg" style= "background-color: limegreen" data-sort-by="prezzo">Prezzo</button>
                         <button class="btn-lg" style= "background-color: limegreen" data-sort-by="posizione">Posizione in classifica</button>
                         <button class="btn-lg" style= "background-color: limegreen" data-sort-by="distanza">Alfabetico</button>-->
-                        <form action = "RestaurantsList" method="GET">
-                            <input type="hidden" name ="r_query" value ="<c:out value='${r_query}'/>">
-                            <input type="hidden" name ="place" value ="<c:out value='${place}'/>">
-                            <input type="hidden" name ="order" value ="price">
-                            <button class="btn-lg" style= "background-color: limegreen">Prezzo</button>
-                        </form>
-                        <form action = "RestaurantsList" method="GET">
-                            <input type="hidden" name ="r_query" value ="<c:out value='${requestScope.r_query}'/>">
-                            <input type="hidden" name ="place" value ="<c:out value='${requestScope.place}'/>">
-                            <input type="hidden" name ="order" value ="name">
-                            <button class="btn-lg" style= "background-color: limegreen">Alfabetico</button>
-                        </form>
-                        <form action = "RestaurantsList" method="GET">
-                            <input type="hidden" name ="r_query" value ="<c:out value='${requestScope.r_query}'/>">
-                            <input type="hidden" name ="place" value ="<c:out value='${requestScope.place}'/>">
-                            <input type="hidden" name ="order" value ="position">
-                            <button class="btn-lg" style= "background-color: limegreen">Posizione in classifica</button>
-                        </form>
+                        <br>
+                        <div class="col-sm-1" style="margin-right: 5%">
+                            <form  action = "RestaurantsList" method="GET">
+                                <input type="hidden" name ="r_query" value ="<c:out value='${r_query}'/>">
+                                <input type="hidden" name ="place" value ="<c:out value='${place}'/>">
+                                <input type="hidden" name ="order" value ="price">
+                                <button class="btn" style= "background-color: limegreen; width: 250%; ">Prezzo</button>
+                            </form>
+                        </div>
+                        <div class="col-sm-1 " style="margin-right: 5%">
+                            <form  action = "RestaurantsList" method="GET">
+                                <input type="hidden" name ="r_query" value ="<c:out value='${requestScope.r_query}'/>">
+                                <input type="hidden" name ="place" value ="<c:out value='${requestScope.place}'/>">
+                                <input type="hidden" name ="order" value ="name">
+                                <button class="btn " style= "background-color: limegreen; width: 250%">Alfabetico</button>
+                            </form>
+                        </div>
+                        <div class="col-sm-1" style="margin-right: 5%">
+                            <form  action = "RestaurantsList" method="GET">
+                                <input type="hidden" name ="r_query" value ="<c:out value='${requestScope.r_query}'/>">
+                                <input type="hidden" name ="place" value ="<c:out value='${requestScope.place}'/>">
+                                <input type="hidden" name ="order" value ="position">
+                                <button class="btn" style= "background-color: limegreen;">Per Valutazione</button>
+                            </form>
+                        </div>
                     </div>
                     <c:if test='${results.size() == 0}'>
                         <div class="container-fluid riquadro_ristorante">
@@ -127,7 +136,8 @@
                             </div>
                         </div>
                     </c:if>
-                    <c:forEach var='r' items="${results}">
+                    <c:forEach var='r' items="${results}"> 
+                        <br>
                         <div class="container-fluid riquadro_ristorante">
                             <div class="col-md-4" style=" padding-left: 1%; padding-top: 1%; padding-bottom: 1%; ">
                               <img src="data/sfondo_restaurant.jpg" class="img-rounded" alt="<c:out value="${r.name}"/>" style ="max-width: 100%; max-height : 100%; min-width:160px; min-height: 49px;">
@@ -143,7 +153,7 @@
                                         <span class="glyphicon glyphicon-star-empty media"></span>
                                     </c:forEach>
                                     &nbsp;
-                                    <span class="badge" style="margin-top:8px;"><fmt:formatNumber type="number" maxFractionDigits="2" value="${r.global_review}" />&nbsp;<span class="glyphicon glyphicon-star-empty"></span>&nbsp; su <c:out value="${r.review_count}"/> recensioni</span>
+				    <span class="badge" style="margin-top:8px;"><fmt:formatNumber type="number" maxFractionDigits="2" value="${r.global_review}" />&nbsp;<span class="glyphicon glyphicon-star-empty"></span>&nbsp; su <c:out value="${r.review_count}"/> recensioni</span>
                                 </div>
                                 <br>
                                 <div style="margin-top:-10px;">

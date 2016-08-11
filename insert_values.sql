@@ -1,13 +1,48 @@
+insert into USERS VALUES (default, 'Gabriele', 'Cesa', 'prova', 'gabriele.cesa@gmail.com', 'a');
+
+insert into USERS VALUES (default, 'Gianmaria', 'Sissa', 'pippo', 'gabriele.cesa@studenti.unitn.it', 'u');
+
+insert into USERS VALUES (default, 'Piermaria', 'Arvani', 'prova', 'piermaria.arvani@studenti.unitn.it', 'r');
+
+insert into USERS VALUES (default, 'Ambrogio', 'Fusella', 'prova', 'pier.mn@hotmail.it', 'u');
+
+insert into USERS VALUES (default, 'Davide', 'Belli', 'prova', 'davide.belli@studenti.unitn.it', 'r');
+
+insert into USERS VALUES (default, 'Francesco', 'Bergoglio', 'prova', 'davide95belli@libero.it', 'u');
+
+insert into USERS VALUES (default, 'Sara', 'Callaioli', 'prova', 'sara.callaioli@studenti.unitn.it', 'u');
+
+insert into USERS VALUES (default, 'Caterina', 'Pomari', 'prova', 'calla95@hotmail.it', 'u');
+
+insert into USERS VALUES (default, 'Luca', 'Ballarini', 'prova', 'gabriele.cesa@hotmail.it', 'u');
+
+insert into USERS VALUES (default, 'John', 'Cesa', 'prova', 'davidebelli95@gmail.com', 'u');
+
+
+insert into cuisines values (default, 'cinese');
+insert into cuisines values (default, 'italiano');
+insert into cuisines values (default, 'giapponese');
+insert into cuisines values (default, 'francese');
+insert into cuisines values (default, 'pizza');
+insert into cuisines values (default, 'messicano');
+insert into cuisines values (default, 'indiano');
+insert into cuisines values (default, 'africano');
+insert into cuisines values (default, 'americano');
+insert into cuisines values (default, 'steak house');
+insert into cuisines values (default, 'pesce');
+insert into cuisines values (default, 'vegetariana');
 
 insert into STATES VALUES('Italia');
 insert into STATES VALUES('Francia');
 insert into STATES VALUES('Regno Unito');
-insert into STATES VALUES('Stati Uniti America');
+insert into STATES VALUES('United States of America');
 insert into STATES VALUES('Spagna');
 insert into STATES VALUES('Russia');
 insert into STATES VALUES('Germania');
 insert into STATES VALUES('Cina');
 insert into STATES VALUES('Giappone');
+insert into STATES VALUES('Emirati Arabi Uniti');
+
 
 insert into REGIONS VALUES('Italia', 'Lombardia');
 insert into REGIONS VALUES('Italia', 'Trentino Alto-Adige');
@@ -25,11 +60,14 @@ insert into REGIONS VALUES('Regno Unito', 'Scozia');
 insert into REGIONS VALUES('Regno Unito', 'Irlanda del Nord');
 insert into REGIONS VALUES('Francia', 'Ile de France');
 insert into REGIONS VALUES('Francia', 'Bordeaux');
-insert into REGIONS VALUES('Stati Uniti America', 'Michigan');
-insert into REGIONS VALUES('Stati Uniti America', 'Washington');
-insert into REGIONS VALUES('Stati Uniti America', 'New York');
-insert into REGIONS VALUES('Stati Uniti America', 'Texas');
-
+insert into REGIONS VALUES('United States of America', 'Michigan');
+insert into REGIONS VALUES('United States of America', 'Washington');
+insert into REGIONS VALUES('United States of America', 'New York');
+insert into REGIONS VALUES('United States of America', 'Texas');
+insert into REGIONS VALUES('Emirati Arabi Uniti', 'Dubai');
+insert into REGIONS VALUES('Emirati Arabi Uniti', 'Ajman');
+insert into REGIONS VALUES('Emirati Arabi Uniti', 'Abu Dhabi');
+insert into REGIONS VALUES('Emirati Arabi Uniti', 'Fujairah');
 
 insert into CITIES VALUES('Italia', 'Lombardia', 'Mantova');
 insert into CITIES VALUES('Italia', 'Lombardia', 'Milano');
@@ -42,7 +80,8 @@ insert into CITIES VALUES('Italia', 'Lazio', 'Roma');
 insert into CITIES VALUES('Italia', 'Piemonte', 'Torino');
 insert into CITIES VALUES('Italia', 'Friuli Venezia-Giulia', 'Pordenone');
 insert into CITIES VALUES('Italia', 'Friuli Venezia-Giulia', 'Trieste');
-insert into CITIES VALUES('Italia', 'Sicilia', 'Palermo');
+
+insert into CITIES VALUES('Emirati Arabi Uniti', 'Dubai', 'Dubai');
 
 insert into CITIES VALUES('Regno Unito', 'Inghilterra', 'Londra');
 insert into CITIES VALUES('Regno Unito', 'Inghilterra', 'Liverpool');
@@ -52,8 +91,206 @@ insert into CITIES VALUES('Regno Unito', 'Scozia', 'Edimburgo');
 insert into CITIES VALUES('Francia', 'Ile de France', 'Parigi');
 
 
-insert into USERS VALUES (default, 'Gabriele', 'Cesa', 'prova', 'gabriele.cesa@gmail.com', 'u');
-insert into USERS VALUES (default, 'Gabriele', 'Cesa', 'prova', 'gabriele.cesa@studenti.unitn.it', 'a');
+
+insert into CITIES VALUES('United States of America', 'New York', 'New York City');
+
+
+insert into RESTAURANTS VALUES
+(
+    default,
+    'Doolin irish pub',
+    'Cena e dopo mezzanotte, Mantova centro, Birra artigianale, Paninoteca',   
+    'www.doolinpub.it',
+    default,
+    default,
+    default,
+    default,
+    default,
+    default,
+    3,
+    3,
+    'Via Zambelli 8',
+    null,
+    null,
+    10,
+    15,
+	'Italia',
+	'Lombardia',
+	'Mantova'
+);
+
+
+insert into ORARIO VALUES
+(
+	1,
+	'martedì',
+	'18:30',
+	'01:00'
+);
+
+insert into ORARIO VALUES
+(
+	1,
+	'mercoledì',
+	'18:30',
+	'01:00'
+);
+
+insert into ORARIO VALUES
+(
+	1,
+	'giovedì',
+	'18:30',
+	'01:00'
+);
+
+insert into ORARIO VALUES
+(
+	1,
+	'venerdì',
+	'18:30',
+	'01:00'
+);
+
+insert into ORARIO VALUES
+(
+	1,
+	'sabato',
+	'18:30',
+	'01:00'
+);
+
+insert into ORARIO VALUES
+(
+	1,
+	'domenica',
+	'18:30',
+	'01:00'
+);
+
+
+insert into RESTAURANTS VALUES
+(
+    default,
+    'Feudi',
+    'Da asporto, Accetta prenotazioni, Personale di sala',   
+    'https://www.facebook.com/I-FEUDI-233088270078751/',
+    default,
+    default,
+    default,
+    default,
+    default,
+    default,
+    5,
+    7,
+    'Via Accademia 11',
+    null,
+    null,
+    10,
+    15,
+	'Italia',
+	'Lombardia',
+	'Mantova'
+);
+
+insert into ORARIO VALUES
+(
+	2,
+	'martedì',
+	'11:00',
+	'15:00'
+);
+
+insert into ORARIO VALUES
+(
+	2,
+	'martedì',
+	'18:00',
+	'23:00'
+);
+
+
+insert into ORARIO VALUES
+(
+	2,
+	'mercoledì',
+	'11:00',
+	'15:00'
+);
+
+insert into ORARIO VALUES
+(
+	2,
+	'mercoledì',
+	'18:00',
+	'23:00'
+);
+insert into ORARIO VALUES
+(
+	2,
+	'giovedì',
+	'11:00',
+	'15:00'
+);
+
+insert into ORARIO VALUES
+(
+	2,
+	'giovedì',
+	'18:00',
+	'23:00'
+);
+insert into ORARIO VALUES
+(
+	2,
+	'venerdì',
+	'11:00',
+	'15:00'
+);
+
+insert into ORARIO VALUES
+(
+	2,
+	'venerdì',
+	'18:00',
+	'23:00'
+);
+insert into ORARIO VALUES
+(
+	2,
+	'sabato',
+	'11:00',
+	'15:00'
+);
+
+insert into ORARIO VALUES
+(
+	2,
+	'sabato',
+	'18:00',
+	'23:00'
+);
+insert into ORARIO VALUES
+(
+	2,
+	'domenica',
+	'11:00',
+	'15:00'
+);
+
+insert into ORARIO VALUES
+(
+	2,
+	'domenica',
+	'18:00',
+	'23:00'
+);
+
+
+
+
+
+
 
 
 insert into RESTAURANTS VALUES
@@ -78,6 +315,30 @@ insert into RESTAURANTS VALUES
     'Italia',
     'Trentino Alto-Adige',
     'Trento'
+);
+
+insert into RESTAURANTS VALUES
+(
+    default,
+    'Doolin irish pub',
+    'Cena e dopo mezzanotte, Mantova centro, Birra artigianale, Paninoteca',   
+    'www.doolinpub.it/#_=_',
+    default,
+    default,
+    default,
+    default,
+    default,
+    default,
+    3,
+    3,
+    'Via Zambelli 8, Mantova, Italia',
+    null,
+    null,
+    10,
+    15,
+	'Italia',
+	'Lombardia',
+	'Mantova'
 );
 
 insert into RESTAURANTS VALUES
@@ -155,13 +416,6 @@ insert into RESTAURANTS VALUES
 
 
 
-
-insert into cuisines values (default, 'europeo');
-insert into cuisines values (default, 'cinese');
-insert into cuisines values (default, 'italiano');
-insert into cuisines values (default, 'giapponese');
-insert into cuisines values (default, 'francese');
-insert into cuisines values (default, 'pizza');
 
 insert into RESTAURANTS_CUISINES values(1, 3);
 insert into RESTAURANTS_CUISINES values(1, 6);

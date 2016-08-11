@@ -46,7 +46,8 @@
                 </div>
             </div>
         </div>
-            
+                    
+    <div class="col-md-12">
         <div class="col-md-8" style="padding-left: 2%; padding-top: 2%">
             <div id="myCarousel" class="carousel slide" data-ride="carousel" >
                 <!-- Indicators -->
@@ -60,12 +61,12 @@
                         </ol>
                         <div class="carousel-inner" role="listbox">
                             <div class="item active">
-                                <img src="data/sfondo_restaurant.jpg" alt="First slide">
+                                <img class="img-fluid center-block" src="data/sfondo_restaurant.jpg" alt="First slide">
                             </div>
                             
                             <c:forEach var='p' items="${restaurant.photos}">
                               <div class="item">
-                                <img src="<c:out value='${p.path}'/>" alt="<c:out value='${p.name}'/>">
+                                <img class="img-fluid center-block" src="<c:out value='${p.path}'/>" alt="<c:out value='${p.name}'/>">
                               </div>
                             </c:forEach>
                         </div>
@@ -95,7 +96,7 @@
         </div>
         
         <div class="col-md-4" style="padding-left: 2%; padding-top: 2%;">
-            <div  style="height:234px; ">
+            <div>
                 <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
                     <div style="padding: 15px 18px; border-top: 1px solid #F4F3F0; overflow: hidden">
                         <span class="format_address">
@@ -180,7 +181,7 @@
             </div>
         
         </div>
-            
+    </div>
             
         <div class="col-md-10 col-md-offset-1" style="background-color: whitesmoke; margin-top: 20px; padding: 15px 2%;">
             

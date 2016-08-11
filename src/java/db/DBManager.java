@@ -992,7 +992,7 @@ public class DBManager implements Serializable {
             return;
         }
 
-        PreparedStatement stm = con.prepareStatement("SELECT COUNT(*) FROM APP.RESTAURANTS WHERE (global_review/review_counter) > ? AND state = ? AND region = ? AND city = ?");
+        PreparedStatement stm = con.prepareStatement("SELECT COUNT(*) FROM APP.RESTAURANTS WHERE review_counter > 0 AND (global_review/review_counter) > ? AND state = ? AND region = ? AND city = ?");
         try {
             stm.setDouble(1, r.getGlobal_review());
             stm.setString(2, r.getState());
@@ -1126,6 +1126,9 @@ public class DBManager implements Serializable {
     /**
      * -------------- Gestione Notifiche -----------------
      */
+    
+    
+    
     public int getRestaurantOwner(int restaurant) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT id_owner FROM APP.RESTAURANTS WHERE id = ?");
         try {
