@@ -2015,6 +2015,71 @@ insert into ORARIO VALUES
 
 
 
+insert into REVIEWS VALUE
+(
+	5,
+	5,
+	4,
+	4,
+	5,
+	'Superlativo unico',
+	'Qui uniti unicità dei piatti compresa la presentazione, L atmosfera da film di un certo livello,prezzo adeguato a tutto ciò che ne concerne,servizio al top dei top ',
+	2016-04-13,
+	11,
+	9
+);
+
+
+
+
+insert into REVIEWS VALUE
+(
+	5,
+	5,
+	4,
+	5,
+	5,
+	'Superb!',
+	'Non è caro se il prezzo è paragonato a ciò che offre : servizio -cucina -ambiente,quà siamo al top. dimenticavi il classico ristorante stellato europeo : pochi tavoli atmosfera ecc...quà siamo a nyc,venerdì sera ,locale strapieno tutto perfetto dall'aperitivo ottimo cosmo con pallina di ghiaccio con un fiore dentro amuse bouche ,i pani sensazionali  ',
+	2016-02-10,
+	11,
+	1,
+	(foto)
+);
+
+
+
+insert into REVIEWS VALUE
+(
+	5,
+	5,
+	5,
+	5,
+	5,
+	'A mistic experience',
+	'Devo dire che nella mia vita difficilmente ho mangiato così bene! Dai ricci di mare all aragosta al manzo giapponese tutto perfetto sia per la presentazione che per il gusto! Ecco questo sì che è il ristorante perfetto. Pensavo di averlo trovato a Sydney ma onestamente questo li surclassa tutti!',
+	2016-06-23,
+	11,
+	2
+);
+
+
+
+insert into REVIEWS VALUE
+(
+	4,
+	5,
+	4,
+	4,
+	5,
+	'Imperdibile cena alla corte di Daniel Boulud',
+	'Una serata assolutamente perfetta, una esperienza di sapori e di emozioni in un luogo splendido, elegante ed affascinante coccolati da personale super attento, cortese, preparato ed assolutamente impeccabile. Vorrei tornarci subito. L'occasione speciale del compleanno e' stata infine completata da un dolce speciale e dalla consegna del menù stampato da portare a casa come ricordo. Per tutti invece un dolce da portare via per deliziare il palato anche la mattina successiva. Qualità eccezionale ... Super consigliato ',
+	2016-07-08,
+	11,
+	6
+);
+
+
 insert into RESTAURANTS VALUES
 (
     default,
@@ -2119,6 +2184,66 @@ insert into ORARIO VALUES
 );
 
 
+
+insert into REVIEWS VALUE
+(
+	5,
+	5,
+	5,
+	4,
+	5,
+	'No. 1 davvero',
+	'Tacos FAVOLOSI!!!! Ovviamente le persone lo sanno e quindi a volte c'è da fare un po' di fila ma vi consiglio di farla perché noi siamo rimasti affascinati dalla bontà dei tacos. Li preparano al momento e hanno poche opzioni, ma sono tutti davvero buono. Vi consiglio di prenderne almeno 2 a testa perché sono piccolini ma davvero gustosi. Noi abbiamo anche preso un'ottima orchata per accompagnarli.',
+	2015-11-13,
+	12,
+	6
+);
+
+
+insert into REVIEWS VALUE
+(
+	2,
+	'Decente ma personale scortese',
+	'Abbiamo provato questo ristorante dopo aver letto le numerose recensioni positive. Diciamo che non è un vero e proprio ristorante , non ci sono tavoli su cui consumare il cibo , lo si può mangiare sul bancone da cui lo si riceve , diciamo che è un take away. Sul cibo niente da dire, ho provato solo i tacos ed erano uni ma niente di eccezionale. 
+Nota dolente la CASSIERA ho chiesto un'acqua gasata , 10 secondi dopo ho chiesto se potevo cambiarla con una naturale sempre in bottiglia, la sua reazione è stata imbarazzante, dopo numerosi sbuffi e borbottii vari mi ha dato lacqua in malo modo, pensavo mi volesse prendere a calci...non scherzo. Gli altri impiegati si sono comportati leggermente meglio ma non di tanto. Per quanto mi riguarda un posto del genere oltre a cibo decente dovrebbe avere anche personale formato e per lo meno gentile. Per quanto mi riguarda non lo cosiglierei ad un amico',
+	2016-02-16,
+	12,
+	7
+);
+
+
+insert into REVIEWS VALUE
+(
+	5,
+	5,
+	4,
+	5,
+	5,
+	'Tacos mania!',
+	'Se vai al Chelsea Market…tappa obbligata!  
+Negli orari di punta bisogna armarsi di un po di pazienza per la fila che si trova per fare lo scontrino e poi consumare! Tacos e Quesadillas buonissimi e anche abbastanza economici (3-4 $)! Ho assaggiato anche quello al cactus, ma devo dire che non mi è piaciuto: il cactus ha una consistenza gelatinosa e un sapore molto particolare!  
+L'unica pecca di questo angolino messicano sono i posti a sedere : INESISTENTI!  
+Puoi consumare il tuo tacos sulla mensola d'appoggio laterale ( se la trovi libera ) oppure in piedi! Insomma non puoi gustarla a pieno!  
+Tuttavia stra-consigliato! ',
+	2016-05-16,
+	12,
+	8,
+	(foto)
+);
+
+
+insert into REVIEWS VALUE
+(
+	5,
+	'N° 1',
+	'Dicono sia il migliore in assoluto per mangiare i tacos e assaggiandoli non si può che confermare. Situato all-interno del Chelsea Market, è sempre molto affollato ... ovviamente!  ',
+	2016-01-28,
+	12,
+	9
+);
+
+
+
 insert into RESTAURANTS VALUES
 (
     default,
@@ -2132,7 +2257,7 @@ insert into RESTAURANTS VALUES
     default,
     default,
     3,
-    6,
+    7,
     '772 9th Avenue, Hells Kitchen, Theater District, Midtown, Westside, Midtown West, Clinton, New York City, NY 10019'
     null,
     null,
@@ -2212,6 +2337,62 @@ insert into ORARIO VALUES
 );
 
 
+insert into REVIEWS VALUE
+(
+	4,
+	5,
+	4,
+	4,
+	4,
+	'Carne e servizio super',
+	'Abbiamo cenato in questo locale, ambiente carino e curato personale molto attento carne super buona la lista dei vini, un ambiente sicuramente non frequentato da turisti, prezzi nella media per carne di qualitá. Consigliato ',
+	2015-12-03,
+	13,
+	4
+);
+
+insert into REVIEWS VALUE
+(
+	3,
+	3,
+	3,
+	3,
+	4,
+	'Cena a NY!',
+	'Prenotazione obbligatoria! Personale molto cortese ed ottima la qualità della carne! Preferite l'acqua al bicchiere rispetto alla bottiglia...risparmiate 10 $!Consigliato!!! 
+ ',
+	2016-01-27,
+	13,
+	10
+);
+
+
+insert into REVIEWS VALUE
+(
+	4,
+	'Cena newyorkese',
+	'Ristorante molto carino, personale molto educato,simpatico e disponibile pronto a fare di tutto pur di rendere contento il cliente. Carne di ottima qualità, si scioglieva in bocca. Il costo era abbastanza alto ma giusto considerando il luogo e la qualità. ',
+	2016-07-08,
+	13,
+	8
+);
+
+
+insert into REVIEWS VALUE
+(
+	4,
+	4,
+	4,
+	4,
+	4,
+	'Tipica atmosfera sud americana',
+	'in questa steak house. Carne ottima con porzioni generose (il filetto è di 400 gr.), ottime le patate a fette; servizio veloce ed attento. Naturalmente non aspettatevi un'atmosfera soft..... ',
+	2016-04-13,
+	13,
+	9,
+	(foto)
+);
+
 insert into RESTAURANTS VALUES
 (
     default,
@@ -2225,8 +2406,8 @@ insert into RESTAURANTS VALUES
     default,
     default,
     3,
-    6,
-    'Accetta prenotazioni, Personale di sala, Accessibile in sedia a rotelle, Serve alcolici, Bar completo'
+    8,
+    '887 9th Ave, New York City, NY 10019 '
     null,
     null,
     20,
@@ -2252,7 +2433,7 @@ insert into ORARIO VALUES
 
 insert into ORARIO VALUES
 (
-	12,
+	14,
 	domenica,
 	17,
 	00,
@@ -2382,12 +2563,68 @@ insert into ORARIO VALUES
 );
 
 
+
+insert into REVIEWS VALUE
+(
+	5,
+	'Favoloso!!!',
+	'Il locale è veramente caratteristico ed il cibo è favoloso.Offre un'ottima cucina italiana,è tutto squisito dagli antipasti ai primi ma anche la pizza è davvero ottima. Io ci sono tornata per 3 sere consecutive!! Il personale poi è gentilissimo,complimenti davvero!!!! ',
+	2016-05-27,
+	14,
+	1
+);
+
+
+
+insert into REVIEWS VALUE
+(
+	5,
+	5,
+	4,
+	5,
+	4,
+	'Ottimo Cibo Italiano!',
+	'Sembra di essere in Italia! In pochi altri posti all' estero abbiamo mangiato cosi' buono cibo italiano. Antipasti sfiziosi! Squisite le paste e il salmone. Ottimi i dolci! Un po' caro..ma e' New York! Ne vale la pena! Gentile e cordiale il personale.',
+	2016-02-17,
+	14,
+	6,
+	(foto)
+);
+
+
+
+insert into REVIEWS VALUE
+(
+	4,
+	4,
+	4,
+	5,
+	4,
+	'Bravi bravi bravi',
+	'Bel posto, ottima cucina italopugliese che poco lascia all'adattamento ai gusti locali. Mozzarella ripiena, orecchiette, agnolotti, nduja, cipolla di Tropea, tutte materie prime vere. Pizza sottile che non ti resta sullo stomaco. Ottimi i dolci tiramisù e croissant caldo di mele con gelato alla vaniglia. Porzioni generose',
+	2016-05-26,
+	14,
+	7
+);
+
+
+
+insert into REVIEWS VALUE
+(
+	2,
+	'Non esattamente ciò che appare,
+	'Il ristorante si presenta bene, luce e spazi buoni, menù con prezzi NYC style e clientela di livello.... purtroppo non lo sono stati i piatti serviti, ci siamo alzati dal tavolo molto delusi a fine cena. Non tornerei a mangiarci. ',
+	2016-06-29,
+	14,
+	8
+);
+
 insert into RESTAURANTS VALUES
 (
     default,
-    'Los Tacos No. 1',
-    'Da asporto, Accessibile in sedia a rotelle',   
-    '75 9th Ave, New York City, NY 10011',
+    'The Capital Grille ',
+    'Accetta prenotazioni, Cena in sala privata, Posti a sedere, Personale di sala, Accessibile in sedia a rotelle, Serve alcolici, Bar completo',   
+    '//www.thecapitalgrille.com/Locations/NYC-Time-Life/Main.asp#_=_',
     default,
     default,
     default,
@@ -2395,7 +2632,8 @@ insert into RESTAURANTS VALUES
     default,
     default,
     3,
-    6,
+    10,
+    '120 West 51st St., New York City, NY 10020'
     null,
     null,
     20,
@@ -2410,7 +2648,182 @@ insert into RESTAURANTS VALUES
 
 insert into ORARIO VALUES
 (
-	12,
+	15,
+	lunedì,
+	11,
+	30,
+	23,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	15,
+	martedì,
+	11,
+	30,
+	23,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	15,
+	mercoledì,
+	11,
+	30,
+	23,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	15,
+	giovedì,
+	11,
+	30,
+	23,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	15,
+	venerdì,
+	11,
+	30,
+	23,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	15,
+	sabato,
+	11,
+	30,
+	23,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	15,
+	domenica,
+	11,
+	30,
+	23,
+	00
+);
+
+
+insert into REVIEWS VALUE
+(
+	4,
+	3,
+	4,
+	5,
+	4,
+	'Buono ma nessuna cura per la vista!',
+	'The Capital Grille a New York è una sicurezza, in qualsiasi ristorante andiate a New York ( ce ne sono almeno 3) mangerete sicuramente bene. Unica cosa che abbiamo notato è la mancanza di cura per l'impiattamento, ed in un ristorante dove si spendono 80$ a persona senza vino direi che non è trascurabile ',
+	2016-07-16,
+	15,
+	7,
+	(fot)
+);
+
+
+insert into REVIEWS VALUE
+(
+	5,
+	4,
+	4,
+	5,
+	5,
+	'UN RISTORANTE DI QUALITA'',
+	'Il Ristorante è a pochi passi da wall Street. Un ristorante di classe, ambiente raffinato. La carne è buonissima e di ottima qualità. ottimi i dolci. ottima la cantina buoni i liquori. Personale raffinato discreto e gentilissimo. Ottimo il rapporto qualità prezzo. Sicuramente lo raccomando 
+ ',
+	2016-04-14,
+	15,
+	2
+);
+
+
+insert into REVIEWS VALUE
+(
+	5,
+	5,
+	5,
+	5,
+	4,
+	'Fantastico',
+	'Ristorante di gran classe,personale gentilissimo che ti accoglie e tratta nel migliore modo possibile fin da subito. 
+Ottima l'atmosfera con luce soffusa,locale molto grande e spazioso. 
+Qualità del cibo veramente super,abbiamo preso zuppa di cipolle,e caprese con aceto balsamico,piatti veramente ottimi. 
+Poi abbiamo preso la carne(con patate gratinate),ragazzi squisita ,il pezzo forte!! 
+L'unica nota stonata il caffè espresso,da evitare . 
+Certo il tutto si paga(circa 70$ a testa abbiamo speso),ma almeno una volta,questo ristorante bisogna provarlo!!! ',
+	2016-01-22,
+	15,
+	9
+);
+
+
+insert into REVIEWS VALUE
+(
+	5,
+	'La carne più buona mangiata a New York',
+	'Io e mia moglie siamo stati qui la nostra penultima sera della nostra luna di miele... e che dire semplicemente fantastico.... 
+Abbiamo mangiato un pasticcio di granchio ( lobster crabe cache) poi una bisteccona ( porterhouse) è un entrecotte ( dry aged strip)che erano sublimi, accompagnati da due ottimi calici di vino un Sauvignon Blanc ed un Cabernet Sauvignon. 
+Per concludere uno squisito Crème brûlé. 
+Il tutto accompagnato da un ottimo e celere servizio e dalla professionalità di Nicole e Melissa. 
+Sicuramente non è un locale da tutte le sere ma per una volta uno strappo alla regola si può fare e vi assicuriamo che ne vale la pensa. 
+Se torneremo a New York di sicuro ci torneremo.  
+Tonino e Angela ',
+	2015-08-26,
+	15,
+	10
+);
+
+
+
+insert into RESTAURANTS VALUES
+(
+    default,
+    'Capizzi  ',
+    'Da asporto, Posti a sedere, Personale di sala, Serve alcolici, Consegna a domicilio, Accetta prenotazioni',   
+    '//capizzinyc.com/',
+    default,
+    default,
+    default,
+    default,
+    default,
+    default,
+    5,
+    8,
+    '547 9th Ave, Hells kitchen, New York City, NY 10018'
+    null,
+    null,
+    9,
+    27,
+	United States,
+	New York,
+	New York City
+);
+
+
+
+
+
+insert into ORARIO VALUES
+(
+	16,
 	lunedì,
 	11,
 	00,
@@ -2421,7 +2834,7 @@ insert into ORARIO VALUES
 
 insert into ORARIO VALUES
 (
-	12,
+	16,
 	martedì,
 	11,
 	00,
@@ -2432,7 +2845,7 @@ insert into ORARIO VALUES
 
 insert into ORARIO VALUES
 (
-	12,
+	16,
 	mercoledì,
 	11;
 	00,
@@ -2443,7 +2856,7 @@ insert into ORARIO VALUES
 
 insert into ORARIO VALUES
 (
-	12,
+	16,
 	giovedì,
 	11,
 	00,
@@ -2454,7 +2867,7 @@ insert into ORARIO VALUES
 
 insert into ORARIO VALUES
 (
-	12,
+	16,
 	venerdì,
 	11,
 	00,
@@ -2465,7 +2878,7 @@ insert into ORARIO VALUES
 
 insert into ORARIO VALUES
 (
-	12,
+	16,
 	sabato,
 	11,
 	00,
@@ -2476,7 +2889,7 @@ insert into ORARIO VALUES
 
 insert into ORARIO VALUES
 (
-	12,
+	16,
 	domenica,
 	11,
 	00,
@@ -2486,25 +2899,90 @@ insert into ORARIO VALUES
 
 
 
+
+insert into REVIEWS VALUE
+(
+	3,
+	3,
+	3,
+	3,
+	4,
+	'Pizza nella media',
+	'Eravamo in 4, la pizza non era male considerando che siamo a New York . Per 4 pizze, due birre e una coca cola abbiamo speso 107 dollari inclusa mancia.. Un cameriere e il pizzaiolo parlano italiano ,
+	2016-04-22,
+	16,
+	7
+);
+
+
+
+insert into REVIEWS VALUE
+(
+	5,
+	5,
+	5,
+	5,
+	4,
+	'Ottima Pizza',
+	'Ottima pizza e posto carino. Servizio più che discreto. Sicuramente un posto da consigliare per chi a NY cerca una pizza tipica italiana ',
+	2016-06-16,
+	16,
+	9
+);
+
+
+
+insert into REVIEWS VALUE
+(
+	4,
+	5,
+	4,
+	4,
+	4,
+	'Un'ottima pizza a New York',
+	'Piccola pizzeria accogliente a due passi da Time Square, con personale gentile, premuroso ed amichevole, parlante perfetto italiano.  
+La pizza è davvero buona, leggera e preparata con ingredienti freschi.  
+Non immaginavo di trovare a NY una pizza così buona! Certo, magari in Italia è un'altra cosa.. ma per NY vi assicuro che è buonissima ed i cannoli alla siciliana superbi! 
+I prezzi sono nella media di Manhattan, per l'Italia sarebbero un po' alti, però a NY non è facile mangiare così bene per queste cifre!  ',
+	2016-02-15,
+	16,
+	4,
+	(foto)
+);
+
+
+
+
+insert into REVIEWS VALUE
+(
+	3,
+	'Cena a hell's kitchen',
+	'Pizza italiana a new york. Ristorante piccolo e poco illuminato,servizio così così. Per essere fuori dall'italia una buona pizza tutto sommato , ho mangiato di peggio in Italia. Io e mio fratello abbiamo preso due pizze pepperoni (l'equivalente della nostra diavola) 2 coca cole piccole e una birra. 50 dollari comprensivi di mancia. Il cameriere (italiano ) ci ha offerto il caffè (osceno). Per il livello della cucina newyorchese mi sento di consigliarlo ',
+	2016-06-23,
+	15,
+	6
+);
+
 insert into RESTAURANTS VALUES
 (
     default,
-    'Los Tacos No. 1',
-    'Da asporto, Accessibile in sedia a rotelle',   
-    '75 9th Ave, New York City, NY 10011',
+    'Spice Symphony',
+    'Da asporto, Posti a sedere, Personale di sala, Parcheggio in strada, Serve alcolici, Bar completo, Vino e birra, Accetta American Express, Accetta Mastercard, Accetta Visa, Solo contanti, Connessione Wi-Fi gratuita, Accetta Discover, Consegna a domicilio, Accetta prenotazioni',   
+    '//www.spicesymphony.com/#_=_',
     default,
     default,
     default,
     default,
     default,
     default,
-    3,
+    5,
+    4,
+    '182 Lexington Avenue, Between 32nd and 31Street, New York City, NY 10016'
+    null,
+    null,
     6,
-    null,
-    null,
-    20,
-    25,
-	United States of America,
+    26,
+	United States,
 	New York,
 	New York City
 );
@@ -2514,87 +2992,312 @@ insert into RESTAURANTS VALUES
 
 insert into ORARIO VALUES
 (
-	12,
+	17,
 	lunedì,
 	11,
 	00,
-	21,
+	23,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	17,
 	martedì,
 	11,
 	00,
-	21,
+	23,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	17,
 	mercoledì,
 	11;
 	00,
-	21,
+	23,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	17,
 	giovedì,
 	11,
 	00,
-	21,
+	23,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	17,
 	venerdì,
 	11,
 	00,
-	21,
+	23,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	17,
 	sabato,
 	11,
 	00,
-	21,
+	23,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	17,
 	domenica,
 	11,
 	00,
-	20,
+	23,
 	00
+);
+
+
+insert into REVIEWS VALUE
+(
+	4,
+	5,
+	4,
+	4,
+	4,
+	'Ottima cena indiana vegetariana a Manhattan',
+	'Piccolo locale molto accogliente, ottima qualità della cucina, Siamo stati serviti dal Sig. DEV, estremamente disponibile ed attento. Prezzi accessibili. ',
+	2016-04-15,
+	17,
+	7,
+);
+
+
+insert into REVIEWS VALUE
+(
+	4,
+	'Piccolo ma buono',
+	'Per chi gradisce il cibo indiano questo piccolo locale è veramente all'altezza tutto quello assaggiato era ottimo e il servizio è stato cortese e veloce nonostante ci avessero detto che dovevamo attendere circa un'ora tra un aperitivo e 2 stuzzichini comunque serviti al tavolo dove ci hanno fatto accomodare ci hanno poi servito molto velocemente quindi siamo rimasti soddisfatti Conto medio ma avevamo scelto una bottiglia di vino da 45 $ che ha alzato la media.  
+Francesco  ',
+	2016-06-25,
+	17,
+	4,
+);
+
+
+
+insert into REVIEWS VALUE
+(
+	4,
+	'Da provare!!',
+	'Il locale e' piccolo ma merita senz'altro una visita per l'ottima qualita' della cucina. 
+Provati i gamberi tandori e le costolette d'agnello tandori, buoni entrambi ma l'agnello era eccellente!  
+Personale molto attento e cortese, porzioni abbondanti. 
+Prezzo onesto. ',
+	2016-06-28,
+	17,
+	8,
+	(foto)
+);
+
+
+
+insert into REVIEWS VALUE
+(
+	5,
+	'Ottima Cena indiana a Manhattan ',
+	'In piena Midtown un locale piccolo ma molto accogliente  
+Il personale molto disponibile e attento ad ogni necessità  
+Prezzi accessibili per una cena a New York 
+Cibo ottimo  ',
+	2016-04-11,
+	17,
+	9,
+	(foto)
+);
+
+insert into RESTAURANTS VALUES
+(
+    default,
+    'Nerai ',
+    'Accetta prenotazioni, Personale di sala, Accessibile in sedia a rotelle, Serve alcolici, Bar completo ',   
+    '//nerainyc.com/#_=_',
+    default,
+    default,
+    default,
+    default,
+    default,
+    default,
+    5,
+    9,
+    ' 55 East 54th St, (Between Madison Avenue & Park Avenue), New York City, NY 10022'
+    null,
+    null,
+    27,
+    44,
+	United States,
+	New York,
+	New York City
+);
+
+
+
+insert into ORARIO VALUES
+(
+	18,
+	lunedì,
+	07,
+	30,
+	22,
+	30
+);
+
+
+insert into ORARIO VALUES
+(
+	18,
+	martedì,
+	07,
+	30,
+	22,
+	30
+);
+
+
+insert into ORARIO VALUES
+(
+	18,
+	mercoledì,
+	07,
+	30,
+	22,
+	30
+);
+
+
+insert into ORARIO VALUES
+(
+	18,
+	giovedì,
+	07,
+	30,
+	22,
+	30
+);
+
+
+insert into ORARIO VALUES
+(
+	18,
+	venerdì,
+	07,
+	30,
+	22,
+	30
+);
+
+
+insert into ORARIO VALUES
+(
+	18,
+	sabato,
+	07,
+	30,
+	22,
+	30
+);
+
+
+insert into ORARIO VALUES
+(
+	18,
+	domenica,
+	07,
+	30,
+	22,
+	30
+);
+
+insert into REVIEWS VALUE
+(
+	5,
+	5,
+	5,
+	5,
+	5,
+	'Cena stupenda',
+	'Dopo una lunga giornata in giro per le strade di New York io e la mia famiglia decidiamo di cenare a Nerai , ristorante consigliatoci dal nostro Concierge! 
+Ad accoglierci un simpatico ed elegante maître d (100% italiano) il quale ci ha fatto subito sentire a casa. Dopo averci accompagnato al tavolo ci ha anche consigliato cosa mangiare. 
+Cena indimenticabile!!! 
+Grazie 1000. ',
+	2016-02-26,
+	18,
+	8,
+);
+
+
+
+insert into REVIEWS VALUE
+(
+	4,
+	5,
+	4,
+	4,
+	4,
+	'Giro culinario',
+	'Locale carino con luci soffuse, porzioni piccole ma gustose. Servizio ottimo e ben curato. Consiglio per una cena a due ma anche di gruppo. ',
+	2016-04-15,
+	18,
+	7,
+);
+
+
+
+insert into REVIEWS VALUE
+(
+	5,
+	'Cena di pesce a NYC! ',
+	'Ambiente raffinato e elegante, ottimo per una cena di pesce memorabile... dall'aragosta agli scampi alla spigola!  
+Ottimi tutti gli antipasti, il riso un po' troppo scotto ma sapore squisito, secondi da sogno!!  
+Passateci',
+	2016-01-25,
+	18,
+	2,
+	(foto)
+);
+
+
+
+insert into REVIEWS VALUE
+(
+	3,
+	'Buono...siamo a New York',
+	'Ho cenato per i 40 anni di un amico, una settimana fa. Il ristorante è bello, i camerieri gentili, il cibo buono. 
+Ostriche davvero molto buone e anche la tartare di tonno. 
+Considerando che era un ristorante greco, le due cose che mi hanno lasciato perplesso sono state le patatine a julienne sotto la tartare - insolito abbinamento ma buono - e il risotto sotto il filetto di salmone - quest'ultimo non l'ho francamente apprezzato, io non avrei mai fatto questo abbinamento...ma siamo a New York. 
+Il Prosecco, buono. 
+Il prezzo in linea, se si pensa sempre che siamo a NY. ',
+	2016-03-21,
+	18,
+	9,
 );
 
 
 insert into RESTAURANTS VALUES
 (
     default,
-    'Los Tacos No. 1',
-    'Da asporto, Accessibile in sedia a rotelle',   
-    '75 9th Ave, New York City, NY 10011',
+    'The Perfect Pint ',
+    'Accetta prenotazioni, Posti a sedere, Personale di sala, Televisore, Serve alcolici, Bar completo, Accessibile in sedia a rotelle, Connessione Wi-Fi gratuita ',   
+    '//www.theperfectpintnyc.com/#_=_',
     default,
     default,
     default,
@@ -2602,12 +3305,13 @@ insert into RESTAURANTS VALUES
     default,
     default,
     3,
-    6,
+    9,
+    '123 West 45th Street, New York City, NY'
     null,
     null,
-    20,
-    25,
-	United States of America,
+    9,
+    3,
+	United States,
 	New York,
 	New York City
 );
@@ -2617,87 +3321,689 @@ insert into RESTAURANTS VALUES
 
 insert into ORARIO VALUES
 (
-	12,
+	19,
 	lunedì,
 	11,
 	00,
-	21,
+	02,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	19,
 	martedì,
 	11,
 	00,
-	21,
+	02,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	19,
 	mercoledì,
 	11;
 	00,
-	21,
+	02,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	19,
 	giovedì,
 	11,
 	00,
-	21,
+	02,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	19,
 	venerdì,
 	11,
 	00,
-	21,
+	02,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	19,
 	sabato,
 	11,
 	00,
-	21,
+	02,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	19,
 	domenica,
 	11,
 	00,
-	20,
+	02,
 	00
 );
+
+
+insert into REVIEWS VALUE
+(
+	5,
+	5,
+	5,
+	4,
+	4,
+	'Divertente pub irlandese a Manhattan',
+	'A due passi da Times Square. Una vastissima ed accattivante selezione di birre alla spina. Adatto anche per mangiare. Si sviluppa su 3 piani, se si vuole più tranquillità si puo scegliere il piano superiore. Prezzi nella media della zona. Mi era stato consigliato da un'amica e lo consiglio a mia volta per bere una buona birra in serata dopo una giornata di visite, o per cenare.  ',
+	2016-02-16,
+	19,
+	1,
+	(foto)
+);
+
+insert into REVIEWS VALUE
+(
+	4,
+	4,
+	4,
+	4,
+	4,
+	'Sempre ottimo',
+	'Ci siamo tornati perché ci eravamo trovati bene l'anno scorso e non ci ha deluso. 
+Sempre ottimo il cibo. 
+Per la carne da provare sia lo stufato che la bistecca.  
+Il pesce ottimo il salmone al pistacchio e il tonno. 
+Vasta la scelta di birre. 
+Consiglio il piano superiore se si vuole più tranquillità.  
+Personale gentile e disponibile.  
+Prezzi non alti. 
+Speriamo di tornarci ancora. ',
+	2016-01-13,
+	19,
+	4,
+);
+
+insert into REVIEWS VALUE
+(
+	4,
+	5,
+	4,
+	4,
+	3,
+	'Piacevole scoperta a due passi da times square',
+	'Servizio buono e i piatti sono ottimi ed abbondanti. Oltretutto per un pub, rispetto a ciò che abbiamo qui in italia, hanno un menù anche abbastanza vario. 
+La piacevole scoperta è stata che, oltre alla parte interna del pub, che non ha nulla di particolare rispetto ad altri pub stile irlandese, ha un piacevole rooftop dove poter fare aperitivo o un tranquillo dopocena chiacchierando con amici seduti a simpatici tavoli composti da botti di legno tra muri pietra a vista e i classici grattaceli della città. ',
+	2016-06-22,
+	19,
+	6,
+);
+
+insert into REVIEWS VALUE
+(
+	4,
+	'Un po d'Irlanda a New York',
+	'Convinti dalle positive recensioni io e la mia ragazza di ritorno da una lunga giornata per musei abbiamo deciso di cenare in questo pub vicino al nostro hotel.  
+Il posto è molto carino e curato e offre una grande varietà di birre. Il cibo veramente buono e porzioni molto abbondanti. Io ho preso un amburger e la mia ragazza il salmone, veramente ottimo. Camerieri abbastanza cordiali. 
+Buonissimo rapporto qualità prezzo. Lo consiglio.',
+	2016-05-11,
+	19,
+	8,
+);
+
+insert into RESTAURANTS VALUES
+(
+    default,
+    'Izakaya Mew',
+    'Da asporto, Posti a sedere, Personale di sala, Serve alcolici, Bar completo',   
+    '//mewnyc.com/#_=_ ',
+    default,
+    default,
+    default,
+    default,
+    default,
+    default,
+    5,
+    6,
+    '53 W 35th Street, Basement, New York City, NY 10001 '
+    null,
+    null,
+    20,
+    35,
+	United States,
+	New York,
+	New York City
+);
+
+
+
+
+
+insert into ORARIO VALUES
+(
+	20,
+	lunedì,
+	12,
+	00,
+	15,
+	00
+);
+
+insert into ORARIO VALUES
+(
+	20,
+	lunedì,
+	18,
+	00,
+	01,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	20,
+	martedì,
+	12,
+	00,
+	15,
+	00
+);
+
+insert into ORARIO VALUES
+(
+	20,
+	martedì,
+	18,
+	00,
+	01,
+	00
+);
+insert into ORARIO VALUES
+(
+	20,
+	mercoledì,
+	12,
+	00,
+	15,
+	00
+);
+
+insert into ORARIO VALUES
+(
+	20,
+	mercoledì,
+	18,
+	00,
+	01,
+	00
+);
+insert into ORARIO VALUES
+(
+	20,
+	giovedì,
+	12,
+	00,
+	15,
+	00
+);
+
+insert into ORARIO VALUES
+(
+	20,
+	giovedì,
+	18,
+	00,
+	01,
+	00
+);
+insert into ORARIO VALUES
+(
+	20,
+	venerdì,
+	12,
+	00,
+	15,
+	00
+);
+
+insert into ORARIO VALUES
+(
+	20,
+	venerdì,
+	18,
+	00,
+	01,
+	00
+);
+insert into ORARIO VALUES
+(
+	20,
+	sabato,
+	12,
+	00,
+	15,
+	00
+);
+
+insert into ORARIO VALUES
+(
+	20,
+	sabato,
+	18,
+	00,
+	01,
+	00
+);
+insert into ORARIO VALUES
+(
+	20,
+	domenica,
+	12,
+	00,
+	15,
+	00
+);
+
+insert into ORARIO VALUES
+(
+	20,
+	domenica,
+	18,
+	00,
+	01,
+	00
+);
+
+
+insert into REVIEWS VALUE
+(
+	5,
+	4,
+	5,
+	5,
+	4,
+	'Sushi underground!',
+	'Ottimo sushi. Locale molto cool, un po di coda per sedersi ma è normale a NY. Prezzo ottimo considerando quello che si mangia. Super consigliato! ',
+	2016-03-13,
+	20,
+	1,
+);
+
+
+insert into REVIEWS VALUE
+(
+	5,
+	5,
+	4,
+	5,
+	5,
+	'Buono e Divertente”',
+	'Locale tipicamente newyorkese in un seminterrato vicino l Empire. Ambiente giovane e allegro. Servizio veloce. Grande scelta di sushi e cibo asiatico di qualità e a prezzi sorprendentemente bassi per essere a New York. Torneremo!  ',
+	2016-03-23,
+	20,
+	8,
+);
+
+
+
+insert into REVIEWS VALUE
+(
+	4,
+	4,
+	4,
+	4,
+	4,
+	'Davvero bene',
+	'Seguendo altre recensioni ho provato questo ristorante molto frequentato e caotico ma dove viene servito ottimo cibo. Quando andate armatevi di pazienza perché solitamente c'è da attendere, però merita, rapporto qualità prezzo super. Consigliato !!!  ',
+	2016-05-19,
+	20,
+	9,
+);
+
+
+insert into REVIEWS VALUE
+(
+	4,
+	'Bella scoperta',
+	'Grazie a buone recensioni siamo capitati in questo scantinato, adibito a ristorante e ne siamo rimasti affascinati. Si mangia benissimo, pulitissimo e personale cordiale. Nonostante sia in centro i prezzi sono alla portata e il cibo super. Da provare assolutamente. ',
+	2016-05-16,
+	20,
+	10,
+);
+
 
 
 insert into RESTAURANTS VALUES
 (
     default,
-    'Los Tacos No. 1',
-    'Da asporto, Accessibile in sedia a rotelle',   
-    '75 9th Ave, New York City, NY 10011',
+    'Somersets ',
+    'Da asporto, Accetta prenotazioni, Posti a sedere, Personale di sala, Parcheggio disponibile, Servizio parcheggio, Televisore, Accessibile in sedia a rotelle, Serve alcolici, Bar completo, Connessione Wi-Fi gratuita ',   
+    'http://www.movenpick.com/en/middle-east/uae/dubai/hotel-dubai-bur/restaurants/restaurants/#_=_ ',
+    default,
+    default,
+    default,
+    default,
+    default,
+    default,
+    3,
+    1,
+    'Movenpick Hotel & Apartments Bur Dubai, 19th Street, Oud Metha, Dubai, United Arab Emirates, Dubai 32733, Emirati Arabi Uniti '
+    null,
+    null,
+    30,
+    40,
+	Emirati Arabi Uniti, 
+	Dubai,
+	Dubai
+);
+
+
+
+
+insert into ORARIO VALUES
+(
+	21,
+	lunedì,
+	11,
+	30,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	21,
+	martedì,
+	11,
+	30,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	21,
+	mercoledì,
+	11,
+	30,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	21,
+	giovedì,
+	11,
+	30,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	21,
+	venerdì,
+	11,
+	30,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	21,
+	sabato,
+	11,
+	30,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	21,
+	domenica,
+	11,
+	30,
+	24,
+	00
+);
+
+
+
+insert into RESTAURANTS VALUES
+(
+    default,
+    ' Farriers International All Day Dining Restaurant',
+    'Accetta prenotazioni, Tavoli all'esterno, Posti a sedere, Personale di sala, Parcheggio disponibile, Servizio parcheggio, Seggioloni disponibili, Accessibile in sedia a rotelle ',   
+    '//www.meydanhotels.com/meydan/dining.htm#_=_ ',
+    default,
+    default,
+    default,
+    default,
+    default,
+    default,
+    3,
+    2,
+    'The Meydan Hotel, Nad Al Sheeba, Dubai, Emirati Arabi Uniti '
+    null,
+    null,
+    30,
+    40,
+	Emirati Arabi Uniti, 
+	Dubai,
+	Dubai
+);
+
+
+
+
+insert into ORARIO VALUES
+(
+	22,
+	lunedì,
+	11,
+	30,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	22,
+	martedì,
+	11,
+	30,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	22,
+	mercoledì,
+	11,
+	30,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	22,
+	giovedì,
+	11,
+	30,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	22,
+	venerdì,
+	11,
+	30,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	22,
+	sabato,
+	11,
+	30,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	22,
+	domenica,
+	11,
+	30,
+	24,
+	00
+);
+
+
+
+insert into RESTAURANTS VALUES
+(
+    default,
+    'Scots American Grill ',
+    'Accetta prenotazioni, Posti a sedere, Personale di sala, Parcheggio disponibile, Seggioloni disponibili, Accessibile in sedia a rotelle, Serve alcolici, Connessione Wi-Fi gratuita, Servizio parcheggio ',   
+    'http://www.marriottdiningaljaddaf.com/restaurant/hotels/hotel-information/travel/dxbmh/restaurant.aspx?id=002#_=_  ',
+    default,
+    default,
+    default,
+    default,
+    default,
+    default,
+    3,
+    4,
+    'Marriott Hotel Al Jaddaf, Dubai | Oud Metha Road, Al Jaddaf Area, Dubai 122273, Emirati Arabi Uniti '
+    null,
+    null,
+    10,
+    20,
+	Emirati Arabi Uniti, 
+	Dubai,
+	Dubai
+);
+
+
+
+
+insert into ORARIO VALUES
+(
+	23,
+	lunedì,
+	18,
+	30,
+	23,
+	30
+);
+
+
+insert into ORARIO VALUES
+(
+	23,
+	martedì,
+	18,
+	30,
+	23,
+	30
+);
+
+
+insert into ORARIO VALUES
+(
+	23,
+	mercoledì,
+	18,
+	30,
+	23,
+	30
+);
+
+
+insert into ORARIO VALUES
+(
+	23,
+	giovedì,
+	18,
+	30,
+	23,
+	30
+);
+
+
+insert into ORARIO VALUES
+(
+	23,
+	venerdì,
+	18,
+	30,
+	23,
+	30
+);
+
+
+insert into ORARIO VALUES
+(
+	23,
+	sabato,
+	18,
+	30,
+	23,
+	30
+);
+
+
+insert into ORARIO VALUES
+(
+	23,
+	domenica,
+	18,
+	30,
+	23,
+	30
+);
+
+
+
+insert into RESTAURANTS VALUES
+(
+    default,
+    ' Tong Thai ',
+    'Posti a sedere, Personale di sala, Parcheggio disponibile, Servizio parcheggio, Seggioloni disponibili, Accessibile in sedia a rotelle, Serve alcolici, Bar completo, Accetta Mastercard, Accetta Visa, Connessione Wi-Fi gratuita, Accetta prenotazioni, Parcheggio validato ',   
+    'http://www.jwmarriottmarquisdubailife.com/index.html#_=_ ',
     default,
     default,
     default,
@@ -2706,13 +4012,14 @@ insert into RESTAURANTS VALUES
     default,
     3,
     6,
+    ' JW Marriott Marquis Dubai | Sheikh Zayed Road, Business Bay, Dubai 121000, Emirati Arabi Uniti '
     null,
     null,
     20,
-    25,
-	United States of America,
-	New York,
-	New York City
+    30,
+	Emirati Arabi Uniti, 
+	Dubai,
+	Dubai
 );
 
 
@@ -2720,87 +4027,88 @@ insert into RESTAURANTS VALUES
 
 insert into ORARIO VALUES
 (
-	12,
+	24,
 	lunedì,
-	11,
+	18,
 	00,
-	21,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	24,
 	martedì,
-	11,
+	18,
 	00,
-	21,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	24,
 	mercoledì,
-	11;
+	18,
 	00,
-	21,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	24,
 	giovedì,
-	11,
+	18,
 	00,
-	21,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	24,
 	venerdì,
-	11,
+	18,
 	00,
-	21,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	24,
 	sabato,
-	11,
+	18,
 	00,
-	21,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	24,
 	domenica,
-	11,
+	18,
 	00,
-	20,
+	24,
 	00
 );
+
 
 
 insert into RESTAURANTS VALUES
 (
     default,
-    'Los Tacos No. 1',
-    'Da asporto, Accessibile in sedia a rotelle',   
-    '75 9th Ave, New York City, NY 10011',
+    'La Farine',
+    'Da asporto, Posti a sedere, Personale di sala, Parcheggio disponibile, Servizio parcheggio, Seggioloni disponibili, Accessibile in sedia a rotelle, Serve alcolici, Bar completo, Accetta Mastercard, Accetta Visa, Connessione Wi-Fi gratuita, Accetta prenotazioni ',   
+    ' http://www.jwmarriottmarquisdubailife.com/index.html#_=_ ',
     default,
     default,
     default,
@@ -2808,14 +4116,15 @@ insert into RESTAURANTS VALUES
     default,
     default,
     3,
-    6,
+    7,
+    'Business Bay, Sheikh Zayed Road | JW Marriott Marquis, Dubai 121000, Emirati Arabi Uniti'
     null,
     null,
     20,
-    25,
-	United States of America,
-	New York,
-	New York City
+    30,
+	Emirati Arabi Uniti, 
+	Dubai,
+	Dubai
 );
 
 
@@ -2823,87 +4132,88 @@ insert into RESTAURANTS VALUES
 
 insert into ORARIO VALUES
 (
-	12,
+	25,
 	lunedì,
-	11,
 	00,
-	21,
+	01,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	25,
 	martedì,
-	11,
 	00,
-	21,
+	01,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	25,
 	mercoledì,
-	11;
 	00,
-	21,
+	01,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	25,
 	giovedì,
-	11,
 	00,
-	21,
+	01,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	25,
 	venerdì,
-	11,
 	00,
-	21,
+	01,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	25,
 	sabato,
-	11,
 	00,
-	21,
+	01,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	25,
 	domenica,
-	11,
 	00,
-	20,
+	01,
+	24,
 	00
 );
+
 
 
 insert into RESTAURANTS VALUES
 (
     default,
-    'Los Tacos No. 1',
-    'Da asporto, Accessibile in sedia a rotelle',   
-    '75 9th Ave, New York City, NY 10011',
+    ' Pai Thai ',
+    'Accetta prenotazioni, Tavoli all'esterno, Posti a sedere, Personale di sala, Parcheggio disponibile, Seggioloni disponibili, Serve alcolici, Bar completo, Vino e birra, Accetta American Express, Accetta Mastercard, Accetta Visa, Connessione Wi-Fi gratuita, Accetta Discover, Servizio parcheggio, Accessibile in sedia a rotelle ',   
+    ' https://www.facebook.com/PaiThaiDubai#_=_',
     default,
     default,
     default,
@@ -2911,14 +4221,15 @@ insert into RESTAURANTS VALUES
     default,
     default,
     3,
-    6,
+    9,
+    'Al Qasr Hotel, Madinat Jumeirah | Al Qasr, Madinat Jumeirah, Dubai 11416, Emirati Arabi Uniti  '
     null,
     null,
-    20,
-    25,
-	United States of America,
-	New York,
-	New York City
+    40,
+    60,
+	Emirati Arabi Uniti, 
+	Dubai,
+	Dubai
 );
 
 
@@ -2926,87 +4237,89 @@ insert into RESTAURANTS VALUES
 
 insert into ORARIO VALUES
 (
-	12,
+	26,
 	lunedì,
-	11,
-	00,
-	21,
-	00
+	18,
+	30,
+	23,
+	15
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	26,
 	martedì,
-	11,
-	00,
-	21,
-	00
+	18,
+	30,
+	23,
+	15
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	26,
 	mercoledì,
-	11;
-	00,
-	21,
-	00
+	18,
+	30,
+	23,
+	15
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	26,
 	giovedì,
-	11,
-	00,
-	21,
-	00
+	18,
+	30,
+	23,
+	15
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	26,
 	venerdì,
-	11,
-	00,
-	21,
-	00
+	18,
+	30,
+	23,
+	15
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	26,
 	sabato,
-	11,
-	00,
-	21,
-	00
+	18,
+	30,
+	23,
+	15
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	26,
 	domenica,
-	11,
-	00,
-	20,
-	00
+	18,
+	30,
+	23,
+	15
 );
+
+
 
 
 insert into RESTAURANTS VALUES
 (
     default,
-    'Los Tacos No. 1',
-    'Da asporto, Accessibile in sedia a rotelle',   
-    '75 9th Ave, New York City, NY 10011',
+    'the Ivy ',
+    ' Posti a sedere, Personale di sala, Parcheggio disponibile, Parcheggio validato, Servizio parcheggio, Accessibile in sedia a rotelle, Serve alcolici, Bar completo, Vino e birra, Connessione Wi-Fi gratuita, Accetta prenotazioni ',   
+    'http://www.theivydubai.ae/#_=_',
     default,
     default,
     default,
@@ -3014,14 +4327,15 @@ insert into RESTAURANTS VALUES
     default,
     default,
     3,
-    6,
+    7,
+    'The Boulevard | Ground Level, Jumeirah Emirates Towers, Dubai, Emirati Arabi Uniti '
     null,
     null,
-    20,
-    25,
-	United States of America,
-	New York,
-	New York City
+    30,
+    60,
+	Emirati Arabi Uniti, 
+	Dubai,
+	Dubai
 );
 
 
@@ -3029,79 +4343,502 @@ insert into RESTAURANTS VALUES
 
 insert into ORARIO VALUES
 (
+	27,
+	lunedì,
 	12,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	27,
+	martedì,
+	12,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	27,
+	mercoledì,
+	12,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	27,
+	giovedì,
+	12,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	27,
+	venerdì,
+	12,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	27,
+	sabato,
+	12,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	27,
+	domenica,
+	12,
+	00,
+	24,
+	00
+);
+
+
+
+
+
+insert into RESTAURANTS VALUES
+(
+    default,
+    'Ballaro ',
+    'Accetta prenotazioni, Tavoli all'esterno, Personale di sala, Parcheggio disponibile, Servizio parcheggio, Seggioloni disponibili, Accessibile in sedia a rotelle, Serve alcolici, Bar completo, Connessione Wi-Fi gratuita  ',   
+    'http://conradhotels3.hilton.com/en/hotels/uae/conrad-dubai-DXBCDCI/amenities/restaurants-ballaro.html#_=_  ',
+    default,
+    default,
+    default,
+    default,
+    default,
+    default,
+    3,
+    10,
+    'Conrad Hotel, Sheikh Zayed Road, Dubai, Emirati Arabi Uniti'
+    null,
+    null,
+    60,
+    70,
+	Emirati Arabi Uniti, 
+	Dubai,
+	Dubai
+);
+
+
+
+
+insert into ORARIO VALUES
+(
+	28,
+	lunedì,
+	06,
+	30,
+	23,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	28,
+	martedì,
+	06,
+	30,
+	23,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	28,
+	mercoledì,
+	06,
+	30,
+	23,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	28,
+	giovedì,
+	06,
+	30,
+	23,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	28,
+	venerdì,
+	06,
+	30,
+	23,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	28,
+	sabato,
+	06,
+	30,
+	23,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	28,
+	domenica,
+	06,
+	30,
+	23,
+	00
+);
+
+
+
+insert into RESTAURANTS VALUES
+(
+    default,
+    'Reflets by Pierre Gagnaire ',
+    'Parcheggio disponibile, Serve alcolici, Bar completo, Accetta American Express, Accetta Mastercard, Accetta Visa, Accetta prenotazioni, Posti a sedere, Personale di sala, Servizio parcheggio, Parcheggio validato, Accessibile in sedia a rotelle  ',   
+    'https://www.facebook.com/refletsparpierregagnaire#_=_ ',
+    default,
+    default,
+    default,
+    default,
+    default,
+    default,
+    3,
+    1,
+    'Al Rebat Street | Al Rebat Street, Dubai 45777, Emirati Arabi Uniti'
+    null,
+    null,
+    30,
+    40,
+	Emirati Arabi Uniti, 
+	Dubai,
+	Dubai
+);
+
+
+
+
+insert into ORARIO VALUES
+(
+	29,
+	lunedì,
+	19,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	29,
+	martedì,
+	19,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	29,
+	mercoledì,
+	19,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	29,
+	giovedì,
+	19,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	29,
+	venerdì,
+	19,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	29,
+	sabato,
+	19,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	29,
+	domenica,
+	19,
+	00,
+	24,
+	00
+);
+
+
+
+insert into RESTAURANTS VALUES
+(
+    default,
+    'the Ivy ',
+    ' Posti a sedere, Personale di sala, Parcheggio disponibile, Parcheggio validato, Servizio parcheggio, Accessibile in sedia a rotelle, Serve alcolici, Bar completo, Vino e birra, Connessione Wi-Fi gratuita, Accetta prenotazioni ',   
+    'http://www.theivydubai.ae/#_=_',
+    default,
+    default,
+    default,
+    default,
+    default,
+    default,
+    3,
+    7,
+    'The Boulevard | Ground Level, Jumeirah Emirates Towers, Dubai, Emirati Arabi Uniti '
+    null,
+    null,
+    30,
+    60,
+	Emirati Arabi Uniti, 
+	Dubai,
+	Dubai
+);
+
+
+
+
+insert into ORARIO VALUES
+(
+	27,
+	lunedì,
+	12,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	27,
+	martedì,
+	12,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	27,
+	mercoledì,
+	12,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	27,
+	giovedì,
+	12,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	27,
+	venerdì,
+	12,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	27,
+	sabato,
+	12,
+	00,
+	24,
+	00
+);
+
+
+insert into ORARIO VALUES
+(
+	27,
+	domenica,
+	12,
+	00,
+	24,
+	00
+);
+
+
+
+insert into RESTAURANTS VALUES
+(
+    default,
+    'Somersets ',
+    'Da asporto, Accetta prenotazioni, Posti a sedere, Personale di sala, Parcheggio disponibile, Servizio parcheggio, Televisore, Accessibile in sedia a rotelle, Serve alcolici, Bar completo, Connessione Wi-Fi gratuita ',   
+    'http://www.movenpick.com/en/middle-east/uae/dubai/hotel-dubai-bur/restaurants/restaurants/#_=_ ',
+    default,
+    default,
+    default,
+    default,
+    default,
+    default,
+    3,
+    1,
+    'Movenpick Hotel & Apartments Bur Dubai, 19th Street, Oud Metha, Dubai, United Arab Emirates, Dubai 32733, Emirati Arabi Uniti '
+    null,
+    null,
+    30,
+    40,
+	Emirati Arabi Uniti, 
+	Dubai,
+	Dubai
+);
+
+
+
+
+insert into ORARIO VALUES
+(
+	21,
 	lunedì,
 	11,
-	00,
-	21,
+	30,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	21,
 	martedì,
 	11,
-	00,
-	21,
+	30,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	21,
 	mercoledì,
-	11;
-	00,
-	21,
+	11,
+	30,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	21,
 	giovedì,
 	11,
-	00,
-	21,
+	30,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	21,
 	venerdì,
 	11,
-	00,
-	21,
+	30,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	21,
 	sabato,
 	11,
-	00,
-	21,
+	30,
+	24,
 	00
 );
 
 
 insert into ORARIO VALUES
 (
-	12,
+	21,
 	domenica,
 	11,
-	00,
-	20,
+	30,
+	24,
 	00
 );
+
 
 
 
@@ -3114,6 +4851,8 @@ insert into STATES VALUES('Russia');
 insert into STATES VALUES('Germania');
 insert into STATES VALUES('Cina');
 insert into STATES VALUES('Giappone');
+insert into STATES VALUES('Emirati Arabi Uniti');
+
 
 insert into REGIONS VALUES('Italia', 'Lombardia');
 insert into REGIONS VALUES('Italia', 'Trentino Alto-Adige');
@@ -3135,7 +4874,10 @@ insert into REGIONS VALUES('United States of America', 'Michigan');
 insert into REGIONS VALUES('United States of America', 'Washington');
 insert into REGIONS VALUES('United States of America', 'New York');
 insert into REGIONS VALUES('United States of America', 'Texas');
-
+insert into REGIONS VALUES('Emirati Arabi Uniti', 'Dubai');
+insert into REGIONS VALUES('Emirati Arabi Uniti', 'Ajman');
+insert into REGIONS VALUES('Emirati Arabi Uniti', 'Abu Dhabi');
+insert into REGIONS VALUES('Emirati Arabi Uniti', 'Fujairah');
 
 insert into CITIES VALUES('Italia', 'Lombardia', 'Mantova');
 insert into CITIES VALUES('Italia', 'Lombardia', 'Milano');
@@ -3148,7 +4890,8 @@ insert into CITIES VALUES('Italia', 'Lazio', 'Roma');
 insert into CITIES VALUES('Italia', 'Piemonte', 'Torino');
 insert into CITIES VALUES('Italia', 'Friuli Venezia-Giulia', 'Pordenone');
 insert into CITIES VALUES('Italia', 'Friuli Venezia-Giulia', 'Trieste');
-insert into CITIES VALUES('Italia', 'Sicilia', 'Palermo');
+
+insert into CITIES VALUES('Emirati Arabi Uniti', 'Dubai', 'Dubai');
 
 insert into CITIES VALUES('Regno Unito', 'Inghilterra', 'Londra');
 insert into CITIES VALUES('Regno Unito', 'Inghilterra', 'Liverpool');
