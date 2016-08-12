@@ -992,12 +992,13 @@ public class DBManager implements Serializable {
             return;
         }
 
-        PreparedStatement stm = con.prepareStatement("SELECT COUNT(*) FROM APP.RESTAURANTS WHERE review_counter > 0 AND (global_review/review_counter) > ? AND state = ? AND region = ? AND city = ?");
+        PreparedStatement stm = con.prepareStatement("SELECT COUNT(*) FROM (SELECT review_counter, global_review FROM APP.RESTAURANTS WHERE review_counter > 0 AND state = ? AND region = ? AND city = ?) AS R WHERE (global_review/review_counter) > ?");
         try {
-            stm.setDouble(1, r.getGlobal_review());
-            stm.setString(2, r.getState());
-            stm.setString(3, r.getRegion());
-            stm.setString(4, r.getCity());
+            
+            stm.setString(1, r.getState());
+            stm.setString(2, r.getRegion());
+            stm.setString(3, r.getCity());
+            stm.setDouble(4, r.getGlobal_review());
             ResultSet rs = stm.executeQuery();
             try {
                 if (rs.next()) {
@@ -1157,12 +1158,14 @@ public class DBManager implements Serializable {
         PreparedStatement stm = con.prepareStatement("INSERT INTO APP.NOTIFICATIONS_PHOTO VALUES (?, ?)");
 
         try {
-            stm.setInt(1, photo);
+            
             if (target < 0) {
-                stm.setNull(2, java.sql.Types.INTEGER);
+                stm.setNull(1, java.sql.Types.INTEGER);
             } else {
-                stm.setInt(2, target);
+                stm.setInt(1, target);
             }
+            stm.setInt(2, photo);
+            
 
             stm.executeUpdate();
 

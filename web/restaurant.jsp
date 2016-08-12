@@ -49,49 +49,57 @@
                     
     <div class="col-md-12">
         <div class="col-md-8" style="padding-left: 2%; padding-top: 2%">
-            <div id="myCarousel" class="carousel slide" data-ride="carousel" >
-                <!-- Indicators -->
-                <c:choose>
-                    <c:when test="${restaurant.photos.size()>0}">
-                        <ol class="carousel-indicators">
-                            <li data-target="#myCarousel" data-slide-to="0" class ="active"></li>
-                            <c:forEach var='i' begin="1" end='${restaurant.photos.size()}'>
-                                <li data-target="#myCarousel" data-slide-to="<c:out value='${i}'/>"></li>
-                            </c:forEach>
-                        </ol>
-                        <div class="carousel-inner" role="listbox">
-                            <div class="item active">
-                                <img class="img-fluid center-block" src="data/sfondo_restaurant.jpg" alt="First slide">
+            <div class="row">
+                <div id="myCarousel" class="carousel slide" data-ride="carousel" >
+                    <!-- Indicators -->
+                    <c:choose>
+                        <c:when test="${restaurant.photos.size()>0}">
+                            <ol class="carousel-indicators">
+                                <li data-target="#myCarousel" data-slide-to="0" class ="active"></li>
+                                <c:forEach var='i' begin="1" end='${restaurant.photos.size()}'>
+                                    <li data-target="#myCarousel" data-slide-to="<c:out value='${i}'/>"></li>
+                                </c:forEach>
+                            </ol>
+                            <div class="carousel-inner" role="listbox">
+                                <div class="item active">
+                                    <img class="img-responsive center-block" src="data/sfondo_restaurant.jpg" alt="First slide">
+                                </div>
+
+                                <c:forEach var='p' items="${restaurant.photos}">
+                                  <div class="item">
+                                    <img class="img-responsive center-block" src="<c:out value='${p.path}'/>" alt="<c:out value='${p.name}'/>">
+
+                                  </div>
+                                </c:forEach>
                             </div>
-                            
-                            <c:forEach var='p' items="${restaurant.photos}">
-                              <div class="item">
-                                <img class="img-fluid center-block" src="<c:out value='${p.path}'/>" alt="<c:out value='${p.name}'/>">
-                              </div>
-                            </c:forEach>
-                        </div>
-                    </c:when>
-                    <c:otherwise>
-                        <ol class="carousel-indicators">
-                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        </ol>
-                        <div class="carousel-inner" role="listbox">
-                            <div class="item active">
-                             <img src="data/sfondo_restaurant.jpg" alt="First slide">
+                        </c:when>
+                        <c:otherwise>
+                            <ol class="carousel-indicators">
+                                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                            </ol>
+                            <div class="carousel-inner" role="listbox">
+                                <div class="item active">
+                                 <img src="data/sfondo_restaurant.jpg" alt="First slide">
+                                </div>
                             </div>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
-                
-                
-                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                  <span class="sr-only">Next</span>
-                </a>
+                        </c:otherwise>
+                    </c:choose>
+
+
+                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="jumbotron">
+                    <p><c:out value="${restaurant.description}"/></p>
+                </div>
             </div>
         </div>
         
@@ -179,7 +187,6 @@
                     </div>
                 </div>
             </div>
-        
         </div>
     </div>
             

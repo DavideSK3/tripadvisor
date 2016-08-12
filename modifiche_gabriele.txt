@@ -82,6 +82,11 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
  - usato la formattazione (con fmt) della valutazione globale per impedire che stampi tutti i numeri decimali (sia in restaurant.jsp che in result_list.jsp)
 
 
+(venerdì 12/8)
+
+ - aggiustato Carosello (forse)
+ - corretto errore inserimento notifiche foto
+
 
 
 

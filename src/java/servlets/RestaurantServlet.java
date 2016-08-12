@@ -61,15 +61,22 @@ public class RestaurantServlet extends HttpServlet {
             
             try{
                 r = manager.getRestaurant(Integer.parseInt(key));
-                req.setAttribute("restaurant", r);
-                rd = req.getRequestDispatcher("/restaurant.jsp");
+                
+                if(r != null){
+                    req.setAttribute("restaurant", r);
+                    rd = req.getRequestDispatcher("/restaurant.jsp");
+                }else{
+                    req.setAttribute("message", "Ristorante non esistente");
+                    rd = req.getRequestDispatcher("/message.jsp");
+                }
                 
             }catch (SQLException ex){
-                rd = req.getRequestDispatcher("/error_page.jsp");
+                req.setAttribute("message", "Ops, c'è stato un errore");
+                rd = req.getRequestDispatcher("/message.jsp");
                 Logger.getLogger(PasswordRecoveryServlet.class.getName()).log(Level.SEVERE, null, ex);
             }catch(NumberFormatException ex){
-                req.setAttribute("error", key);
-                rd = req.getRequestDispatcher("/error_page.jsp");
+                req.setAttribute("message", "Ristorante non esistente");
+                rd = req.getRequestDispatcher("/message.jsp");
             }
             
         }else{
@@ -100,10 +107,8 @@ public class RestaurantServlet extends HttpServlet {
             }catch (SQLException ex) {
                 Logger.getLogger(RestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            
         }
-        rd.forward(req, resp);
         
+        rd.forward(req, resp);
     }
 }

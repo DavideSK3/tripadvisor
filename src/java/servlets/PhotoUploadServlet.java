@@ -106,6 +106,7 @@ public class PhotoUploadServlet extends HttpServlet {
                     Logger.getLogger(PhotoUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if(owner >=0 && id >=0){
+                    System.out.println("owner = " + owner + " id photo = " + id);
                     try {
                         manager.newPhotoNotification(id, owner);
                         id = manager.insertPhoto(name, path, id_restaurant);
