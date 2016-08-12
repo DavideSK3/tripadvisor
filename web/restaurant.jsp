@@ -196,97 +196,96 @@
                 <h3 style="margin: 0 0; color: green"><c:out value='${restaurant.review_count}'/> recensioni su questo ristorante</h3>
             </div>
             <div class="col-md-4" style="padding-left: 0; padding-right: 0;">
-                <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal" style="background-color: limegreen; border-color: limegreen;  float:right"> Scrivi una recensione</button>
-                <div class="modal fade" id="myModal" role="dialog">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content" style="background-color: whitesmoke;">
-                            <div class="modal-header" style="border-bottom-width: 0;">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h3 class="modal-title"> <b>Scrivi una recensione</b></h3>
-                             </div>
-                            <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
-                                <form ENCTYPE='multipart/form-data' method='POST' action='Review'accept-charset="ISO-8859-1">
-                                    <input type="hidden" name ="id_restaurant" value ="<c:out value='${restaurant.id}'/>">
-                                    <input type ="hidden" name ="return_address" value ="Restaurant?restaurantID=<c:out value='${restaurant.id}'/>">
-                                    <input type ="hidden" name ="review" value ="true">
-                                    <span style="font-size: 120%"><b>Inserisci un voto</b></span> 
+                <c:if test="${user != null}">
+                
+                    <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal" style="background-color: limegreen; border-color: limegreen;  float:right"> Scrivi una recensione</button>
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content" style="background-color: whitesmoke;">
+                                <div class="modal-header" style="border-bottom-width: 0;">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h3 class="modal-title"> <b>Scrivi una recensione</b></h3>
+                                 </div>
+                                <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
+                                    <form ENCTYPE='multipart/form-data' method='POST' action='Review'accept-charset="ISO-8859-1">
+                                        <input type="hidden" name ="id_restaurant" value ="<c:out value='${restaurant.id}'/>">
+                                        <input type ="hidden" name ="return_address" value ="Restaurant?restaurantID=<c:out value='${restaurant.id}'/>">
+                                        <input type ="hidden" name ="review" value ="true">
+                                        <span style="font-size: 120%"><b>Inserisci un voto</b></span> 
 
-                                    <div class="rating" id="rating" style="padding-right: 20%; padding-top: 10px; float:right">
-                                        <span><input type="radio" name="global" id="str5" value="5"><label for="str5"></label></span>
-                                        <span><input type="radio" name="global" id="str4" value="4"><label for="str4"></label></span>
-                                        <span><input type="radio" name="global" id="str3" value="3"><label for="str3"></label></span>
-                                        <span><input type="radio" name="global" id="str2" value="2"><label for="str2"></label></span>
-                                        <span><input type="radio" name="global" id="str1" value="1"><label for="str1"></label></span>
-                                    </div><br><br>
-                                    <span style="font-size: 120%"><b>Titolo della recensione</b></span> <br><br>
-                                    <input type="text" name="title" style="width:100%" maxlength="120" placeholder="Riassumi la tua visita o concentrati su un dettaglio interessante">
-                                    <br><br>
-                                    <span style="font-size: 120%"><b>La tua recensione</b></span><br><br>
-                                    <textarea name="description" data-minlen="100" style="width:100%; min-height: 30%" placeholder="Racconta ai viaggiatori la tua esperienza: come descriveresti il cibo, l'atmosfera, il servizio?"></textarea>
-                                    <br><br>
-                                    <span style="font-size: 120%"><b>Ulteriori dettagli sul voto</b></span><br><br>
-                                    <div class="voti">
-                                        <span style="color: grey; padding: 10px 10px">Cucina :</span>
-                                        <input type="number" name="food" min="1" max="5">    
-                                        &nbsp;
-                                        <span style="color: grey; padding: 10px 10px">Servizio :</span>
-                                        <input type="number" name="service" min="1" max="5">     
-                                        &nbsp;
-                                        <span style="color: grey; padding: 10px 10px">Rapporto Qualità / Prezzo :</span>
-                                        <input type="number" name="money" min="1" max="5"> 
-                                        &nbsp;
-                                        <span style="color: grey; padding: 10px 10px">Atmosfera :</span>
-                                        <input type="number" name="atmosphere" min="1" max="5">     
-                                    </div>
-                                    <div style="padding: 15px 10px;">
-                                        <span style="color: grey;" >Inserisci una foto: &nbsp; </span>
-                                        <input style=" display: initial"  TYPE='file' NAME='img'>
-                                        <input type="text" name="photoName" style="width:50%; padding: 5px 10px" maxlength="25" placeholder="Cosa rappresenta questa foto?">
-                                    </div>
-                                    <input style="float: right" class="btn btn-default" TYPE='submit'>
-                                    <button style="float: left" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </form>
-                            </div>
-                            <div class="modal-footer" style="border-top-width: 0;">
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal2" style="background-color: limegreen; border-color: limegreen;  float:right; margin-right: 5%;"> Aggiungi una foto</button>
-                <div class="modal fade" id="myModal2" role="dialog">
-                    <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <div class="modal-header" style="border-bottom-width: 0;">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h3 class="modal-title"> <b>Aggiungi una foto</b></h3>
-                            </div>
-                            <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
-                                <form ENCTYPE='multipart/form-data' method='POST' action='PhotoUpload'>
-                                    <input type="hidden" name ="id_restaurant" value ="<c:out value='${restaurant.id}'/>">
-                                    <input type ="hidden" name ="return_address" value ="Restaurant?restaurantID=<c:out value='${restaurant.id}'/>">
-                                    <input type="hidden" name ="review" value ="false">
-                                    <div style="padding-bottom: 20px; ">
-                                        <span style="color: grey; padding-bottom: 10px;" >Inserisci una foto: &nbsp; </span>
-                                        <input style=" display: initial"  TYPE='file' NAME='img'>
-                                        <input type="text" name="photoName" style="width:100%; padding: 5px 10px; margin: 10px 0px;" maxlength="25" placeholder="Cosa rappresenta questa foto?">
-                                    </div>
-                                    <input style="float: right" class="btn btn-default" TYPE='submit'>
-                                    <button style="float: left" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </form>
-                            </div>
-                            <div class="modal-footer" style="border-top-width: 0;">
-                                
+                                        <div class="rating" id="rating" style="padding-right: 20%; padding-top: 10px; float:right">
+                                            <span><input type="radio" name="global" id="str5" value="5"><label for="str5"></label></span>
+                                            <span><input type="radio" name="global" id="str4" value="4"><label for="str4"></label></span>
+                                            <span><input type="radio" name="global" id="str3" value="3"><label for="str3"></label></span>
+                                            <span><input type="radio" name="global" id="str2" value="2"><label for="str2"></label></span>
+                                            <span><input type="radio" name="global" id="str1" value="1"><label for="str1"></label></span>
+                                        </div><br><br>
+                                        <span style="font-size: 120%"><b>Titolo della recensione</b></span> <br><br>
+                                        <input type="text" name="title" style="width:100%" maxlength="120" placeholder="Riassumi la tua visita o concentrati su un dettaglio interessante">
+                                        <br><br>
+                                        <span style="font-size: 120%"><b>La tua recensione</b></span><br><br>
+                                        <textarea name="description" data-minlen="100" style="width:100%; min-height: 30%" placeholder="Racconta ai viaggiatori la tua esperienza: come descriveresti il cibo, l'atmosfera, il servizio?"></textarea>
+                                        <br><br>
+                                        <span style="font-size: 120%"><b>Ulteriori dettagli sul voto</b></span><br><br>
+                                        <div class="voti">
+                                            <span style="color: grey; padding: 10px 10px">Cucina :</span>
+                                            <input type="number" name="food" min="1" max="5">    
+                                            &nbsp;
+                                            <span style="color: grey; padding: 10px 10px">Servizio :</span>
+                                            <input type="number" name="service" min="1" max="5">     
+                                            &nbsp;
+                                            <span style="color: grey; padding: 10px 10px">Rapporto Qualità / Prezzo :</span>
+                                            <input type="number" name="money" min="1" max="5"> 
+                                            &nbsp;
+                                            <span style="color: grey; padding: 10px 10px">Atmosfera :</span>
+                                            <input type="number" name="atmosphere" min="1" max="5">     
+                                        </div>
+                                        <div style="padding: 15px 10px;">
+                                            <span style="color: grey;" >Inserisci una foto: &nbsp; </span>
+                                            <input style=" display: initial"  TYPE='file' NAME='img'>
+                                            <input type="text" name="photoName" style="width:50%; padding: 5px 10px" maxlength="25" placeholder="Cosa rappresenta questa foto?">
+                                        </div>
+                                        <input style="float: right" class="btn btn-default" TYPE='submit'>
+                                        <button style="float: left" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </form>
+                                </div>
+                                <div class="modal-footer" style="border-top-width: 0;">
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                  
+                    <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal2" style="background-color: limegreen; border-color: limegreen;  float:right; margin-right: 5%;"> Aggiungi una foto</button>
+                    <div class="modal fade" id="myModal2" role="dialog">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header" style="border-bottom-width: 0;">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h3 class="modal-title"> <b>Aggiungi una foto</b></h3>
+                                </div>
+                                <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
+                                    <form ENCTYPE='multipart/form-data' method='POST' action='PhotoUpload'>
+                                        <input type="hidden" name ="id_restaurant" value ="<c:out value='${restaurant.id}'/>">
+                                        <input type ="hidden" name ="return_address" value ="Restaurant?restaurantID=<c:out value='${restaurant.id}'/>">
+                                        <input type="hidden" name ="review" value ="false">
+                                        <div style="padding-bottom: 20px; ">
+                                            <span style="color: grey; padding-bottom: 10px;" >Inserisci una foto: &nbsp; </span>
+                                            <input style=" display: initial"  TYPE='file' NAME='img'>
+                                            <input type="text" name="photoName" style="width:100%; padding: 5px 10px; margin: 10px 0px;" maxlength="25" placeholder="Cosa rappresenta questa foto?">
+                                        </div>
+                                        <input style="float: right" class="btn btn-default" TYPE='submit'>
+                                        <button style="float: left" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </form>
+                                </div>
+                                <div class="modal-footer" style="border-top-width: 0;">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </c:if>
             </div>
-            
-            
-            
-            
+                       
             
             <c:forEach var='rec' items='${restaurant.recensioni}'>
                 

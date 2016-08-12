@@ -24,6 +24,7 @@
  - togliere i secondi da orari nei ristoranti
  - nel ristorante mettere gli orari ordinati per giorno (e ora di inizio)
  - POSIZIONE IN CLASSIFICA PER CITTÀ ---> RICERCHE SOLO PER CITTÀ E NON PER STATO/REGIONE? (se cerco stato/regione mi dà elenco città)
+ - aggiustare filtro per pagine a cui non può accedere utente non registrato, ecc..
 
 
 

@@ -1021,7 +1021,7 @@ public class DBManager implements Serializable {
             try {
                 while (rs.next()) {
                     r.addPhoto(new Photo(rs.getString("name"), rs.getString("path")));
-                    System.out.println(rs.getString("path"));
+                    //System.out.println(rs.getString("path"));
                 }
             } finally {
                 rs.close();

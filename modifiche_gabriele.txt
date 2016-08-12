@@ -86,6 +86,8 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
 
  - aggiustato Carosello (forse)
  - corretto errore inserimento notifiche foto
+ - aggiunta gestione connessione a ristorante inesistente
+ - se l'utente non è registrato scompaiono i pulsanti per inserire recensioni e foto
 
 
 
