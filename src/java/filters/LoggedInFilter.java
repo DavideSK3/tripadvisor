@@ -54,6 +54,7 @@ public class LoggedInFilter implements Filter {
         
         HttpSession session = req.getSession(false);
         
+        request.setCharacterEncoding("UTF-8");
         
         if(session == null || session.getAttribute("user")==null){
             resp.sendRedirect(req.getContextPath());

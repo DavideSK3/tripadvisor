@@ -6,6 +6,7 @@
 package servlets;
 
 import db.DBManager;
+import db.Orario;
 import db.Restaurant;
 import db.User;
 import java.io.IOException;
@@ -19,6 +20,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import net.glxn.qrgen.QRCode;
+import net.glxn.qrgen.image.ImageType;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  *
@@ -107,8 +118,66 @@ public class RestaurantServlet extends HttpServlet {
             }catch (SQLException ex) {
                 Logger.getLogger(RestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            getQR(r);
         }
         
-        rd.forward(req, resp);
+        rd.include(req, resp);
+        
+        if(r!=null){
+            File f = new File(getServletContext().getRealPath("/"+r.getQr_path()));
+            f.deleteOnExit();
+        }
+        
     }
+    
+    public void getQR(Restaurant r){
+        StringBuilder s = new StringBuilder();
+        s.append(r.getName())
+                .append(":\n")
+                .append(r.getAddress())
+                .append(", ")
+                .append(r.getCity())
+                .append(", ")
+                .append(r.getRegion())
+                .append(", ")
+                .append(r.getState())
+                .append("\nOrari: ");
+        
+        for(Orario o : r.getOrari()){
+            s.append("   ")
+                .append(o.getGiorno())
+                .append(": ")
+                .append(o.getAperturaString())
+                .append(" - ")
+                .append(o.getChiusuraString())
+                .append("\n");
+        }
+        
+        
+        ByteArrayOutputStream out = QRCode.from(s.toString()).to(ImageType.JPG).withSize(200, 200).stream();
+        
+        File dir = new File(getServletContext().getRealPath("") +  super.getServletContext().getInitParameter("qrDir"));
+
+        String name = String.format("%s.%s", RandomStringUtils.randomAlphanumeric(8), "dat");
+
+        File file = new File(dir, name);
+
+        try {
+                FileOutputStream fout = new FileOutputStream(file);
+
+                fout.write(out.toByteArray());
+
+                fout.flush();
+                fout.close();
+
+        } catch (FileNotFoundException e) {
+                // Do Logging
+        } catch (IOException e) {
+                // Do Logging
+        }
+        r.setQr_path(super.getServletContext().getInitParameter("qrDir") + "/" + name);
+        
+    }
+    
 }

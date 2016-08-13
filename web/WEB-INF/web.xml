@@ -10,6 +10,10 @@
         <param-name>photoDir</param-name>
         <param-value>photo</param-value>
     </context-param>
+    <context-param>
+        <param-name>qrDir</param-name>
+        <param-value>qrTemp</param-value>
+    </context-param>
     
     
     <welcome-file-list>

@@ -35,6 +35,8 @@ public class Restaurant implements Serializable{
     private String city;
     private String region;
     private String state;
+    
+    private String qr_path;
 
     private ArrayList<String> cuisines;
     
@@ -419,5 +421,19 @@ public class Restaurant implements Serializable{
             recensioni = new ArrayList<>();
         }
         recensioni.add(r);
+    }
+
+    /**
+     * @return the qr_path
+     */
+    public String getQr_path() {
+        return qr_path;
+    }
+
+    /**
+     * @param qr_path the qr_path to set
+     */
+    public void setQr_path(String qr_path) {
+        this.qr_path = qr_path;
     }
 }

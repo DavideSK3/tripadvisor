@@ -1,5 +1,6 @@
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -17,37 +18,43 @@
         <%@include file="header.jsp"%>
         
         <div class="container" style="background-color: white; width: 100%">
-            <div class="col-md-12" style="padding-top: 20px">
-                <span style="font-size: 250%;"><c:out value='${restaurant.name}'/></span>
-                <a href="#" data-toggle="tooltip" data-placement="right" title="Inizia a gestire la tua pagina!">Questo è il tuo ristorante?</a>
-            </div>
-            <div class="col-md-12" style="padding-left: 2%; padding-top: 10px;">
-                <div style="">
-                    <c:forEach var='i' begin='1' end='${restaurant.global_review}' step='1'>
-                        <span class="glyphicon glyphicon-star media"></span>
-                    </c:forEach>
-                    <c:forEach var='i' begin='${restaurant.global_review + 1}' end ='5' step='1'>
-                        <span class="glyphicon glyphicon-star-empty media"></span>
-                    </c:forEach>
-                        &nbsp;
-                    <span class="badge"><fmt:formatNumber type="number" maxFractionDigits="2" value="${restaurant.global_review}" />&nbsp;<span class="glyphicon glyphicon-star-empty"></span>&nbsp; su <c:out value='${restaurant.review_count}'/> recensioni</span>
-                    
-                    <span style="color: green; padding-left: 1%; font-size: 135%;"> |&nbsp; &nbsp; &nbsp;N. <c:out value='${restaurant.posizione}'/> dei ristoranti in <c:out value='${restaurant.city}'/></span>    
-                    
+            <div class="col-md-9">
+                <div class="col-md-12" style="padding-top: 20px">
+                    <span style="font-size: 250%;"><c:out value='${restaurant.name}'/></span>
+                    <a href="#" data-toggle="tooltip" data-placement="right" title="Inizia a gestire la tua pagina!">Questo &egrave il tuo ristorante?</a>
+                </div>
+                <div class="col-md-12" style="padding-left: 2%; padding-top: 10px;">
+                    <div style="">
+                        <c:forEach var='i' begin='1' end='${restaurant.global_review}' step='1'>
+                            <span class="glyphicon glyphicon-star media"></span>
+                        </c:forEach>
+                        <c:forEach var='i' begin='${restaurant.global_review + 1}' end ='5' step='1'>
+                            <span class="glyphicon glyphicon-star-empty media"></span>
+                        </c:forEach>
+                            &nbsp;
+                        <span class="badge"><fmt:formatNumber type="number" maxFractionDigits="2" value="${restaurant.global_review}" />&nbsp;<span class="glyphicon glyphicon-star-empty"></span>&nbsp; su <c:out value='${restaurant.review_count}'/> recensioni</span>
+
+                        <span style="color: green; padding-left: 1%; font-size: 135%;"> |&nbsp; &nbsp; &nbsp;N. <c:out value='${restaurant.posizione}'/> dei ristoranti in <c:out value='${restaurant.city}'/></span>    
+
+                    </div>
+                </div>
+                <div class="col-md-12" style="padding-left: 2%; padding-bottom: 10px;">
+                    <div style="margin-top:10px;">
+                        <span class="glyphicon glyphicon-cutlery"></span>&nbsp;
+                        <span>Cucina:</span>&nbsp; 
+                        <c:forEach var='c' items="${restaurant.cuisines}">
+                            <span style="color:limegreen;"><c:out value="${c}"/></span>&nbsp;
+                        </c:forEach>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-12" style="padding-left: 2%; padding-bottom: 10px;">
-                <div style="margin-top:10px;">
-                    <span class="glyphicon glyphicon-cutlery"></span>&nbsp;
-                    <span>Cucina:</span>&nbsp; 
-                    <c:forEach var='c' items="${restaurant.cuisines}">
-                        <span style="color:limegreen;"><c:out value="${c}"/></span>&nbsp;
-                    </c:forEach>
-                </div>
+            <div class="col-md-3">
+                <img src="<c:out value='${restaurant.qr_path}'/>">
             </div>
+            
         </div>
                     
-    <div class="col-md-12">
+        <div class="col-md-12">
         <div class="col-md-8" style="padding-left: 2%; padding-top: 2%">
             <div class="row">
                 <div id="myCarousel" class="carousel slide" data-ride="carousel" >
@@ -126,7 +133,7 @@
                         <span class="glyphicon glyphicon-time" style="top: 0;"><b>&nbsp;Orari:</b></span><br>
                         <c:forEach var='o' items="${restaurant.orari}">
                             <span style="padding-left: 3em"><c:out value='${o.giorno}'/> </span>
-                            <span style="float: right; padding-right: 5%"><c:out value='${o.apertura}'/> - <c:out value='${o.chiusura}'/> &nbsp; </span>
+                            <span style="float: right; padding-right: 5%"><c:out value='${o.getAperturaString()}'/> - <c:out value='${o.getChiusuraString()}'/> &nbsp; </span>
                             <br>
                         </c:forEach>
                         
@@ -164,7 +171,7 @@
                             </c:forEach>
                             &nbsp;
                         </div>
-                        <span style="color: grey; padding: 10px 10px">Rapporto Qualità / Prezzo :</span>
+                        <span style="color: grey; padding: 10px 10px">Rapporto Qualit&agrave / Prezzo :</span>
                         <div style="padding-left:70% ;">
                             <c:forEach var='i' begin='1' end='${restaurant.money_review}' step='1'>
                                 <span class="glyphicon glyphicon-star media"></span>
@@ -207,7 +214,7 @@
                                     <h3 class="modal-title"> <b>Scrivi una recensione</b></h3>
                                  </div>
                                 <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
-                                    <form ENCTYPE='multipart/form-data' method='POST' action='Review'accept-charset="ISO-8859-1">
+                                    <form ENCTYPE='multipart/form-data' method='POST' action='Review'accept-charset="UTF-8">
                                         <input type="hidden" name ="id_restaurant" value ="<c:out value='${restaurant.id}'/>">
                                         <input type ="hidden" name ="return_address" value ="Restaurant?restaurantID=<c:out value='${restaurant.id}'/>">
                                         <input type ="hidden" name ="review" value ="true">
@@ -234,7 +241,7 @@
                                             <span style="color: grey; padding: 10px 10px">Servizio :</span>
                                             <input type="number" name="service" min="1" max="5">     
                                             &nbsp;
-                                            <span style="color: grey; padding: 10px 10px">Rapporto Qualità / Prezzo :</span>
+                                            <span style="color: grey; padding: 10px 10px">Rapporto Qualit&agrave / Prezzo :</span>
                                             <input type="number" name="money" min="1" max="5"> 
                                             &nbsp;
                                             <span style="color: grey; padding: 10px 10px">Atmosfera :</span>
@@ -336,7 +343,7 @@
                                     </c:forEach>
                                     &nbsp;
                                 </div>
-                                <span style="color: grey; padding: 10px 10px">Rapporto Qualità / Prezzo :</span>
+                                <span style="color: grey; padding: 10px 10px">Rapporto Qualit&agrave / Prezzo :</span>
                                 <div style="padding: 5px 10%;">
                                     <c:forEach var='i' begin='1' end='${rec.value_for_money}' step='1'>
                                         <span class="glyphicon glyphicon-star"></span>

@@ -6,6 +6,7 @@
 package db;
 
 import java.sql.Time;
+import java.util.Calendar;
 
 /**
  *
@@ -64,5 +65,11 @@ public class Orario {
         this.chiusura = chiusura;
     }
     
+    public String getChiusuraString(){
+        return chiusura.toString().substring(0, 5);
+    }
+    public String getAperturaString(){
+        return apertura.toString().substring(0, 5);
+    }
     
 }

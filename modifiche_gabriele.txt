@@ -89,6 +89,11 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
  - aggiunta gestione connessione a ristorante inesistente
  - se l'utente non è registrato scompaiono i pulsanti per inserire recensioni e foto
 
+(sabato 13/8)
+ 
+ - fatto QR code (da visualizzare meglio su pagina ora)
+ - tolti secondi da orari del ristorante
+
 
 
 
