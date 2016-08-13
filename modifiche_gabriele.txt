@@ -93,6 +93,8 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
  
  - fatto QR code (da visualizzare meglio su pagina ora)
  - tolti secondi da orari del ristorante
+ - quando utente fa recupero password, cancella da db il token usato
+ - aggiustati alcuni caratteri accentati in restaurant.jsp
 
 
 

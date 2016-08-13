@@ -128,6 +128,19 @@ public class DBManager implements Serializable {
             stm.close();
         }
     }
+    
+    public void removeToken(int id, String token) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("DELETE FROM APP.tokens WHERE id = ? AND token = ?");
+        try {
+            stm.setInt(1, id);
+            stm.setString(2, token);
+
+            int rs = stm.executeUpdate();
+
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+    }
 
     public User getUserByToken(String token) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT id, name, surname, email, type "

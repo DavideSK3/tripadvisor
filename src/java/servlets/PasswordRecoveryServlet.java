@@ -87,8 +87,8 @@ public class PasswordRecoveryServlet extends HttpServlet {
         
     }
     
-    final String username = "gabriele.cesa@gmail.com";
-    final String password = "aithixbtwdqyrppd";
+    private final String username = "gabriele.cesa@gmail.com";
+    private final String password = "aithixbtwdqyrppd";
     
     
     private void sendMail(String to, String user, String token){

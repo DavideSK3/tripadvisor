@@ -69,6 +69,12 @@ public class ChangePasswordServlet extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher("/message.jsp");
                 rd.forward(request, response);
             }else{
+                try{
+                    manager.removeToken(user.getId(), token);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ChangePasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 
                 HttpSession session = request.getSession(true);
                 session.setAttribute("change_password_user", user);
