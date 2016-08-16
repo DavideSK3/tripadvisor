@@ -1,3 +1,13 @@
+	BUG:
+ - PROBLEMA ENCODING CARATTERI (non so da dove sia saltato fuori... prima non c'era): problema con caratteri accentati, simbolo €, ecc...
+	nella pagina restaurant.jsp
+ - se non si hanno voti, non deve apparire la posizione
+ - NEL DB MANAGER LA GESTIONE ATTUALE DEI VALORI NULL NON VA BENE: a volte un valore può anche essere zero (es id o min price) ma verrebbe scambiato per null. Meglio usare qualcosa tipo ' r.setId_photo((Integer)rs.getObject("id_photo"));
+
+ - CAMBIARE OGNI OCCORRENZA DI "http://localhost:8084/" CON UNA VARIABILE CONTENENTE TALE INDIRIZZO, RENDENDO IL SITO PORTABILE
+
+
+
 	DAVIDE 
 
  - possibilità di reclamare ristorante	(con notifica all'amministratore che deve confermare)		DA IMPLEMENTARE
@@ -17,31 +27,26 @@
  - fare grafica per mail_form.jsp
 
 	GABRI
-
- - NUOVA RECENSIONE DI UN UTENTE CANCELLA LA PRECEDENE? (nel documento del progetto è scritto "la possibilità per un utente di lasciare una o più recensioni ad uno o più ristoranti" quindi lascerei la possibilità di inserire più recensioni, magari richiedendo che siano almeno in 2 giorni diversi)
- 
+ - esprimere angoli in sessadecimale invece che in radianti per geolocalizzazione
  - aggiungere il campo "foto principale" al ristorante
  - nel ristorante mettere gli orari ordinati per giorno (e ora di inizio)
- - aggiustare filtro per pagine a cui non può accedere utente non registrato, ecc..
- - generare qr code staticamnete alla creazione (o update) del ristorante invece che creare una copia ogni volta inutilmente
+
  - POSIZIONE IN CLASSIFICA PER CITTÀ ---> RICERCHE SOLO PER CITTÀ E NON PER STATO/REGIONE? (se cerco stato/regione mi dà elenco città)
    (però, nelle specifiche del progetto è scritto "Un motore di ricerca che permetta di visualizzare un elenco di ristoranti in base a varie tipologia di scelta [...]: per zona geografica (elenco di ristoranti per stato, città, provincia )" ).
 
+
+ - valutare a DB completo le prestazioni e decidere se traportare su postgresql
+ - fare una email apposta per mandare cambio password invece che usare la mia
+ - generare qr code staticamnete alla creazione (o update) del ristorante invece che creare una copia ogni volta inutilmente		(eventualmente da fare alla fine)
+ - NUOVA RECENSIONE DI UN UTENTE CANCELLA LA PRECEDENE? (nel documento del progetto è scritto "la possibilità per un utente di lasciare una o più recensioni ad uno o più ristoranti" quindi lascerei la possibilità di inserire più recensioni, magari richiedendo che siano almeno in 2 giorni diversi)   ---- superfluo, eventualmente aggiungere alla fine
 
 
 	SARA
  - riscrivere orari nel formato giusto
  - latitudine e longiudine
  - giorni e luoghi con virgolette ' '
+ - (possibilmente giorni espressi i numero: 'lunedì' = 1, 'martedì' = 2, ecc... eventualmente fai così per quelli ancora da fare, quelli già fatti li mettiamo a posto con lo strumento di sostituzione testo)
  - finire ultimi ristoranti/ecc...
 
-
-	BUG:
- - PROBLEMA ENCODING CARATTERI (non so da dove sia saltato fuori... prima non c'era): problema con caratteri accentati, simbolo €, ecc...
-	nella pagina restaurant.jsp
- - se non si hanno voti, non deve apparire la posizione
- - NEL DB MANAGER LA GESTIONE ATTUALE DEI VALORI NULL NON VA BENE: a volte un valore può anche essere zero (es id o min price) ma verrebbe scambiato per null. Meglio usare qualcosa tipo ' r.setId_photo((Integer)rs.getObject("id_photo"));
-
- - CAMBIARE OGNI OCCORRENZA DI "http://localhost:8084/" CON UNA VARIABILE CONTENENTE TALE INDIRIZZO, RENDENDO IL SITO PORTABILE
 
 

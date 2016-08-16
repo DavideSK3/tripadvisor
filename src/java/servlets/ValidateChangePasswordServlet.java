@@ -51,12 +51,12 @@ public class ValidateChangePasswordServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         if(session != null){
             
-            User user = (User)session.getAttribute("change_password_user");
-            
             String password1 = request.getParameter("password1");
             String password2 = request.getParameter("password2");
+            
+            User user = (User)session.getAttribute("user");
+            
             if(user == null){
-                //TODO - cosa fare se non cè un utente!?!?!!?
                 request.setAttribute("message", "Non c'è nessun utente");
                 RequestDispatcher rd = request.getRequestDispatcher("/change_password.jsp");
                 rd.forward(request, response);
@@ -71,18 +71,17 @@ public class ValidateChangePasswordServlet extends HttpServlet {
                     Logger.getLogger(ValidateChangePasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-                //TODO - cosa fare se c'era già un login!?!?!?!?
-                session.removeAttribute("change_password_user");
+                session.removeAttribute("user");
                 session.invalidate();
-                
                 
                 request.setAttribute("message", "Password cambiata, rieffettua il login");
                 RequestDispatcher rd = request.getRequestDispatcher("/message.jsp");
                 rd.forward(request, response);
             }
         }else{
-            //TODO - cosa fare se non esiste la sessione!?!??!?!!
-            
+            request.setAttribute("message", "Non c'è nessun utente");
+            RequestDispatcher rd = request.getRequestDispatcher("/message.jsp");
+            rd.forward(request, response);
         }
         
         

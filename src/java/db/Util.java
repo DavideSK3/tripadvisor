@@ -188,7 +188,7 @@ public final class Util {
     public static final double R = 6371; // in km
     
     /**
-     * si assume che gli angoli siano già in radianti!!!
+     * si assume che gli angoli siano sessadecimali!!!
      * @param lo1
      * @param la1
      * @param lo2
@@ -196,6 +196,12 @@ public final class Util {
      * @return 
      */
     public static double computeLinearDistance(double lo1, double la1, double lo2, double la2){
+        
+        lo1 *= Math.PI/180.0;
+        la1 *= Math.PI/180.0;
+        lo2 *= Math.PI/180.0;
+        la2 *= Math.PI/180.0;
+        
         double df = la2- la1;
         double dl = lo2 - lo1;
         double sin_half_df = Math.sin(df/2);

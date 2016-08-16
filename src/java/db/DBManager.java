@@ -338,6 +338,16 @@ public class DBManager implements Serializable {
         }
     }
 
+    
+    public List<Restaurant> getRestaurants(String name, String place) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
+        try {
+            return getRestaurantsFilteredByNameSimilarity(stm, name);
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+    }
+
     public List<Restaurant> getRestaurantsByName(String name) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE name = ?");
         try {
@@ -357,16 +367,17 @@ public class DBManager implements Serializable {
             stm.close();
         }
     }
-
-    public List<Restaurant> getRestaurants(String name, String place) throws SQLException {
+    
+    public List<Restaurant> getRestaurantsByPlace(String place) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
         try {
-            return getRestaurantsFilteredByNameSimilarity(stm, name);
+            return getRestaurantsUnfiltered(stm);
         } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
             stm.close();
         }
     }
 
+    
     public List<Restaurant> getRestaurantsOrderedBy(String name, String place, String order) throws SQLException {
 
         StringBuilder query = new StringBuilder();
@@ -391,16 +402,7 @@ public class DBManager implements Serializable {
             stm.close();
         }
     }
-
-    public List<Restaurant> getRestaurantsByPlace(String place) throws SQLException {
-        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
-        try {
-            return getRestaurantsUnfiltered(stm);
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-    }
-
+    
     public List<Restaurant> getRestaurantsByPlaceOrderedBy(String place, String order) throws SQLException {
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '").append(place).append("%'");
@@ -947,6 +949,54 @@ public class DBManager implements Serializable {
 
     }
 
+    
+    /**
+     * -------- GESTIONE TABELLE LEGATE AI RISTORANTI -----------
+     */
+    public void calcolaPosizioneInClassifica(Restaurant r) throws SQLException {
+        if (r.getCity() == null || r.getRegion() == null || r.getState() == null) {
+            return;
+        }
+
+        PreparedStatement stm = con.prepareStatement("SELECT COUNT(*) FROM (SELECT review_counter, global_review FROM APP.RESTAURANTS WHERE review_counter > 0 AND state = ? AND region = ? AND city = ?) AS R WHERE (global_review/review_counter) > ?");
+        try {
+            
+            stm.setString(1, r.getState());
+            stm.setString(2, r.getRegion());
+            stm.setString(3, r.getCity());
+            stm.setDouble(4, r.getGlobal_review());
+            ResultSet rs = stm.executeQuery();
+            try {
+                if (rs.next()) {
+                    r.setPosizione(1 + rs.getInt(1));
+                }
+            } finally {
+                rs.close();
+            }
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+
+    }
+
+    
+    public void getRestaurantTimes(Restaurant r) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("SELECT giorno, apertura, chiusura FROM APP.ORARIO WHERE id = ? ORDER BY giorno, apertura");
+        try {
+            stm.setInt(1, r.getId());
+            ResultSet rs = stm.executeQuery();
+            try {
+                while (rs.next()) {
+                    r.addOrario(new Orario(rs.getInt("giorno"), rs.getTime("apertura"), rs.getTime("chiusura")));
+                }
+            } finally {
+                rs.close();
+            }
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+    }
+
     public List<String> getCuisines() throws SQLException {
 
         ArrayList<String> r_l = new ArrayList<>();
@@ -998,34 +1048,9 @@ public class DBManager implements Serializable {
     }
 
     /**
-     * --------GESTIONE RECENSIONI/FOTO-----------
+     * ------- GESTIONE FOTO/RECENSIONI -----------------
      */
-    public void calcolaPosizioneInClassifica(Restaurant r) throws SQLException {
-        if (r.getCity() == null || r.getRegion() == null || r.getState() == null) {
-            return;
-        }
-
-        PreparedStatement stm = con.prepareStatement("SELECT COUNT(*) FROM (SELECT review_counter, global_review FROM APP.RESTAURANTS WHERE review_counter > 0 AND state = ? AND region = ? AND city = ?) AS R WHERE (global_review/review_counter) > ?");
-        try {
-            
-            stm.setString(1, r.getState());
-            stm.setString(2, r.getRegion());
-            stm.setString(3, r.getCity());
-            stm.setDouble(4, r.getGlobal_review());
-            ResultSet rs = stm.executeQuery();
-            try {
-                if (rs.next()) {
-                    r.setPosizione(1 + rs.getInt(1));
-                }
-            } finally {
-                rs.close();
-            }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-
-    }
-
+    
     public void getRestaurantPhotos(Restaurant r) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT name, path FROM APP.photos WHERE id_restaurant = ?");
         try {
@@ -1035,23 +1060,6 @@ public class DBManager implements Serializable {
                 while (rs.next()) {
                     r.addPhoto(new Photo(rs.getString("name"), rs.getString("path")));
                     //System.out.println(rs.getString("path"));
-                }
-            } finally {
-                rs.close();
-            }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-    }
-
-    public void getRestaurantTimes(Restaurant r) throws SQLException {
-        PreparedStatement stm = con.prepareStatement("SELECT giorno, apertura, chiusura FROM APP.ORARIO WHERE id = ? ORDER BY giorno, apertura");
-        try {
-            stm.setInt(1, r.getId());
-            ResultSet rs = stm.executeQuery();
-            try {
-                while (rs.next()) {
-                    r.addOrario(new Orario(rs.getString("giorno"), rs.getTime("apertura"), rs.getTime("chiusura")));
                 }
             } finally {
                 rs.close();

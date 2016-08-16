@@ -29,6 +29,21 @@
         <filter-name>LoggedInFilter</filter-name>
         <servlet-name>ProfileServlet</servlet-name>
         <servlet-name>ReviewServlet</servlet-name>
+        <servlet-name>PhotoUploadServlet</servlet-name>
+        <servlet-name>Logout</servlet-name>
+    </filter-mapping>
+    
+    <filter>
+        <filter-name>LoggedOutFilter</filter-name>
+        <filter-class>filters.LoggedOutFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoggedOutFilter</filter-name>
+        <servlet-name>Login</servlet-name>
+        <servlet-name>Register</servlet-name>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        
+        
     </filter-mapping>
     
     

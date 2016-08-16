@@ -155,7 +155,7 @@ public class RestaurantServlet extends HttpServlet {
         }
         
         
-        ByteArrayOutputStream out = QRCode.from(s.toString()).to(ImageType.JPG).withSize(200, 200).stream();
+        ByteArrayOutputStream out = QRCode.from(s.toString()).to(ImageType.JPG).withSize(150, 150).stream();
         
         File dir = new File(getServletContext().getRealPath("") +  super.getServletContext().getInitParameter("qrDir"));
 

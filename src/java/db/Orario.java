@@ -13,12 +13,21 @@ import java.util.Calendar;
  * @author gabriele
  */
 public class Orario {
+    
+    public static final String[] days = {"Lunedì", "Martedì", "Mercoled&igrave;", "Gioved&igrave;", "Venerd&igrave;", "Sabato", "Domenica"};
 
     public Orario(String giorno, Time apertura, Time chiusura) {
         this.giorno = giorno;
         this.apertura = apertura;
         this.chiusura = chiusura;
     }
+    
+    public Orario(int giorno, Time apertura, Time chiusura) {
+        this.giorno = days[giorno];
+        this.apertura = apertura;
+        this.chiusura = chiusura;
+    }
+    
     private String giorno;
     private Time apertura;
     private Time chiusura;
@@ -35,6 +44,10 @@ public class Orario {
      */
     public void setGiorno(String giorno) {
         this.giorno = giorno;
+    }
+    
+    public void setGiorno(int giorno) {
+        this.giorno = days[giorno];
     }
 
     /**

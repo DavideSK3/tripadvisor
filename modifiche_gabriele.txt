@@ -97,6 +97,12 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
  - aggiustati alcuni caratteri accentati in restaurant.jsp
 
 
+(martedì 16/8)
+
+ - aggiunto filtro LoggedOut e aggiunto servlet filtrate da LoggedInFilter
+ - modificata servlet ValidateChangePasswordServlet in modo tale da poter essere usata anche per utenti loggati che vogliono cambiare password
+ - cambiato in sessadecimali la gestione delle coordinate (lat e long)
+ - cambiato identificazione giorno per gli orari da nome (Stringa) a intero ordinale
 
 
 

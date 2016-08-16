@@ -123,7 +123,7 @@ insert into RESTAURANTS VALUES
 insert into ORARIO VALUES
 (
 	1,
-	'martedì',
+	1,
 	'18:30',
 	'01:00'
 );
@@ -131,7 +131,7 @@ insert into ORARIO VALUES
 insert into ORARIO VALUES
 (
 	1,
-	'mercoledì',
+	2,
 	'18:30',
 	'01:00'
 );
@@ -139,7 +139,7 @@ insert into ORARIO VALUES
 insert into ORARIO VALUES
 (
 	1,
-	'giovedì',
+	3,
 	'18:30',
 	'01:00'
 );
@@ -147,7 +147,7 @@ insert into ORARIO VALUES
 insert into ORARIO VALUES
 (
 	1,
-	'venerdì',
+	4,
 	'18:30',
 	'01:00'
 );
@@ -155,7 +155,7 @@ insert into ORARIO VALUES
 insert into ORARIO VALUES
 (
 	1,
-	'sabato',
+	5,
 	'18:30',
 	'01:00'
 );
@@ -163,7 +163,7 @@ insert into ORARIO VALUES
 insert into ORARIO VALUES
 (
 	1,
-	'domenica',
+	6,
 	'18:30',
 	'01:00'
 );
@@ -174,7 +174,7 @@ insert into RESTAURANTS VALUES
     default,
     'Feudi',
     'Da asporto, Accetta prenotazioni, Personale di sala',   
-    'https://www.facebook.com/I-FEUDI-233088270078751/',
+    'www.facebook.com/I-FEUDI-233088270078751/',
     default,
     default,
     default,
@@ -196,7 +196,7 @@ insert into RESTAURANTS VALUES
 insert into ORARIO VALUES
 (
 	2,
-	'martedì',
+	1,
 	'11:00',
 	'15:00'
 );
@@ -204,7 +204,7 @@ insert into ORARIO VALUES
 insert into ORARIO VALUES
 (
 	2,
-	'martedì',
+	1,
 	'18:00',
 	'23:00'
 );
@@ -213,7 +213,7 @@ insert into ORARIO VALUES
 insert into ORARIO VALUES
 (
 	2,
-	'mercoledì',
+	2,
 	'11:00',
 	'15:00'
 );
@@ -221,14 +221,14 @@ insert into ORARIO VALUES
 insert into ORARIO VALUES
 (
 	2,
-	'mercoledì',
+	2,
 	'18:00',
 	'23:00'
 );
 insert into ORARIO VALUES
 (
 	2,
-	'giovedì',
+	3,
 	'11:00',
 	'15:00'
 );
@@ -236,14 +236,14 @@ insert into ORARIO VALUES
 insert into ORARIO VALUES
 (
 	2,
-	'giovedì',
+	3,
 	'18:00',
 	'23:00'
 );
 insert into ORARIO VALUES
 (
 	2,
-	'venerdì',
+	4,
 	'11:00',
 	'15:00'
 );
@@ -251,14 +251,14 @@ insert into ORARIO VALUES
 insert into ORARIO VALUES
 (
 	2,
-	'venerdì',
+	4,
 	'18:00',
 	'23:00'
 );
 insert into ORARIO VALUES
 (
 	2,
-	'sabato',
+	5,
 	'11:00',
 	'15:00'
 );
@@ -266,14 +266,14 @@ insert into ORARIO VALUES
 insert into ORARIO VALUES
 (
 	2,
-	'sabato',
+	5,
 	'18:00',
 	'23:00'
 );
 insert into ORARIO VALUES
 (
 	2,
-	'domenica',
+	6,
 	'11:00',
 	'15:00'
 );
@@ -281,7 +281,7 @@ insert into ORARIO VALUES
 insert into ORARIO VALUES
 (
 	2,
-	'domenica',
+	6,
 	'18:00',
 	'23:00'
 );
@@ -317,29 +317,6 @@ insert into RESTAURANTS VALUES
     'Trento'
 );
 
-insert into RESTAURANTS VALUES
-(
-    default,
-    'Doolin irish pub',
-    'Cena e dopo mezzanotte, Mantova centro, Birra artigianale, Paninoteca',   
-    'www.doolinpub.it/#_=_',
-    default,
-    default,
-    default,
-    default,
-    default,
-    default,
-    3,
-    3,
-    'Via Zambelli 8, Mantova, Italia',
-    null,
-    null,
-    10,
-    15,
-	'Italia',
-	'Lombardia',
-	'Mantova'
-);
 
 insert into RESTAURANTS VALUES
 (
@@ -413,12 +390,5 @@ insert into RESTAURANTS VALUES
     'Lombardia',
     'Milano'
 );
-
-
-
-
-insert into RESTAURANTS_CUISINES values(1, 3);
-insert into RESTAURANTS_CUISINES values(1, 6);
-insert into RESTAURANTS_CUISINES values(2, 3);
 
 

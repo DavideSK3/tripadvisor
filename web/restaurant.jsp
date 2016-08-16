@@ -49,153 +49,154 @@
                 </div>
             </div>
             <div class="col-md-3">
+                
                 <img src="<c:out value='${restaurant.qr_path}'/>">
             </div>
             
         </div>
                     
         <div class="col-md-12">
-        <div class="col-md-8" style="padding-left: 2%; padding-top: 2%">
-            <div class="row">
-                <div id="myCarousel" class="carousel slide" data-ride="carousel" >
-                    <!-- Indicators -->
-                    <c:choose>
-                        <c:when test="${restaurant.photos.size()>0}">
-                            <ol class="carousel-indicators">
-                                <li data-target="#myCarousel" data-slide-to="0" class ="active"></li>
-                                <c:forEach var='i' begin="1" end='${restaurant.photos.size()}'>
-                                    <li data-target="#myCarousel" data-slide-to="<c:out value='${i}'/>"></li>
-                                </c:forEach>
-                            </ol>
-                            <div class="carousel-inner" role="listbox">
-                                <div class="item active">
-                                    <img class="img-responsive center-block" src="data/sfondo_restaurant.jpg" alt="First slide">
+            <div class="col-md-8" style="padding-left: 2%; padding-top: 2%">
+                <div class="row">
+                    <div id="myCarousel" class="carousel slide" data-ride="carousel" >
+                        <!-- Indicators -->
+                        <c:choose>
+                            <c:when test="${restaurant.photos.size()>0}">
+                                <ol class="carousel-indicators">
+                                    <li data-target="#myCarousel" data-slide-to="0" class ="active"></li>
+                                    <c:forEach var='i' begin="1" end='${restaurant.photos.size()}'>
+                                        <li data-target="#myCarousel" data-slide-to="<c:out value='${i}'/>"></li>
+                                    </c:forEach>
+                                </ol>
+                                <div class="carousel-inner" role="listbox">
+                                    <div class="item active">
+                                        <img class="img-responsive center-block" src="data/sfondo_restaurant.jpg" alt="First slide">
+                                    </div>
+
+                                    <c:forEach var='p' items="${restaurant.photos}">
+                                      <div class="item">
+                                        <img class="img-responsive center-block" src="<c:out value='${p.path}'/>" alt="<c:out value='${p.name}'/>">
+
+                                      </div>
+                                    </c:forEach>
                                 </div>
-
-                                <c:forEach var='p' items="${restaurant.photos}">
-                                  <div class="item">
-                                    <img class="img-responsive center-block" src="<c:out value='${p.path}'/>" alt="<c:out value='${p.name}'/>">
-
-                                  </div>
-                                </c:forEach>
-                            </div>
-                        </c:when>
-                        <c:otherwise>
-                            <ol class="carousel-indicators">
-                                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                            </ol>
-                            <div class="carousel-inner" role="listbox">
-                                <div class="item active">
-                                 <img src="data/sfondo_restaurant.jpg" alt="First slide">
+                            </c:when>
+                            <c:otherwise>
+                                <ol class="carousel-indicators">
+                                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                </ol>
+                                <div class="carousel-inner" role="listbox">
+                                    <div class="item active">
+                                     <img src="data/sfondo_restaurant.jpg" alt="First slide">
+                                    </div>
                                 </div>
-                            </div>
-                        </c:otherwise>
-                    </c:choose>
+                            </c:otherwise>
+                        </c:choose>
 
 
-                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                    </a>
+                        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                          <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                          <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="jumbotron">
+                        <p><c:out value="${restaurant.description}"/></p>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="jumbotron">
-                    <p><c:out value="${restaurant.description}"/></p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-md-4" style="padding-left: 2%; padding-top: 2%;">
-            <div>
-                <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
-                    <div style="padding: 15px 18px; border-top: 1px solid #F4F3F0; overflow: hidden">
-                        <span class="format_address">
-                            <span class="street-address"><c:out value='${restaurant.address}'/></span>, 
-                            <span class="locality">
-                                <%--<span>39040</span>,--%>
-                                <span><c:out value='${restaurant.city}'/></span>,
-                                <span class="country-name"><c:out value='${restaurant.region}'/>,&nbsp;</span>
+
+            <div class="col-md-4" style="padding-left: 2%; padding-top: 2%;">
+                <div>
+                    <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
+                        <div style="padding: 15px 18px; border-top: 1px solid #F4F3F0; overflow: hidden">
+                            <span class="format_address">
+                                <span class="street-address"><c:out value='${restaurant.address}'/></span>, 
+                                <span class="locality">
+                                    <%--<span>39040</span>,--%>
+                                    <span><c:out value='${restaurant.city}'/></span>,
+                                    <span class="country-name"><c:out value='${restaurant.region}'/>,&nbsp;</span>
+                                </span>
+
+                                <span class="country-name"><c:out value='${restaurant.state}'/>&nbsp;</span>
+
                             </span>
-                            
-                            <span class="country-name"><c:out value='${restaurant.state}'/>&nbsp;</span>
-                            
-                        </span>
-                        <a href="#"><span class="glyphicon glyphicon-map-marker"></span>&nbsp; Mappa</a>
-                    </div>
-                </div>
-                <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
-                    <div style="padding: 15px 18px; border-top: 1px solid #F4F3F0; overflow: hidden">
-                        <span class="glyphicon glyphicon-time" style="top: 0;"><b>&nbsp;Orari:</b></span><br>
-                        <c:forEach var='o' items="${restaurant.orari}">
-                            <span style="padding-left: 3em"><c:out value='${o.giorno}'/> </span>
-                            <span style="float: right; padding-right: 5%"><c:out value='${o.getAperturaString()}'/> - <c:out value='${o.getChiusuraString()}'/> &nbsp; </span>
-                            <br>
-                        </c:forEach>
-                        
-                        
-                        
-                    </div>
-                </div>
-                <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
-                    <div style="padding: 15px 18px; border-top: 1px solid #F4F3F0; overflow: hidden">
-                        <span>Prezzo: <b><c:out value='${restaurant.min_price}'/> € - <c:out value='${restaurant.max_price}'/> €</b></span>
-                        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                        <a href="http://<c:out value='${restaurant.url}'/>"><span class="glyphicon glyphicon-globe"></span> Sito Web</a>
-                    </div>
-                </div>
-                <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
-                    <div style="padding: 15px 18px; border-top: 1px solid #F4F3F0; overflow: hidden">
-                        <h5 style="margin: 0px 0px;padding-bottom: 10px"><b>Dettagli Voto :</b></h5>
-                        <span style="color: grey; padding: 10px 10px">Cucina :</span>
-                        <div style="padding-left:70% ;">
-                            <c:forEach var='i' begin='1' end='${restaurant.food_review}' step='1'>
-                                <span class="glyphicon glyphicon-star media"></span>
-                            </c:forEach>
-                            <c:forEach var='i' begin='${restaurant.food_review + 1}' end ='5' step='1'>
-                                <span class="glyphicon glyphicon-star-empty media"></span>
-                            </c:forEach>
-                            &nbsp;
+                            <a href="#"><span class="glyphicon glyphicon-map-marker"></span>&nbsp; Mappa</a>
                         </div>
-                        <span style="color: grey; padding: 10px 10px">Servizio :</span>
-                        <div style="padding-left:70% ;">
-                            <c:forEach var='i' begin='1' end='${restaurant.service_review}' step='1'>
-                                <span class="glyphicon glyphicon-star media"></span>
+                    </div>
+                    <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
+                        <div style="padding: 15px 18px; border-top: 1px solid #F4F3F0; overflow: hidden">
+                            <span class="glyphicon glyphicon-time" style="top: 0;"><b>&nbsp;Orari:</b></span><br>
+                            <c:forEach var='o' items="${restaurant.orari}">
+                                <span style="padding-left: 3em"><c:out value='${o.giorno}'/> </span>
+                                <span style="float: right; padding-right: 5%"><c:out value='${o.getAperturaString()}'/> - <c:out value='${o.getChiusuraString()}'/> &nbsp; </span>
+                                <br>
                             </c:forEach>
-                            <c:forEach var='i' begin='${restaurant.service_review + 1}' end ='5' step='1'>
-                                <span class="glyphicon glyphicon-star-empty media"></span>
-                            </c:forEach>
-                            &nbsp;
+
+
+
                         </div>
-                        <span style="color: grey; padding: 10px 10px">Rapporto Qualit&agrave / Prezzo :</span>
-                        <div style="padding-left:70% ;">
-                            <c:forEach var='i' begin='1' end='${restaurant.money_review}' step='1'>
-                                <span class="glyphicon glyphicon-star media"></span>
-                            </c:forEach>
-                            <c:forEach var='i' begin='${restaurant.money_review + 1}' end ='5' step='1'>
-                                <span class="glyphicon glyphicon-star-empty media"></span>
-                            </c:forEach>
-                            &nbsp;
+                    </div>
+                    <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
+                        <div style="padding: 15px 18px; border-top: 1px solid #F4F3F0; overflow: hidden">
+                            <span>Prezzo: <b><c:out value='${restaurant.min_price}'/> &euro; - <c:out value='${restaurant.max_price}'/> &euro;</b></span>
+                            <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                            <a href="http://<c:out value='${restaurant.url}'/>"><span class="glyphicon glyphicon-globe"></span> Sito Web</a>
                         </div>
-                        <span style="color: grey; padding: 10px 10px">Atmosfera :</span>
-                        <div style="padding-left:70% ;">
-                            <c:forEach var='i' begin='1' end='${restaurant.atmosphere_review}' step='1'>
-                                <span class="glyphicon glyphicon-star media"></span>
-                            </c:forEach>
-                            <c:forEach var='i' begin='${restaurant.atmosphere_review + 1}' end ='5' step='1'>
-                                <span class="glyphicon glyphicon-star-empty media"></span>
-                            </c:forEach>
-                            &nbsp;
+                    </div>
+                    <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
+                        <div style="padding: 15px 18px; border-top: 1px solid #F4F3F0; overflow: hidden">
+                            <h5 style="margin: 0px 0px;padding-bottom: 10px"><b>Dettagli Voto :</b></h5>
+                            <span style="color: grey; padding: 10px 10px">Cucina :</span>
+                            <div style="padding-left:70% ;">
+                                <c:forEach var='i' begin='1' end='${restaurant.food_review}' step='1'>
+                                    <span class="glyphicon glyphicon-star media"></span>
+                                </c:forEach>
+                                <c:forEach var='i' begin='${restaurant.food_review + 1}' end ='5' step='1'>
+                                    <span class="glyphicon glyphicon-star-empty media"></span>
+                                </c:forEach>
+                                &nbsp;
+                            </div>
+                            <span style="color: grey; padding: 10px 10px">Servizio :</span>
+                            <div style="padding-left:70% ;">
+                                <c:forEach var='i' begin='1' end='${restaurant.service_review}' step='1'>
+                                    <span class="glyphicon glyphicon-star media"></span>
+                                </c:forEach>
+                                <c:forEach var='i' begin='${restaurant.service_review + 1}' end ='5' step='1'>
+                                    <span class="glyphicon glyphicon-star-empty media"></span>
+                                </c:forEach>
+                                &nbsp;
+                            </div>
+                            <span style="color: grey; padding: 10px 10px">Rapporto Qualit&agrave / Prezzo :</span>
+                            <div style="padding-left:70% ;">
+                                <c:forEach var='i' begin='1' end='${restaurant.money_review}' step='1'>
+                                    <span class="glyphicon glyphicon-star media"></span>
+                                </c:forEach>
+                                <c:forEach var='i' begin='${restaurant.money_review + 1}' end ='5' step='1'>
+                                    <span class="glyphicon glyphicon-star-empty media"></span>
+                                </c:forEach>
+                                &nbsp;
+                            </div>
+                            <span style="color: grey; padding: 10px 10px">Atmosfera :</span>
+                            <div style="padding-left:70% ;">
+                                <c:forEach var='i' begin='1' end='${restaurant.atmosphere_review}' step='1'>
+                                    <span class="glyphicon glyphicon-star media"></span>
+                                </c:forEach>
+                                <c:forEach var='i' begin='${restaurant.atmosphere_review + 1}' end ='5' step='1'>
+                                    <span class="glyphicon glyphicon-star-empty media"></span>
+                                </c:forEach>
+                                &nbsp;
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
             
         <div class="col-md-10 col-md-offset-1" style="background-color: whitesmoke; margin-top: 20px; padding: 15px 2%;">
             

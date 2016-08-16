@@ -13,9 +13,6 @@
         <!--<link rel="stylesheet" type="text/css" href="media/css/jquery.dataTables.css">-->
         
         <script>
-            function degToRad(a){
-                return Math.PI * a /180.0;
-            }
             var y = document.getElementById("error");
             function getLocation() {
                 if (navigator.geolocation) {
@@ -26,8 +23,8 @@
                 }
             }
             function showPosition(position) {
-                document.getElementById("lat").value = degToRad(position.coords.latitude);
-                document.getElementById("long").value = degToRad(position.coords.longitude); 
+                document.getElementById("lat").value = position.coords.latitude;
+                document.getElementById("long").value = position.coords.longitude; 
             }
         </script>
 	
