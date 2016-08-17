@@ -5,13 +5,14 @@
  */
 package db;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author gabriele
  */
-public class Review {
+public class Review implements Serializable{
     private Integer global_value;
     private Integer food;
     private Integer service;

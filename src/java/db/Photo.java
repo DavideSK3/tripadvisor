@@ -5,19 +5,23 @@
  */
 package db;
 
+import java.io.Serializable;
+
 /**
  *
  * @author gabriele
  */
-public class Photo {
+public class Photo implements Serializable{
 
-    public Photo(String name, String path) {
+    public Photo(String name, String path, int type) {
         this.name = name;
         this.path = path;
+        this.type = type;
     }
     
     private String name;
     private String path;
+    private int type;
 
     
     
@@ -47,6 +51,20 @@ public class Photo {
      */
     public void setPath(String path) {
         this.path = path;
+    }
+
+    /**
+     * @return the type
+     */
+    public int getType() {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(int type) {
+        this.type = type;
     }
     
 }

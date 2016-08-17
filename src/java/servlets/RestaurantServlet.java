@@ -8,9 +8,6 @@ package servlets;
 import db.DBManager;
 import db.Orario;
 import db.Restaurant;
-import db.User;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +16,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -142,7 +138,7 @@ public class RestaurantServlet extends HttpServlet {
                 .append(r.getRegion())
                 .append(", ")
                 .append(r.getState())
-                .append("\nOrari: ");
+                .append("\nOrari: \n");
         
         for(Orario o : r.getOrari()){
             s.append("   ")

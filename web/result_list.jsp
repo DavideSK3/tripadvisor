@@ -137,7 +137,16 @@
                         <br>
                         <div class="container-fluid riquadro_ristorante">
                             <div class="col-md-4" style=" padding-left: 1%; padding-top: 1%; padding-bottom: 1%; ">
-                              <img src="data/sfondo_restaurant.jpg" class="img-rounded" alt="<c:out value="${r.name}"/>" style ="max-width: 100%; max-height : 100%; min-width:160px; min-height: 49px;">
+                                <c:choose>
+                                    <c:when test="${r.firstPhoto != null}">
+                                        <img src="<c:out value='${r.firstPhoto.path}'/>" class="img-rounded" alt="<c:out value="${r.name}"/>" style ="max-width: 100%; max-height : 100%; min-width:160px; min-height: 49px;">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="data/sfondo_restaurant.jpg" class="img-rounded" alt="<c:out value="${r.name}"/>" style ="max-width: 100%; max-height : 100%; min-width:160px; min-height: 49px;">
+                                    </c:otherwise>
+                                </c:choose>
+                                
+                                
                             </div>
                             <a href="Restaurant?restaurantID=<c:out value="${r.id}"/>"> <span style="font-size: 200%; color: royalblue"><b><c:out value="${r.name}"/></b></span> </a>
                             <div class="col-md-8">

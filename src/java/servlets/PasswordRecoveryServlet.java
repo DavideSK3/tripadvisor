@@ -96,7 +96,7 @@ public class PasswordRecoveryServlet extends HttpServlet {
         String messageText = 
                 "Salve " + user + "\n\n" + 
                 "Per ripristinare la sua password prema il seguente link  (il link ha una validità di 2 ore):\n\n" + 
-                "http://localhost:8084" + getServletContext().getContextPath() + "/ChangePassword?t="+token +"\n\n\n";
+                "http://" + getServletContext().getInitParameter("webAddress") + getServletContext().getContextPath() + "/ChangePassword?t="+token +"\n\n\n";
                 
         
         

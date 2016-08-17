@@ -5,13 +5,14 @@
  */
 package db;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 /**
  *
  * @author gabriele
  */
-public class Place {
+public class Place implements Serializable{
     
     private String state = null;
     private String region = null;

@@ -5,11 +5,13 @@
  */
 package db;
 
+import java.io.Serializable;
+
 /**
  *
  * @author gabriele
  */
-public class NotificaFoto {
+public class NotificaFoto implements Serializable{
     
     
 

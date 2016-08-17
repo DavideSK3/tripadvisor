@@ -42,7 +42,6 @@ public class DBManager implements Serializable {
         }
 
         Connection con = DriverManager.getConnection(dburl, "db_manager", "tripadvisor");
-        //Connection con = DriverManager.getConnection(dburl, "tripadvisor", "tripadvisor");
 
         this.con = con;
 
@@ -390,7 +389,7 @@ public class DBManager implements Serializable {
                 query.append(" ORDER BY min_price + max_price");
                 break;
             case "position":
-                query.append(" AND review_counter > 0 ORDER BY (global_review/review_counter) DESC");
+                query.append(" ORDER BY (CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) DESC");
                 break;
             default:
                 break;
@@ -414,87 +413,13 @@ public class DBManager implements Serializable {
                 query.append(" ORDER BY min_price + max_price");
                 break;
             case "position":
-                query.append(" AND review_counter > 0 ORDER BY (global_review/review_counter) DESC");
+                query.append(" ORDER BY (CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) DESC");
                 break;
             default:
                 break;
         }
         PreparedStatement stm = con.prepareStatement(query.toString());
-        try {
-            return getRestaurantsUnfiltered(stm);
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-
-    }
-
-    public List<Restaurant> getRestaurantsFilteredOrderedBy(String order,
-            Integer minPrice, Integer maxPrice,
-            String[] cuisines, ArrayList<Integer> valutazioni
-    ) throws SQLException {
-
-        StringBuilder query = new StringBuilder("SELECT DISTINCT R.* FROM APP.restaurants R");
-
-        if (cuisines != null && cuisines.length > 0) {
-            String cond = " JOIN APP.Restaurants_Cuisines RC ON R.id =  RC.id_restaurant JOIN (SELECT * FROM APP.Cuisines WHERE ";
-            for (int i = 0; i < cuisines.length; i++) {
-                if (i > 0) {
-                    cond += " OR ";
-                }
-                cond += "name = '" + cuisines[i] + "'";
-            }
-            cond += ")";
-
-            cond += " C ON RC.id_cuisine = C.id";
-
-            query.append(cond);
-        }
-
-        ArrayList<String> conditions = new ArrayList<>();
-
-        if (minPrice != null) {
-            conditions.add("min_price >= " + minPrice);
-        }
-        if (maxPrice != null) {
-            conditions.add(" max_price <= " + maxPrice);
-        }
-        if (valutazioni.size() > 0) {
-            StringBuilder cond = new StringBuilder();
-            for (int i = 0; i < valutazioni.size(); i++) {
-                if (i > 0) {
-                    cond.append(" OR ");
-                }
-                cond.append("REVIEW_COUNTER > 0 AND FLOOR(global_review/review_counter) = ").append(valutazioni.get(i));
-            }
-            conditions.add(cond.toString());
-        }
-
-        if (conditions.size() > 0) {
-            query.append(" WHERE ");
-            for (int i = 0; i < conditions.size(); i++) {
-                if (i > 0) {
-                    query.append(" AND ");
-                }
-                query.append(conditions.get(i));
-            }
-        }
-
-        switch (order) {
-            case "name":
-                query.append(" ORDER BY name");
-                break;
-            case "price":
-                query.append(" ORDER BY min_price + max_price");
-                break;
-            case "position":
-                query.append(" AND review_counter > 0 ORDER BY (global_review/review_counter) DESC");
-                break;
-            default:
-                break;
-        }
         System.out.println(query.toString());
-        PreparedStatement stm = con.prepareStatement(query.toString());
-
         try {
             return getRestaurantsUnfiltered(stm);
         } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
@@ -503,6 +428,7 @@ public class DBManager implements Serializable {
 
     }
 
+    
     public List<String> getRestaurantsNamesByTerm(String term, int limit) throws SQLException {
 
         List<String> result = new ArrayList<String>();
@@ -544,7 +470,7 @@ public class DBManager implements Serializable {
                 stm = con.prepareStatement("SELECT * FROM APP.restaurants R ORDER BY min_price + max_price");
                 break;
             case "position":
-                stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE REVIEW_COUNTER > 0 ORDER BY global_review/review_counter DESC");
+                stm = con.prepareStatement("SELECT * FROM APP.restaurants R ORDER BY (CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) DESC");
                 break;
             default:
                 stm = con.prepareStatement("SELECT * FROM APP.restaurants R");
@@ -557,7 +483,176 @@ public class DBManager implements Serializable {
         }
 
     }
+    
+    /* Metodi usati per la ricerca avanzata*/
+    
+    public List<Restaurant> getRestaurantsFilteredOrderedBy(String name, String place, String order,
+            Integer minPrice, Integer maxPrice,
+            String[] cuisines, ArrayList<Integer> valutazioni
+    ) throws SQLException {
+        
+        
+        
+        StringBuilder query = new StringBuilder("SELECT DISTINCT R.* FROM APP.restaurants R");
+        
 
+        if (cuisines != null && cuisines.length > 0) {
+            String cond = " JOIN APP.Restaurants_Cuisines RC ON R.id =  RC.id_restaurant JOIN (SELECT * FROM APP.Cuisines WHERE ";
+            for (int i = 0; i < cuisines.length; i++) {
+                if (i > 0) {
+                    cond += " OR ";
+                }
+                cond += "name = '" + cuisines[i] + "'";
+            }
+            cond += ")";
+
+            cond += " C ON RC.id_cuisine = C.id";
+
+            query.append(cond);
+        }
+
+        ArrayList<String> conditions = new ArrayList<>();
+
+        
+        if(place != null && !place.isEmpty()){
+            conditions.add("state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
+        }
+        
+        
+        if (minPrice != null) {
+            conditions.add("min_price >= " + minPrice);
+        }
+        if (maxPrice != null) {
+            conditions.add("max_price <= " + maxPrice);
+        }
+        if (valutazioni.size() > 0) {
+            StringBuilder cond = new StringBuilder();
+            for (int i = 0; i < valutazioni.size(); i++) {
+            
+                if (i > 0) {
+                    cond.append(" OR ");
+                }
+                cond.append("ABS(CAST((CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) as REAL) - ").append(valutazioni.get(i)).append(") <= 0.5");
+            }
+            
+            conditions.add(cond.toString());
+        }
+
+        if (conditions.size() > 0) {
+            query.append(" WHERE ");
+            for (int i = 0; i < conditions.size(); i++) {
+                if (i > 0) {
+                    query.append(" AND ");
+                }
+                query.append(conditions.get(i));
+            }
+        }
+        
+        switch (order) {
+            case "name":
+                query.append(" ORDER BY name");
+                break;
+            case "price":
+                query.append(" ORDER BY min_price + max_price");
+                break;
+            case "position":
+                query.append(" ORDER BY (CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) DESC");
+                break;
+            default:
+                break;
+        }
+        
+        PreparedStatement stm = con.prepareStatement(query.toString());
+        System.out.println(query.toString());
+        try {
+            if(name != null && !name.isEmpty()){
+                return getRestaurantsFilteredByNameSimilarity(stm, name);
+            }else{
+                return getRestaurantsUnfiltered(stm);
+            }
+        } finally { 
+            stm.close();
+        }
+
+    }
+    
+    
+    public List<Restaurant> getRestaurantsByPlaceFilteredOrderedBy(String place, String order,
+            Integer minPrice, Integer maxPrice,
+            String[] cuisines, ArrayList<Integer> valutazioni
+    ) throws SQLException {
+        
+        StringBuilder query = new StringBuilder("SELECT DISTINCT R.* FROM APP.restaurants R");
+        
+
+        if (cuisines != null && cuisines.length > 0) {
+            String cond = " JOIN APP.Restaurants_Cuisines RC ON R.id =  RC.id_restaurant JOIN (SELECT * FROM APP.Cuisines WHERE ";
+            for (int i = 0; i < cuisines.length; i++) {
+                if (i > 0) {
+                    cond += " OR ";
+                }
+                cond += "name = '" + cuisines[i] + "'";
+            }
+            cond += ")";
+
+            cond += " C ON RC.id_cuisine = C.id";
+
+            query.append(cond);
+        }
+
+        ArrayList<String> conditions = new ArrayList<>();
+
+        conditions.add("state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
+        if (minPrice != null) {
+            conditions.add("min_price >= " + minPrice);
+        }
+        if (maxPrice != null) {
+            conditions.add("max_price <= " + maxPrice);
+        }
+        if (valutazioni.size() > 0) {
+            StringBuilder cond = new StringBuilder();
+            for (int i = 0; i < valutazioni.size(); i++) {
+                if (i > 0) {
+                    cond.append(" OR ");
+                }
+                cond.append("ABS((CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) - ").append(valutazioni.get(i)).append(") <= 0.5");
+            }
+            conditions.add(cond.toString());
+        }
+
+        if (conditions.size() > 0) {
+            query.append(" WHERE ");
+            for (int i = 0; i < conditions.size(); i++) {
+                if (i > 0) {
+                    query.append(" AND ");
+                }
+                query.append(conditions.get(i));
+            }
+        }
+        
+        switch (order) {
+            case "name":
+                query.append(" ORDER BY name");
+                break;
+            case "price":
+                query.append(" ORDER BY min_price + max_price");
+                break;
+            case "position":
+                query.append(" ORDER BY (CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) DESC");
+                break;
+            default:
+                break;
+        }
+        
+        PreparedStatement stm = con.prepareStatement(query.toString());
+        try {
+            return getRestaurantsUnfiltered(stm);
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+
+    }
+    
     public List<Restaurant> getRestaurantsByNameSimilarityFilteredOrderedBy(String name, String order,
             Integer minPrice, Integer maxPrice,
             String[] cuisines, ArrayList<Integer> valutazioni
@@ -594,7 +689,7 @@ public class DBManager implements Serializable {
                 if (i > 0) {
                     cond.append(" OR ");
                 }
-                cond.append("FLOOR(global_review/review_counter) = ").append(valutazioni.get(i));
+                cond.append("ABS((CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) - ").append(valutazioni.get(i)).append(") <= 0.5");
             }
             conditions.add(cond.toString());
         }
@@ -617,12 +712,7 @@ public class DBManager implements Serializable {
                 query.append(" ORDER BY min_price + max_price");
                 break;
             case "position":
-                if(conditions.size() > 0){
-                    query.append("AND ");
-                }else{
-                    query.append("WHERE ");
-                }
-                query.append("REVIEW_COUNTER > 0 ORDER BY (global_review/review_counter) DESC");
+                query.append(" ORDER BY (CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END), REVIEW_COUNT DESC");
                 break;
             default:
                 break;
@@ -637,6 +727,8 @@ public class DBManager implements Serializable {
 
     }
 
+    
+    
     public List<Restaurant> getRestaurantsByNameSimilarity(String name) throws SQLException {
         ArrayList<Restaurant> r_l = new ArrayList<>();
         PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R");
@@ -691,6 +783,8 @@ public class DBManager implements Serializable {
         r.setCity(rs.getString("city"));
         r.setRegion(rs.getString("region"));
         r.setState(rs.getString("state"));
+        
+        
         getRestaurantCuisines(r);
 
         return r;
@@ -718,7 +812,7 @@ public class DBManager implements Serializable {
         try {
             while (rs.next()) {
                 String r_name = rs.getString("name");
-                if (Util.editDistanceLimited(name, r_name, 4) < 4) {
+                if (Util.containingDistanceLimited(name, r_name, 3) < 3) {
 
                     r_l.add(getRestaurant(rs));
                 }
@@ -958,7 +1052,11 @@ public class DBManager implements Serializable {
             return;
         }
 
-        PreparedStatement stm = con.prepareStatement("SELECT COUNT(*) FROM (SELECT review_counter, global_review FROM APP.RESTAURANTS WHERE review_counter > 0 AND state = ? AND region = ? AND city = ?) AS R WHERE (global_review/review_counter) > ?");
+        PreparedStatement stm = 
+                con.prepareStatement("SELECT COUNT(*)"
+                                  + " FROM APP.RESTAURANTS "
+                                  + "WHERE state = ? AND region = ? AND city = ?"
+                                  +     " AND (CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) > ?");
         try {
             
             stm.setString(1, r.getState());
@@ -1051,14 +1149,34 @@ public class DBManager implements Serializable {
      * ------- GESTIONE FOTO/RECENSIONI -----------------
      */
     
+    public void getRestaurantFirstPhoto(Restaurant r) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("SELECT name, path, type FROM APP.photos WHERE id_restaurant = ? ORDER BY type DESC FETCH FIRST 1 ROWS ONLY");
+        
+        try {
+            stm.setInt(1, r.getId());
+            ResultSet rs = stm.executeQuery();
+            try {
+                if(rs.next()) {
+                    r.setFirstPhoto(new Photo(rs.getString("name"), rs.getString("path"), rs.getInt("type")));
+                }
+            } finally {
+                rs.close();
+            }
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }        
+    }
+
+    
     public void getRestaurantPhotos(Restaurant r) throws SQLException {
-        PreparedStatement stm = con.prepareStatement("SELECT name, path FROM APP.photos WHERE id_restaurant = ?");
+        PreparedStatement stm = con.prepareStatement("SELECT name, path, type FROM APP.photos WHERE id_restaurant = ? ORDER BY type DESC");
+        ArrayList<Photo> photos = new ArrayList<>();
         try {
             stm.setInt(1, r.getId());
             ResultSet rs = stm.executeQuery();
             try {
                 while (rs.next()) {
-                    r.addPhoto(new Photo(rs.getString("name"), rs.getString("path")));
+                    photos.add(new Photo(rs.getString("name"), rs.getString("path"), rs.getInt("type")));
                     //System.out.println(rs.getString("path"));
                 }
             } finally {
@@ -1067,6 +1185,13 @@ public class DBManager implements Serializable {
         } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
             stm.close();
         }
+        if(photos.size() > 0){
+            r.setFirstPhoto(photos.get(0));
+            if(photos.size()>1){
+                r.setPhotos(new ArrayList<>(photos.subList(1, photos.size())));
+            }    
+        }
+        
     }
 
     /**
@@ -1077,14 +1202,15 @@ public class DBManager implements Serializable {
      * @return
      * @throws SQLException
      */
-    public Integer insertPhoto(String name, String path, int restaurant_id) throws SQLException {
+    public Integer insertPhoto(String name, String path, int restaurant_id, int type) throws SQLException {
 
-        PreparedStatement stm = con.prepareStatement("INSERT INTO APP.photos VALUES(default,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement stm = con.prepareStatement("INSERT INTO APP.photos VALUES(default,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
         int k = -1;
         try {
             stm.setString(1, name);
             stm.setString(2, path);
             stm.setInt(3, restaurant_id);
+            stm.setInt(4, type);
 
             int rs = stm.executeUpdate();
             ResultSet keys = stm.getGeneratedKeys();
@@ -1145,11 +1271,12 @@ public class DBManager implements Serializable {
         }
     }
 
+    
+    
+    
     /**
      * -------------- Gestione Notifiche -----------------
      */
-    
-    
     
     public int getRestaurantOwner(int restaurant) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT id_owner FROM APP.RESTAURANTS WHERE id = ?");
@@ -1212,14 +1339,20 @@ public class DBManager implements Serializable {
     }
 
     public List<NotificaFoto> getNotificheFoto(User u) throws SQLException {
-
+        
         StringBuilder builder = new StringBuilder("SELECT R.name, R.id, P.id, P.path, P.name FROM APP.NOTIFICATIONS_PHOTO N JOIN App.PHOTO P ON N.id_photo = P.id JOIN App.RESTAURANTS R ON P.id_restaurant = R.id ");
 
-        if (u.getCharType() == 'r') {
-            builder.append("WHERE id_target = ").append(u.getId());
-        } else if (u.getCharType() == 'a') {
-            builder.append("WHERE id_target = NULL");
+        switch (u.getCharType()) {
+            case 'r':
+                builder.append("WHERE id_target = ").append(u.getId());
+                break;
+            case 'a':
+                builder.append("WHERE id_target = NULL");
+                break;
+            default:
+                return null;
         }
+        
 
         PreparedStatement stm = con.prepareStatement(builder.toString());
 

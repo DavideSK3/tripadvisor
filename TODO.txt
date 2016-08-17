@@ -4,7 +4,7 @@
  - se non si hanno voti, non deve apparire la posizione
  - NEL DB MANAGER LA GESTIONE ATTUALE DEI VALORI NULL NON VA BENE: a volte un valore può anche essere zero (es id o min price) ma verrebbe scambiato per null. Meglio usare qualcosa tipo ' r.setId_photo((Integer)rs.getObject("id_photo"));
 
- - CAMBIARE OGNI OCCORRENZA DI "http://localhost:8084/" CON UNA VARIABILE CONTENENTE TALE INDIRIZZO, RENDENDO IL SITO PORTABILE
+
 
 
 
@@ -14,6 +14,10 @@
  - possibilità di segnalare foto non consone per proprietari						DA IMPLEMENTARE
  - amministratore valuta segnalazioni dei proprietari							DA IMPLEMENTARE
  - gestione notifiche
+ - fare filtro per notifiche
+ - fare 2 servlet diverse per notifiche amministratori e ristoratori (entrambe rimandano a stessa pagina jsp, vedi prossimo punto)
+ - fare pagina jsp unica per notifiche
+ - aggiungere notifiche visualizzate da finestrella di anteprima (notifica inserita da filtro sulla request)
 
 	PIER
  - rifinire visualizzazione QR nella pagina
@@ -27,18 +31,18 @@
  - fare grafica per mail_form.jsp
 
 	GABRI
- - esprimere angoli in sessadecimale invece che in radianti per geolocalizzazione
- - aggiungere il campo "foto principale" al ristorante
- - nel ristorante mettere gli orari ordinati per giorno (e ora di inizio)
 
  - POSIZIONE IN CLASSIFICA PER CITTÀ ---> RICERCHE SOLO PER CITTÀ E NON PER STATO/REGIONE? (se cerco stato/regione mi dà elenco città)
    (però, nelle specifiche del progetto è scritto "Un motore di ricerca che permetta di visualizzare un elenco di ristoranti in base a varie tipologia di scelta [...]: per zona geografica (elenco di ristoranti per stato, città, provincia )" ).
+  (per ottimizzare si può fare un'unica query per ogni città che apparirà... NON FATTIBILE...)
 
+ - cosa fare per ricerca avanzata se non specificato nessuna opzione? (sia "ne place ne name" sia "nessun opzione avanzata")
+ - containing distance invece che editing distance è davvero una buona scelta?
+ - fare servlet/pagina/ecc... per permettere a proprietario/gestore ristorante di fare upload foto
 
  - valutare a DB completo le prestazioni e decidere se traportare su postgresql
  - fare una email apposta per mandare cambio password invece che usare la mia
  - generare qr code staticamnete alla creazione (o update) del ristorante invece che creare una copia ogni volta inutilmente		(eventualmente da fare alla fine)
- - NUOVA RECENSIONE DI UN UTENTE CANCELLA LA PRECEDENE? (nel documento del progetto è scritto "la possibilità per un utente di lasciare una o più recensioni ad uno o più ristoranti" quindi lascerei la possibilità di inserire più recensioni, magari richiedendo che siano almeno in 2 giorni diversi)   ---- superfluo, eventualmente aggiungere alla fine
 
 
 	SARA

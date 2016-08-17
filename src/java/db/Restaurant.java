@@ -40,6 +40,7 @@ public class Restaurant implements Serializable{
 
     private ArrayList<String> cuisines;
     
+    private Photo firstPhoto = null;
     private ArrayList<Photo> photos;
     
     private ArrayList<Orario> orari;
@@ -435,5 +436,19 @@ public class Restaurant implements Serializable{
      */
     public void setQr_path(String qr_path) {
         this.qr_path = qr_path;
+    }
+
+    /**
+     * @return the firstPhoto
+     */
+    public Photo getFirstPhoto() {
+        return firstPhoto;
+    }
+
+    /**
+     * @param firstPhoto the firstPhoto to set
+     */
+    public void setFirstPhoto(Photo firstPhoto) {
+        this.firstPhoto = firstPhoto;
     }
 }

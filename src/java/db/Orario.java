@@ -5,16 +5,16 @@
  */
 package db;
 
+import java.io.Serializable;
 import java.sql.Time;
-import java.util.Calendar;
 
 /**
  *
  * @author gabriele
  */
-public class Orario {
+public class Orario implements Serializable{
     
-    public static final String[] days = {"Lunedì", "Martedì", "Mercoled&igrave;", "Gioved&igrave;", "Venerd&igrave;", "Sabato", "Domenica"};
+    public static final String[] days = {"Lunedi'", "Martedi'", "Mercoledi'", "Giovedi'", "Venerdi'", "Sabato", "Domenica"};
 
     public Orario(String giorno, Time apertura, Time chiusura) {
         this.giorno = giorno;

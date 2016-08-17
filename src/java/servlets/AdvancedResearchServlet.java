@@ -132,15 +132,8 @@ public class AdvancedResearchServlet extends HttpServlet {
         if(button == null){
             long inizio = new Date().getTime();
             try{
-                if(!r_query.isEmpty() && !p_query.isEmpty()){
-                    results = manager.getRestaurantsOrderedBy(r_query, p_query, order);
-                }else if(!r_query.isEmpty() && p_query.isEmpty()){
-                    results = manager.getRestaurantsByNameSimilarityFilteredOrderedBy(r_query, order, minPrice, maxPrice, cuisines, val);
-                }else if(r_query.isEmpty() && !p_query.isEmpty()){
-                    results = manager.getRestaurantsByPlaceOrderedBy(p_query, order);
-                }else{
-                    results = manager.getRestaurantsFilteredOrderedBy(order, minPrice, maxPrice, cuisines, val);
-                }
+                results = manager.getRestaurantsFilteredOrderedBy(r_query, p_query, order, minPrice, maxPrice, cuisines, val);
+                
             }catch (SQLException ex){
                 results = new ArrayList<>();
                 Logger.getLogger(PasswordRecoveryServlet.class.getName()).log(Level.SEVERE, null, ex);

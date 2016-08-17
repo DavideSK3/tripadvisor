@@ -7,6 +7,10 @@
         
     </context-param>
     <context-param>
+        <param-name>webAddress</param-name>
+        <param-value>localhost:8084</param-value>
+    </context-param>
+    <context-param>
         <param-name>photoDir</param-name>
         <param-value>photo</param-value>
     </context-param>

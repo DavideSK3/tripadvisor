@@ -97,6 +97,15 @@ public class RestaurantsListServlet extends HttpServlet {
             results = new ArrayList<>();
             Logger.getLogger(PasswordRecoveryServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        for(Restaurant r : results){
+            try{
+                manager.getRestaurantFirstPhoto(r);
+            } catch (SQLException ex) {
+                Logger.getLogger(RestaurantsListServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         long fine = new Date().getTime();
         System.out.println("Result size = " +results.size());
         System.out.println("Risultati calcolati in " + (fine - inizio)/1000.0 + " secondi");

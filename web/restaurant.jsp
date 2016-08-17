@@ -61,7 +61,7 @@
                     <div id="myCarousel" class="carousel slide" data-ride="carousel" >
                         <!-- Indicators -->
                         <c:choose>
-                            <c:when test="${restaurant.photos.size()>0}">
+                            <c:when test="${restaurant.firstPhoto != null}">
                                 <ol class="carousel-indicators">
                                     <li data-target="#myCarousel" data-slide-to="0" class ="active"></li>
                                     <c:forEach var='i' begin="1" end='${restaurant.photos.size()}'>
@@ -70,13 +70,12 @@
                                 </ol>
                                 <div class="carousel-inner" role="listbox">
                                     <div class="item active">
-                                        <img class="img-responsive center-block" src="data/sfondo_restaurant.jpg" alt="First slide">
+                                        <img class="img-responsive center-block" src="<c:out value='${restaurant.firstPhoto.path}'/>" alt="<c:out value='${restaurant.firstPhoto.name}'/>">
                                     </div>
 
                                     <c:forEach var='p' items="${restaurant.photos}">
                                       <div class="item">
                                         <img class="img-responsive center-block" src="<c:out value='${p.path}'/>" alt="<c:out value='${p.name}'/>">
-
                                       </div>
                                     </c:forEach>
                                 </div>

@@ -104,9 +104,16 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
  - cambiato in sessadecimali la gestione delle coordinate (lat e long)
  - cambiato identificazione giorno per gli orari da nome (Stringa) a intero ordinale
 
+(mercoledì 17/8)
 
-
-
+ - modificato tabella PHOTOS aggiungendo campo "TYPE" per identificare le foto inserire dal gestore del ristorante da quelle inserite da recensioni
+ - modiicato importazione foto da db e strutturazione foto nella classe Restaurant in modo da semplificare la creazione del carosello
+ - aggiustato il carosello: vengono visualizzate prima le foto inserite da gestore/proprietario e poi da recensioni
+ - nella ricerca per Ristorante soltanto, risultati filtrati non per editing distance ma per containing distance
+ - inserito il CASE WHEN ELSE END per gestire ristoranti con 0 recensioni nelle query
+ - per ricerca per valutazione cambiato "FLOOR(val) = target" con "ABS(val - target) <= 0.5" per emulare meglio l'operazione di ROUND
+ - aggiunta la ricerca avanzata anche per la ricerca con solo Luogo o con sia Luogo che Ristorante (prima c'era solo per la ricerca per Ristorante)
+ - CAMBIATO OGNI OCCORRENZA DI "http://localhost:8084/" CON UNA VARIABILE CONTENENTE TALE INDIRIZZO ("webAddress" dentro a web.xml), RENDENDO IL SITO PORTABILE
 
 
 

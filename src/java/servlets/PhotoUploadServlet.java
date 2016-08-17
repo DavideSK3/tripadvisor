@@ -95,7 +95,7 @@ public class PhotoUploadServlet extends HttpServlet {
 
                 
                 try {
-                    id = manager.insertPhoto(name, path, id_restaurant);
+                    id = manager.insertPhoto(name, path, id_restaurant, 0);
                 } catch (SQLException ex) {
                     Logger.getLogger(PhotoUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
