@@ -94,7 +94,7 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
  - fatto QR code (da visualizzare meglio su pagina ora)
  - tolti secondi da orari del ristorante
  - quando utente fa recupero password, cancella da db il token usato
- - aggiustati alcuni caratteri accentati in restaurant.jsp
+ - aggiustati alcuni caratte ri accentati in restaurant.jsp
 
 
 (martedì 16/8)
@@ -115,7 +115,17 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
  - aggiunta la ricerca avanzata anche per la ricerca con solo Luogo o con sia Luogo che Ristorante (prima c'era solo per la ricerca per Ristorante)
  - CAMBIATO OGNI OCCORRENZA DI "http://localhost:8084/" CON UNA VARIABILE CONTENENTE TALE INDIRIZZO ("webAddress" dentro a web.xml), RENDENDO IL SITO PORTABILE
 
-
+(giovedì 18/8)
+ 
+ - modifiche fatte da Pier
+ - aggiustato problemi JS per geolocalizzazione su Google Chrome e Firefox (aggiunto anche messaggio di erroe in caso non sia abilitata geolocalizzazione)
+ - risolto problema null pointer exception per ricerca per vicinanza
+ - reso required il global value per le recensioni
+ - amministratore non può fare recensioni o invare foto
+ - proprietario ristorante non può inviare recensioni 
+ - proprietario ristorante non invia foto da dove ci sono le recensioni
+ - foto inviate da proprietario ristorante sono segnate come più importanti e appaiono prima
+ - sostituito tutti (credo/spero/forse, meglio ricontrollare) gli href a pagine del sito usando <c:url> in modo da fare l'Url rewriting nel caso siano disabilitati i cookies
 
 
 

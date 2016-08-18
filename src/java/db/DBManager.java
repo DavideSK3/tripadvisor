@@ -1272,7 +1272,22 @@ public class DBManager implements Serializable {
     }
 
     
-    
+    public boolean isRestaurantOwner(int user, int restaurant) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("SELECT id_owner FROM APP.RESTAURANTS WHERE id = ? AND id_owner = ?");
+        try {
+            stm.setInt(1, restaurant);
+            stm.setInt(2, user);
+            ResultSet rs = stm.executeQuery();
+            try {
+                return (rs.next());
+            } finally {
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        
+    }
     
     /**
      * -------------- Gestione Notifiche -----------------

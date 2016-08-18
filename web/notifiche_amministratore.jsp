@@ -28,8 +28,8 @@ and open the template in the editor.
                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: limegreen; border-color: limegreen;">Erminio Ottone
                         <span class="caret"></span></button>
                         <ul class="dropdown-menu">
-                          <li><a href="Profile" class="glyphicon glyphicon-user utente"> Profilo</a></li>
-                          <li><a href="Logout" class="glyphicon glyphicon-log-out utente"> Logout </a></li>
+                          <li><a href="<c:url value='Profile'/>" class="glyphicon glyphicon-user utente"> Profilo</a></li>
+                          <li><a href="<c:url value='Logout'/>" class="glyphicon glyphicon-log-out utente"> Logout </a></li>
                         </ul>
                     </div>
                 </div>

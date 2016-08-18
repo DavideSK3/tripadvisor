@@ -19,26 +19,31 @@
  - fare pagina jsp unica per notifiche
  - aggiungere notifiche visualizzate da finestrella di anteprima (notifica inserita da filtro sulla request)
 
+
+
 	PIER
- - rifinire visualizzazione QR nella pagina
- - mettere la descrizione del ristorante nella pagina 							DA IMPLEMENTARE
- - mappa nei ristoranti											DA IMPLEMENTARE
- - LE IMMAGINI INSERITE DEVONO ESSERE VISUALIZZATE TUTTE CON LA STESSA DIMENSIONE	
- - FARE GRAFICA PER "message.jsp"
- - NELLA PAGINA RISTORANTE L'ULTIMO PEZZO DELLA REVIEW VIENE COPERTO DALLA BARRA DEL FOOTER
- - RENDERE OBBLIGATORIO L'INSERIMENTO DI OGNI VALORE NELLE RECENSIONI (cucina, servizio, ecc...)
- - fare error page
+ - rifinire visualizzazione QR nella pagina										DA IMPLEMENTARE
  - fare grafica per mail_form.jsp
+ - fare form unico per la ricerca avanzata e normale
+ - la larghezza della pagina non può diminuire oltre i 357 px
+ - riducendo la dimensione dello schermo, il logo si sposta e il link (il tag <a></a>) "sparisce" (anche da cell)
+ - aggiustare pulsati ordinamento nella result list per riadattarsi a dim schermo
+ - aggiustare form ricerca avanzata per riadattarsi a dim schermo
+ - aggiustare un po' il form di ricerca avanzata nella homepage (facoltativo)
+ - mettere a posto zona recensioni per schermi più piccoli (vedi anche con cell)
+
 
 	GABRI
+
+ - encoding di tutti i link nel caso non funzionino i cookie
 
  - POSIZIONE IN CLASSIFICA PER CITTÀ ---> RICERCHE SOLO PER CITTÀ E NON PER STATO/REGIONE? (se cerco stato/regione mi dà elenco città)
    (però, nelle specifiche del progetto è scritto "Un motore di ricerca che permetta di visualizzare un elenco di ristoranti in base a varie tipologia di scelta [...]: per zona geografica (elenco di ristoranti per stato, città, provincia )" ).
   (per ottimizzare si può fare un'unica query per ogni città che apparirà... NON FATTIBILE...)
 
  - cosa fare per ricerca avanzata se non specificato nessuna opzione? (sia "ne place ne name" sia "nessun opzione avanzata")
+
  - containing distance invece che editing distance è davvero una buona scelta?
- - fare servlet/pagina/ecc... per permettere a proprietario/gestore ristorante di fare upload foto
 
  - valutare a DB completo le prestazioni e decidere se traportare su postgresql
  - fare una email apposta per mandare cambio password invece che usare la mia

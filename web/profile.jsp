@@ -26,13 +26,13 @@
                         <ul class="dropdown-menu">
                             <c:choose>
                                 <c:when test="${sessionScope.user.getType() == 'R'}">
-                                    <li><a href="#" class="glyphicon glyphicon-user utente"> Notifiche</a></li>
+                                    <li><a href="<c:url value='#'/>" class="glyphicon glyphicon-user utente"> Notifiche</a></li>
                                 </c:when>
                                 <c:when test="${sessionScope.user.getType() == 'A'}">
-                                    <li><a href="#" class="glyphicon glyphicon-user utente"> Notifiche</a></li>
+                                    <li><a href="<c:url value='#'/>" class="glyphicon glyphicon-user utente"> Notifiche</a></li>
                                 </c:when>
                             </c:choose>
-                            <li><a href="Logout" class="glyphicon glyphicon-log-out utente"> Logout </a></li>
+                            <li><a href="<c:url value='Logout'/>" class="glyphicon glyphicon-log-out utente"> Logout </a></li>
                         </ul>
                     </div>
                 </div>
@@ -163,8 +163,8 @@
                 <div class="col-md-4" style=" padding-left: 1%; padding-top: 1%; padding-bottom: 1%; ">
                   <img src="data/sfondo_restaurant.jpg" class="img-rounded" alt="<c:out value="${r.name}"/>" style ="max-width: 100%; max-height : 100%; min-width:160px; min-height: 49px;">
                 </div>
-                <a href="Restaurant?restaurantID=<c:out value="${r.id}"/>"> <span style="font-size: 200%; color: royalblue"><b><c:out value="${r.name}"/></b></span> </a>
-                &nbsp;<a href="#" class="glyphicon glyphicon-wrench utente"> Modifica Informazioni</a>
+                  <a href="<c:url value='Restaurant'><c:param name='restaurantID' value='${r.id}'/></c:url>"> <span style="font-size: 200%; color: royalblue"><b><c:out value="${r.name}"/></b></span> </a>
+                &nbsp;<a href="<c:url value='#'/>" class="glyphicon glyphicon-wrench utente"> Modifica Informazioni</a>
             </div>
         </c:forEach>
         

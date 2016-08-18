@@ -17,6 +17,7 @@
 
 .carousel {  
   height: 400px;
+  width: available;
   overflow: hidden;
 }
 
@@ -24,6 +25,12 @@
 @media (max-height: 400px) {
     .carousel{
         height: 200px !important;
+    }
+}
+
+@media (max-height: 200px) {
+    .carousel{
+        height: 100px !important;
     }
 }
 
@@ -159,8 +166,8 @@
 .rating span label {
     
     display:inline-block;
-    width:17px;
-    height:17px;
+    width:30px;
+    height:30px;
     background:lightgray;
     margin-right:2px;
     line-height:20px;

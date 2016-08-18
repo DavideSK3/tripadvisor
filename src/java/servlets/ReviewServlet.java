@@ -7,14 +7,10 @@ package servlets;
 
 import com.oreilly.servlet.MultipartRequest;
 import db.DBManager;
-import db.Review;
+
 import db.User;
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.Enumeration;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -53,8 +49,8 @@ public class ReviewServlet extends HttpServlet {
         
         MultipartRequest multi = (MultipartRequest)req.getAttribute("multi");
         
-        Integer food = Integer.parseInt(multi.getParameter("food"));
         Integer global_value = Integer.parseInt(multi.getParameter("global"));
+        Integer food = Integer.parseInt(multi.getParameter("food"));
         Integer service = Integer.parseInt(multi.getParameter("service"));
         Integer value_for_money = Integer.parseInt(multi.getParameter("money"));
         Integer atmosphere = Integer.parseInt(multi.getParameter("atmosphere"));
@@ -68,7 +64,7 @@ public class ReviewServlet extends HttpServlet {
         
         try {
             manager.insertReview(global_value, food, service, value_for_money, atmosphere, title, description, id_restaurant, id_creator, id_photo);
-            resp.sendRedirect(return_address);
+            resp.sendRedirect(resp.encodeRedirectURL(return_address));
         } catch (SQLException ex) {
             String message = "Errore nella sottomissione della recensione";
             rd = req.getRequestDispatcher("message.jsp");

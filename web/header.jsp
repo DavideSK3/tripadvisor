@@ -20,6 +20,7 @@
     </head>
     <body style=" background-color: gainsboro"> --%>
 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         
         <nav class="navbar header">
             <div class="container-fluid header" >
@@ -39,8 +40,8 @@
 		    <c:when test="${sessionScope.user == null}">
 			<div class="col-md-4 header">
                             <ul class="nav navbar-nav navbar-right header " >
-                                <li><a href="login.html" class="glyphicon glyphicon-log-in utente "> Accedi </a></li>
-                                <li><a href="register.html" class="glyphicon glyphicon-user utente">  Registrati</a></li>
+                                <li><a href="<c:url value='login.html'/>" class="glyphicon glyphicon-log-in utente "> Accedi </a></li>
+                                <li><a href="<c:url value='register.html'/>" class="glyphicon glyphicon-user utente">  Registrati</a></li>
                             </ul>
                         </div>
 		    </c:when>
@@ -52,8 +53,8 @@
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                  <li><a href="Profile" class="glyphicon glyphicon-user utente"> Profilo</a></li>
-                                  <li><a href="Logout" class="glyphicon glyphicon-log-out utente"> Logout </a></li>
+                                    <li><a href="<c:url value='Profile'/>" class="glyphicon glyphicon-user utente"> Profilo</a></li>
+                                  <li><a href="<c:url value='Logout'/>" class="glyphicon glyphicon-log-out utente"> Logout </a></li>
                                 </ul>
                             </div>
                         </div>
@@ -66,8 +67,8 @@
                                     <c:out value="${sessionScope.user.name} ${sessionScope.user.surname}"/>
                                 <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
-                                  <li><a href="Profile" class="glyphicon glyphicon-user utente"> Profile</a></li>
-                                  <li><a href="Logout" class="glyphicon glyphicon-log-out utente"> Logout </a></li>
+                                  <li><a href="<c:url value='Profile'/>" class="glyphicon glyphicon-user utente"> Profile</a></li>
+                                  <li><a href="<c:url value='Logout'/>" class="glyphicon glyphicon-log-out utente"> Logout </a></li>
                                 </ul>
                             </div>
                                 
@@ -85,7 +86,7 @@
                                     <p>Questa è una notifica.</p>
                                   </div>
                                   <div class="modal-footer" style="border-top-width: 0;">
-                                      <span><a href="#" class="glyphicon glyphicon-plus" style="float:left; top: 10px;"> Vedi tutte</a></span>
+                                      <span><a href="<c:url value='#'/>" class="glyphicon glyphicon-plus" style="float:left; top: 10px;"> Vedi tutte</a></span>
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                   </div>
                                 </div>
@@ -102,9 +103,9 @@
                   <div class="row">
                       <form class="navbar-search" role="search" action="RestaurantsList">
 
-                          <div class=" col-md-5"><input type="text" class="form-control" placeholder="Dove vai?" name="place" id ="search_place" value="<c:out value='${requestScope.place}'/>"></div>
-                          <div class=" col-md-5 ui-widget ui-widget"> <input type="text" class="form-control" placeholder="Ricerca ristorante" name="r_query" id ="search_name" value="<c:out value='${requestScope.r_query}'/>"></div>
-                          <div class=" col-md-2"> <button type="submit" class="btn btn-default"> <span class="glyphicon glyphicon-search" style="color: black"></span> </button></div>
+                          <div class=" col-md-5 col-sm-5"><input type="text" class="form-control" placeholder="Dove vai?" name="place" id ="search_place" value="<c:out value='${requestScope.place}'/>"></div>
+                          <div class=" col-md-5 col-sm-5 ui-widget"> <input type="text" class="form-control" placeholder="Ricerca ristorante" name="r_query" id ="search_name" value="<c:out value='${requestScope.r_query}'/>"></div>
+                          <div class=" col-md-2 col-sm-5"> <button type="submit" class="btn btn-default"> <span class="glyphicon glyphicon-search" style="color: black"></span> </button></div>
 
                       </form>
                   </div>

@@ -11,12 +11,20 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="header_head.jsp" %>
-        <title>JSP Page</title>
+        <title>Message</title>
     </head>
-    <body>
+    <body style="background-color:gainsboro">
         <%@include file="header.jsp" %>
         
-        <p><c:out value='${requestScope.message}'/></p>
+        <div class="col-md-6 col-md-offset-3">
+            <div class="jumbotron" style="margin-top: 25%; border-radius: 15px">
+              <div class="col-md-offset-1">  
+                <span style="font-size: 200%"> <b><c:out value='${requestScope.message}'/></b></span>
+            </div>
+            </div>
+        </div>
+        
+        
         
         <%@include file="footer.html" %>  
         <%@include file="js_include.jsp" %>

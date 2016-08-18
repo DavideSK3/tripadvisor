@@ -7,19 +7,15 @@ package servlets;
 
 import com.google.common.io.Files;
 import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.oreilly.servlet.multipart.FileRenamePolicy;
 import db.DBManager;
 import db.User;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -93,9 +89,18 @@ public class PhotoUploadServlet extends HttpServlet {
                 path = copy.getAbsolutePath().substring(getServletContext().getRealPath("").length());
                 System.out.println("Salvata immagine al percorso: " + path);
 
-                
+                HttpSession session = request.getSession();
+                User user = (User) session.getAttribute("user");
+                boolean own = false;
+                if(user != null){
+                    try{
+                        own = manager.isRestaurantOwner(user.getId(), id_restaurant);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(PhotoUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                 try {
-                    id = manager.insertPhoto(name, path, id_restaurant, 0);
+                    id = manager.insertPhoto(name, path, id_restaurant, own? 1 : 0);
                 } catch (SQLException ex) {
                     Logger.getLogger(PhotoUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -122,7 +127,7 @@ public class PhotoUploadServlet extends HttpServlet {
             }else{
                 String return_address = multi.getParameter("return_address");
                 
-                response.sendRedirect(return_address);
+                response.sendRedirect(response.encodeRedirectURL(return_address));
             }
             
         }catch (IOException lEx) {

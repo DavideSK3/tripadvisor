@@ -190,11 +190,7 @@ public class RestaurantsListServlet extends HttpServlet {
             page = (int)Math.floor(results.size()/(double)LIMIT);
         }
         
-        try {
-            req.setAttribute("cuisines", manager.getCuisines());
-        } catch (SQLException ex) {
-            Logger.getLogger(RestaurantsListServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         req.setAttribute("r_query", r_query);
         req.setAttribute("place", p_query);
         req.setAttribute("page", page);

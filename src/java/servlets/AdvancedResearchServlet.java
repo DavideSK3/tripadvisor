@@ -41,14 +41,19 @@ public class AdvancedResearchServlet extends HttpServlet {
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
     }
     
-    private List<Restaurant> filter(HttpServletRequest req, List<Restaurant> list){
-        
-        
-        return list;
-    }
     
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        manageRequest(req, resp);
+    }
+    
+    
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        manageRequest(req, resp);
+    }
+    
+    protected void manageRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
        
         
@@ -184,11 +189,7 @@ public class AdvancedResearchServlet extends HttpServlet {
         
         
         
-        try {
-            req.setAttribute("cuisines", manager.getCuisines());
-        } catch (SQLException ex) {
-            Logger.getLogger(RestaurantsListServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         req.setAttribute("r_query", r_query);
         req.setAttribute("place", p_query);
         req.setAttribute("query_id", query_id);
@@ -213,6 +214,7 @@ public class AdvancedResearchServlet extends HttpServlet {
         req.setAttribute("redirectURL", url);
         
         RequestDispatcher rd = req.getRequestDispatcher("result_list.jsp");
+        
         rd.forward(req, resp);
     }
     
@@ -221,19 +223,24 @@ public class AdvancedResearchServlet extends HttpServlet {
     
     
     public static final List<Restaurant> filterByDistance(List<Restaurant> restaurants, String distance, String longitude, String latitude){
+        System.out.println("Filtrazione per distanza");
         try{
             ArrayList<Restaurant> results = new ArrayList<>();
+            
+            System.out.println("d= " + distance + ";\n lo = " + longitude + "; lat = " + latitude);
+            
             Double d = Double.parseDouble(distance);
             Double lo = Double.parseDouble(longitude);
             Double la = Double.parseDouble(latitude);
 
             for(Restaurant r :restaurants){
-                if(Util.computeLinearDistance(lo, la, r.getLongitude(), r.getLatitude()) <= d){
+                if(r.getLongitude() != null && r.getLatitude() != null && Util.computeLinearDistance(lo, la, r.getLongitude(), r.getLatitude()) <= d){
                     results.add(r);
                 }
             }
             return results;
         }catch (NumberFormatException e){
+            System.out.println("Filtrazione per distanza: number format exception");
             return restaurants;
         }
         

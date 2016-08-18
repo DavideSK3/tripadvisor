@@ -21,7 +21,7 @@
             <div class="col-md-9">
                 <div class="col-md-12" style="padding-top: 20px">
                     <span style="font-size: 250%;"><c:out value='${restaurant.name}'/></span>
-                    <a href="#" data-toggle="tooltip" data-placement="right" title="Inizia a gestire la tua pagina!">Questo &egrave il tuo ristorante?</a>
+                    &nbsp;&nbsp;<a href="<c:url value='#'/>" data-toggle="tooltip" data-placement="right" title="Inizia a gestire la tua pagina!">Questo &egrave il tuo ristorante?</a>
                 </div>
                 <div class="col-md-12" style="padding-left: 2%; padding-top: 10px;">
                     <div style="">
@@ -103,9 +103,10 @@
                         </a>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="jumbotron">
-                        <p><c:out value="${restaurant.description}"/></p>
+               <div class="row">
+                    <div class="jumbotron" style ="padding:2% 1%">
+                        <span style ="color: limegreen; font-size: 140%;"><b>Descrizione:</b></span><br>
+                        <p style="font-size: 100%; padding:1% 3%"><c:out value='${restaurant.description}'/></p>
                     </div>
                 </div>
             </div>
@@ -119,13 +120,12 @@
                                 <span class="locality">
                                     <%--<span>39040</span>,--%>
                                     <span><c:out value='${restaurant.city}'/></span>,
-                                    <span class="country-name"><c:out value='${restaurant.region}'/>,&nbsp;</span>
+                                    <span class="country-name"><c:out value='${restaurant.region}'/>,</span>
                                 </span>
-
-                                <span class="country-name"><c:out value='${restaurant.state}'/>&nbsp;</span>
-
+                                <span class="country-name"><c:out value='${restaurant.state}'/></span>
+                                
                             </span>
-                            <a href="#"><span class="glyphicon glyphicon-map-marker"></span>&nbsp; Mappa</a>
+                            <a href="<c:url value='Mapp'><c:param name='id' value='${restaurant.id}'/></c:url>"><span class="glyphicon glyphicon-map-marker"></span>&nbsp; Mappa</a>
                         </div>
                     </div>
                     <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
@@ -152,7 +152,7 @@
                         <div style="padding: 15px 18px; border-top: 1px solid #F4F3F0; overflow: hidden">
                             <h5 style="margin: 0px 0px;padding-bottom: 10px"><b>Dettagli Voto :</b></h5>
                             <span style="color: grey; padding: 10px 10px">Cucina :</span>
-                            <div style="padding-left:70% ;">
+                            <div style="padding-left:40% ;">
                                 <c:forEach var='i' begin='1' end='${restaurant.food_review}' step='1'>
                                     <span class="glyphicon glyphicon-star media"></span>
                                 </c:forEach>
@@ -162,7 +162,7 @@
                                 &nbsp;
                             </div>
                             <span style="color: grey; padding: 10px 10px">Servizio :</span>
-                            <div style="padding-left:70% ;">
+                            <div style="padding-left:40% ;">
                                 <c:forEach var='i' begin='1' end='${restaurant.service_review}' step='1'>
                                     <span class="glyphicon glyphicon-star media"></span>
                                 </c:forEach>
@@ -172,7 +172,7 @@
                                 &nbsp;
                             </div>
                             <span style="color: grey; padding: 10px 10px">Rapporto Qualit&agrave / Prezzo :</span>
-                            <div style="padding-left:70% ;">
+                            <div style="padding-left:40% ;">
                                 <c:forEach var='i' begin='1' end='${restaurant.money_review}' step='1'>
                                     <span class="glyphicon glyphicon-star media"></span>
                                 </c:forEach>
@@ -182,7 +182,7 @@
                                 &nbsp;
                             </div>
                             <span style="color: grey; padding: 10px 10px">Atmosfera :</span>
-                            <div style="padding-left:70% ;">
+                            <div style="padding-left:40% ;">
                                 <c:forEach var='i' begin='1' end='${restaurant.atmosphere_review}' step='1'>
                                     <span class="glyphicon glyphicon-star media"></span>
                                 </c:forEach>
@@ -200,10 +200,10 @@
         <div class="col-md-10 col-md-offset-1" style="background-color: whitesmoke; margin-top: 20px; padding: 15px 2%;">
             
             <div class="col-md-8" style="padding-left: 0; padding-right: 0;">
-                <h3 style="margin: 0 0; color: green"><c:out value='${restaurant.review_count}'/> recensioni su questo ristorante</h3>
+                <h3 style="margin: 0 0; padding-bottom: 5%; color: green"><c:out value='${restaurant.review_count}'/> recensioni su questo ristorante</h3>
             </div>
             <div class="col-md-4" style="padding-left: 0; padding-right: 0;">
-                <c:if test="${user != null}">
+                <c:if test="${user != null && user.type != 'A' && user.id != restaurant.id_owner}">
                 
                     <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal" style="background-color: limegreen; border-color: limegreen;  float:right"> Scrivi una recensione</button>
                     <div class="modal fade" id="myModal" role="dialog">
@@ -218,34 +218,40 @@
                                         <input type="hidden" name ="id_restaurant" value ="<c:out value='${restaurant.id}'/>">
                                         <input type ="hidden" name ="return_address" value ="Restaurant?restaurantID=<c:out value='${restaurant.id}'/>">
                                         <input type ="hidden" name ="review" value ="true">
-                                        <span style="font-size: 120%"><b>Inserisci un voto</b></span> 
+                                        <div class="col-md-3" style="padding-left: 0;">
+                                            <span style="font-size: 130%"><b>Inserisci un voto</b></span>
+                                        </div>
+                                         
+                                        <div class="col-md-3">
+                                            <div class="rating" id="rating" style="float:right">
+                                                <span><input type="radio" name="global" id="str5" value="5" required><label for="str5"></label></span>
+                                                <span><input type="radio" name="global" id="str4" value="4" required><label for="str4"></label></span>
+                                                <span><input type="radio" name="global" id="str3" value="3" required><label for="str3"></label></span>
+                                                <span><input type="radio" name="global" id="str2" value="2" required><label for="str2"></label></span>
+                                                <span><input type="radio" name="global" id="str1" value="1" required><label for="str1"></label></span>
+                                            </div>
+                                        </div>
 
-                                        <div class="rating" id="rating" style="padding-right: 20%; padding-top: 10px; float:right">
-                                            <span><input type="radio" name="global" id="str5" value="5"><label for="str5"></label></span>
-                                            <span><input type="radio" name="global" id="str4" value="4"><label for="str4"></label></span>
-                                            <span><input type="radio" name="global" id="str3" value="3"><label for="str3"></label></span>
-                                            <span><input type="radio" name="global" id="str2" value="2"><label for="str2"></label></span>
-                                            <span><input type="radio" name="global" id="str1" value="1"><label for="str1"></label></span>
-                                        </div><br><br>
+                                        <br><br>
                                         <span style="font-size: 120%"><b>Titolo della recensione</b></span> <br><br>
-                                        <input type="text" name="title" style="width:100%" maxlength="120" placeholder="Riassumi la tua visita o concentrati su un dettaglio interessante">
+                                        <input type="text" name="title" style="width:100%" maxlength="120" placeholder="Riassumi la tua visita o concentrati su un dettaglio interessante" required>
                                         <br><br>
                                         <span style="font-size: 120%"><b>La tua recensione</b></span><br><br>
-                                        <textarea name="description" data-minlen="100" style="width:100%; min-height: 30%" placeholder="Racconta ai viaggiatori la tua esperienza: come descriveresti il cibo, l'atmosfera, il servizio?"></textarea>
+                                        <textarea name="description" minlenght="50" style="width:100%; min-height: 30%" placeholder="Racconta ai viaggiatori la tua esperienza: come descriveresti il cibo, l'atmosfera, il servizio?" required></textarea>
                                         <br><br>
                                         <span style="font-size: 120%"><b>Ulteriori dettagli sul voto</b></span><br><br>
                                         <div class="voti">
                                             <span style="color: grey; padding: 10px 10px">Cucina :</span>
-                                            <input type="number" name="food" min="1" max="5">    
+                                            <input type="number" name="food" min="1" max="5" required>    
                                             &nbsp;
                                             <span style="color: grey; padding: 10px 10px">Servizio :</span>
-                                            <input type="number" name="service" min="1" max="5">     
+                                            <input type="number" name="service" min="1" max="5" required>     
                                             &nbsp;
                                             <span style="color: grey; padding: 10px 10px">Rapporto Qualit&agrave / Prezzo :</span>
-                                            <input type="number" name="money" min="1" max="5"> 
+                                            <input type="number" name="money" min="1" max="5" required> 
                                             &nbsp;
                                             <span style="color: grey; padding: 10px 10px">Atmosfera :</span>
-                                            <input type="number" name="atmosphere" min="1" max="5">     
+                                            <input type="number" name="atmosphere" min="1" max="5" required>     
                                         </div>
                                         <div style="padding: 15px 10px;">
                                             <span style="color: grey;" >Inserisci una foto: &nbsp; </span>
@@ -316,7 +322,6 @@
                                     </c:forEach>
                                     &nbsp;
                                 </div>
-                                
                                 <p style="padding: 5px 5%; margin:0 0; line-height: 1.7"><c:out value='${rec.description}'/></p>
                                 
 

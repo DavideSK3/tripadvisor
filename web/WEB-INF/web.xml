@@ -4,11 +4,11 @@
         <param-name>dburl</param-name>
         <param-value>jdbc:derby:/home/gabriele/NetBeansProjects/TripAdvisor/db</param-value>
         <!--<param-value>jdbc:postgresql://localhost/tripadvisordb</param-value>-->
-        
     </context-param>
     <context-param>
         <param-name>webAddress</param-name>
         <param-value>localhost:8084</param-value>
+        <!--<param-value>192.168.1.104:8084</param-value>-->
     </context-param>
     <context-param>
         <param-name>photoDir</param-name>
@@ -18,45 +18,44 @@
         <param-name>qrDir</param-name>
         <param-value>qrTemp</param-value>
     </context-param>
-    
-    
     <welcome-file-list>
         <welcome-file>home.jsp</welcome-file>
     </welcome-file-list>
+    
     
     
     <filter>
         <filter-name>LoggedInFilter</filter-name>
         <filter-class>filters.LoggedInFilter</filter-class>
     </filter>
-    <filter-mapping>
-        <filter-name>LoggedInFilter</filter-name>
-        <servlet-name>ProfileServlet</servlet-name>
-        <servlet-name>ReviewServlet</servlet-name>
-        <servlet-name>PhotoUploadServlet</servlet-name>
-        <servlet-name>Logout</servlet-name>
-    </filter-mapping>
-    
+    <filter>
+        <filter-name>AdvancedSearchParameterFilter</filter-name>
+        <filter-class>filters.AdvancedSearchParameterFilter</filter-class>
+    </filter>
     <filter>
         <filter-name>LoggedOutFilter</filter-name>
         <filter-class>filters.LoggedOutFilter</filter-class>
     </filter>
+    
+    <filter-mapping>
+        <filter-name>AdvancedSearchParameterFilter</filter-name>
+        <url-pattern>/AdvancedResearch</url-pattern>
+        <url-pattern>/RestaurantList</url-pattern>
+        <url-pattern>/home.jsp</url-pattern>
+        <url-pattern>/</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoggedInFilter</filter-name>
+        <servlet-name>ProfileServlet</servlet-name>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>LoggedOutFilter</filter-name>
         <servlet-name>Login</servlet-name>
-        <servlet-name>Register</servlet-name>
-        <servlet-name>ChangePasswordServlet</servlet-name>
-        
-        
     </filter-mapping>
-    
-    
     <listener>
         <description>ServletContextListener</description>
         <listener-class>listeners.WebappContextListener</listener-class>
     </listener>
-    
-    
     <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>servlets.LoginServlet</servlet-class>
@@ -105,7 +104,10 @@
         <servlet-name>AdvancedResearchServlet</servlet-name>
         <servlet-class>servlets.AdvancedResearchServlet</servlet-class>
     </servlet>
-    
+    <servlet>
+        <servlet-name>MappServlet</servlet-name>
+        <servlet-class>servlets.MappServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -154,8 +156,10 @@
         <servlet-name>AdvancedResearchServlet</servlet-name>
         <url-pattern>/AdvancedResearch</url-pattern>
     </servlet-mapping>
-    
-    
+    <servlet-mapping>
+        <servlet-name>MappServlet</servlet-name>
+        <url-pattern>/Mapp</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

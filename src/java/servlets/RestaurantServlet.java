@@ -140,15 +140,18 @@ public class RestaurantServlet extends HttpServlet {
                 .append(r.getState())
                 .append("\nOrari: \n");
         
-        for(Orario o : r.getOrari()){
-            s.append("   ")
-                .append(o.getGiorno())
-                .append(": ")
-                .append(o.getAperturaString())
-                .append(" - ")
-                .append(o.getChiusuraString())
-                .append("\n");
+        if(r.getOrari() != null){
+            for(Orario o : r.getOrari()){
+                s.append("   ")
+                    .append(o.getGiorno())
+                    .append(": ")
+                    .append(o.getAperturaString())
+                    .append(" - ")
+                    .append(o.getChiusuraString())
+                    .append("\n");
+            }
         }
+        
         
         
         ByteArrayOutputStream out = QRCode.from(s.toString()).to(ImageType.JPG).withSize(150, 150).stream();
