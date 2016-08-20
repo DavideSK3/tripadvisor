@@ -199,13 +199,13 @@
             
         <div class="col-md-10 col-md-offset-1" style="background-color: whitesmoke; margin-top: 20px; padding: 15px 2%;">
             
-            <div class="col-md-8" style="padding-left: 0; padding-right: 0;">
-                <h3 style="margin: 0 0; padding-bottom: 5%; color: green"><c:out value='${restaurant.review_count}'/> recensioni su questo ristorante</h3>
+            <div class="col-md-12" style="padding-left: 0; padding-right: 0;">
+                <h3 style="margin: 0 0; color: green"><c:out value='${restaurant.review_count}'/> recensioni su questo ristorante</h3>
             </div>
-            <div class="col-md-4" style="padding-left: 0; padding-right: 0;">
+            <div class="col-md-4 col-md-offset-8" style="padding-left: 0; padding-right: 0;">
                 <c:if test="${user != null && user.type != 'A' && user.id != restaurant.id_owner}">
                 
-                    <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal" style="background-color: limegreen; border-color: limegreen;  float:right"> Scrivi una recensione</button>
+                    <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal" style="background-color: limegreen; border-color: limegreen;"> Scrivi una recensione</button>
                     <div class="modal fade" id="myModal" role="dialog">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content" style="background-color: whitesmoke;">
@@ -268,7 +268,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal2" style="background-color: limegreen; border-color: limegreen;  float:right; margin-right: 5%;"> Aggiungi una foto</button>
+                    <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal2" style="background-color: limegreen; border-color: limegreen; margin-right: 5%;"> Aggiungi una foto</button>
                     <div class="modal fade" id="myModal2" role="dialog">
                         <div class="modal-dialog modal-sm">
                             <div class="modal-content">
@@ -322,7 +322,7 @@
                                     </c:forEach>
                                     &nbsp;
                                 </div>
-                                <p style="padding: 5px 5%; margin:0 0; line-height: 1.7"><c:out value='${rec.description}'/></p>
+                                <p style="padding: 5px 5%; margin:0 0; border-bottom: 1px solid limegreen; line-height: 1.7"><c:out value='${rec.description}'/> <br></p>
                                 
 
                             </div>
