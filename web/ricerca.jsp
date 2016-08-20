@@ -3,7 +3,7 @@
 
     <div class="sidebar-nav">
         <nav class="navbar navbar-default" role="navigation" style="border-radius: 15px; padding: 1.5%; margin: 3%;">
-            <div class = "collapse navbar-collapse" id = "example-navbar-collapse">
+            <!--<div class = "collapse navbar-collapse" id = "example-navbar-collapse">-->
                 <form action="<c:url value='RestaurantsList'/>" method="POST">
                     <ul class="nav navbar-nav">
                         <li><input type="text" class="form-control" placeholder="Dove vai?" name="place" id ="advanced_search_place" value="<c:out value='${requestScope.place}'/>"></li>
@@ -40,14 +40,14 @@
                             <label style="padding-left: 5%;"> Max : &nbsp;<input type="number" class="form-control" id= "min_max" onclick="getLocation()"  style="max-width: 30%" name ="distance" value = "<c:out value='${requestScope.distance}'/>"/></label>
                         </li>
                         <li>
-                            <input type="submit" name="button" value="advancedSearch">
+                            <input type="submit" name="button" value="Search">
                         </li>
                         <input type="hidden" name ="longitude" id ="long">
                         <input type="hidden" name ="latitude" id ="lat">
 
                     </ul>
                 </form>
-            </div>
+            <!--</div>-->
         </nav>
 
         <script type="text/javascript">

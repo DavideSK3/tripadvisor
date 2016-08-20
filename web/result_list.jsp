@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@page errorPage="error_page.jsp"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,7 +16,7 @@
        
        <div class="container-fluid" style=" padding-top: 0px;">
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-3 col-md-3">
                     <%@include file="ricerca.jsp" %>
                 </div>
                 
@@ -30,24 +30,8 @@
                         <button class="btn-lg" style= "background-color: limegreen" data-sort-by="distanza">Alfabetico</button>-->
                         <br>
                         <form  action = "<c:url value='RestaurantsList'/>" method="POST">
-                            <input type="hidden" name ="r_query" value ="<c:out value='${r_query}'/>">
-                            <input type="hidden" name ="place" value ="<c:out value='${place}'/>">
                             <input type="hidden" name="query_id" value ="<c:out value='${query_id}' />">
-                            <input type="hidden" name ="min_price" value ="<c:out value='${requestScope.min_price}'/>">
-                            <input type="hidden" name ="max_price" value ="<c:out value='${requestScope.max_price}'/>">
-                            <c:forEach var ='c' items ='${cuisines}'>
-                                <c:if test='${requestScope[c] == true}'>
-                                    <input type="hidden" name= "cusines" value="<c:out value='${c}'/>" >
-                                </c:if>
-                            </c:forEach>  
-                            <c:if test='${requestScope.v5 == true}'><input type="hidden" name="valutazione" value="5"></c:if>
-                            <c:if test='${requestScope.v4 == true}'><input type="hidden" name="valutazione" value="4"></c:if>
-                            <c:if test='${requestScope.v3 == true}'><input type="hidden" name="valutazione" value="3"></c:if>
-                            <c:if test='${requestScope.v2 == true}'><input type="hidden" name="valutazione" value="2"></c:if>
-                            <c:if test='${requestScope.v1 == true}'><input type="hidden" name="valutazione" value="1"></c:if>
-
-                            <input type="hidden" name ="distance" value = "<c:out value='${requestScope.distance}'/>" >
-
+                            
                             <div class="col-sm-1" style="margin-right: 5%">
                                 <button class="btn" style= "background-color: limegreen; width: 250%;" name = "button" value ="Price">Prezzo</button>
                             </div>
@@ -90,7 +74,8 @@
                             </div>
                             <a href="<c:url value='Restaurant'><c:param name='restaurantID' value='${r.id}'/></c:url>"> <span style="font-size: 200%; color: royalblue"><b><c:out value="${r.name}"/></b></span> </a>
                             <div class="col-md-8">
-                                <!--<span style="color: green;"><b>N. 1 dei ristoranti in Italia</b></span><br>-->
+                                
+                                <span style="color: green;"><b>N. <c:out value="${r.posizione}"/> su <c:out value="${resultsDim}"/> risultati trovati</b></span><br>
                                 <div>
                                     <c:forEach var='i' begin='1' end='${r.global_review}' step='1'>
                                         <span class="glyphicon glyphicon-star media"></span>
@@ -128,78 +113,18 @@
             <form method="POST" action="<c:url value='RestaurantsList'/>">
                 <ul class="pager">
                     <input type="hidden" name="query_id" value ="<c:out value='${query_id}' />">
-                    <input type="hidden" name="page" value ="<c:out value='${page}'/>">
-                    <input type="hidden" name ="min_price" value ="<c:out value='${requestScope.min_price}'/>">
-                    <input type="hidden" name ="max_price" value ="<c:out value='${requestScope.max_price}'/>">
-                    <c:forEach var ='c' items ='${cuisines}'>
-                        <c:if test='${requestScope[c] == true}'>
-                            <input type="hidden" name= "cusines" value="<c:out value='${c}'/>" >
-                        </c:if>
-                    </c:forEach>  
-                    <c:if test='${requestScope.v5 == true}'><input type="hidden" name="valutazione" value="5"></c:if>
-                    <c:if test='${requestScope.v4 == true}'><input type="hidden" name="valutazione" value="4"></c:if>
-                    <c:if test='${requestScope.v3 == true}'><input type="hidden" name="valutazione" value="3"></c:if>
-                    <c:if test='${requestScope.v2 == true}'><input type="hidden" name="valutazione" value="2"></c:if>
-                    <c:if test='${requestScope.v1 == true}'><input type="hidden" name="valutazione" value="1"></c:if>
-                            
-                    <input type="hidden" name ="distance" value = "<c:out value='${requestScope.distance}'/>" >
                     
                     <li><input type="submit" style="background-color:limegreen; color: black;" name="button" value="Previous"></li>
                     <li><input type="submit" style="background-color:limegreen; color: black;" name="button" value="Next"></li>
                 </ul>
             
             </form>
-            <%--<ul class="pager">
-                <li><a href= "
-                       <c:if test="${page > 0}">
-                           <c:out value='${redirectURL}${"&page="}${page-1}'/>
-                       </c:if>"
-                       style="background-color:limegreen; color: black;">Previous</a></li>
-                
-              
-              <li><a href="<c:out value='${redirectURL}${"&page="}${page+1}'/>" style="background-color:limegreen; color: black;">Next</a></li>
-            </ul>--%>
         </div>
        
-        <%--<table id ="ristoranti" border="1px">
-            <thead>
-                <th>Nome</th>
-                <th>Indirizzo</th>
-                <th>Id</th>
-            </thead>
-        <c:forEach var='r' items="${restaurantsList}">
-                <tr>
-                    <td>
-                        <a href="Restaurant?restaurantID=<c:out value="${r.id}"/>"><b><c:out value="${r.name}"/></b></a>
-
-                    </td>
-                    <td>
-                        <c:out value="${r.address}"/>
-                    </td>
-                    <td>
-                        <c:out value="${r.id}"/>
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>--%>
-        
-        
-            
+                    
         <%@include file="footer.html" %>
         
-        
-        
-        
-        <%--<script type="text/javascript" language="javascript" src="media/js/jquery.js"></script>
-	<script type="text/javascript" language="javascript" src="media/js/jquery.dataTables.js"></script>	
-        <script type="text/javascript" language="javascript" class="init">
-            $(document).ready(function() {
-
-                    $('#ristoranti').dataTable();
-
-            } );
-        </script>--%>
-         <%@include file="js_include.jsp" %>
+        <%@include file="js_include.jsp" %>
         
     </body>
 </html>

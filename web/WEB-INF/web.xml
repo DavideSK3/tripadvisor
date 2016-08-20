@@ -147,6 +147,12 @@
         <servlet-name>MapServlet</servlet-name>
         <url-pattern>/Map</url-pattern>
     </servlet-mapping>
+    
+    
+    <error-page>
+        <location>/error_page.jsp</location>
+    </error-page>
+    
     <session-config>
         <session-timeout>
             30

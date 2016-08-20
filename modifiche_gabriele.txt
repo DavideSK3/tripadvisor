@@ -135,6 +135,12 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
  - corretti alcuni bug in giro
  - aggiunto url rewriting anche per form
 
+(sabato 20/8)
+
+ - corretto errore nella paginazione
+ - inserita posizione in classifica dei ristoranti nella result list
+ - eliminata AdvancedResearchServlet
+ - migliorata e resa più robusta la classe RestaurantsList e semplificato il passaggio degli input tra le pagine (per mantenere il form compilato dopo la ricerca)
 
 
 

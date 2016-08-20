@@ -101,11 +101,11 @@
         <div class="navbar search">
               <div class="container-fluid" >
                   <div class="row">
-                      <form class="navbar-search" role="search" action="<c:url value='RestaurantsList'/>" method ="GET">
+                      <form class="navbar-search" role="search" action="<c:url value='RestaurantsList'/>" method ="GET" id = "search_form">
 
                           <div class=" col-md-5 col-sm-5"><input type="text" class="form-control" placeholder="Dove vai?" name="place" id ="search_place" value="<c:out value='${requestScope.place}'/>"></div>
                           <div class=" col-md-5 col-sm-5 ui-widget"> <input type="text" class="form-control" placeholder="Ricerca ristorante" name="r_query" id ="search_name" value="<c:out value='${requestScope.r_query}'/>"></div>
-                          <div class=" col-md-2 col-sm-5"> <button type="submit" name="button" value="search" class="btn btn-default"> <span class="glyphicon glyphicon-search" style="color: black"></span> </button></div>
+                          <div class=" col-md-2 col-sm-5"> <button type="submit" name="button" value="Search" class="btn btn-default"> <span class="glyphicon glyphicon-search" style="color: black"></span> </button></div>
 
                       </form>
                   </div>

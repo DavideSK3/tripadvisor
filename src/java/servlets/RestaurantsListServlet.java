@@ -32,7 +32,7 @@ public class RestaurantsListServlet extends HttpServlet {
 
     private DBManager manager;
 
-    public static final int LIMIT = 2;
+    public static final int LIMIT = 3;
     
     @Override
     public void init() throws ServletException {
@@ -54,37 +54,32 @@ public class RestaurantsListServlet extends HttpServlet {
     }
     
     protected void manageRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String r_query = req.getParameter("r_query");
-        String p_query = req.getParameter("place");
         
-        if(r_query == null) r_query = "";
-        else r_query = r_query.trim();
-        
-        if(p_query == null) p_query = "";
-        else{  p_query = p_query.trim();  }
-        
-        
-        String url = "RestaurantsList?r_query=" + URLEncoder.encode(r_query, "UTF-8") + "&place=" + URLEncoder.encode(p_query, "UTF-8");
-        
-        req.setAttribute("r_query", r_query);
-        req.setAttribute("place", p_query);
         
         String query_id = req.getParameter("query_id");
         req.setAttribute("query_id", query_id);
                 
         HttpSession session = req.getSession(false);
         
-        
         String button = req.getParameter("button");
         
-        if(button == null || button.equals("search") || session == null || query_id == null){
-            if(req.getMethod().equalsIgnoreCase("GET")){
-                newSimpleSearch(req, resp);
-            }else{
-                newAdvancedResearch(req, resp);
-            }
+        if(session == null || query_id == null){
+            newSearch(req, resp);
         }else{
-            manageResults(req, resp);
+            switch(button){
+                case "Next":
+                case "Previous":
+                case "Price":
+                case "Name":
+                case "Position":
+                    manageResults(req, resp);
+                    break;
+                case "Search":
+                default:
+                    newSearch(req, resp);
+                    break;
+            }
+            
         }
         
         Integer page = (Integer) req.getAttribute("page");
@@ -96,34 +91,87 @@ public class RestaurantsListServlet extends HttpServlet {
         session = req.getSession();
         query_id = (String) req.getAttribute("query_id");
         
-        List<Restaurant> results = (List<Restaurant>) session.getAttribute(query_id);
-        if(results == null){
-            results = new ArrayList<>();
+        Research research = (Research) session.getAttribute(query_id);
+        if(research == null){
+            research = new Research();
+            research.setQueryID(query_id);
+            research.setpQuery((String) req.getAttribute("p_query"));
+            research.setrQuery((String) req.getAttribute("r_query"));
+            research.setResults(new ArrayList<>());
         }
         
         
+        if(research.getpQuery() != null){
+            req.setAttribute("place", research.getpQuery());
+        }
+        if(research.getrQuery() != null){
+            req.setAttribute("r_query", research.getrQuery());
+        }
+        if(research.getResults() != null){
+            req.setAttribute("results", research.getResults().subList(page*LIMIT, Math.min((page+1)*LIMIT, research.getResults().size())));
+            req.setAttribute("resultsDim", research.getResults().size());
+        }
         
-        req.setAttribute("results", results.subList(page*LIMIT, Math.min((page+1)*LIMIT, results.size())));
-        req.setAttribute("redirectURL", url);
-
+        if(research.getMinPrice()!= null) req.setAttribute("min_price", research.getMinPrice());
+        if(research.getMaxPrice() != null) req.setAttribute("max_price", research.getMaxPrice());
+        
+        if(research.getCuisines() != null){
+            for(String s :research.getCuisines()){
+                req.setAttribute(s, true);
+            }
+        }
+        if(research.getValutazioni() != null){
+            for(String s: research.getValutazioni()){
+                req.setAttribute("v"+s, true);
+            }
+        }
+        if(research.getDistance() != null) req.setAttribute("distance", research.getDistance());
+        
         RequestDispatcher rd = req.getRequestDispatcher("result_list.jsp");
         rd.forward(req, resp);
     }
     
     
-    
-    protected void newAdvancedResearch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String r_query = (String) req.getAttribute("r_query");
-        String p_query = (String) req.getAttribute("place");
-        
+    protected void newSearch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String r_query = req.getParameter("r_query");
+        String p_query = req.getParameter("place");
+
+        if(r_query == null) r_query = "";
+        else r_query = r_query.trim();
+
+        if(p_query == null) p_query = "";
+        else{  p_query = p_query.trim();  }
+
+
+        req.setAttribute("r_query", r_query);
+        req.setAttribute("place", p_query);
         if(!p_query.isEmpty()){
             try {
                 p_query = manager.getPlaceBySimilarity(p_query).toString();
+                req.setAttribute("place", p_query);
             } catch (SQLException ex) {
                 Logger.getLogger(RestaurantsListServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+        HttpSession session = req.getSession();
+
+        String query_id = UUID.randomUUID().toString();
+        while(session.getAttribute(query_id) != null){
+            query_id = UUID.randomUUID().toString();
+        }
+        req.setAttribute("query_id", query_id);
+
+
+        if(req.getMethod().equalsIgnoreCase("GET")){
+            newSimpleSearch(req, resp);
+        }else{
+            newAdvancedResearch(req, resp);
+        }
+    }
+    
+    protected void newAdvancedResearch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String r_query = (String) req.getAttribute("r_query");
+        String p_query = (String) req.getAttribute("place");
         
         String m = req.getParameter("min_price");
         String M = req.getParameter("max_price");
@@ -159,17 +207,17 @@ public class RestaurantsListServlet extends HttpServlet {
         String latitude = req.getParameter("latitude");
         String longitude = req.getParameter("longitude");
         
+        Integer d = null;
+        Double lo = null, la = null;
         
-        
-                        
-        HttpSession session = req.getSession(true);
-        
-        String query_id = UUID.randomUUID().toString();
-        while(session.getAttribute(query_id) != null){
-            query_id = UUID.randomUUID().toString();
+        boolean d_error = false;
+        try{
+            d = Integer.parseInt(distance);
+            lo = Double.parseDouble(longitude);
+            la = Double.parseDouble(latitude);
+        }catch (NumberFormatException e){
+            d_error = true;
         }
-        req.setAttribute("query_id", query_id);
-        
         
         List<Restaurant> results;
         
@@ -180,33 +228,44 @@ public class RestaurantsListServlet extends HttpServlet {
             results = new ArrayList<>();
             Logger.getLogger(PasswordRecoveryServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        if(!d_error && distance != null && longitude != null && latitude != null){
+            results = filterByDistance(results, d, lo, la);
+        }
+        int p=1;
+        if(results.size()>0) results.get(0).setPosizione(p);
+        for(int i=1; i<results.size(); i++){
+            Restaurant r = results.get(i);
+            if(r.getGlobal_review() < results.get(i-1).getGlobal_review()){
+                p = i+1;
+            }
+            r.setPosizione(p);
+        }
+        
         long fine = new Date().getTime();
         System.out.println("Result size = " +results.size());
         System.out.println("Risultati calcolati in " + (fine - inizio)/1000.0 + " secondi");
 
-        if(distance != null && longitude != null && latitude != null){
-            results = filterByDistance(results, distance, longitude, latitude);
-        }
+        String query_id = (String) req.getAttribute("query_id");
+        
+        Research research = new Research();
+        research.setQueryID(query_id);
+        research.setpQuery(p_query);
+        research.setrQuery(r_query);
+        research.setCuisines(cuisines);
+        research.setValutazioni(valutazioni);
+        research.setDistance(d);
+        research.setMaxPrice(maxPrice);
+        research.setMinPrice(minPrice);
+        research.setResults(results);
 
-
-        session.setAttribute(query_id, results);
+        
+        HttpSession session = req.getSession(true);
+        session.setAttribute(query_id, research);
+        
         req.setAttribute("page", 0);
         
-        req.setAttribute("min_price", minPrice);
-        req.setAttribute("max_price", maxPrice);
         
-        if(cuisines != null){
-            for(String s :cuisines){
-                req.setAttribute(s, true);
-            }
-        }
-        if(valutazioni != null){
-            for(String s: valutazioni){
-                req.setAttribute("v"+s, true);
-            }
-        }
-        req.setAttribute("distance", distance);
-        req.setAttribute("page", 0);
     }
     
     
@@ -214,23 +273,6 @@ public class RestaurantsListServlet extends HttpServlet {
     protected void newSimpleSearch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String r_query = (String) req.getAttribute("r_query");
         String p_query = (String) req.getAttribute("place");
-        
-        if(!p_query.isEmpty()){
-            try {
-                p_query = manager.getPlaceBySimilarity(p_query).toString();
-            } catch (SQLException ex) {
-                Logger.getLogger(RestaurantsListServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        
-                
-        HttpSession session = req.getSession(true);
-        
-        String query_id = UUID.randomUUID().toString();
-        while(session.getAttribute(query_id) != null){
-            query_id = UUID.randomUUID().toString();
-        }
-        req.setAttribute("query_id", query_id);
         
         
         List<Restaurant> results;
@@ -256,6 +298,16 @@ public class RestaurantsListServlet extends HttpServlet {
             Logger.getLogger(PasswordRecoveryServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        int p=1;
+        if(results.size()>0) results.get(0).setPosizione(p);
+        for(int i=1; i<results.size(); i++){
+            Restaurant r = results.get(i);
+            if(r.getGlobal_review() < results.get(i-1).getGlobal_review()){
+                p = i+1;
+            }
+            r.setPosizione(p);
+        }
+        
         for(Restaurant r : results){
             try{
                 manager.getRestaurantFirstPhoto(r);
@@ -268,10 +320,16 @@ public class RestaurantsListServlet extends HttpServlet {
         System.out.println("Result size = " +results.size());
         System.out.println("Risultati calcolati in " + (fine - inizio)/1000.0 + " secondi");
 
+        String query_id = (String) req.getAttribute("query_id");
         
-        
-        
-        session.setAttribute(query_id, results);
+        Research research = new Research();
+        research.setQueryID(query_id);
+        research.setpQuery(p_query);
+        research.setrQuery(r_query);
+        research.setResults(results);
+
+        HttpSession session = req.getSession(true);
+        session.setAttribute(query_id, research);
         
         req.setAttribute("page", 0);
         
@@ -281,14 +339,25 @@ public class RestaurantsListServlet extends HttpServlet {
     
     protected void manageResults(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
-       
-        
-        
         String query_id = req.getParameter("query_id");
-                
-        HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession();
         
-        List<Restaurant> results = (List<Restaurant>)session.getAttribute(query_id);
+        
+        Research research;
+        List<Restaurant> results;
+        
+        research = (Research)session.getAttribute(query_id);
+        try{
+            results = research.getResults();
+        }catch (NullPointerException e){
+            research = new Research();
+            results = new ArrayList<>();
+            
+            research.setResults(results);
+            research.setQueryID(query_id);
+            
+            session.setAttribute(query_id, research);
+        }
         
         String p = req.getParameter("page");
 
@@ -332,8 +401,8 @@ public class RestaurantsListServlet extends HttpServlet {
 
         
 
-        if(page >= Math.floor(results.size()/(double)LIMIT)){
-            page = (int)Math.floor(results.size()/(double)LIMIT)-1;
+        if(page >= Math.ceil(results.size()/(double)LIMIT)){
+            page = (int)Math.ceil(results.size()/(double)LIMIT)-1;
         }
         if(page < 0) page = 0;
         
@@ -356,27 +425,166 @@ public class RestaurantsListServlet extends HttpServlet {
     }
     
     
-    public static final List<Restaurant> filterByDistance(List<Restaurant> restaurants, String distance, String longitude, String latitude){
-        System.out.println("Filtrazione per distanza");
-        try{
-            ArrayList<Restaurant> results = new ArrayList<>();
-            
-            System.out.println("d= " + distance + ";\n lo = " + longitude + "; lat = " + latitude);
-            
-            Double d = Double.parseDouble(distance);
-            Double lo = Double.parseDouble(longitude);
-            Double la = Double.parseDouble(latitude);
+    public static final List<Restaurant> filterByDistance(List<Restaurant> restaurants, double d, double lo, double la){
+        
+        ArrayList<Restaurant> results = new ArrayList<>();
 
-            for(Restaurant r :restaurants){
-                if(r.getLongitude() != null && r.getLatitude() != null && Util.computeLinearDistance(lo, la, r.getLongitude(), r.getLatitude())*1000 <= d){
-                    results.add(r);
-                }
+        for(Restaurant r :restaurants){
+            if(r.getLongitude() != null && r.getLatitude() != null && Util.computeLinearDistance(lo, la, r.getLongitude(), r.getLatitude())*1000 <= d){
+                results.add(r);
             }
-            return results;
-        }catch (NumberFormatException e){
-            System.out.println("Filtrazione per distanza: number format exception");
-            return restaurants;
         }
+        return results;
+        
+    }
+    
+    
+    
+    private class Research {
+        
+        private List<Restaurant> results = null;
+        
+        private String queryID = null;
+        
+        private String pQuery = null;
+        private String rQuery = null;
+        
+        
+        private Integer minPrice = null;
+        private Integer maxPrice = null;
+        
+        private String[] cuisines = null;
+        private String[] valutazioni = null;
+        
+        private Integer distance = null;
+
+        /**
+         * @return the results
+         */
+        public List<Restaurant> getResults() {
+            return results;
+        }
+
+        /**
+         * @param results the results to set
+         */
+        public void setResults(List<Restaurant> results) {
+            this.results = results;
+        }
+
+        /**
+         * @return the queryID
+         */
+        public String getQueryID() {
+            return queryID;
+        }
+
+        /**
+         * @param queryID the queryID to set
+         */
+        public void setQueryID(String queryID) {
+            this.queryID = queryID;
+        }
+
+        /**
+         * @return the pQuery
+         */
+        public String getpQuery() {
+            return pQuery;
+        }
+
+        /**
+         * @param pQuery the pQuery to set
+         */
+        public void setpQuery(String pQuery) {
+            this.pQuery = pQuery;
+        }
+
+        /**
+         * @return the rQuery
+         */
+        public String getrQuery() {
+            return rQuery;
+        }
+
+        /**
+         * @param rQuery the rQuery to set
+         */
+        public void setrQuery(String rQuery) {
+            this.rQuery = rQuery;
+        }
+
+        /**
+         * @return the minPrice
+         */
+        public Integer getMinPrice() {
+            return minPrice;
+        }
+
+        /**
+         * @param minPrice the minPrice to set
+         */
+        public void setMinPrice(Integer minPrice) {
+            this.minPrice = minPrice;
+        }
+
+        /**
+         * @return the maxPrice
+         */
+        public Integer getMaxPrice() {
+            return maxPrice;
+        }
+
+        /**
+         * @param maxPrice the maxPrice to set
+         */
+        public void setMaxPrice(Integer maxPrice) {
+            this.maxPrice = maxPrice;
+        }
+
+        /**
+         * @return the cuisines
+         */
+        public String[] getCuisines() {
+            return cuisines;
+        }
+
+        /**
+         * @param cuisines the cuisines to set
+         */
+        public void setCuisines(String[] cuisines) {
+            this.cuisines = cuisines;
+        }
+
+        /**
+         * @return the valutazioni
+         */
+        public String[] getValutazioni() {
+            return valutazioni;
+        }
+
+        /**
+         * @param valutazioni the valutazioni to set
+         */
+        public void setValutazioni(String[] valutazioni) {
+            this.valutazioni = valutazioni;
+        }
+
+        /**
+         * @return the distance
+         */
+        public Integer getDistance() {
+            return distance;
+        }
+
+        /**
+         * @param distance the distance to set
+         */
+        public void setDistance(Integer distance) {
+            this.distance = distance;
+        }
+
+        
         
     }
 }

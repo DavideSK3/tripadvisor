@@ -337,16 +337,6 @@ public class DBManager implements Serializable {
         }
     }
 
-    
-    public List<Restaurant> getRestaurants(String name, String place) throws SQLException {
-        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
-        try {
-            return getRestaurantsFilteredByNameSimilarity(stm, name);
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-    }
-
     public List<Restaurant> getRestaurantsByName(String name) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE name = ?");
         try {
@@ -366,68 +356,6 @@ public class DBManager implements Serializable {
             stm.close();
         }
     }
-    
-    public List<Restaurant> getRestaurantsByPlace(String place) throws SQLException {
-        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
-        try {
-            return getRestaurantsUnfiltered(stm);
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-    }
-
-    
-    public List<Restaurant> getRestaurantsOrderedBy(String name, String place, String order) throws SQLException {
-
-        StringBuilder query = new StringBuilder();
-        query.append("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '").append(place).append("%'");
-        switch (order) {
-            case "name":
-                query.append(" ORDER BY name");
-                break;
-            case "price":
-                query.append(" ORDER BY min_price + max_price");
-                break;
-            case "position":
-                query.append(" ORDER BY (CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) DESC");
-                break;
-            default:
-                break;
-        }
-        PreparedStatement stm = con.prepareStatement(query.toString());
-        try {
-            return getRestaurantsFilteredByNameSimilarity(stm, name);
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-    }
-    
-    public List<Restaurant> getRestaurantsByPlaceOrderedBy(String place, String order) throws SQLException {
-        StringBuilder query = new StringBuilder();
-        query.append("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '").append(place).append("%'");
-        switch (order) {
-            case "name":
-                query.append(" ORDER BY name");
-                break;
-            case "price":
-                query.append(" ORDER BY min_price + max_price");
-                break;
-            case "position":
-                query.append(" ORDER BY (CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) DESC");
-                break;
-            default:
-                break;
-        }
-        PreparedStatement stm = con.prepareStatement(query.toString());
-        System.out.println(query.toString());
-        try {
-            return getRestaurantsUnfiltered(stm);
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-
-    }
-
     
     public List<String> getRestaurantsNamesByTerm(String term, int limit) throws SQLException {
 
@@ -451,13 +379,70 @@ public class DBManager implements Serializable {
         return result;
 
     }
-
     
     /**
      * Diversi metodi per ottenere una lista di ristoranti filtrati e ordinati
-     * in modo predefinito
+     * in modo predefinito per la ricerca
      */
     
+    /*Metodi di base */
+    public List<Restaurant> getRestaurants(String name, String place) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
+        try {
+            return getRestaurantsFilteredByNameSimilarity(stm, name);
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+    }
+
+    public List<Restaurant> getRestaurantsByNameSimilarity(String name) throws SQLException {
+        ArrayList<Restaurant> r_l = new ArrayList<>();
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R");
+        try {
+            return getRestaurantsFilteredByNameSimilarity(stm, name);
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+
+    }
+    
+    public List<Restaurant> getRestaurantsByPlace(String place) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
+        try {
+            return getRestaurantsUnfiltered(stm);
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+    }
+
+    
+    
+    /*Metodi usati per la ricerca normale */
+    
+    public List<Restaurant> getRestaurantsOrderedBy(String name, String place, String order) throws SQLException {
+
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '").append(place).append("%'");
+        switch (order) {
+            case "name":
+                query.append(" ORDER BY name");
+                break;
+            case "price":
+                query.append(" ORDER BY min_price + max_price");
+                break;
+            case "position":
+                query.append(" ORDER BY (CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) DESC");
+                break;
+            default:
+                break;
+        }
+        PreparedStatement stm = con.prepareStatement(query.toString());
+        try {
+            return getRestaurantsFilteredByNameSimilarity(stm, name);
+        } finally { 
+            stm.close();
+        }
+    }
     
     public List<Restaurant> getRestaurantsByNameSimilarityOrderedBy(String name, String order) throws SQLException {
         ArrayList<Restaurant> r_l = new ArrayList<>();
@@ -483,6 +468,34 @@ public class DBManager implements Serializable {
         }
 
     }
+    
+    
+    public List<Restaurant> getRestaurantsByPlaceOrderedBy(String place, String order) throws SQLException {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '").append(place).append("%'");
+        switch (order) {
+            case "name":
+                query.append(" ORDER BY name");
+                break;
+            case "price":
+                query.append(" ORDER BY min_price + max_price");
+                break;
+            case "position":
+                query.append(" ORDER BY (CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) DESC");
+                break;
+            default:
+                break;
+        }
+        PreparedStatement stm = con.prepareStatement(query.toString());
+        try {
+            return getRestaurantsUnfiltered(stm);
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+            stm.close();
+        }
+
+    }
+
+    
     
     /* Metodi usati per la ricerca avanzata*/
     
@@ -728,18 +741,6 @@ public class DBManager implements Serializable {
     }
 
     
-    
-    public List<Restaurant> getRestaurantsByNameSimilarity(String name) throws SQLException {
-        ArrayList<Restaurant> r_l = new ArrayList<>();
-        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R");
-        try {
-            return getRestaurantsFilteredByNameSimilarity(stm, name);
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-
-    }
-
     /**
      * Costruisce e ritorna il prossimo oggetto restaurant letto dal database
      * N.B.: DEVE ESSERE ESEGUITO DOPO rs.next() E SOLO SE QUESTA HA RESTITUITO
@@ -824,6 +825,9 @@ public class DBManager implements Serializable {
         return r_l;
     }
 
+    
+    
+    
     /**
      * --------GESTIONE LUOGHI-----------
      */

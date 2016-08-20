@@ -3,7 +3,7 @@
 	nella pagina restaurant.jsp
  - se non si hanno voti, non deve apparire la posizione
  - NEL DB MANAGER LA GESTIONE ATTUALE DEI VALORI NULL NON VA BENE: a volte un valore può anche essere zero (es id o min price) ma verrebbe scambiato per null. Meglio usare qualcosa tipo ' r.setId_photo((Integer)rs.getObject("id_photo"));
-
+ - bug: se nella result list c'è un errore la "page_error" appare dentor il box della ricerca avanzata invece che apparire al posto della pagina (se però non metto la "ricerca.jsp" dentro la result_list.jsp allora funziona normalmente la "error_page.jsp"
 
 
 
@@ -24,26 +24,20 @@
 	PIER
  - rifinire visualizzazione QR nella pagina										DA IMPLEMENTARE
  - fare grafica per mail_form.jsp
- - fare form unico per la ricerca avanzata e normale
+ - NO (fare form unico per la ricerca avanzata e normale). Mettere a posto la ricerca avanzata in modo tale che "ci stia bene" anche il campo per ricerca luogo e ristorante
  - la larghezza della pagina non può diminuire oltre i 357 px
  - riducendo la dimensione dello schermo, il logo si sposta e il link (il tag <a></a>) "sparisce" (anche da cell)
  - aggiustare pulsati ordinamento nella result list per riadattarsi a dim schermo
- - aggiustare form ricerca avanzata per riadattarsi a dim schermo
+ - aggiustare form ricerca avanzata per riadattarsi a dim schermo (se schermo si rimpicciolisce, il form "sparisce". Per ora ho risolto togliendo il div con class="collapse navbar-collapse" ma non so se ho fatto così danni da altre parti)
  - aggiustare un po' il form di ricerca avanzata nella homepage (facoltativo)
  - mettere a posto zona recensioni per schermi più piccoli (vedi anche con cell)
-
+ - impostare per prezzo minimo e prezzo massimo il valore minimo a 0
  -  METTERE POSSIBILITÀ DI FARE "RECENSIONE VELOCE" INSERENDO SOLO VOTO GLOBALE (problema con tutta nostra gestione delle valutazioni e recensioni.... :/ )
 
 	GABRI
 
  - ci deve essere la possibilità di modificare completamente i dati del ristorante
  
- - mettere posizione in classifica anche nella pagina risultati
- - encoding di tutti i link nel caso non funzionino i cookie
- - POSIZIONE IN CLASSIFICA PER CITTÀ ---> RICERCHE SOLO PER CITTÀ E NON PER STATO/REGIONE? (se cerco stato/regione mi dà elenco città)
-   (però, nelle specifiche del progetto è scritto "Un motore di ricerca che permetta di visualizzare un elenco di ristoranti in base a varie tipologia di scelta [...]: per zona geografica (elenco di ristoranti per stato, città, provincia )" ).
-  (per ottimizzare si può fare un'unica query per ogni città che apparirà... NON FATTIBILE...)
-
  - cosa fare per ricerca avanzata se non specificato nessuna opzione? (sia "ne place ne name" sia "nessun opzione avanzata")
 
  - containing distance invece che editing distance è davvero una buona scelta?
