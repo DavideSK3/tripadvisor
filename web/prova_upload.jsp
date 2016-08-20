@@ -14,7 +14,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form action ="Review" method ="POST" ENCTYPE="multipart/form-data">
+        <form action ="<c:url value='Review'/>" method ="POST" ENCTYPE="multipart/form-data">
             <input type ="hidden" name = "global" value = '5'>
             <input type ="hidden" name="food" value ='5' >
             <input type ="hidden" name="service" value ='5' >

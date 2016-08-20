@@ -18,7 +18,7 @@
  - fare 2 servlet diverse per notifiche amministratori e ristoratori (entrambe rimandano a stessa pagina jsp, vedi prossimo punto)
  - fare pagina jsp unica per notifiche
  - aggiungere notifiche visualizzate da finestrella di anteprima (notifica inserita da filtro sulla request)
-
+ - ci deve essere la possibilità di modificare completamente i dati del ristorante
 
 
 	PIER
@@ -32,11 +32,14 @@
  - aggiustare un po' il form di ricerca avanzata nella homepage (facoltativo)
  - mettere a posto zona recensioni per schermi più piccoli (vedi anche con cell)
 
+ -  METTERE POSSIBILITÀ DI FARE "RECENSIONE VELOCE" INSERENDO SOLO VOTO GLOBALE (problema con tutta nostra gestione delle valutazioni e recensioni.... :/ )
 
 	GABRI
 
+ - ci deve essere la possibilità di modificare completamente i dati del ristorante
+ 
+ - mettere posizione in classifica anche nella pagina risultati
  - encoding di tutti i link nel caso non funzionino i cookie
-
  - POSIZIONE IN CLASSIFICA PER CITTÀ ---> RICERCHE SOLO PER CITTÀ E NON PER STATO/REGIONE? (se cerco stato/regione mi dà elenco città)
    (però, nelle specifiche del progetto è scritto "Un motore di ricerca che permetta di visualizzare un elenco di ristoranti in base a varie tipologia di scelta [...]: per zona geografica (elenco di ristoranti per stato, città, provincia )" ).
   (per ottimizzare si può fare un'unica query per ogni città che apparirà... NON FATTIBILE...)

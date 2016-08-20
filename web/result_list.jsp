@@ -29,30 +29,36 @@
                         <button class="btn-lg" style= "background-color: limegreen" data-sort-by="posizione">Posizione in classifica</button>
                         <button class="btn-lg" style= "background-color: limegreen" data-sort-by="distanza">Alfabetico</button>-->
                         <br>
-                        <div class="col-sm-1" style="margin-right: 5%">
-                            <form  action = "RestaurantsList" method="GET">
-                                <input type="hidden" name ="r_query" value ="<c:out value='${r_query}'/>">
-                                <input type="hidden" name ="place" value ="<c:out value='${place}'/>">
-                                <input type="hidden" name ="order" value ="price">
-                                <button class="btn" style= "background-color: limegreen; width: 250%; ">Prezzo</button>
-                            </form>
-                        </div>
-                        <div class="col-sm-1 " style="margin-right: 5%">
-                            <form  action = "RestaurantsList" method="GET">
-                                <input type="hidden" name ="r_query" value ="<c:out value='${requestScope.r_query}'/>">
-                                <input type="hidden" name ="place" value ="<c:out value='${requestScope.place}'/>">
-                                <input type="hidden" name ="order" value ="name">
-                                <button class="btn " style= "background-color: limegreen; width: 250%">Alfabetico</button>
-                            </form>
-                        </div>
-                        <div class="col-sm-1" style="margin-right: 5%">
-                            <form  action = "RestaurantsList" method="GET">
-                                <input type="hidden" name ="r_query" value ="<c:out value='${requestScope.r_query}'/>">
-                                <input type="hidden" name ="place" value ="<c:out value='${requestScope.place}'/>">
-                                <input type="hidden" name ="order" value ="position">
-                                <button class="btn" style= "background-color: limegreen;">Per Valutazione</button>
-                            </form>
-                        </div>
+                        <form  action = "<c:url value='RestaurantsList'/>" method="POST">
+                            <input type="hidden" name ="r_query" value ="<c:out value='${r_query}'/>">
+                            <input type="hidden" name ="place" value ="<c:out value='${place}'/>">
+                            <input type="hidden" name="query_id" value ="<c:out value='${query_id}' />">
+                            <input type="hidden" name ="min_price" value ="<c:out value='${requestScope.min_price}'/>">
+                            <input type="hidden" name ="max_price" value ="<c:out value='${requestScope.max_price}'/>">
+                            <c:forEach var ='c' items ='${cuisines}'>
+                                <c:if test='${requestScope[c] == true}'>
+                                    <input type="hidden" name= "cusines" value="<c:out value='${c}'/>" >
+                                </c:if>
+                            </c:forEach>  
+                            <c:if test='${requestScope.v5 == true}'><input type="hidden" name="valutazione" value="5"></c:if>
+                            <c:if test='${requestScope.v4 == true}'><input type="hidden" name="valutazione" value="4"></c:if>
+                            <c:if test='${requestScope.v3 == true}'><input type="hidden" name="valutazione" value="3"></c:if>
+                            <c:if test='${requestScope.v2 == true}'><input type="hidden" name="valutazione" value="2"></c:if>
+                            <c:if test='${requestScope.v1 == true}'><input type="hidden" name="valutazione" value="1"></c:if>
+
+                            <input type="hidden" name ="distance" value = "<c:out value='${requestScope.distance}'/>" >
+
+                            <div class="col-sm-1" style="margin-right: 5%">
+                                <button class="btn" style= "background-color: limegreen; width: 250%;" name = "button" value ="Price">Prezzo</button>
+                            </div>
+                            <div class="col-sm-1 " style="margin-right: 5%">
+                                <button class="btn " style= "background-color: limegreen; width: 250%" name = "button" value ="Name">Alfabetico</button>
+                            </div>
+                            <div class="col-sm-1" style="margin-right: 5%">
+                                <button class="btn" style= "background-color: limegreen;" name ="button" value="Position">Per Valutazione</button>
+                            </div>
+                        </form>
+                        
                     </div>
                     <c:if test='${results.size() == 0}'>
                         <div class="container-fluid riquadro_ristorante">
@@ -97,7 +103,7 @@
                                 </div>
                                 <br>
                                 <div style="margin-top:-10px;">
-                                    <a href="<c:url value='Mapp'><c:param name='id' value='${r.id}'/></c:url>"><span class="glyphicon glyphicon-map-marker"></span>&nbsp; Mappa &nbsp;</a>|&nbsp;
+                                    <a href="<c:url value='Map'><c:param name='id' value='${r.id}'/></c:url>"><span class="glyphicon glyphicon-map-marker"></span>&nbsp; Mappa &nbsp;</a>|&nbsp;
                                     <span>Prezzo: <b><c:out value="${r.min_price}"/> € - <c:out value="${r.max_price}"/> €</b></span><br>
                                 </div>
                                 <div style="margin-top:10px;">
@@ -119,7 +125,7 @@
         </div>
         
         <div class="container-fluid">  
-            <form method="POST" action="<c:out value='${redirectURL}'/>">
+            <form method="POST" action="<c:url value='RestaurantsList'/>">
                 <ul class="pager">
                     <input type="hidden" name="query_id" value ="<c:out value='${query_id}' />">
                     <input type="hidden" name="page" value ="<c:out value='${page}'/>">
@@ -138,8 +144,8 @@
                             
                     <input type="hidden" name ="distance" value = "<c:out value='${requestScope.distance}'/>" >
                     
-                    <li><input type="submit" style="background-color:limegreen; color: black;" name="changePageButton" value="Previous"></li>
-                    <li><input type="submit" style="background-color:limegreen; color: black;" name="changePageButton" value="Next"></li>
+                    <li><input type="submit" style="background-color:limegreen; color: black;" name="button" value="Previous"></li>
+                    <li><input type="submit" style="background-color:limegreen; color: black;" name="button" value="Next"></li>
                 </ul>
             
             </form>

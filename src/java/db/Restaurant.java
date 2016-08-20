@@ -7,6 +7,8 @@ package db;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Objects;
 
 /**
  *
@@ -450,5 +452,51 @@ public class Restaurant implements Serializable{
      */
     public void setFirstPhoto(Photo firstPhoto) {
         this.firstPhoto = firstPhoto;
+    }
+    
+    public Integer getPriceSum(){
+        if(getMin_price() == null || getMax_price() == null) return null;
+        else return getMin_price()+getMax_price();
+    }
+    
+    public static class ComparatorByValue implements Comparator<Restaurant>{
+
+        @Override
+        public int compare(Restaurant r1, Restaurant r2) {
+            if(Objects.equals(r2.getGlobal_review(), r1.getGlobal_review())){ return 0;}
+            else if(r1.getGlobal_review() == null){
+                return 1;
+            }else if(r2.getGlobal_review() == null){
+                return -1;
+            }else{
+                return (int)Math.signum(r2.getGlobal_review() - r1.getGlobal_review());
+            }
+        }
+        
+    }
+    
+    public static class ComparatorByPrice implements Comparator<Restaurant>{
+
+        @Override
+        public int compare(Restaurant r1, Restaurant r2) {
+            if(Objects.equals(r2.getPriceSum(), r1.getPriceSum())){ return 0;}
+            else if(r1.getPriceSum() == null){
+                return -1;
+            }else if(r2.getPriceSum()== null){
+                return 1;
+            }else{
+                return (r1.getPriceSum() - r2.getPriceSum());
+            }
+        }
+        
+    }
+    
+    public static class ComparatorByName implements Comparator<Restaurant>{
+
+        @Override
+        public int compare(Restaurant r1, Restaurant r2) {
+            return r1.getName().compareTo(r2.getName());
+        }
+        
     }
 }

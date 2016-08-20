@@ -19,7 +19,7 @@
         <h1>Salve <c:out value='${user.name}'/> <c:out value='${user.surname}'/></h1>
         <h2>Completa il seguente form per impostare una nuova password</h2>
         
-        <form method="POST" action="ValidateChangePassword">
+        <form method="POST" action="<c:url value='ValidateChangePassword'/>">
             
             <label for="pw1">Inserisci la nuova password</label><br>
             <input type="password" name ="password1"><br>

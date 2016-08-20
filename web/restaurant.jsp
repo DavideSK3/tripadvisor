@@ -125,7 +125,7 @@
                                 <span class="country-name"><c:out value='${restaurant.state}'/></span>
                                 
                             </span>
-                            <a href="<c:url value='Mapp'><c:param name='id' value='${restaurant.id}'/></c:url>"><span class="glyphicon glyphicon-map-marker"></span>&nbsp; Mappa</a>
+                            <a href="<c:url value='Map'><c:param name='id' value='${restaurant.id}'/></c:url>"><span class="glyphicon glyphicon-map-marker"></span>&nbsp; Mappa</a>
                         </div>
                     </div>
                     <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
@@ -214,7 +214,7 @@
                                     <h3 class="modal-title"> <b>Scrivi una recensione</b></h3>
                                  </div>
                                 <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
-                                    <form ENCTYPE='multipart/form-data' method='POST' action='Review'accept-charset="UTF-8">
+                                    <form ENCTYPE='multipart/form-data' method='POST' action='<c:url value='Review'/>'accept-charset="UTF-8">
                                         <input type="hidden" name ="id_restaurant" value ="<c:out value='${restaurant.id}'/>">
                                         <input type ="hidden" name ="return_address" value ="Restaurant?restaurantID=<c:out value='${restaurant.id}'/>">
                                         <input type ="hidden" name ="review" value ="true">
@@ -277,7 +277,7 @@
                                     <h3 class="modal-title"> <b>Aggiungi una foto</b></h3>
                                 </div>
                                 <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
-                                    <form ENCTYPE='multipart/form-data' method='POST' action='PhotoUpload'>
+                                    <form ENCTYPE='multipart/form-data' method='POST' action='<c:url value='PhotoUpload'/>'>
                                         <input type="hidden" name ="id_restaurant" value ="<c:out value='${restaurant.id}'/>">
                                         <input type ="hidden" name ="return_address" value ="Restaurant?restaurantID=<c:out value='${restaurant.id}'/>">
                                         <input type="hidden" name ="review" value ="false">

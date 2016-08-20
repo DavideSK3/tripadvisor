@@ -4,7 +4,7 @@
     <div class="sidebar-nav">
         <nav class="navbar navbar-default" role="navigation" style="border-radius: 15px; padding: 1.5%; margin: 3%;">
             <div class = "collapse navbar-collapse" id = "example-navbar-collapse">
-                <form action="AdvancedResearch" method="Post">
+                <form action="<c:url value='RestaurantsList'/>" method="POST">
                     <ul class="nav navbar-nav">
                         <li><input type="text" class="form-control" placeholder="Dove vai?" name="place" id ="advanced_search_place" value="<c:out value='${requestScope.place}'/>"></li>
                         <li><input type="text" class="form-control" placeholder="Ricerca ristorante" name="r_query" id ="advanced_search_name" value="<c:out value='${requestScope.r_query}'/>"></li>
@@ -35,12 +35,12 @@
                         </li>
                         <li id ="gl_distance_form" onclick="getLocation()" >
                             <label style="padding-left: 4%;" id ="error"></label><br>
-                            <label style="padding-left: 4%;">Distanza massima:</label>
+                            <label style="padding-left: 4%;">Distanza massima: (in metri)</label>
                             <p id="geolocation_error" style="text-align: center; color: red; font-weight: bold"></p>
                             <label style="padding-left: 5%;"> Max : &nbsp;<input type="number" class="form-control" id= "min_max" onclick="getLocation()"  style="max-width: 30%" name ="distance" value = "<c:out value='${requestScope.distance}'/>"/></label>
                         </li>
                         <li>
-                            <input type="submit" value ="Search">
+                            <input type="submit" name="button" value="advancedSearch">
                         </li>
                         <input type="hidden" name ="longitude" id ="long">
                         <input type="hidden" name ="latitude" id ="lat">

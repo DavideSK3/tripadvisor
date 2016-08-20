@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author gabriele
  */
-public class MappServlet extends HttpServlet {
+public class MapServlet extends HttpServlet {
 
     
     DBManager manager;
@@ -70,7 +70,7 @@ public class MappServlet extends HttpServlet {
             try {
                 r = manager.getRestaurant(ID);
             } catch (SQLException ex) {
-                Logger.getLogger(MappServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MapServlet.class.getName()).log(Level.SEVERE, null, ex);
             }            
         }
         

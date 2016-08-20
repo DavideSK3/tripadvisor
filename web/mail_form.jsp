@@ -18,7 +18,7 @@
         
         <h2>Forgot your account's password? Enter your email address and we'll send you a recovery link.</h2>
         
-        <form action ="PasswordRecovery" method="GET">
+        <form action ="<c:url value='PasswordRecovery'/>" method="GET">
             <input type="email" name ="mail"><br>
             <input type="submit">
         </form>

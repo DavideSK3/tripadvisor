@@ -6,7 +6,10 @@
 package db;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -215,5 +218,17 @@ public final class Util {
         
     }
     
+    
+    public static void sortByValue(List<Restaurant> r){
+        Collections.sort(r, new Restaurant.ComparatorByValue());
+    }
+    
+    public static void sortByName(List<Restaurant> r){
+        Collections.sort(r, new Restaurant.ComparatorByName());
+    }
+    
+    public static void sortByPrice(List<Restaurant> r){
+        Collections.sort(r, new Restaurant.ComparatorByPrice());
+    }
     
 }

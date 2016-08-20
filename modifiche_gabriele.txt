@@ -127,6 +127,14 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
  - foto inviate da proprietario ristorante sono segnate come più importanti e appaiono prima
  - sostituito tutti (credo/spero/forse, meglio ricontrollare) gli href a pagine del sito usando <c:url> in modo da fare l'Url rewriting nel caso siano disabilitati i cookies
 
+(venerdì 19/8)
+
+ - ricerca avanzata dei ristoranti vicini alla posizione attuale: unità di misura cambaita in metri (e specificata nella pagina)
+ - di default ristoranti ordinati per posizione
+ - eliminata servlet AdvancedResearch e fatto miglior riutilizzo codice per ricerca/ordinamento/paginazione in RestaurantsList
+ - corretti alcuni bug in giro
+ - aggiunto url rewriting anche per form
+
 
 
 
