@@ -25,21 +25,18 @@
                     <div class="container-fluid" style ="padding-top: 1%" >
                         
                         <label> Ordina per : </label>
-                        <!--<button class="btn-lg" style= "background-color: limegreen" data-sort-by="prezzo">Prezzo</button>
-                        <button class="btn-lg" style= "background-color: limegreen" data-sort-by="posizione">Posizione in classifica</button>
-                        <button class="btn-lg" style= "background-color: limegreen" data-sort-by="distanza">Alfabetico</button>-->
                         <br>
                         <form  action = "<c:url value='RestaurantsList'/>" method="POST">
                             <input type="hidden" name="query_id" value ="<c:out value='${query_id}' />">
                             
-                            <div class="col-sm-1" style="margin-right: 5%">
-                                <button class="btn" style= "background-color: limegreen; width: 250%;" name = "button" value ="Price">Prezzo</button>
+                            <div class="col-sm-1" style="margin-right: 5%; width: inherit">
+                                <button class="btn" style= "background-color: limegreen; font-size: 90%" name = "button" value ="Price">Prezzo</button>
                             </div>
-                            <div class="col-sm-1 " style="margin-right: 5%">
-                                <button class="btn " style= "background-color: limegreen; width: 250%" name = "button" value ="Name">Alfabetico</button>
+                            <div class="col-sm-1 " style="margin-right: 5%; width: inherit">
+                                <button class="btn " style= "background-color: limegreen; font-size: 90%" name = "button" value ="Name">Alfabetico</button>
                             </div>
-                            <div class="col-sm-1" style="margin-right: 5%">
-                                <button class="btn" style= "background-color: limegreen;" name ="button" value="Position">Per Valutazione</button>
+                            <div class="col-sm-1" style="margin-right: 5%; width: inherit">
+                                <button class="btn" style= "background-color: limegreen; font-size: 90%" name ="button" value="Position">Per Valutazione</button>
                             </div>
                         </form>
                         
@@ -63,10 +60,10 @@
                             <div class="col-md-4" style=" padding-left: 1%; padding-top: 1%; padding-bottom: 1%; ">
                                 <c:choose>
                                     <c:when test="${r.firstPhoto != null}">
-                                        <img src="<c:out value='${r.firstPhoto.path}'/>" class="img-rounded" alt="<c:out value="${r.name}"/>" style ="width:300px; height: 170px;">
+                                        <img src="<c:out value='${r.firstPhoto.path}'/>" class="img-rounded" alt="<c:out value="${r.name}"/>" style ="width:280px; height: 160px;">
                                     </c:when>
                                     <c:otherwise>
-                                        <img src="data/sfondo_restaurant.jpg" class="img-rounded" alt="<c:out value="${r.name}"/>" style ="width:300px; height: 170px;">
+                                        <img src="data/sfondo_restaurant.jpg" class="img-rounded" alt="<c:out value="${r.name}"/>" style ="width:280px; height: 160px;">
                                     </c:otherwise>
                                 </c:choose>
                                 
