@@ -1,7 +1,7 @@
 
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <div class="sidebar-nav">
+<div class="sidebar-nav">
         <nav class="navbar navbar-default" role="navigation" style="border-radius: 15px; padding: 1.5%; margin: 3%;">
             <!--<div class = "collapse navbar-collapse" id = "example-navbar-collapse">-->
                 <form action="<c:url value='RestaurantsList'/>" method="POST">
@@ -19,7 +19,7 @@
                         <li><label style="padding-left: 6%; ">Categorie:</label><br>
                             <div style="padding-left: 10%">
                                 <c:forEach var ='c' items ='${cuisines}'>
-                                    <input type="checkbox" name="cuisines" value="<c:out value='${c}'/>" <c:if test='${requestScope[c] == true}'>checked</c:if>>
+                                    <input type="checkbox" name= "cuisines" value="<c:out value='${c}'/>" <c:if test='${requestScope[c] == true}'>checked</c:if>>
                                     <c:out value='${c}'/><br>
                                 </c:forEach>
                             </div>
@@ -53,18 +53,14 @@
         <script type="text/javascript">
             function showPosition(position) {
                     console.log(position.coords.latitude + '   ' + position.coords.longitude);
-
                     document.getElementById("lat").value = position.coords.latitude;
                     document.getElementById("long").value = position.coords.longitude; 
                 }
-
                 function error(err) {
                   console.warn('ERROR(' + err.code + '): ' + err.message);
                   document.getElementById("geolocation_error").textContent = 'No position available.';
                 }
-
                 function getLocation() {
-
                     if (navigator.geolocation) {
                         navigator.geolocation.getCurrentPosition(showPosition, error);
                     } else {
@@ -73,8 +69,6 @@
                         document.getElementById("min_max").disabled = true;
                     }
                 }
-
         </script>
 
     </div>
-

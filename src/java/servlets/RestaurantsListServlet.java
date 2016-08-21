@@ -32,7 +32,7 @@ public class RestaurantsListServlet extends HttpServlet {
 
     private DBManager manager;
 
-    public static final int LIMIT = 3;
+    public static final int LIMIT = 2;
     
     @Override
     public void init() throws ServletException {
@@ -126,6 +126,8 @@ public class RestaurantsListServlet extends HttpServlet {
             }
         }
         if(research.getDistance() != null) req.setAttribute("distance", research.getDistance());
+        
+        
         
         RequestDispatcher rd = req.getRequestDispatcher("results_list.jsp");
         rd.forward(req, resp);
@@ -370,7 +372,7 @@ public class RestaurantsListServlet extends HttpServlet {
             }
         }
 
-
+        
         String order = "";
 
         String button = req.getParameter("button");
@@ -400,11 +402,11 @@ public class RestaurantsListServlet extends HttpServlet {
         }
 
         
-
         if(page >= Math.ceil(results.size()/(double)LIMIT)){
             page = (int)Math.ceil(results.size()/(double)LIMIT)-1;
         }
         if(page < 0) page = 0;
+        
         
         switch(order){
             case "position":
