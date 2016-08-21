@@ -13,8 +13,8 @@
                         <li><label style="padding-left: 5%; padding-top: 2%; font-size: 150%">Ricerca avanzata:</label>
                         <br>
                         <li><label style="padding-left: 6%;">Range di prezzo:</label>
-                            <label style="padding-left: 7%;"> Min : &nbsp;<input type="number" class="form-control" id= "min_max"   style="max-width: 30%" name ="min_price" value ="<c:out value='${requestScope.min_price}'/>"/></label>
-                            <label style="padding-left: 7%;"> Max : &nbsp;<input type="number" class="form-control" id= "min_max"  style="max-width: 30%" name ="max_price"  value ="<c:out value='${requestScope.max_price}'/>"/></label>
+                            <label style="padding-left: 7%;"> Min : &nbsp;<input type="number" class="form-control" id= "min_max" min="0"   style="max-width: 30%" name ="min_price" value ="<c:out value='${requestScope.min_price}'/>"/></label>
+                            <label style="padding-left: 7%;"> Max : &nbsp;<input type="number" class="form-control" id= "min_max"  min="0" style="max-width: 30%" name ="max_price"  value ="<c:out value='${requestScope.max_price}'/>"/></label>
                         </li>
                         <li><label style="padding-left: 6%; ">Categorie:</label><br>
                             <div style="padding-left: 10%">
