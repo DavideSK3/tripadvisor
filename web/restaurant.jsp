@@ -9,9 +9,10 @@
     <head>
         <!-- This meta tags makes sure accents and other special caracters are displayed correctly -->
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title><c:out value='${restaurant.name}'/></title>
         
         <%@include file="header_head.jsp"%>
-        <title><c:out value='${restaurant.name}'/></title>
+        
     </head>
     
     <body style=" background-color: gainsboro">

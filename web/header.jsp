@@ -1,25 +1,4 @@
 
-
-
-
-<%--
-<!DOCTYPE html>
-<html>
-    
-    <head>
-         <!-- This meta tags makes sure accents and other special caracters are displayed correctly -->
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-        <link rel="stylesheet" href="styles.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        
-        
-        <link href="http://code.jquery.com/ui/1.11.4/themes/redmond/jquery-ui.css" rel="stylesheet">
-        
-    </head>
-    <body style=" background-color: gainsboro"> --%>
-
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         
         <nav class="navbar header">
@@ -83,7 +62,7 @@
                                     <h4 class="modal-title">Notifiche</h4>
                                   </div>
                                   <div class="modal-body" style="background-color: gainsboro; border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
-                                    <p>Questa è una notifica.</p>
+                                    <p>Questa Ã¨ una notifica.</p>
                                   </div>
                                   <div class="modal-footer" style="border-top-width: 0;">
                                       <span><a href="<c:url value='#'/>" class="glyphicon glyphicon-plus" style="float:left; top: 10px;"> Vedi tutte</a></span>

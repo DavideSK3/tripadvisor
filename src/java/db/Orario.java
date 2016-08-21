@@ -14,7 +14,7 @@ import java.sql.Time;
  */
 public class Orario implements Serializable{
     
-    public static final String[] days = {"Lunedi'", "Martedi'", "Mercoledi'", "Giovedi'", "Venerdi'", "Sabato", "Domenica"};
+    public static final String[] days = {"Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"};
 
     public Orario(String giorno, Time apertura, Time chiusura) {
         this.giorno = giorno;

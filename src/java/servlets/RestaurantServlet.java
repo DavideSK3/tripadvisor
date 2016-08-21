@@ -63,6 +63,8 @@ public class RestaurantServlet extends HttpServlet {
         
         Restaurant r = null;
         
+        
+        
         if(key != null){
             
             
@@ -119,6 +121,7 @@ public class RestaurantServlet extends HttpServlet {
         }
         
         rd.include(req, resp);
+        
         
         if(r!=null){
             File f = new File(getServletContext().getRealPath("/"+r.getQr_path()));

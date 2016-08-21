@@ -42,6 +42,7 @@ public class DBManager implements Serializable {
         }
 
         Connection con = DriverManager.getConnection(dburl, "db_manager", "tripadvisor");
+        
 
         this.con = con;
 

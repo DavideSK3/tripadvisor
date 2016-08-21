@@ -127,7 +127,7 @@ public class RestaurantsListServlet extends HttpServlet {
         }
         if(research.getDistance() != null) req.setAttribute("distance", research.getDistance());
         
-        RequestDispatcher rd = req.getRequestDispatcher("result_list.jsp");
+        RequestDispatcher rd = req.getRequestDispatcher("results_list.jsp");
         rd.forward(req, resp);
     }
     
@@ -190,7 +190,7 @@ public class RestaurantsListServlet extends HttpServlet {
             maxPrice = null;
         }
         
-        String[] cuisines = req.getParameterValues("cusines");
+        String[] cuisines = req.getParameterValues("cuisines");
         String[] valutazioni = req.getParameterValues("valutazione");
         
         ArrayList<Integer> val = new ArrayList<>();

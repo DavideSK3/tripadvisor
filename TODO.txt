@@ -1,50 +1,84 @@
-	BUG:
+﻿	BUG:
  - PROBLEMA ENCODING CARATTERI (non so da dove sia saltato fuori... prima non c'era): problema con caratteri accentati, simbolo €, ecc...
-	nella pagina restaurant.jsp
- - se non si hanno voti, non deve apparire la posizione
- - NEL DB MANAGER LA GESTIONE ATTUALE DEI VALORI NULL NON VA BENE: a volte un valore può anche essere zero (es id o min price) ma verrebbe scambiato per null. Meglio usare qualcosa tipo ' r.setId_photo((Integer)rs.getObject("id_photo"));
- - bug: se nella result list c'è un errore la "page_error" appare dentor il box della ricerca avanzata invece che apparire al posto della pagina (se però non metto la "ricerca.jsp" dentro la result_list.jsp allora funziona normalmente la "error_page.jsp"
+	
+nella pagina restaurant.jsp
+ 
+- se non si hanno voti, non deve apparire la posizione
+ 
+- NEL DB MANAGER LA GESTIONE ATTUALE DEI VALORI NULL NON VA BENE: a volte un valore può anche essere zero (es id o min price) 
+ma verrebbe scambiato per null. Meglio usare qualcosa tipo ' r.setId_photo((Integer)rs.getObject("id_photo"));
+ 
+- bug: se nella result list c'è un errore la "page_error" appare dentor il box della ricerca avanzata invece che apparire al posto 
+della pagina (se però non metto la "ricerca.jsp" dentro la result_list.jsp allora funziona normalmente la "error_page.jsp"
 
 
 
 
-	DAVIDE 
+	
+
+DAVIDE 
 
  - possibilità di reclamare ristorante	(con notifica all'amministratore che deve confermare)		DA IMPLEMENTARE
- - possibilità di segnalare foto non consone per proprietari						DA IMPLEMENTARE
- - amministratore valuta segnalazioni dei proprietari							DA IMPLEMENTARE
- - gestione notifiche
- - fare filtro per notifiche
- - fare 2 servlet diverse per notifiche amministratori e ristoratori (entrambe rimandano a stessa pagina jsp, vedi prossimo punto)
- - fare pagina jsp unica per notifiche
- - aggiungere notifiche visualizzate da finestrella di anteprima (notifica inserita da filtro sulla request)
- - ci deve essere la possibilità di modificare completamente i dati del ristorante
-
-
-	PIER
- - rifinire visualizzazione QR nella pagina										DA IMPLEMENTARE
- - fare grafica per mail_form.jsp
- - NO (fare form unico per la ricerca avanzata e normale). Mettere a posto la ricerca avanzata in modo tale che "ci stia bene" anche il campo per ricerca luogo e ristorante
- - la larghezza della pagina non può diminuire oltre i 357 px
- - riducendo la dimensione dello schermo, il logo si sposta e il link (il tag <a></a>) "sparisce" (anche da cell)
- - aggiustare pulsati ordinamento nella result list per riadattarsi a dim schermo
- - aggiustare form ricerca avanzata per riadattarsi a dim schermo (se schermo si rimpicciolisce, il form "sparisce". Per ora ho risolto togliendo il div con class="collapse navbar-collapse" ma non so se ho fatto così danni da altre parti)
- - aggiustare un po' il form di ricerca avanzata nella homepage (facoltativo)
- - mettere a posto zona recensioni per schermi più piccoli (vedi anche con cell)
- - impostare per prezzo minimo e prezzo massimo il valore minimo a 0
- -  METTERE POSSIBILITÀ DI FARE "RECENSIONE VELOCE" INSERENDO SOLO VOTO GLOBALE (problema con tutta nostra gestione delle valutazioni e recensioni.... :/ )
-
-	GABRI
-
- - ci deve essere la possibilità di modificare completamente i dati del ristorante
  
- - cosa fare per ricerca avanzata se non specificato nessuna opzione? (sia "ne place ne name" sia "nessun opzione avanzata")
+- possibilità di segnalare foto non consone per proprietari						DA IMPLEMENTARE
+ 
+- amministratore valuta segnalazioni dei proprietari							DA IMPLEMENTARE
+ 
+- gestione notifiche
+ - fare filtro per notifiche
+ - fare 2 servlet diverse per notifiche amministratori e ristoratori 
+(entrambe rimandano a stessa pagina jsp, vedi prossimo punto)
+ - fare pagina jsp unica per notifiche
+ 
+- aggiungere notifiche visualizzate da finestrella di anteprima (notifica inserita da filtro sulla request)
+ 
+- ci deve essere la possibilità di modificare completamente i dati del ristorante
 
- - containing distance invece che editing distance è davvero una buona scelta?
 
- - valutare a DB completo le prestazioni e decidere se traportare su postgresql
- - fare una email apposta per mandare cambio password invece che usare la mia
- - generare qr code staticamnete alla creazione (o update) del ristorante invece che creare una copia ogni volta inutilmente		(eventualmente da fare alla fine)
+	
+
+PIER
+ 
+- rifinire visualizzazione QR nella pagina										DA IMPLEMENTARE
+
+ 
+- NO (fare form unico per la ricerca avanzata e normale). Mettere a posto la ricerca avanzata in modo tale che "ci stia bene" 
+anche il campo per ricerca luogo e ristorante
+ 
+- riducendo la dimensione dello schermo, il logo si sposta e il link (il tag <a></a>) "sparisce" (anche da cell)
+         NON SO COME RISOLVERE
+-  METTERE POSSIBILITÀ DI FARE "RECENSIONE VELOCE" INSERENDO SOLO VOTO GLOBALE (problema con tutta nostra gestione delle valutazioni e recensioni.... :/ )
+
+	
+- chiedere chiarimento su mail_form
+
+
+
+
+
+GABRI
+
+ - si può inserire una sola recensione per giorno
+ 
+- ci deve essere la possibilità di modificare completamente i dati del ristorante
+ 
+ 
+- cosa fare per ricerca avanzata se non specificato nessuna opzione? (sia "ne place ne name" sia "nessun opzione avanzata")
+
+ 
+- containing distance invece che editing distance è davvero una buona scelta?
+
+ 
+- valutare a DB completo le prestazioni e decidere se traportare su postgresql
+ 
+- sistemare risposta completamento automatico ( prima città poi regione e stato ) e correzione errori solo a fine parola (o non esistente)
+- fare una email apposta per mandare cambio password invece che usare la mia
+ 
+- generare qr code staticamnete alla creazione (o update) del ristorante invece che creare una copia ogni volta inutilmente	(eventualmente da fare alla fine)
+
+ - fare indici database
+
+
 
 
 	SARA

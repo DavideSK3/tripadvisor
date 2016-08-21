@@ -64,7 +64,7 @@ public class PhotoUploadServlet extends HttpServlet {
             /*
              * TODO - meglio usare una sola istanza di RenamePolicy o questo può avere problemi in caso di richieste concorrenti gestite in multithread???
              */
-            MultipartRequest multi = new MultipartRequest(request, dirName+"/temp", 50*1024*1024, "ISO-8859-1", rp);
+            MultipartRequest multi = new MultipartRequest(request, dirName+"/temp", 50*1024*1024, "UTF-8", rp);
             
             
             
