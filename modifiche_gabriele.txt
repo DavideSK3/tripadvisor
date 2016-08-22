@@ -148,6 +148,10 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
  - (rinominato result_list.jsp)
  - aggiunto parte di pier
 
+(lunedì 22/8)
+
+ - 
+
 
 
 

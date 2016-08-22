@@ -90,7 +90,7 @@ public class RestaurantServlet extends HttpServlet {
             
         }else{
             
-            rd = req.getRequestDispatcher("/restaurant_list.jsp");
+            rd = req.getRequestDispatcher("/results_list.jsp");
         }
         
         if(r != null){

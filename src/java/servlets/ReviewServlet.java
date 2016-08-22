@@ -49,11 +49,11 @@ public class ReviewServlet extends HttpServlet {
         
         MultipartRequest multi = (MultipartRequest)req.getAttribute("multi");
         
-        Integer global_value = Integer.parseInt(multi.getParameter("global"));
-        Integer food = Integer.parseInt(multi.getParameter("food"));
-        Integer service = Integer.parseInt(multi.getParameter("service"));
-        Integer value_for_money = Integer.parseInt(multi.getParameter("money"));
-        Integer atmosphere = Integer.parseInt(multi.getParameter("atmosphere"));
+        Integer global_value = multi.getParameter("global")!=null ? Integer.parseInt(multi.getParameter("global")) : null;
+        Integer food = multi.getParameter("food")!= null ? Integer.parseInt(multi.getParameter("food")) : null;
+        Integer service = multi.getParameter("service")!= null ? Integer.parseInt(multi.getParameter("service")) : null;
+        Integer value_for_money = multi.getParameter("money")!= null ? Integer.parseInt(multi.getParameter("money")) : null;
+        Integer atmosphere = multi.getParameter("atmosphere")!= null ? Integer.parseInt(multi.getParameter("atmosphere")) : null;
         String title = multi.getParameter("title");
         String description = multi.getParameter("description");
         Integer id_restaurant = Integer.parseInt(multi.getParameter("id_restaurant"));
@@ -63,8 +63,18 @@ public class ReviewServlet extends HttpServlet {
         
         
         try {
-            manager.insertReview(global_value, food, service, value_for_money, atmosphere, title, description, id_restaurant, id_creator, id_photo);
-            resp.sendRedirect(resp.encodeRedirectURL(return_address));
+            boolean risp = manager.insertReview(global_value, food, service, value_for_money, atmosphere, title, description, id_restaurant, id_creator, id_photo);
+            
+            if(!risp){
+                String message = "Hai già inserito una recensione per questo ristorante";
+                rd = req.getRequestDispatcher("message.jsp");
+                req.setAttribute("message", message);
+                rd.forward(req, resp);
+            }else{
+                resp.sendRedirect(resp.encodeRedirectURL(return_address));
+            }
+            
+            
         } catch (SQLException ex) {
             String message = "Errore nella sottomissione della recensione";
             rd = req.getRequestDispatcher("message.jsp");

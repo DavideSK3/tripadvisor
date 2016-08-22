@@ -61,10 +61,29 @@
         <filter-name>LoggedOutFilter</filter-name>
         <servlet-name>Login</servlet-name>
     </filter-mapping>
+    
     <listener>
         <description>ServletContextListener</description>
         <listener-class>listeners.WebappContextListener</listener-class>
     </listener>
+    
+    
+    <servlet>
+        <servlet-name>ClaimRestaurantServlet</servlet-name>
+        <servlet-class>servlets.ClaimRestaurantServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NotificationAdminServlet</servlet-name>
+        <servlet-class>servlets.NotificationAdminServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NotificationRestaurantServlet</servlet-name>
+        <servlet-class>servlets.NotificationRestaurantServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManageRestaurantServlet</servlet-name>
+        <servlet-class>servlets.ManageRestaurantServlet</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>servlets.LoginServlet</servlet-class>
@@ -113,6 +132,24 @@
         <servlet-name>MapServlet</servlet-name>
         <servlet-class>servlets.MapServlet</servlet-class>
     </servlet>
+    
+    
+    <servlet-mapping>
+        <servlet-name>ClaimRestaurantServlet</servlet-name>
+        <url-pattern>/ClaimRestaurant</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NotificationAdminServlet</servlet-name>
+        <url-pattern>/NotificationAdmin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NotificationRestaurantServlet</servlet-name>
+        <url-pattern>/NotificationRestaurant</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageRestaurantServlet</servlet-name>
+        <url-pattern>/ManageRestaurant</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/Login</url-pattern>

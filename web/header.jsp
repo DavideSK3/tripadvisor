@@ -1,11 +1,11 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        
+
         <nav class="navbar header">
             <div class="container-fluid header" >
                     
                 <div class="col-md-4 header">
-                    <a class="navbar-brand header" href="<c:out value='${pageContext.servletContext.contextPath}'/>">
+                    <a class="navbar-brand header" href="<c:url value='/'/>">
                       <img src="data/TripAdvisor_logo.png" class=" header" alt="TripAdvisor"  /> 
                     </a>
                 </div>
@@ -65,7 +65,16 @@
                                     <p>Questa è una notifica.</p>
                                   </div>
                                   <div class="modal-footer" style="border-top-width: 0;">
-                                      <span><a href="<c:url value='#'/>" class="glyphicon glyphicon-plus" style="float:left; top: 10px;"> Vedi tutte</a></span>
+                                      <span>
+                                            <c:choose>
+                                                <c:when test="${sessionScope.user.getType() == 'R'}">
+                                                    <a href="<c:url value='NotificationRestaurant'/>" class="glyphicon glyphicon-plus" style="float:left; top: 10px;"> Vedi tutte</a>
+                                                </c:when>
+                                                <c:when test="${sessionScope.user.getType() == 'A'}">
+                                                    <a href="<c:url value='NotificationAdmin'/>" class="glyphicon glyphicon-plus" style="float:left; top: 10px;"> Vedi tutte</a>
+                                                </c:when>
+                                            </c:choose>
+                                      </span>
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                   </div>
                                 </div>
@@ -80,7 +89,7 @@
         <div class="navbar search">
               <div class="container-fluid" >
                   <div class="row">
-                      <form class="navbar-search" role="search" action="<c:url value='RestaurantsList'/>" method ="GET" id = "search_form">
+                      <form class="navbar-search" role="search" action="<c:url value='RestaurantsList'/>">
 
                           <div class=" col-md-5 col-sm-5"><input type="text" class="form-control" placeholder="Dove vai?" name="place" id ="search_place" value="<c:out value='${requestScope.place}'/>"></div>
                           <div class=" col-md-5 col-sm-5 ui-widget"> <input type="text" class="form-control" placeholder="Ricerca ristorante" name="r_query" id ="search_name" value="<c:out value='${requestScope.r_query}'/>"></div>
@@ -91,7 +100,3 @@
               </div>
         </div>
         
-        
-    <%--</body>
-    
-</html>--%>

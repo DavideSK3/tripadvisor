@@ -1232,19 +1232,54 @@ public class DBManager implements Serializable {
         return k;
     }
 
-    public void insertReview(Integer global_value, Integer food, Integer service, Integer value_for_money,
+    public boolean insertReview(Integer global_value, Integer food, Integer service, Integer value_for_money,
             Integer atmosphere, String title, String description,
             Integer id_restaurant, Integer id_creator, Integer id_photo) throws SQLException {
 
         PreparedStatement stm = con.prepareStatement("INSERT INTO APP.reviews VALUES(?,?,?,?,?,?,?,default,?,?,?)");
         try {
             stm.setInt(1, global_value);
-            stm.setInt(2, food);
-            stm.setInt(3, service);
-            stm.setInt(4, value_for_money);
-            stm.setInt(5, atmosphere);
-            stm.setString(6, title);
-            stm.setString(7, description);
+            if(food != null){
+                stm.setInt(2, food);
+            }else{
+                stm.setNull(2, Types.INTEGER);
+            }
+            if(service != null){
+                stm.setInt(3, service);
+            }else{
+                stm.setNull(3, Types.INTEGER);
+            }
+            if(value_for_money!= null){
+                stm.setInt(4, value_for_money);
+            }else{
+                stm.setNull(4, Types.INTEGER);
+            }
+            if(atmosphere != null){
+                stm.setInt(5, atmosphere);
+            }else{
+                stm.setNull(5, Types.INTEGER);
+            }
+            if(title!= null){
+                stm.setString(6, title);
+            }else{
+                stm.setNull(6, Types.VARCHAR);
+            }
+            if(description != null){
+                stm.setString(7, description);
+            }else{
+                stm.setNull(7, Types.INTEGER);
+            }
+            if(food != null){
+                stm.setInt(2, food);
+            }else{
+                stm.setNull(2, Types.INTEGER);
+            }
+            
+            
+            
+            
+            
+            
             stm.setInt(8, id_restaurant);
             stm.setInt(9, id_creator);
             if(id_photo >= 0){
@@ -1256,24 +1291,29 @@ public class DBManager implements Serializable {
 
             int rs = stm.executeUpdate();
 
+        } catch(SQLException e){
+            /*Se l'errore è causato da un inserimento di una chiave duplicata*/
+            if("23505".equals(e.getSQLState())){
+                return false;
+            }else{
+                throw e; 
+            }
         } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
             stm.close();
         }
         
-        stm = con.prepareStatement("UPDATE APP.RESTAURANTS SET REVIEW_COUNTER = REVIEW_COUNTER + 1, GLOBAL_REVIEW = GLOBAL_REVIEW + ?, FOOD_REVIEW = FOOD_REVIEW + ?, ATMOSPHERE_REVIEW = ATMOSPHERE_REVIEW + ?, SERVICE_REVIEW = SERVICE_REVIEW + ?, VALUE_FOR_MONEY_REVIEW = VALUE_FOR_MONEY_REVIEW + ? WHERE id = ?");
+        stm = con.prepareStatement("UPDATE APP.RESTAURANTS SET REVIEW_COUNTER = REVIEW_COUNTER + 1, GLOBAL_REVIEW = GLOBAL_REVIEW + ?WHERE id = ?");
         try {
             stm.setInt(1, global_value);
-            stm.setInt(2, food);
-            stm.setInt(3, atmosphere);
-            stm.setInt(4, service);
-            stm.setInt(5, value_for_money);
-            stm.setInt(6, id_restaurant);
+            stm.setInt(2, id_restaurant);
             
             int rs = stm.executeUpdate();
 
         } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
             stm.close();
         }
+        
+        return true;
     }
 
     
@@ -1359,20 +1399,15 @@ public class DBManager implements Serializable {
     }
 
     public List<NotificaFoto> getNotificheFoto(User u) throws SQLException {
-        
-        StringBuilder builder = new StringBuilder("SELECT R.name, R.id, P.id, P.path, P.name FROM APP.NOTIFICATIONS_PHOTO N JOIN App.PHOTO P ON N.id_photo = P.id JOIN App.RESTAURANTS R ON P.id_restaurant = R.id ");
 
-        switch (u.getCharType()) {
-            case 'r':
-                builder.append("WHERE id_target = ").append(u.getId());
-                break;
-            case 'a':
-                builder.append("WHERE id_target = NULL");
-                break;
-            default:
-                return null;
+        StringBuilder builder = new StringBuilder("SELECT R.name, R.id, P.id, P.path, P.name FROM APP.NOTIFICATIONS_PHOTO N JOIN APP.PHOTOS P "
+                                                 + "ON N.id_photo = P.id JOIN App.RESTAURANTS R ON P.id_restaurant = R.id ");
+
+        if (u.getCharType() == 'r') {
+            builder.append("WHERE id_target = ").append(u.getId());
+        } else if (u.getCharType() == 'a') {
+            builder.append("WHERE id_target IS NULL");
         }
-        
 
         PreparedStatement stm = con.prepareStatement(builder.toString());
 
@@ -1391,6 +1426,7 @@ public class DBManager implements Serializable {
         } finally {
             stm.close();
         }
+        System.out.println("fotonot "+list.size());
 
         return list;
 
@@ -1431,7 +1467,190 @@ public class DBManager implements Serializable {
         }
 
     }
+    
 
+    
+    public List<NotificaReclami> getReclamiRistoranti() throws SQLException {
+
+        String query = "SELECT R.name, R.id, U.id, U.name, U.surname, U.email\n"
+                                                + "FROM APP.NOTIFICATIONS_RESTAURANT N JOIN APP.USERS U\n"
+                                                + "ON N.id_user = U.id \n"
+                                                + "JOIN APP.RESTAURANTS R ON N.id_restaurant = R.id ";
+
+        PreparedStatement stm = con.prepareStatement(query);
+
+        ArrayList<NotificaReclami> list = new ArrayList<>();
+
+        try {
+            ResultSet rs = stm.executeQuery();
+            try {
+                while (rs.next()) {
+                    NotificaReclami nr = new NotificaReclami(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),rs.getString(6));
+                    list.add(nr);
+                }
+            } finally {
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        System.out.println("reclami "+list.size());
+
+        return list;
+
+    }
+
+    
+    
+    public void confermaFoto(int id_photo) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("DELETE FROM APP.NOTIFICATIONS_PHOTO WHERE ID_PHOTO=?");
+        
+        try{
+            stm.setInt(1, id_photo);
+            stm.executeUpdate();
+        } finally {
+            stm.close();
+        }
+    }
+    
+    public void segnalaAdminFoto(int id_photo) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("UPDATE APP.NOTIFICATIONS_PHOTO SET ID_TARGET=NULL WHERE ID_PHOTO=?");
+        
+        try{
+            stm.setInt(1, id_photo);
+            stm.executeUpdate();
+        } finally {
+            stm.close();
+        }
+    }
+    
+    public void eliminaFoto(int id_photo) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("DELETE FROM APP.NOTIFICATIONS_PHOTO WHERE ID_PHOTO=?");
+        
+        try{
+            stm.setInt(1, id_photo);
+            stm.executeUpdate();
+        } finally {
+            stm.close();
+        }
+        
+        PreparedStatement stm2 = con.prepareStatement("DELETE FROM APP.PHOTO WHERE ID=?");
+        
+        try{
+            stm2.setInt(1, id_photo);
+            stm2.executeUpdate();
+        } finally {
+            stm2.close();
+        }
+    }
+    
+    public void eliminaReclamo(int id_restaurant, int id_user) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("DELETE FROM APP.NOTIFICATIONS_RESTAURANT WHERE ID_RESTAURANT=? AND ID_USER=?");
+        
+        try{
+            stm.setInt(1, id_restaurant);
+            stm.setInt(2, id_user);
+            stm.executeUpdate();
+        } finally {
+            stm.close();
+        }
+    }
+    
+    public void confermaReclamo(int id_restaurant, int id_user) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("UPDATE APP.RESTAURANTS SET ID_OWNER=? WHERE ID=?");
+        
+        try{
+            stm.setInt(1, id_user);
+            stm.setInt(2, id_restaurant);
+            stm.executeUpdate();
+        } finally {
+            stm.close();
+        }
+        
+        PreparedStatement stm2 = con.prepareStatement("UPDATE APP.USERS SET TYPE='r' WHERE ID=? and type ='u'");
+        
+        try{
+            stm2.setInt(1, id_user);
+            stm2.executeUpdate();
+        } finally {
+            stm2.close();
+        }
+        
+        PreparedStatement stm3 = con.prepareStatement("DELETE FROM APP.NOTIFICATIONS_RESTAURANT WHERE ID_RESTAURANT=? AND ID_USER=?");
+        
+        try{
+            stm3.setInt(1, id_restaurant);
+            stm3.setInt(2, id_user);
+            stm3.executeUpdate();
+        } finally {
+            stm3.close();
+        }
+    }
+    
+    public void inserisciOrario(Integer id, Integer day, String ora_apertura, String minuti_apertura, String ora_chiusura, String minuti_chiusura)throws SQLException {
+        PreparedStatement stm = con.prepareStatement("INSERT INTO APP.ORARIO VALUES (?,?,?,?)");
+
+        java.sql.Time time1 = java.sql.Time.valueOf(ora_apertura+":"+minuti_apertura+":00");
+        java.sql.Time time2 = java.sql.Time.valueOf(ora_chiusura+":"+minuti_chiusura+":00");
+        try {
+            stm.setInt(1, id);
+            stm.setInt(2, day);
+            stm.setTime(3, time1);
+            stm.setTime(4, time2);
+
+            stm.executeUpdate();
+
+        } finally {
+            stm.close();
+        }
+    }
+    
+    public void manageRestaurant(Integer id, String description, String url, String address, Integer min_price, Integer max_price)throws SQLException {
+        
+        
+        StringBuilder query=new StringBuilder("UPDATE App.Restaurants SET ");
+        
+        ArrayList<String> lista = new ArrayList<>();
+        int n=0,m=0;
+        
+        if(!description.isEmpty()){
+            lista.add("description='"+description+"' ");
+            n++;
+        }
+        if(!url.isEmpty()){
+            lista.add("web_site_url='"+url+"' ");
+            n++;
+        }
+        if(!address.isEmpty()){
+            lista.add("address='"+address+"' ");
+            n++;
+        }
+        if(min_price!=null){
+            lista.add("min_price="+min_price.toString());
+            n++;
+        }
+        if(max_price!=null){
+            lista.add("max_price="+max_price.toString());
+            n++;
+        }
+        m=n;
+        
+        for (String object: lista) {
+            if(m==n){
+                query.append(object);
+            } else {
+                query.append(", ").append(object);
+            }
+            m--;
+        }
+        
+        query.append(" WHERE id=").append(id);//.append(";");
+        System.out.println(query.toString());
+        PreparedStatement stm = con.prepareStatement(query.toString());
+        int rs = stm.executeUpdate();
+        stm.close();
+    }
+    
     /*
     public void genereteNearNameTerms() throws SQLException{
         PreparedStatement stm = con.prepareStatement("SELECT id, name FROM APP.restaurants");

@@ -1,3 +1,5 @@
+
+
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -10,7 +12,6 @@
         <title><c:out value='${restaurant.name}'/></title>
         
         <%@include file="header_head.jsp"%>
-        
     </head>
     
     <body style=" background-color: gainsboro">
@@ -20,7 +21,12 @@
             <div class="col-md-9">
                 <div class="col-md-12" style="padding-top: 20px">
                     <span style="font-size: 250%;"><c:out value='${restaurant.name}'/></span>
-                    &nbsp;&nbsp;<a href="<c:url value='#'/>" data-toggle="tooltip" data-placement="right" title="Inizia a gestire la tua pagina!">Questo &egrave il tuo ristorante?</a>
+                    <c:choose>
+                        <c:when test="${restaurant.id_owner == null}">
+                            <a href="<c:url value='ClaimRestaurant'><c:param name='restaurantID' value='${restaurant.id}'/></c:url>" data-toggle="tooltip" data-placement="right" title="Inizia a gestire la tua pagina!">
+                            Questo &egrave il tuo ristorante?</a>
+                        </c:when>
+                    </c:choose>
                 </div>
                 <div class="col-md-12" style="padding-left: 2%; padding-top: 10px;">
                     <div style="">
@@ -117,7 +123,6 @@
                             <span class="format_address">
                                 <span class="street-address"><c:out value='${restaurant.address}'/></span>, 
                                 <span class="locality">
-                                    <%--<span>39040</span>,--%>
                                     <span><c:out value='${restaurant.city}'/></span>,
                                     <span class="country-name"><c:out value='${restaurant.region}'/>,</span>
                                 </span>
@@ -201,9 +206,41 @@
             <div class="col-md-12" style="padding-left: 0; padding-right: 0;">
                 <h3 style="margin: 0 0; color: green"><c:out value='${restaurant.review_count}'/> recensioni su questo ristorante</h3>
             </div>
-            <div class="col-md-4 col-md-offset-8" style="padding-left: 0; padding-right: 0;">
+            <div class="col-md-6 col-md-offset-6" style="padding-left: 0; padding-right: 0;">
                 <c:if test="${user != null && user.type != 'A' && user.id != restaurant.id_owner}">
                 
+                    <button type="button" class="btn btn-info " data-toggle="modal" data-target="#voto" style="background-color: limegreen; border-color: limegreen;"> Dai un voto</button>
+                    <div class="modal fade" id="voto" role="dialog">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header" style="border-bottom-width: 0;">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h3 class="modal-title"> <b>Dai un voto</b></h3>
+                                </div>
+                                <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
+                                    <form ENCTYPE='multipart/form-data' method='POST' action='<c:url value='Review'/>'>
+                                        <input type="hidden" name ="id_restaurant" value ="<c:out value='${restaurant.id}'/>">
+                                        <input type ="hidden" name ="return_address" value ="<c:url value='Restaurant'><c:param name='restaurantID' value='${restaurant.id}'/></c:url>">
+                                        <input type ="hidden" name ="review" value ="true">
+                                        <div class="rating" id="rating" style="float:right; padding-right: 30%">
+                                            <span><input type="radio" name="global" id="str5f" value="5" required><label for="str5f"></label></span>
+                                            <span><input type="radio" name="global" id="str4f" value="4" required><label for="str4f"></label></span>
+                                            <span><input type="radio" name="global" id="str3f" value="3" required><label for="str3f"></label></span>
+                                            <span><input type="radio" name="global" id="str2f" value="2" required><label for="str2f"></label></span>
+                                            <span><input type="radio" name="global" id="str1f" value="1" required><label for="str1f"></label></span>
+                                        </div>
+                                        <br>
+                                        <input style="float: right" class="btn btn-default" TYPE='submit'>
+                                    </form>
+                                </div>
+                                <div class="modal-footer" style="border-top-width: 0;">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
                     <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal" style="background-color: limegreen; border-color: limegreen;"> Scrivi una recensione</button>
                     <div class="modal fade" id="myModal" role="dialog">
                         <div class="modal-dialog modal-lg">
@@ -215,7 +252,7 @@
                                 <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
                                     <form ENCTYPE='multipart/form-data' method='POST' action='<c:url value='Review'/>'accept-charset="UTF-8">
                                         <input type="hidden" name ="id_restaurant" value ="<c:out value='${restaurant.id}'/>">
-                                        <input type ="hidden" name ="return_address" value ="Restaurant?restaurantID=<c:out value='${restaurant.id}'/>">
+                                        <input type ="hidden" name ="return_address" value ="<c:url value='Restaurant'><c:param name='restaurantID' value='${restaurant.id}'/></c:url>">
                                         <input type ="hidden" name ="review" value ="true">
                                         <div class="col-md-3" style="padding-left: 0;">
                                             <span style="font-size: 130%"><b>Inserisci un voto</b></span>
@@ -230,7 +267,7 @@
                                                 <span><input type="radio" name="global" id="str1" value="1" required><label for="str1"></label></span>
                                             </div>
                                         </div>
-
+                                        
                                         <br><br>
                                         <span style="font-size: 120%"><b>Titolo della recensione</b></span> <br><br>
                                         <input type="text" name="title" style="width:100%" maxlength="120" placeholder="Riassumi la tua visita o concentrati su un dettaglio interessante" required>
@@ -278,7 +315,7 @@
                                 <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
                                     <form ENCTYPE='multipart/form-data' method='POST' action='<c:url value='PhotoUpload'/>'>
                                         <input type="hidden" name ="id_restaurant" value ="<c:out value='${restaurant.id}'/>">
-                                        <input type ="hidden" name ="return_address" value ="Restaurant?restaurantID=<c:out value='${restaurant.id}'/>">
+                                        <input type ="hidden" name ="return_address" value ="<c:url value='Restaurant'><c:param name='restaurantID' value='${restaurant.id}'/></c:url>">
                                         <input type="hidden" name ="review" value ="false">
                                         <div style="padding-bottom: 20px; ">
                                             <span style="color: grey; padding-bottom: 10px;" >Inserisci una foto: &nbsp; </span>
@@ -392,8 +429,22 @@
                     $("#rating span").removeClass('checked');
                     $(this).parent().addClass('checked');
                 });
-        });
+
+            });
+        
+            <%--$(document).ready(function(){
+            //  Check Radio-box
+                $("#fast_rating input:radio").attr("checked", false);
+                $('#fast_rating input').click(function () {
+                    $("#fast_rating span").removeClass('checked');
+                    $(this).parent().addClass('checked');
+                });
+            };--%>
         </script>
+        
+        
+        
+        
         
         <script>
             $(document).ready(function(){
@@ -401,6 +452,5 @@
             });
         </script>
         
-      
-    </body>
+        </body>
 </html>

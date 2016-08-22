@@ -5,17 +5,15 @@
  */
 package db;
 
-import java.io.Serializable;
-
 /**
  *
  * @author gabriele
  */
-public class NotificaFoto implements Serializable{
+public class NotificaFoto {
     
     
 
-    public NotificaFoto(String name, Integer id_restaurant, Integer id_photo, String path, String photo_name) {
+    public NotificaFoto(String name, Integer id_restaurant, Integer id_photo, String path, String photo_name) { //name ristorante
         this.name = name;
         this.id_restaurant = id_restaurant;
         this.id_photo = id_photo;
