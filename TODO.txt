@@ -1,8 +1,5 @@
 ﻿	BUG:
- - PROBLEMA ENCODING CARATTERI (non so da dove sia saltato fuori... prima non c'era): problema con caratteri accentati, simbolo €, ecc...
-	
-nella pagina restaurant.jsp
- 
+
 - se non si hanno voti, non deve apparire la posizione
  
 - NEL DB MANAGER LA GESTIONE ATTUALE DEI VALORI NULL NON VA BENE: a volte un valore può anche essere zero (es id o min price) 
@@ -58,7 +55,7 @@ anche il campo per ricerca luogo e ristorante
 
 GABRI
 
- - si può inserire una sola recensione per giorno
+- si può inserire una sola recensione per giorno
  
 - ci deve essere la possibilità di modificare completamente i dati del ristorante
  

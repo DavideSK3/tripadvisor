@@ -142,6 +142,12 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
  - eliminata AdvancedResearchServlet
  - migliorata e resa più robusta la classe RestaurantsList e semplificato il passaggio degli input tra le pagine (per mantenere il form compilato dopo la ricerca)
 
+(domenica 21/8)
+
+ - risolto problema codifica in restaurnt.jsp
+ - (rinominato result_list.jsp)
+ - aggiunto parte di pier
+
 
 
 
