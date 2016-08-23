@@ -5,6 +5,7 @@
  */
 package filters;
 
+import db.User;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -20,14 +21,14 @@ import javax.servlet.http.HttpSession;
  *
  * @author gabriele
  */
-public class LoggedInFilter implements Filter {
+public class AdminFilter implements Filter {
     
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
     private FilterConfig filterConfig = null;
     
-    public LoggedInFilter() {
+    public AdminFilter() {
     
     }    
     
@@ -51,8 +52,10 @@ public class LoggedInFilter implements Filter {
         
         HttpSession session = req.getSession(false);
         
-        if(session == null || session.getAttribute("user")==null){
-            resp.sendRedirect(resp.encodeRedirectURL("login.html"));
+        
+        if(session == null || session.getAttribute("user")==null || ((User)session.getAttribute("user")).getCharType() != 'a'){
+            request.setAttribute("message", "Devi essere un amministratore per poter accedere a quest'area");
+            request.getRequestDispatcher("message.jsp").forward(request, response);
         }else{
             chain.doFilter(request, response);
         }

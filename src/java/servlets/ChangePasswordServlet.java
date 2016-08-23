@@ -76,8 +76,11 @@ public class ChangePasswordServlet extends HttpServlet {
                 }
                 
                 
-                HttpSession session = request.getSession(true);
-                session.setAttribute("user", user);
+                HttpSession session = request.getSession();
+                session.invalidate();
+                
+                session = request.getSession();
+                session.setAttribute("c_user", user);
                 RequestDispatcher rd = request.getRequestDispatcher("/change_password.jsp");
                 rd.forward(request, response);
                 

@@ -53,16 +53,31 @@ public class ValidateChangePasswordServlet extends HttpServlet {
             
             String password1 = request.getParameter("password1");
             String password2 = request.getParameter("password2");
+            String oldPassword = request.getParameter("old_password");
             
-            User user = (User)session.getAttribute("user");
+            User user = (User)session.getAttribute("c_user");
+            
+            if(user == null){
+                user = (User)session.getAttribute("user");
+                try {
+                    if(user != null && (oldPassword == null || !manager.isPasswordCorrect(user.getId(), oldPassword))){
+                        request.setAttribute("message", "Password errata!");
+                        RequestDispatcher rd = request.getRequestDispatcher("/message.jsp");
+                        rd.forward(request, response);
+                    }
+                } catch (SQLException ex) {
+                    user = null;
+                    Logger.getLogger(ValidateChangePasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             
             if(user == null){
                 request.setAttribute("message", "Non c'è nessun utente");
-                RequestDispatcher rd = request.getRequestDispatcher("/change_password.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("/message.jsp");
                 rd.forward(request, response);
             }else if(!password1.equals(password2)){
                 request.setAttribute("message", "Le due password non coincidono!");
-                RequestDispatcher rd = request.getRequestDispatcher("/change_password.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("/message.jsp");
                 rd.forward(request, response);
             }else{
                 try {
@@ -71,6 +86,7 @@ public class ValidateChangePasswordServlet extends HttpServlet {
                     Logger.getLogger(ValidateChangePasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
+                session.removeAttribute("c_user");
                 session.removeAttribute("user");
                 session.invalidate();
                 

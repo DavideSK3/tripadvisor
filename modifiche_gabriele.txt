@@ -150,14 +150,27 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
 
 (lunedì 22/8)
 
- - 
+ - inserita parte davide
+ - alcuni aggiustamenti grafica con Pier
+ - aggiunta e aggiustata "recensione veloce" di Pier
+ - aggiustato query/update su db e RestaurantServlet per recensioni veloci
+ - fatto filtro per Admin e filtro per Ristoratore
+ - fatto controllo che ristorante da reclamare non sia già stato reclamanto
+ - modificato reinidirizzamenti filtri e relativi messaggi in caso di "filtraggio"
+ - un amministratore non può reclamamre un ristorante
+ - modificata ValidateChangePasswordServlet e ChangePasswordServlet per distinguere utente loggato normalmente da utente "temporaneamente loggato" per cambio password
+ - messo a posto servlet per cambio password e linkata da pagina profilo
+ - fatto filtro per notifica di anteprima
+
+(martedì 23/8)
 
 
-
-
-
-
-
+- fatto servlet per modifica nome, cognome, mail ecc... e linkata da pagina profilo
+- in manage restaurant servlet: reso robusto codice a errori nei parametri (parametro che non rappresenta intero, paramentro null, ecc..)
+- in manage restaurant servlet: aggiunta rimovione orario
+- in manage restaurant servlet: nel caso di modifica con successo si reindirizza di nuovo alla pagina di modifica ristorante (con un redirect)
+- aggiunta nella pagina manage_restaurant.jsp la parte per rimozione orari 
+- aggiunta nella pagina manage_restaurant.jsp la parte per rimozione e aggiunta cucine 
 
 
 

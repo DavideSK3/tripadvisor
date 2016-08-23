@@ -16,19 +16,15 @@ public class Orario implements Serializable{
     
     public static final String[] days = {"Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"};
 
-    public Orario(String giorno, Time apertura, Time chiusura) {
+    
+    
+    public Orario(Integer giorno, Time apertura, Time chiusura) {
         this.giorno = giorno;
         this.apertura = apertura;
         this.chiusura = chiusura;
     }
     
-    public Orario(int giorno, Time apertura, Time chiusura) {
-        this.giorno = days[giorno];
-        this.apertura = apertura;
-        this.chiusura = chiusura;
-    }
-    
-    private String giorno;
+    private Integer giorno;
     private Time apertura;
     private Time chiusura;
 
@@ -36,18 +32,16 @@ public class Orario implements Serializable{
      * @return the giorno
      */
     public String getGiorno() {
+        return days[giorno];
+    }
+    
+    public Integer getGiornoAsInt() {
         return giorno;
     }
 
-    /**
-     * @param giorno the giorno to set
-     */
-    public void setGiorno(String giorno) {
-        this.giorno = giorno;
-    }
     
     public void setGiorno(int giorno) {
-        this.giorno = days[giorno];
+        this.giorno = giorno;
     }
 
     /**

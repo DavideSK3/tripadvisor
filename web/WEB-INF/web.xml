@@ -61,6 +61,7 @@
         <url-pattern>/RestaurantsList</url-pattern>
         <url-pattern>/</url-pattern>
         <url-pattern>/home.jsp</url-pattern>
+        <url-pattern>/ManageRestaurant</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>LoggedInFilter</filter-name>
@@ -68,6 +69,7 @@
         <url-pattern>/Review</url-pattern>
         <url-pattern>/Logout</url-pattern>
         <url-pattern>/PhotoUpload</url-pattern>
+        <url-pattern>/EditProfile</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>LoggedOutFilter</filter-name>
@@ -94,6 +96,10 @@
     </listener>
     
     
+    <servlet>
+        <servlet-name>EditProfileServlet</servlet-name>
+        <servlet-class>servlets.EditProfileServlet</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>ClaimRestaurantServlet</servlet-name>
         <servlet-class>servlets.ClaimRestaurantServlet</servlet-class>
@@ -160,6 +166,10 @@
     </servlet>
     
     
+    <servlet-mapping>
+        <servlet-name>EditProfileServlet</servlet-name>
+        <url-pattern>/EditProfile</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ClaimRestaurantServlet</servlet-name>
         <url-pattern>/ClaimRestaurant</url-pattern>

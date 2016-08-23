@@ -51,12 +51,12 @@ public class LoggedOutFilter implements Filter {
         
         HttpSession session = req.getSession(false);
         
-        request.setCharacterEncoding("UTF-8");
         
         if(session == null || session.getAttribute("user")==null){
             chain.doFilter(request, response);
         }else{
-            resp.sendRedirect(req.getContextPath());
+            request.setAttribute("message", "Sei già un utente loggato");
+            request.getRequestDispatcher("message.jsp").forward(request, response);
         }
     }
 

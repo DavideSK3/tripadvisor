@@ -94,24 +94,15 @@ public class RestaurantServlet extends HttpServlet {
         }
         
         if(r != null){
-            try{
+            try {
+                manager.getRestaurantReviewValues(r);
+            
                 manager.getRestaurantPhotos(r);
-            } catch (SQLException ex) {
-                Logger.getLogger(RestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try{
+            
                 manager.getRestaurantTimes(r);
-            } catch (SQLException ex) {
-                Logger.getLogger(RestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
             
-            try{
                 manager.calcolaPosizioneInClassifica(r);
-            } catch (SQLException ex) {
-                Logger.getLogger(RestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
             
-            try{
                 manager.getReviews(r);
             }catch (SQLException ex) {
                 Logger.getLogger(RestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);

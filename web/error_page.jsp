@@ -30,7 +30,9 @@
                             <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
                                 <%--<%= exception.toString() %>--%>
                                 <c:out value="${exception.toString()}"/>
+                                
                             </div>
+                            <c:out value="${exception.printStackTrace()}"/>
                             <div class="modal-footer" style="border-top-width: 0;">
                             </div>
                         </div>

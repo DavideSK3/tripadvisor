@@ -73,7 +73,7 @@
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
-                                        <form method='POST' >
+                                        <form method='POST' action ="<c:url value ='EditProfile'/>">
                                             <div style="padding-bottom: 20px; ">
                                                 <input type="text" name="name" class="form-control" placeholder="<c:out value="${sessionScope.user.name}"/>" required>
                                                 <input type="text" name="surname" class="form-control" placeholder="<c:out value="${sessionScope.user.surname}"/>" required>
@@ -95,7 +95,7 @@
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
-                                        <form method='POST' >
+                                        <form method='POST' action ="<c:url value ='EditProfile'/>">
                                             <div style="padding-bottom: 20px; ">
                                                 <input type="email" name="email" class="form-control" placeholder="<c:out value="${sessionScope.user.email}"/>" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required autofocus>
                                             </div>

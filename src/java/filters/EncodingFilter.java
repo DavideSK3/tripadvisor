@@ -5,16 +5,21 @@
  */
 package filters;
 
+import db.DBManager;
+import db.User;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -28,11 +33,13 @@ public class EncodingFilter implements Filter {
     private FilterConfig filterConfig = null;
     
     
+    private DBManager manager;
     /**
      * Init method for this filter
      */
     public void init(FilterConfig filterConfig) {        
         this.filterConfig = filterConfig;
+        this.manager = (DBManager)filterConfig.getServletContext().getAttribute("dbmanager");
     }
     
     /**
@@ -51,9 +58,34 @@ public class EncodingFilter implements Filter {
         
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        //System.out.println("pre-enc: " + request.getCharacterEncoding() + "; " + response.getCharacterEncoding());
+        
+        final HttpServletRequest req = (HttpServletRequest) request;
+        final HttpServletResponse resp = (HttpServletResponse) response;
+        
+        HttpSession session = req.getSession(false);
+        
+        
+        if(session != null && session.getAttribute("user")!=null){
+            if(((User)session.getAttribute("user")).getCharType() == 'r'){
+                try {
+                    request.setAttribute("notificaFoto", manager.getUnaNotificaFoto((User)session.getAttribute("user")));
+                    request.setAttribute("numeroNotifiche", manager.contaNotificheFoto((User)session.getAttribute("user")));
+                } catch (SQLException ex) {
+                    Logger.getLogger(EncodingFilter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else if(((User)session.getAttribute("user")).getCharType() == 'a'){
+                try {
+                    request.setAttribute("notificaFoto", manager.getUnaNotificaFoto((User)session.getAttribute("user")));
+                    request.setAttribute("notificaReclamo", manager.getUnReclamoRistorante());
+                    request.setAttribute("numeroNotifiche", manager.contaNotificheFoto((User)session.getAttribute("user")) + manager.contaNotificheReclami());
+                } catch (SQLException ex) {
+                    Logger.getLogger(EncodingFilter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
         chain.doFilter(request, response);
-        //System.out.println("post-enc: " + request.getCharacterEncoding() + "; " + response.getCharacterEncoding());
+        
     }
 
    
