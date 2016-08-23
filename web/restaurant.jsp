@@ -37,8 +37,8 @@
                         </c:forEach>
                             &nbsp;
                         <span class="badge"><fmt:formatNumber type="number" maxFractionDigits="2" value="${restaurant.global_review}" />&nbsp;<span class="glyphicon glyphicon-star-empty"></span>&nbsp; su <c:out value='${restaurant.review_count}'/> recensioni</span>
-
                         <span style="color: green; padding-left: 1%; font-size: 135%;"> |&nbsp; &nbsp; &nbsp;N. <c:out value='${restaurant.posizione}'/> dei ristoranti in <c:out value='${restaurant.city}'/></span>    
+                            
 
                     </div>
                 </div>

@@ -172,9 +172,8 @@ MODIFICHE EFFETTUATE							CORREZIONI/AGGIUNTE DA FARE
 - aggiunta nella pagina manage_restaurant.jsp la parte per rimozione orari 
 - aggiunta nella pagina manage_restaurant.jsp la parte per rimozione e aggiunta cucine 
 
-
-
-
+- tolt colonne voti secondari da ristorante e aggiunta colonna per qr
+- genera qr code staticamnete alla creazione (o update) del ristorante invece che creare una copia ogni volta inutilmente
 
 
 

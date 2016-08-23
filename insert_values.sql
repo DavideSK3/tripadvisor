@@ -103,10 +103,6 @@ insert into RESTAURANTS VALUES
     'www.doolinpub.it',
     default,
     default,
-    default,
-    default,
-    default,
-    default,
     3,
     3,
     'Via Zambelli 8',
@@ -116,7 +112,8 @@ insert into RESTAURANTS VALUES
     15,
 	'Italia',
 	'Lombardia',
-	'Mantova'
+	'Mantova',
+    null
 );
 
 
@@ -177,10 +174,6 @@ insert into RESTAURANTS VALUES
     'www.facebook.com/I-FEUDI-233088270078751/',
     default,
     default,
-    default,
-    default,
-    default,
-    default,
     5,
     7,
     'Via Accademia 11',
@@ -190,7 +183,8 @@ insert into RESTAURANTS VALUES
     15,
 	'Italia',
 	'Lombardia',
-	'Mantova'
+	'Mantova',
+    null
 );
 
 insert into ORARIO VALUES
@@ -301,10 +295,6 @@ insert into RESTAURANTS VALUES
     'www.ma_che_ne_so.it',
     2,
     10.0,
-    10.0,
-    10.0,
-    10.0,
-    10.0,
     null,
     1,
     'via Taramelli 24',
@@ -314,7 +304,8 @@ insert into RESTAURANTS VALUES
     50,
     'Italia',
     'Trentino Alto-Adige',
-    'Trento'
+    'Trento',
+    null
 );
 
 
@@ -326,10 +317,6 @@ insert into RESTAURANTS VALUES
     'www.ma_che_ne_so_io.it',
     3,
     15.0,
-    14.0,
-    13.0,
-    12.0,
-    11.0,
     null,
     1,
     'via Taramelli 14',
@@ -339,7 +326,8 @@ insert into RESTAURANTS VALUES
     100,
     'Italia',
     'Lombardia',
-    'Mantova'
+    'Mantova',
+    null
 );
 
 insert into RESTAURANTS VALUES
@@ -350,10 +338,6 @@ insert into RESTAURANTS VALUES
     'www.ma_che_buono_il_kebab.it',
     4,
     13.5,
-    17.0,
-    15.0,
-    10.0,
-    18.0,
     null,
     1,
     'via Dalle Balle 1',
@@ -363,7 +347,8 @@ insert into RESTAURANTS VALUES
     10,
     'Italia',
     'Lombardia',
-    'Milano'
+    'Milano',
+    null
 );
 
 
@@ -375,10 +360,6 @@ insert into RESTAURANTS VALUES
     'www.sushi.rom',
     8,
     37.5,
-    46.0,
-    43.0,
-    30.0,
-    28.0,
     null,
     1,
     'via Cernobyl 1986',
@@ -388,7 +369,8 @@ insert into RESTAURANTS VALUES
     45,
     'Italia',
     'Lombardia',
-    'Milano'
+    'Milano',
+    null
 );
 
 

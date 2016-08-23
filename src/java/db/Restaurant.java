@@ -5,10 +5,22 @@
  */
 package db;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.glxn.qrgen.QRCode;
+import net.glxn.qrgen.image.ImageType;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  *
@@ -458,6 +470,90 @@ public class Restaurant implements Serializable{
         if(getMin_price() == null || getMax_price() == null) return null;
         else return getMin_price()+getMax_price();
     }
+    
+    
+    public static final String buildQR(int id, String qrDir, String contextPath, DBManager manager){
+        
+        Restaurant r;
+        try {
+            r = manager.getRestaurant(id);
+            manager.getRestaurantTimes(r);
+        } catch (SQLException ex) {
+            Logger.getLogger(Restaurant.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        
+        StringBuilder s = new StringBuilder();
+        s.append(r.getName())
+                .append(":\n")
+                .append(r.getAddress())
+                .append(", ")
+                .append(r.getCity())
+                .append(", ")
+                .append(r.getRegion())
+                .append(", ")
+                .append(r.getState())
+                .append("\nOrari: \n");
+        
+        if(r.getOrari() != null){
+            for(Orario o : r.getOrari()){
+                s.append(" ")
+                    .append(o.getGiorno())
+                    .append(": ")
+                    .append(o.getAperturaString())
+                    .append("-")
+                    .append(o.getChiusuraString())
+                    .append("\n");
+            }
+        }
+        
+        
+        
+        ByteArrayOutputStream out = QRCode.from(s.toString()).to(ImageType.JPG).withSize(150, 150).stream();
+        
+        File dir = new File(contextPath + qrDir); //getServletContext().getRealPath("") +  super.getServletContext().getInitParameter("qrDir"));
+
+        String name = "r" + r.getId()+ new Date(System.currentTimeMillis()).toString().replaceAll(" ", "") +".qr";
+
+        File file = new File(dir, name);
+
+        try {
+                FileOutputStream fout = new FileOutputStream(file);
+
+                fout.write(out.toByteArray());
+
+                fout.flush();
+                fout.close();
+
+        } catch (FileNotFoundException e) {
+                // Do Logging
+        } catch (IOException e) {
+                // Do Logging
+        }
+        
+        if(r.getQr_path() != null){
+            System.out.println("old (real) path = " + contextPath + r.getQr_path());
+            File f = new File(contextPath + r.getQr_path());
+            f.delete();
+        }
+        
+        r.setQr_path(qrDir + "/" + name);
+        
+        System.out.println("new (real) path = " + contextPath + r.getQr_path());
+        System.out.println("new (relative) path = " + r.getQr_path());
+        System.out.println("new (absolute) path = " + file.getAbsolutePath());
+        
+        try {
+            manager.setRestaurantQRPath(id, r.getQr_path());
+        } catch (SQLException ex) {
+            Logger.getLogger(Restaurant.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return r.getQr_path();
+        
+        
+    }
+    
     
     public static class ComparatorByValue implements Comparator<Restaurant>{
 

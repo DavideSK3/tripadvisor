@@ -146,6 +146,11 @@ public class ManageRestaurantServlet extends HttpServlet {
             message = "La modifica non è andata a buon fine...";
             throw new ServletException(ex);
         }
+        
+        if(address != null && id != null){
+            Restaurant.buildQR(id, super.getServletContext().getInitParameter("qrDir"), getServletContext().getRealPath(""), manager);
+        }
+        
         req.setAttribute("message", message);
         RequestDispatcher rd = req.getRequestDispatcher("/message.jsp");
         rd.forward(req, resp);
@@ -177,6 +182,8 @@ public class ManageRestaurantServlet extends HttpServlet {
                 RequestDispatcher rd = req.getRequestDispatcher("/message.jsp");
                 rd.forward(req, resp);
             }else{
+                
+                Restaurant.buildQR(id, super.getServletContext().getInitParameter("qrDir"), getServletContext().getRealPath(""), manager);
                 resp.sendRedirect(resp.encodeRedirectURL("ManageRestaurant?restaurantID=" + id));
             }
         } catch (SQLException ex) {
@@ -208,7 +215,7 @@ public class ManageRestaurantServlet extends HttpServlet {
         String message;
         try {
             manager.rimuoviOrario(id,day,apertura,chiusura);
-            
+            Restaurant.buildQR(id, super.getServletContext().getInitParameter("qrDir"), getServletContext().getRealPath(""), manager);
             resp.sendRedirect(resp.encodeRedirectURL("ManageRestaurant?restaurantID=" + id));
         } catch (SQLException ex) {
             message = "La modifica non è andata a buon fine...";

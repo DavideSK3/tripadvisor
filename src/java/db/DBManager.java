@@ -282,9 +282,9 @@ public class DBManager implements Serializable {
     
     
     public void registerRestaurant(Restaurant r) throws SQLException {
-        PreparedStatement stm = con.prepareStatement("INSERT INTO APP.resturants VALUES(default,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        PreparedStatement stm = con.prepareStatement("INSERT INTO APP.resturants VALUES(default,?,?,?,?,?,?,?,?,?,?,?,?)");
 
-        PreparedStatement stm2 = con.prepareStatement("INSERT INTO APP.names_term VALUES(?, ?)");
+        //PreparedStatement stm2 = con.prepareStatement("INSERT INTO APP.names_term VALUES(?, ?)");
 
         try {
             stm.setString(1, r.getName());
@@ -295,63 +295,52 @@ public class DBManager implements Serializable {
             } else {
                 stm.setNull(4, Types.DOUBLE);
             }
-            if (r.getFood_review() != null) {
-                stm.setDouble(5, r.getFood_review());
+            
+            
+            if (r.getId_owner() != null) {
+                stm.setInt(5, r.getId_owner());
             } else {
-                stm.setNull(5, Types.DOUBLE);
+                stm.setNull(5, Types.INTEGER);
             }
-            if (r.getAtmosphere_review() != null) {
-                stm.setDouble(6, r.getAtmosphere_review());
+            if (r.getId_creator() != null) {
+                stm.setInt(6, r.getId_creator());
             } else {
-                stm.setNull(6, Types.DOUBLE);
+                stm.setNull(6, Types.INTEGER);
             }
-            if (r.getService_review() != null) {
-                stm.setDouble(7, r.getService_review());
-            } else {
-                stm.setNull(7, Types.DOUBLE);
-            }
-            if (r.getMoney_review() != null) {
-                stm.setDouble(8, r.getMoney_review());
+            stm.setString(7, r.getAddress());
+
+            if (r.getLatitude() != null) {
+                stm.setDouble(8, r.getLatitude());
             } else {
                 stm.setNull(8, Types.DOUBLE);
             }
-            if (r.getId_owner() != null) {
-                stm.setInt(9, r.getId_owner());
-            } else {
-                stm.setNull(9, Types.INTEGER);
-            }
-            if (r.getId_creator() != null) {
-                stm.setInt(10, r.getId_creator());
-            } else {
-                stm.setNull(10, Types.INTEGER);
-            }
-            stm.setString(11, r.getAddress());
-
-            if (r.getLatitude() != null) {
-                stm.setDouble(12, r.getLatitude());
-            } else {
-                stm.setNull(12, Types.DOUBLE);
-            }
 
             if (r.getLongitude() != null) {
-                stm.setDouble(13, r.getLongitude());
+                stm.setDouble(9, r.getLongitude());
             } else {
-                stm.setNull(13, Types.DOUBLE);
+                stm.setNull(9, Types.DOUBLE);
             }
 
             if (r.getMin_price() != null) {
-                stm.setDouble(14, r.getMin_price());
+                stm.setDouble(10, r.getMin_price());
             } else {
-                stm.setNull(14, Types.DOUBLE);
+                stm.setNull(10, Types.DOUBLE);
             }
             if (r.getMax_price() != null) {
-                stm.setDouble(15, r.getMax_price());
+                stm.setDouble(11, r.getMax_price());
             } else {
-                stm.setNull(15, Types.DOUBLE);
+                stm.setNull(11, Types.DOUBLE);
             }
+            
+            if (r.getQr_path()!= null) {
+                stm.setString(12, r.getQr_path());
+            } else {
+                stm.setNull(12, Types.VARCHAR);
+            }
+            
             int rs = stm.executeUpdate();
 
-            if (rs > 0) {
+            /*if (rs > 0) {
                 Set<String> terms = Util.generateNearTerms(r.getName());
                 for (String t : terms) {
 
@@ -360,7 +349,7 @@ public class DBManager implements Serializable {
                     stm2.executeUpdate();
 
                 }
-            }
+            }*/
 
         } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
             stm.close();
@@ -836,6 +825,7 @@ public class DBManager implements Serializable {
         r.setCity(rs.getString("city"));
         r.setRegion(rs.getString("region"));
         r.setState(rs.getString("state"));
+        r.setQr_path(rs.getString("qr"));
         
         
         getRestaurantCuisines(r);
@@ -1369,6 +1359,20 @@ public class DBManager implements Serializable {
         System.out.println(query.toString());
         PreparedStatement stm = con.prepareStatement(query.toString());
         try {
+            stm.executeUpdate();
+        } finally {
+            stm.close();
+        }
+    }
+
+
+    public void setRestaurantQRPath(Integer id, String path)throws SQLException {
+        
+        
+        PreparedStatement stm = con.prepareStatement("UPDATE APP.RESTAURANTS SET qr = ? WHERE id = ?");
+        try {
+            stm.setString(1, path);
+            stm.setInt(2, id);
             stm.executeUpdate();
         } finally {
             stm.close();

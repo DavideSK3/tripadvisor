@@ -107,70 +107,19 @@ public class RestaurantServlet extends HttpServlet {
             }catch (SQLException ex) {
                 Logger.getLogger(RestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
+            if(r.getQr_path() == null){
+                r.setQr_path(Restaurant.buildQR(r.getId(), super.getServletContext().getInitParameter("qrDir"), getServletContext().getRealPath(""), manager));
+            }
             
-            getQR(r);
         }
         
         rd.include(req, resp);
         
         
-        if(r!=null){
-            File f = new File(getServletContext().getRealPath("/"+r.getQr_path()));
-            f.deleteOnExit();
-        }
+        
         
     }
     
-    public void getQR(Restaurant r){
-        StringBuilder s = new StringBuilder();
-        s.append(r.getName())
-                .append(":\n")
-                .append(r.getAddress())
-                .append(", ")
-                .append(r.getCity())
-                .append(", ")
-                .append(r.getRegion())
-                .append(", ")
-                .append(r.getState())
-                .append("\nOrari: \n");
-        
-        if(r.getOrari() != null){
-            for(Orario o : r.getOrari()){
-                s.append("   ")
-                    .append(o.getGiorno())
-                    .append(": ")
-                    .append(o.getAperturaString())
-                    .append(" - ")
-                    .append(o.getChiusuraString())
-                    .append("\n");
-            }
-        }
-        
-        
-        
-        ByteArrayOutputStream out = QRCode.from(s.toString()).to(ImageType.JPG).withSize(150, 150).stream();
-        
-        File dir = new File(getServletContext().getRealPath("") +  super.getServletContext().getInitParameter("qrDir"));
-
-        String name = String.format("%s.%s", RandomStringUtils.randomAlphanumeric(8), "dat");
-
-        File file = new File(dir, name);
-
-        try {
-                FileOutputStream fout = new FileOutputStream(file);
-
-                fout.write(out.toByteArray());
-
-                fout.flush();
-                fout.close();
-
-        } catch (FileNotFoundException e) {
-                // Do Logging
-        } catch (IOException e) {
-                // Do Logging
-        }
-        r.setQr_path(super.getServletContext().getInitParameter("qrDir") + "/" + name);
-        
-    }
+    
     
 }

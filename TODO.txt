@@ -1,6 +1,5 @@
 ﻿	BUG:
 
-- se non si hanno voti, non deve apparire la posizione
  
 - NEL DB MANAGER LA GESTIONE ATTUALE DEI VALORI NULL NON VA BENE: a volte un valore può anche essere zero (es id o min price) 
 ma verrebbe scambiato per null. Meglio usare qualcosa tipo ' r.setId_photo((Integer)rs.getObject("id_photo"));
@@ -57,15 +56,12 @@ GABRI
 - fare filtro per proteggere modifica ristorante, modifica profilo, eccc (tutte servlet di davide)	(TEORICAMENTE FATTO, PER SICUREZZA FARE QUALCHE CONTROLLO)
 
 - mettere a posto UploadFoto e UploadReview servlets
-- togliere colonne voti secondari da ristorante
 - se c'è tempo cambiare form ricerca avanzata solo per filtrare risultati ricerca normale
  
-- mettere possibilità inserire anche cucine nel ristorante
 
 - se c'è tempo eliminare foto una volta eliminate da db 
 
 
-- generare qr code staticamnete alla creazione (o update) del ristorante invece che creare una copia ogni volta inutilmente	(eventualmente da fare alla fine)
 
 - fare indici database
 
