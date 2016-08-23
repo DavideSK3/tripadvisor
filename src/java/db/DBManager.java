@@ -286,6 +286,11 @@ public class DBManager implements Serializable {
 
         //PreparedStatement stm2 = con.prepareStatement("INSERT INTO APP.names_term VALUES(?, ?)");
 
+        if((r.getLongitude() == null || r.getLatitude() == null) && r.getCity() != null){
+            double[] coordinate = Util.getCoordinates(r.getAddress(), r.getCity(), r.getRegion(), r.getState());
+            r.setLongitude(coordinate[0]);
+            r.setLongitude(coordinate[1]);
+        }
         try {
             stm.setString(1, r.getName());
             stm.setString(2, r.getDescription());
@@ -1316,46 +1321,65 @@ public class DBManager implements Serializable {
         return true;
     }
     
+    public String[] getRestaurantLocation(int restaurant) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("SELECT city, region, state FROM APP.RESTAURANTS WHERE id = ?");
+        try {
+            stm.setInt(1, restaurant);
+            ResultSet rs = stm.executeQuery();
+            try {
+                if (rs.next()){
+                    String[] location = new String[3];
+                    location[0] = rs.getString(1);
+                    location[1] = rs.getString(2);
+                    location[2] = rs.getString(3);
+                    return location;
+                } else {
+                    return null;
+                }
+            } finally {
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+    }
+
+    
     public void manageRestaurant(Integer id, String description, String url, String address, Integer min_price, Integer max_price)throws SQLException {
         
         
         StringBuilder query=new StringBuilder("UPDATE App.Restaurants SET ");
         
         ArrayList<String> lista = new ArrayList<>();
-        int n=0,m=0;
         
         if(!description.isEmpty()){
-            lista.add("description='"+description+"' ");
-            n++;
+            lista.add("description='"+description+"'");
         }
         if(!url.isEmpty()){
-            lista.add("web_site_url='"+url+"' ");
-            n++;
+            lista.add("web_site_url='"+url+"'");
         }
         if(!address.isEmpty()){
-            lista.add("address='"+address+"' ");
-            n++;
+            String[] location = getRestaurantLocation(id);
+            double[] coordinates = Util.getCoordinates(address, location[0], location[1], location[2]);
+            lista.add("address='"+address+"'");
+            lista.add("latitude = " + coordinates[0]);
+            lista.add("longitude = " + coordinates[1]);
         }
         if(min_price!=null){
             lista.add("min_price="+min_price.toString());
-            n++;
         }
         if(max_price!=null){
             lista.add("max_price="+max_price.toString());
-            n++;
         }
-        m=n;
         
-        for (String object: lista) {
-            if(m==n){
-                query.append(object);
-            } else {
-                query.append(", ").append(object);
+        for (int i=0; i<lista.size(); i++) {
+            if(i>0){
+                query.append(", ");
             }
-            m--;
+            query.append(lista.get(i));
         }
         
-        query.append(" WHERE id=").append(id);//.append(";");
+        query.append(" WHERE id=").append(id);
         System.out.println(query.toString());
         PreparedStatement stm = con.prepareStatement(query.toString());
         try {

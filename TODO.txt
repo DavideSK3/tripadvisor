@@ -28,14 +28,15 @@ DAVIDE
 
 PIER
  
+ - nella ricerca avanzata fare in modo che script per calcolo coordinate effettuato anche a caricamento pagina e non solo quando si preme sul campo per inserire la distanza
+
  - nella pagina manage restaurant fare grafica dei form per rimuovere orari ristorante e modificare le cucine (può anche quasi andare bene così comunque, vedi te come ti piace di più)
 
  - mettere un po' meglio le recensioni nel caso siano recensioni veloci (usa anche i tag jstl tipo <c:if> o <c:choose> se necessario)
  - nella pagina delle notifiche la dimneisone delle foto deve rimanere costante, non adattarsi alla dimnesione effettiva dell'immagine
  
 - risolvere prolema recensione veloce (forse va già bene così, ma dacci un'occhiata)
-
-- perchè a volte qr code grande a volte piccolo?	
+	
 
 - mettere a posto footer
 
@@ -44,8 +45,7 @@ PIER
 - in change_pasword.jsp fare in modo che le 2 passsword siano uguali
 
 
-- riducendo la dimensione dello schermo, il logo si sposta e il link (il tag <a></a>) "sparisce" (anche da cell)
-         NON SO COME RISOLVERE
+- riducendo la dimensione dello schermo, il logo si sposta e il link (il tag <a></a>) "sparisce" (anche da cell) (MEZZO RISOLTO, FINIRE DI METTERE A POSTO)
 
 
 

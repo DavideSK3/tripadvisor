@@ -40,7 +40,7 @@
                             <label style="padding-left: 7%;"> Max : &nbsp;<input type="number" class="form-control" id= "min_max" onclick="getLocation()"  style="max-width: 30%" name ="distance" value = "<c:out value='${requestScope.distance}'/>"/></label>
                         </li>
                         <li>
-                            <input type="submit" class="btn btn-default"  style="margin-left: 10%"name="button" value="Search">
+                            <input type="submit" class="btn btn-default" style="margin-left: 10%"name="button" value="Search">
                         </li>
                         <input type="hidden" name ="longitude" id ="long">
                         <input type="hidden" name ="latitude" id ="lat">
@@ -66,7 +66,7 @@
                     } else {
                         alert("Sorry, no position available.");
                         document.getElementById("geolocation_error").textContent = "No position available.";
-                        document.getElementById("min_max").disabled = true;
+                        //document.getElementById("min_max").disabled = true;
                     }
                 }
         </script>

@@ -138,6 +138,7 @@ public class ManageRestaurantServlet extends HttpServlet {
                 
             }
         }
+        
         String message;
         try {
             manager.manageRestaurant(id,description, url, address, min_price, max_price);

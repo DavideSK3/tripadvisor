@@ -27,12 +27,14 @@
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h3 class="modal-title"> <b>Error :</b></h3>
                             </div>
-                            <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
-                                <%--<%= exception.toString() %>--%>
-                                <c:out value="${exception.toString()}"/>
-                                
-                            </div>
-                            <c:out value="${exception.printStackTrace()}"/>
+                            <c:if test="${exception != null}">
+                                <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
+                                    <%--<%= exception.toString() %>--%>
+                                    <c:out value="${exception.toString()}"/>
+                                </div>
+                            </c:if>
+                            
+                            
                             <div class="modal-footer" style="border-top-width: 0;">
                             </div>
                         </div>

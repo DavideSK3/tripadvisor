@@ -6,11 +6,16 @@
 package db;
 
 
-import java.util.ArrayList;
+import com.google.maps.GaeRequestHandler;
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.model.GeocodingResult;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -218,7 +223,6 @@ public final class Util {
         
     }
     
-    
     public static void sortByValue(List<Restaurant> r){
         Collections.sort(r, new Restaurant.ComparatorByValue());
     }
@@ -229,6 +233,30 @@ public final class Util {
     
     public static void sortByPrice(List<Restaurant> r){
         Collections.sort(r, new Restaurant.ComparatorByPrice());
+    }
+    
+    public static double[] getCoordinates(String address, String city, String region, String state){
+        String target = address.trim().replace(" ", "+") + "+" + city.replace(" ", "") + (region != null? "+" + region.replace(" ", "") : "") + (state != null ? "+"+state.replace(" ", "") : "");
+        
+        
+        GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyClHNpB3sEhJqzwms8IVInpQyB5zPP3b10");
+        GeocodingResult[] results = null;
+        double coordinate[] = new double[2];
+        try {
+            results = GeocodingApi.geocode(context, target).await();
+            System.out.println(results[0].formattedAddress);
+            System.out.println(results[0].geometry.location);
+            
+        } catch (Exception ex) {
+            Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(results != null){
+            coordinate[0] = results[0].geometry.location.lat;
+            coordinate[1] = results[0].geometry.location.lng;
+            return coordinate;
+        }else{
+            return null;
+        }
     }
     
 }
