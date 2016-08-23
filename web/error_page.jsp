@@ -1,5 +1,6 @@
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page isErrorPage="true"%>
 
 
@@ -27,7 +28,8 @@
                                 <h3 class="modal-title"> <b>Error :</b></h3>
                             </div>
                             <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
-                                <%= exception.toString() %>
+                                <%--<%= exception.toString() %>--%>
+                                <c:out value="${exception.toString()}"/>
                             </div>
                             <div class="modal-footer" style="border-top-width: 0;">
                             </div>

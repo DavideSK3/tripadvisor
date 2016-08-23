@@ -22,9 +22,8 @@
                 <div class="col-md-12" style="padding-top: 20px">
                     <span style="font-size: 250%;"><c:out value='${restaurant.name}'/></span>
                     <c:choose>
-                        <c:when test="${restaurant.id_owner == null}">
-                            <a href="<c:url value='ClaimRestaurant'><c:param name='restaurantID' value='${restaurant.id}'/></c:url>" data-toggle="tooltip" data-placement="right" title="Inizia a gestire la tua pagina!">
-                            Questo &egrave il tuo ristorante?</a>
+                        <c:when test="${restaurant.id_owner == null && user != null && user.type != 'A'}">
+                            <a href="<c:url value='ClaimRestaurant'><c:param name='restaurantID' value='${restaurant.id}'/></c:url>" data-toggle="tooltip" data-placement="right" title="Inizia a gestire la tua pagina!">Questo &egrave il tuo ristorante?</a>
                         </c:when>
                     </c:choose>
                 </div>

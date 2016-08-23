@@ -116,14 +116,14 @@
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
-                                        <form method='POST' >
+                                        <form method='POST' Action = "<c:url value='ValidateChangePassword'/>">
                                             <div style="padding-bottom: 20px; ">
-                                            <input id="password" name="vecchiapassword" class="form-control" type="password" placeholder="Vecchia Password" required>
-                                            <input id="password" name="nuovapassword" class="form-control" type="password" pattern=".{8,}$" title="La password deve contere almeno 8 caratteri alfanumerici"
+                                            <input id="password_old" name="old_password" class="form-control" type="password" placeholder="Vecchia Password" required>
+                                            <input id="password" name="password1" class="form-control" type="password" pattern=".{8,}$" title="La password deve contere almeno 8 caratteri alfanumerici"
                                                    onchange="this.setCustomValidity(this.validity.patternMismatch ? 'La tua password deve essere di almeno 8 caratteri' : ''); 
                                                        if(this.checkValidity()) form.password_two.pattern = this.value;" 
                                                        placeholder="Nuova Password" required>
-                                            <input id="password_two" name="confermapassword" class="form-control" type="password" pattern=".{8,}$" 
+                                            <input id="password_two" name="password2" class="form-control" type="password" pattern=".{8,}$" 
                                                    onchange="this.setCustomValidity(this.validity.patternMismatch ?'Password diverse' : '');" 
                                                    placeholder="Conferma Nuova Password" required>
                                                 </div>

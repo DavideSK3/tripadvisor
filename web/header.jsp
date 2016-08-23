@@ -59,19 +59,34 @@
                                 <div class="modal-content">
                                   <div class="modal-header" style="border-bottom-width: 0;">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Notifiche</h4>
+                                    <h4 class="modal-title">Anteprima Notifiche</h4>
                                   </div>
                                   <div class="modal-body" style="background-color: gainsboro; border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
-                                    <p>Questa è una notifica.</p>
+                                    <c:if test="${notificaFoto != null}">
+                                        <c:choose>
+                                            <c:when test="${sessionScope.user.getType() == 'R'}">
+                                                <p>È stata inserita una foto nel ristorante <c:out value='${notificaFoto.name}'/></p>
+                                            </c:when>
+                                            <c:when test="${sessionScope.user.getType() == 'A'}">
+                                                <p>È stata segnalata una foto nel ristorante <c:out value='${notificaFoto.name}'/></p>
+                                            </c:when>
+                                        </c:choose>
+                                    </c:if>
+                                    <c:if test="${notificaReclamo != null}">
+                                        <p>L'utente <c:out value="${notificaReclamo.name}"/> <c:out value="${notificaReclamo.surname}"/> vorrebbe reclamare il ristorante <c:out value='${notificaReclamo.restaurant_name}'/></p>
+                                    </c:if>
+                                    <c:if test="${notificaReclamo == null && notificaFoto == null}">
+                                        <p>Non ci sono notifiche da mostrare.</p>
+                                    </c:if>
                                   </div>
                                   <div class="modal-footer" style="border-top-width: 0;">
                                       <span>
                                             <c:choose>
                                                 <c:when test="${sessionScope.user.getType() == 'R'}">
-                                                    <a href="<c:url value='NotificationRestaurant'/>" class="glyphicon glyphicon-plus" style="float:left; top: 10px;"> Vedi tutte</a>
+                                                    <a href="<c:url value='NotificationRestaurant'/>" class="glyphicon glyphicon-plus" style="float:left; top: 10px;">Vedi tutte le <c:out value='${numeroNotifiche}'/> notifiche</a>
                                                 </c:when>
                                                 <c:when test="${sessionScope.user.getType() == 'A'}">
-                                                    <a href="<c:url value='NotificationAdmin'/>" class="glyphicon glyphicon-plus" style="float:left; top: 10px;"> Vedi tutte</a>
+                                                    <a href="<c:url value='NotificationAdmin'/>" class="glyphicon glyphicon-plus" style="float:left; top: 10px;"> Vedi tutte  le <c:out value='${numeroNotifiche}'/> notifiche</a>
                                                 </c:when>
                                             </c:choose>
                                       </span>

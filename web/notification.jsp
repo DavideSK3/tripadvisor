@@ -63,7 +63,7 @@
                        </div>
                        <div class="col-md-4" style=" padding-left: 1%; padding-top: 1%; padding-bottom: 1%; ">
                             <br>
-                            <a href="<c:url value='Restaurant'><c:param name ='restaurantID' value='${rf.id_restaurant}'/></c:url>"/>"> <span style="font-size: 200%; color: royalblue"><b><c:out value="${rf.name}"/></b></span> </a>
+                            <a href="<c:url value='Restaurant'><c:param name ='restaurantID' value='${rf.id_restaurant}'/></c:url>"/><span style="font-size: 200%; color: royalblue"><b><c:out value="${rf.name}"/></b></span> </a>
                             <br><br>
                             <span style="font-size: 150%"><b>Nome Foto: <c:out value="${rf.photo_name}"/></b></span>
                             <br><br>
