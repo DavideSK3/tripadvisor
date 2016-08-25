@@ -63,7 +63,7 @@ public class RestaurantsListServlet extends HttpServlet {
         
         String button = req.getParameter("button");
         
-        if(session == null || query_id == null){
+        if(session == null || query_id == null || session.getAttribute(query_id) == null){
             newSearch(req, resp);
         }else{
             switch(button){
@@ -354,10 +354,6 @@ public class RestaurantsListServlet extends HttpServlet {
                 page = 0;
             }
         }
-        
-        
-        
-        
         
         Research research;
         List<Restaurant> results;

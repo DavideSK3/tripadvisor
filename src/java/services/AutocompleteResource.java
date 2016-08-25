@@ -94,7 +94,7 @@ public class AutocompleteResource {
     @Path("/places/{term}")
     @Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
     public String getPlaces(@PathParam("term") String term) {
-        
+        System.out.println(term);
         DBManager manager = (DBManager)servletContext.getAttribute("dbmanager");
         
         List<String> results = null;
