@@ -111,6 +111,7 @@ public class ManageRestaurantServlet extends HttpServlet {
     }
     
     void ModificaRistorante(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String name = req.getParameter("name");
         String description = req.getParameter("description");
         String url = req.getParameter("url");
         String address = req.getParameter("address");
@@ -141,7 +142,7 @@ public class ManageRestaurantServlet extends HttpServlet {
         
         String message;
         try {
-            manager.manageRestaurant(id,description, url, address, min_price, max_price);
+            manager.manageRestaurant(id, name, description, url, address, min_price, max_price);
             message = "Modifica del Ristorante completata con successo!";
         } catch (SQLException ex) {
             message = "La modifica non è andata a buon fine...";

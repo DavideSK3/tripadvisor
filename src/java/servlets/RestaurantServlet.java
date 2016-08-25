@@ -72,7 +72,6 @@ public class RestaurantServlet extends HttpServlet {
                 r = manager.getRestaurant(Integer.parseInt(key));
                 
                 if(r != null){
-                    req.setAttribute("restaurant", r);
                     rd = req.getRequestDispatcher("/restaurant.jsp");
                 }else{
                     req.setAttribute("message", "Ristorante non esistente");
@@ -110,6 +109,7 @@ public class RestaurantServlet extends HttpServlet {
             if(r.getQr_path() == null){
                 r.setQr_path(Restaurant.buildQR(r.getId(), super.getServletContext().getInitParameter("qrDir"), getServletContext().getRealPath(""), manager));
             }
+            req.setAttribute("restaurant", r);
             
         }
         

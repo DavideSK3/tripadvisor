@@ -32,6 +32,8 @@ insert into cuisines values (default, 'steak house');
 insert into cuisines values (default, 'pesce');
 insert into cuisines values (default, 'vegetariana');
 
+
+
 insert into STATES VALUES('Italia');
 insert into STATES VALUES('Francia');
 insert into STATES VALUES('Regno Unito');
@@ -94,7 +96,7 @@ insert into CITIES VALUES('Francia', 'Ile de France', 'Parigi');
 
 insert into CITIES VALUES('United States of America', 'New York', 'New York City');
 
-
+/*
 insert into RESTAURANTS VALUES
 (
     default,
@@ -373,4 +375,4 @@ insert into RESTAURANTS VALUES
     null
 );
 
-
+*/

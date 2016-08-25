@@ -32,7 +32,7 @@ public class Orario implements Serializable{
      * @return the giorno
      */
     public String getGiorno() {
-        return days[giorno];
+        return days[giorno-1];
     }
     
     public Integer getGiornoAsInt() {

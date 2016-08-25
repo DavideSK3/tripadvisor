@@ -1,7 +1,7 @@
 
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="sidebar-nav">
+<div class="sidebar-nav" <c:if test='${distance != null}'>onload="getlocation()"</c:if>>
         <nav class="navbar navbar-default" role="navigation" style="border-radius: 15px; padding: 1.5%; margin: 3%;">
             <!--<div class = "collapse navbar-collapse" id = "example-navbar-collapse">-->
                 <form action="<c:url value='RestaurantsList'/>" method="POST">

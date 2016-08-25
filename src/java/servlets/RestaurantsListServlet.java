@@ -100,32 +100,33 @@ public class RestaurantsListServlet extends HttpServlet {
             research.setResults(new ArrayList<>());
         }
         
-        
-        if(research.getpQuery() != null){
-            req.setAttribute("place", research.getpQuery());
-        }
-        if(research.getrQuery() != null){
-            req.setAttribute("r_query", research.getrQuery());
-        }
-        if(research.getResults() != null){
-            req.setAttribute("results", research.getResults().subList(page*LIMIT, Math.min((page+1)*LIMIT, research.getResults().size())));
-            req.setAttribute("resultsDim", research.getResults().size());
-        }
-        
-        if(research.getMinPrice()!= null) req.setAttribute("min_price", research.getMinPrice());
-        if(research.getMaxPrice() != null) req.setAttribute("max_price", research.getMaxPrice());
-        
-        if(research.getCuisines() != null){
-            for(String s :research.getCuisines()){
-                req.setAttribute(s, true);
+        synchronized(research){
+            if(research.getpQuery() != null){
+                req.setAttribute("place", research.getpQuery());
             }
-        }
-        if(research.getValutazioni() != null){
-            for(String s: research.getValutazioni()){
-                req.setAttribute("v"+s, true);
+            if(research.getrQuery() != null){
+                req.setAttribute("r_query", research.getrQuery());
             }
+            if(research.getResults() != null){
+                req.setAttribute("results", research.getResults().subList(page*LIMIT, Math.min((page+1)*LIMIT, research.getResults().size())));
+                req.setAttribute("resultsDim", research.getResults().size());
+            }
+
+            if(research.getMinPrice()!= null) req.setAttribute("min_price", research.getMinPrice());
+            if(research.getMaxPrice() != null) req.setAttribute("max_price", research.getMaxPrice());
+
+            if(research.getCuisines() != null){
+                for(String s :research.getCuisines()){
+                    req.setAttribute(s, true);
+                }
+            }
+            if(research.getValutazioni() != null){
+                for(String s: research.getValutazioni()){
+                    req.setAttribute("v"+s, true);
+                }
+            }
+            if(research.getDistance() != null) req.setAttribute("distance", research.getDistance());
         }
-        if(research.getDistance() != null) req.setAttribute("distance", research.getDistance());
         
         
         
@@ -344,25 +345,7 @@ public class RestaurantsListServlet extends HttpServlet {
         String query_id = req.getParameter("query_id");
         HttpSession session = req.getSession();
         
-        
-        Research research;
-        List<Restaurant> results;
-        
-        research = (Research)session.getAttribute(query_id);
-        try{
-            results = research.getResults();
-        }catch (NullPointerException e){
-            research = new Research();
-            results = new ArrayList<>();
-            
-            research.setResults(results);
-            research.setQueryID(query_id);
-            
-            session.setAttribute(query_id, research);
-        }
-        
         String p = req.getParameter("page");
-
         int page = 0;
         if(p != null){ 
             try{
@@ -371,57 +354,77 @@ public class RestaurantsListServlet extends HttpServlet {
                 page = 0;
             }
         }
-
         
-        String order = "";
+        
+        
+        
+        
+        Research research;
+        List<Restaurant> results;
+        
+        research = (Research)session.getAttribute(query_id);
+        
+        synchronized(research){
+            try{
+                results = research.getResults();
+            }catch (NullPointerException e){
+                research = new Research();
+                results = new ArrayList<>();
 
-        String button = req.getParameter("button");
-        switch (button) {
-            case "Next":
-                page++;
-                break;
-            case "Previous":
-                page--;
-                break;
-            case "Price":
-                order ="price";
-                page = 0;
-                break;
-            case "Name":
-                order = "name";
-                page = 0;
-                break;
-            case "Position":
-                order = "position";
-                page = 0;
-                break;
-            default:
-                page = 0;
-                order = "";
-                break;
+                research.setResults(results);
+                research.setQueryID(query_id);
+
+                session.setAttribute(query_id, research);
+            }
+
+            String order = "";
+
+            String button = req.getParameter("button");
+            switch (button) {
+                case "Next":
+                    page++;
+                    break;
+                case "Previous":
+                    page--;
+                    break;
+                case "Price":
+                    order ="price";
+                    page = 0;
+                    break;
+                case "Name":
+                    order = "name";
+                    page = 0;
+                    break;
+                case "Position":
+                    order = "position";
+                    page = 0;
+                    break;
+                default:
+                    page = 0;
+                    order = "";
+                    break;
+            }
+
+
+            if(page >= Math.ceil(results.size()/(double)LIMIT)){
+                page = (int)Math.ceil(results.size()/(double)LIMIT)-1;
+            }
+            if(page < 0) page = 0;
+
+            switch(order){
+                case "position":
+                    Util.sortByValue(results);
+                    break;
+                case "name":
+                    Util.sortByName(results);
+                    break;
+                case "price":
+                    Util.sortByPrice(results);
+                    break;
+                default:
+                    break;
+            }
         }
-
-        
-        if(page >= Math.ceil(results.size()/(double)LIMIT)){
-            page = (int)Math.ceil(results.size()/(double)LIMIT)-1;
-        }
-        if(page < 0) page = 0;
-        
-        
-        switch(order){
-            case "position":
-                Util.sortByValue(results);
-                break;
-            case "name":
-                Util.sortByName(results);
-                break;
-            case "price":
-                Util.sortByPrice(results);
-                break;
-            default:
-                break;
-        }
-
 
         req.setAttribute("page", page);
     }

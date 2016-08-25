@@ -1,92 +1,31 @@
-﻿	BUG:
+﻿
 
+ULTIME COSE DA FARE:
+
+- usare i SYNCHRONIZED in giro :O
+
+- controllare filtraggio pagine sia giusto (un utente non può entrare in una pagina riservata ad amministratore, ecc...)
+
+- fare indici database
+
+- cosa fare per ricerca avanzata se non specificato nessuna opzione? (sia "ne place ne name" sia "nessun opzione avanzata")
  
-- NEL DB MANAGER LA GESTIONE ATTUALE DEI VALORI NULL NON VA BENE: a volte un valore può anche essere zero (es id o min price) 
-ma verrebbe scambiato per null. Meglio usare qualcosa tipo ' r.setId_photo((Integer)rs.getObject("id_photo"));
- 
-- bug: se nella result list c'è un errore la "page_error" appare dentor il box della ricerca avanzata invece che apparire al posto 
-della pagina (se però non metto la "ricerca.jsp" dentro la result_list.jsp allora funziona normalmente la "error_page.jsp"
+- testing degli algoritmi di ricerca per vedere quale sia il più user friendly
 
+- nella ricerca avanzata fare in modo che script per calcolo coordinate effettuato anche a caricamento pagina e non solo quando si preme sul campo per inserire la distanza
 
+- riempire il database
 
-
-	
-
-DAVIDE 
-
- 
-
-- ci deve essere la possibilità di modificare completamente i dati del ristorante
-
-
-- rendere più chiaro nelle notifiche amministratore per le foto segnalate cosa significa "elimina" e "accetta" (magari cambai termini o usa una frase più lunga invece che una sola parola, o aggiungi dell istruzioni da qualche parte)		
-	
-
-
-
+- documentazione
 
 
 PIER
  
- - nella ricerca avanzata fare in modo che script per calcolo coordinate effettuato anche a caricamento pagina e non solo quando si preme sul campo per inserire la distanza
+- METTERE A POSTO QUEL FOOTER DI MERDA
+- completare totalmente la documentazione, studiare come fare le servlet per l'esposizione del progetto
 
- - nella pagina manage restaurant fare grafica dei form per rimuovere orari ristorante e modificare le cucine (può anche quasi andare bene così comunque, vedi te come ti piace di più)
-
- - mettere un po' meglio le recensioni nel caso siano recensioni veloci (usa anche i tag jstl tipo <c:if> o <c:choose> se necessario)
- - nella pagina delle notifiche la dimneisone delle foto deve rimanere costante, non adattarsi alla dimnesione effettiva dell'immagine
  
-- risolvere prolema recensione veloce (forse va già bene così, ma dacci un'occhiata)
-	
-
-- mettere a posto footer
-
-- mettere a posto larghezza notifiche nelle notifiche admin (si allarga la pagina e serve scorrere per vederla tutta)
-
-- in change_pasword.jsp fare in modo che le 2 passsword siano uguali
-
-
-- riducendo la dimensione dello schermo, il logo si sposta e il link (il tag <a></a>) "sparisce" (anche da cell) (MEZZO RISOLTO, FINIRE DI METTERE A POSTO)
-
-
-
-
-
-GABRI
-
-- fare filtro per proteggere modifica ristorante, modifica profilo, eccc (tutte servlet di davide)	(TEORICAMENTE FATTO, PER SICUREZZA FARE QUALCHE CONTROLLO)
-
-- mettere a posto UploadFoto e UploadReview servlets
-- se c'è tempo cambiare form ricerca avanzata solo per filtrare risultati ricerca normale
- 
-
-- se c'è tempo eliminare foto una volta eliminate da db 
-
-
-
-- fare indici database
-
-
-
-- cosa fare per ricerca avanzata se non specificato nessuna opzione? (sia "ne place ne name" sia "nessun opzione avanzata")
- 
-
-
-
-- valutare a DB completo le prestazioni e decidere se traportare su postgresql (ormai è tardi mi sa....)
-
-- containing distance invece che editing distance è davvero una buona scelta?
-- sistemare risposta completamento automatico e correzione errori solo a fine parola (o non esistente)   ---(fatto o ancora da migliroare?)
-- fare una email apposta per mandare cambio password invece che usare la mia
- 
-
-
-
-	SARA
- - riscrivere orari nel formato giusto
- - latitudine e longiudine
- - giorni e luoghi con virgolette ' '
- - (possibilmente giorni espressi i numero: 'lunedì' = 1, 'martedì' = 2, ecc... eventualmente fai così per quelli ancora da fare, quelli già fatti li mettiamo a posto con lo strumento di sostituzione testo)
- - finire ultimi ristoranti/ecc...
+- mettere un po' meglio le recensioni nel caso siano recensioni veloci (usa anche i tag jstl tipo <c:if> o <c:choose> se necessario)
 
 
 

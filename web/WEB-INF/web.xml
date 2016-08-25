@@ -7,7 +7,7 @@
     </context-param>
     <context-param>
         <param-name>webAddress</param-name>
-        <param-value>localhost:8084</param-value>
+        <param-value>192.168.1.7:8084</param-value>
         <!--<param-value>192.168.1.104:8084</param-value>-->
     </context-param>
     <context-param>

@@ -118,6 +118,15 @@ public class NotificationAdminServlet extends HttpServlet {
             }
         }
         
+        if(req.getParameter("computeCoordinates") != null){
+            try {
+                manager.computeRestaurantsCoordinate();
+                message ="Fatto!";
+            } catch (SQLException ex) {
+                Logger.getLogger(NotificationAdminServlet.class.getName()).log(Level.SEVERE, null, ex);
+                message ="Ahia";
+            }
+        }
         
         req.setAttribute("message", message);
         RequestDispatcher rd = req.getRequestDispatcher("message.jsp");

@@ -611,7 +611,7 @@ public class DBManager implements Serializable {
                 if (i > 0) {
                     query.append(" AND ");
                 }
-                query.append(conditions.get(i));
+                query.append("(").append(conditions.get(i)).append(")");
             }
         }
         
@@ -693,7 +693,7 @@ public class DBManager implements Serializable {
                 if (i > 0) {
                     query.append(" AND ");
                 }
-                query.append(conditions.get(i));
+                query.append("(").append(conditions.get(i)).append(")");
             }
         }
         
@@ -767,7 +767,7 @@ public class DBManager implements Serializable {
                 if (i > 0) {
                     query.append(" AND ");
                 }
-                query.append(conditions.get(i));
+                query.append("(").append(conditions.get(i)).append(")");
             }
         }
 
@@ -1345,13 +1345,60 @@ public class DBManager implements Serializable {
     }
 
     
-    public void manageRestaurant(Integer id, String description, String url, String address, Integer min_price, Integer max_price)throws SQLException {
+    public void computeRestaurantsCoordinate()throws SQLException {
+        PreparedStatement stm = con.prepareStatement("SELECT id, address, city, region, state FROM APP.RESTAURANTS WHERE latitude IS NULL OR longitude IS NULL");
+        
+        List<Restaurant> restaurants = new ArrayList<Restaurant>();
+        
+        
+        try {
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    Restaurant r = new Restaurant();
+                    r.setId(rs.getInt("id"));
+                    r.setAddress(rs.getString("address"));
+                    r.setCity(rs.getString("city"));
+                    r.setRegion(rs.getString("region"));
+                    r.setState(rs.getString("state"));
+                    restaurants.add(r);
+                }
+                
+            } finally{
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        
+        
+        for(Restaurant r : restaurants){
+            stm = con.prepareStatement("UPDATE APP.RESTAURANTS SET latitude = ?, longitude = ? WHERE id = ?");
+            double[] coordinates = Util.getCoordinates(r.getAddress(), r.getCity(), r.getRegion(), r.getState());
+            
+            try{
+                stm.setDouble(1, coordinates[0]);
+                stm.setDouble(2, coordinates[1]);
+                stm.setInt(3, r.getId());
+                stm.executeUpdate();
+            }finally {
+                stm.close();
+            }
+        }
+        
+    }
+
+    
+    public void manageRestaurant(Integer id, String name, String description, String url, String address, Integer min_price, Integer max_price)throws SQLException {
         
         
         StringBuilder query=new StringBuilder("UPDATE App.Restaurants SET ");
         
         ArrayList<String> lista = new ArrayList<>();
         
+        if(!name.isEmpty()){
+            lista.add("name='"+name+"'");
+        }
         if(!description.isEmpty()){
             lista.add("description='"+description+"'");
         }

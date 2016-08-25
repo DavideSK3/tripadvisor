@@ -6,14 +6,11 @@
 package servlets;
 
 import db.DBManager;
-import db.Restaurant;
 import db.User;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -47,18 +44,22 @@ public class EditProfileServlet extends HttpServlet {
         String name = req.getParameter("name");
         String surname = req.getParameter("surname");
         
-        try{
-            manager.editProfile(user.getId(), name, surname, email);
-            if(name != null) user.setName(name);
-            if(email != null) user.setEmail(email);
-            if(surname != null) user.setSurname(surname);
-        } catch (SQLException ex) {
-            Logger.getLogger(EditProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
-            req.setAttribute("message", "C'è stato un errore nell'aggiornamento del suo profilo.");
-            req.getRequestDispatcher("message.jsp").forward(req, resp);
+        synchronized(user){
+            try{
+                manager.editProfile(user.getId(), name, surname, email);
+                if(name != null) user.setName(name);
+                if(email != null) user.setEmail(email);
+                if(surname != null) user.setSurname(surname);
+                req.setAttribute("message", "Profilo aggiornato");
+            } catch (SQLException ex) {
+                Logger.getLogger(EditProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+                req.setAttribute("message", "C'è stato un errore nell'aggiornamento del suo profilo.");
+                
+            }
         }
+        
 
-        req.setAttribute("message", "Profilo aggiornato");
+        
         req.getRequestDispatcher("message.jsp").forward(req, resp);
         
         

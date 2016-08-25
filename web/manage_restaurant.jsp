@@ -23,23 +23,24 @@
                 <div class="col-sm-6 col-md-4 col-md-offset-4">
                     <h1 class="text-center login-title">Modifica Ristorante</h1>
                     <div class="account-wall">
-                        
-                        <img class="profile-img" src="data/TripAdvisor_logo.png" alt="logo" style="max-width:360px; max-height: 90px;">
-                        <br>
+                        <a class="navbar-brand header" href="<c:url value='/'/>">
+                            <img class="profile-img" src="data/TripAdvisor_logo.png" alt="logo" style="max-width:360px; max-height: 90px;">
+                        </a><br><br><br><br><br>
 
                         <form class="form-edit-restaurant" action="<c:url value='ManageRestaurant'/>" method="POST">
-                            <input type="text" class="form-control" name="description" value="<c:out value='${requestScope.results.description}'/>">
-                            <input type="text" class="form-control" name="url" value="<c:out value='${requestScope.results.url}'/>">
-                            <input type="text" class="form-control" name="address" value="<c:out value='${requestScope.results.address}'/>">
-                            <input type="text" class="form-control" name="min_price" value="<c:out value='${requestScope.results.min_price}'/>">
-                            <input type="text" class="form-control" name="max_price" value="<c:out value='${requestScope.results.max_price}'/>">
+                            <input type="text" class="form-control" name="name" placeholder="name" value="<c:out value='${requestScope.results.name}'/>">
+                            <input type="text" class="form-control" name="description" placeholder="description" value="<c:out value='${requestScope.results.description}'/>">
+                            <input type="text" class="form-control" name="url" placeholder="url" value="<c:out value='${requestScope.results.url}'/>">
+                            <input type="text" class="form-control" name="address" placeholder="address" value="<c:out value='${requestScope.results.address}'/>">
+                            <input type="text" class="form-control" name="min_price" placeholder="min_price" value="<c:out value='${requestScope.results.min_price}'/>">
+                            <input type="text" class="form-control" name="max_price" placeholder="max_price" value="<c:out value='${requestScope.results.max_price}'/>">
                             <input type="hidden" class="form-control" name="restaurantID" value="<c:out value='${requestScope.results.id}'/>">
 
                             <button class="btn btn-lg btn-primary btn-block" name="modifica" value="modifica_ristorante" type="submit"> Modifica</button>
                             <a href="<c:url value='Profile'/>" class="pull-right need-help">Annulla</a><span class="clearfix"></span>
                         </form> 
                         <br>
-                        <button type="button" class="btn btn-info " data-toggle="modal" data-target="#newFoto" style="background-color: limegreen; border-color: limegreen;width: 100%; padding: 3% 2%; font-size: 120%"> Aggiungi una foto</button>
+                        <button class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#newFoto"> Aggiungi Foto</button>
                         <br>
                         
                         <!--<button class="btn btn-lg btn-primary btn-danger" type="submit" style="width:150px" name="cancella_orario" value="segnala"> Cancella Orario</button>-->
@@ -47,13 +48,13 @@
                             <h3 class="text-center login-title">Inserisci Orario</h3>
                             Giorno:<br><br>
                             <select name="giorno">
-                                <option value="0">Lunedì</option>
-                                <option value="1">Martedì</option>
-                                <option value="2">Mercoledì</option>
-                                <option value="3">Giovedì</option>
-                                <option value="4">Venerdì</option>
-                                <option value="5">Sabato</option>
-                                <option value="6">Domenica</option>
+                                <option value="1">Lunedì</option>
+                                <option value="2">Martedì</option>
+                                <option value="3">Mercoledì</option>
+                                <option value="4">Giovedì</option>
+                                <option value="5">Venerdì</option>
+                                <option value="6">Sabato</option>
+                                <option value="7">Domenica</option>
                             </select><br><br>
                             Apertura :<input type="number" min="00" max="23" class="form-control" name="ora_apertura" placeholder="Ore" required >
                             <input type="number" min="00" max="59" class="form-control" name="minuti_apertura" placeholder="Minuti" required><br>
@@ -64,8 +65,8 @@
                             <button class="btn btn-lg btn-primary btn-block" name="modifica" value ="inserisci_orario" type="submit"> Aggiungi Orario</button>
                         
                         </form>
-                            
-                        <h3 class="text-center login-title">Rimuovi Orari</h3>
+                        <br>
+                        <h3 class="text-center login-title">Rimuovi Orari</h3><br>
                         <c:if test="${results.orari == null || results.orari.size() == 0}">
                             <p>Nessun orario impostato per questo ristorante</p>
                         </c:if>
@@ -84,49 +85,36 @@
                             <br>
                         </c:forEach>
                         
-                        <h3 class="text-center login-title">Modifica Cucine</h3>
-                        <table style="width: 100%">
-                            <tr>
-                                <form class="form-edit-restaurant" action="<c:url value='ManageRestaurant'/>" method="POST">    
-                                    <input type="hidden" class="form-control" name="restaurantID" value="<c:out value='${requestScope.results.id}'/>">
-                                    <td>
-                                        <select name="cucina">
-                                            <c:forEach var='i' begin="1" end="${cuisines.size()}">
-                                                <option value="<c:out value='${i}'/>"><c:out value='${cuisines.get(i-1)}'/></option>
-                                            </c:forEach>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-primary" style="float: right; width:100%" name="modifica" value ="inserisci_cucina" type="submit">Aggiungi</button>
-                                    </td>
-                                    
-                                </form>
-                            </tr>
+                        <br><h3 class="text-center login-title">Modifica Cucine</h3><br>
+                        <form class="form-edit-restaurant" action="<c:url value='ManageRestaurant'/>" method="POST">    
+                            <input type="hidden" class="form-control" name="restaurantID" value="<c:out value='${requestScope.results.id}'/>">
+                            <span>
+                                <select name="cucina">
+                                    <c:forEach var='i' begin="1" end="${cuisines.size()}">
+                                        <option value="<c:out value='${i}'/>"><c:out value='${cuisines.get(i-1)}'/></option>
+                                    </c:forEach>
+                                </select>
+
+                                <button class="btn btn-primary" style="float: right; width:75px" name="modifica" value ="inserisci_cucina" type="submit">Aggiungi</button>
+                            </span>
+
+                        </form>
                             
 
-                            <c:forEach var="c" items="${results.cuisines}">
-                                <tr>
-                                    <form class="form-edit-restaurant" method="POST" action ="<c:url value='ManageRestaurant'/>">
-                                        <input type="hidden" name="restaurantID" value="<c:out value='${results.id}'/>">
-                                        <input type="hidden" name="cucina" value="<c:out value='${c}'/>">
-                                        <td><c:out value='${c}'/></td>
-                                        <td>
-                                            <button class="btn btn-primary" style="float: right; width:100%" name="modifica" value ="rimuovi_cucina" type="submit">Rimuovi</button>
-                                        </td>
-                                    </form>
-                                </tr>
-                                
+                        <c:forEach var="c" items="${results.cuisines}">
+                            <br>
+                            <form class="form-edit-restaurant" method="POST" action ="<c:url value='ManageRestaurant'/>">
+                                <input type="hidden" name="restaurantID" value="<c:out value='${results.id}'/>">
+                                <input type="hidden" name="cucina" value="<c:out value='${c}'/>">
+                                <span>
+                                    <c:out value='${c}'/>
+                                    <button class="btn btn-primary" style="float: right; width:75px" name="modifica" value ="rimuovi_cucina" type="submit">Rimuovi</button>
+                                </span>
+                            </form>
+                        </c:forEach>
 
-                            </c:forEach>
-                            
-                        </table>
-                            
-                        
-                            
-                        <br>
-                        <br>
-                        <a href="<c:url value='Profile'/>" class="pull-right need-help">Annulla</a><span class="clearfix"></span>
-                        
+                        <br><a href="<c:url value='Profile'/>" class="pull-right need-help">Annulla</a><span class="clearfix"></span>
+                        <br><br>
                         <div class="modal fade" id="newFoto" role="dialog">
                             <div class="modal-dialog modal-sm">
                                 <div class="modal-content">
@@ -159,5 +147,6 @@
             </div>
         </div>
         <%@include file="js_include.jsp" %>
+        <%@include file="footer.html" %>
     </body>
 </html>

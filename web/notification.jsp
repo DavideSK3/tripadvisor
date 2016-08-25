@@ -8,13 +8,18 @@
         <%@include file="header_head.jsp" %>
          
         <%@ page import="db.User" %>
+        <style>
+            .row{
+                margin: 0;
+            }
+        </style>
         <title>Profilo</title>
     </head>
     <body>
         <nav class="navbar header">
             <div class="container-fluid header" >
                 <div class="col-md-4 header">
-                    <a class="navbar-brand header" href="<c:url value='/TripAdvisor'/>">
+                    <a class="navbar-brand header" href="<c:url value='/'/>">
                       <img src="data/TripAdvisor_logo.png" class=" header" alt="TripAdvisor"  /> 
                     </a>
                 </div>
@@ -44,7 +49,7 @@
                 <br>
             </div>
         </div>
-                
+        
                 
                 
         <c:choose>
@@ -90,6 +95,15 @@
             
                 <div class="row">
                     <div class="col-sm-6 col-md-4 col-md-offset-4">
+                        <form method="POST" action ="<c:url value='NotificationAdmin'/>">
+                            <input type="hidden" name ="computeCoordinates" value="true">
+                            <input type="submit" value="calcola">
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-6 col-md-4 col-md-offset-4">
                         <h3 class="text-center">Notifiche da Ristoratori </h3> <br>
                     </div>
                 </div>
@@ -109,9 +123,9 @@
                         <div class="col-md-3" style=" padding-left: 1%; padding-top: 1%; padding-bottom: 1%; ">
                             <form action="<c:url value ='NotificationAdmin'/>" method="POST">
                                 <input type="hidden" name="id_photo" value="${rf.id_photo}">
-                                <button class="btn btn-lg btn-primary btn-success" type="submit" style="width:150px" name="segnala_foto" value="conferma"> Accetta</button>
+                                <button class="btn btn-lg btn-primary btn-success" type="submit" style="width:150px" name="segnala_foto" value="conferma"> Approva Foto</button>
                                 <br><br>
-                                <button class="btn btn-lg btn-primary btn-danger" type="submit" style="width:150px" name="segnala_foto" value="elimina"> Elimina</button>
+                                <button class="btn btn-lg btn-primary btn-danger" type="submit" style="width:150px" name="segnala_foto" value="elimina"> Elimina Foto</button>
                             </form>
                             <br>
                         </div>

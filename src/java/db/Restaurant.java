@@ -511,7 +511,7 @@ public class Restaurant implements Serializable{
         
         ByteArrayOutputStream out = QRCode.from(s.toString()).to(ImageType.JPG).withSize(150, 150).stream();
         
-        File dir = new File(contextPath + qrDir); //getServletContext().getRealPath("") +  super.getServletContext().getInitParameter("qrDir"));
+        File dir = new File(contextPath + qrDir); 
 
         String name = "r" + r.getId()+ new Date(System.currentTimeMillis()).toString().replaceAll(" ", "") +".qr";
 
