@@ -210,12 +210,12 @@ public class RestaurantsListServlet extends HttpServlet {
         String latitude = req.getParameter("latitude");
         String longitude = req.getParameter("longitude");
         
-        Integer d = null;
+        Double d = null;
         Double lo = null, la = null;
         
         boolean d_error = false;
         try{
-            d = Integer.parseInt(distance);
+            d = Double.parseDouble(distance);
             lo = Double.parseDouble(longitude);
             la = Double.parseDouble(latitude);
         }catch (NumberFormatException e){
@@ -431,7 +431,7 @@ public class RestaurantsListServlet extends HttpServlet {
         ArrayList<Restaurant> results = new ArrayList<>();
 
         for(Restaurant r :restaurants){
-            if(r.getLongitude() != null && r.getLatitude() != null && Util.computeLinearDistance(lo, la, r.getLongitude(), r.getLatitude())*1000 <= d){
+            if(r.getLongitude() != null && r.getLatitude() != null && Util.computeLinearDistance(lo, la, r.getLongitude(), r.getLatitude()) <= d){
                 results.add(r);
             }
         }
@@ -457,7 +457,7 @@ public class RestaurantsListServlet extends HttpServlet {
         private String[] cuisines = null;
         private String[] valutazioni = null;
         
-        private Integer distance = null;
+        private Double distance = null;
 
         /**
          * @return the results
@@ -574,18 +574,17 @@ public class RestaurantsListServlet extends HttpServlet {
         /**
          * @return the distance
          */
-        public Integer getDistance() {
+        public Double getDistance() {
             return distance;
         }
 
         /**
          * @param distance the distance to set
          */
-        public void setDistance(Integer distance) {
+        public void setDistance(Double distance) {
             this.distance = distance;
         }
 
-        
         
     }
 }

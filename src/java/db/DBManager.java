@@ -879,7 +879,7 @@ public class DBManager implements Serializable {
      * --------GESTIONE LUOGHI-----------
      */
     private static final boolean USE_APPROXIMATE_MATCHING = true;
-    private static final boolean USE_APPROXIMATE_CONTAIN = true;
+    private static final boolean USE_APPROXIMATE_CONTAIN = false;
 
     private void valuta(Place p, String[] words) {
         p.d = 0;

@@ -35,9 +35,9 @@
                         </li>
                         <li id ="gl_distance_form" onclick="getLocation()" >
                             <label style="padding-left: 4%;" id ="error"></label><br>
-                            <label style="padding-left: 6%;">Distanza massima: (in metri)</label>
+                            <label style="padding-left: 6%;">Distanza massima: (in kilometri)</label>
                             <p id="geolocation_error" style="text-align: center; color: red; font-weight: bold"></p>
-                            <label style="padding-left: 7%;"> Max : &nbsp;<input type="number" class="form-control" id= "min_max" onclick="getLocation()"  style="max-width: 30%" name ="distance" value = "<c:out value='${requestScope.distance}'/>"/></label>
+                            <label style="padding-left: 7%;"> Max : &nbsp;<input type="number" min="0" step="0.1" class="form-control" id= "min_max" onclick="getLocation()"  style="max-width: 30%" name ="distance" value = "<c:out value='${requestScope.distance}'/>"/></label>
                         </li>
                         <li>
                             <input type="submit" class="btn btn-default" style="margin-left: 10%"name="button" value="Search">
