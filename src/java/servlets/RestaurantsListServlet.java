@@ -235,15 +235,6 @@ public class RestaurantsListServlet extends HttpServlet {
         Double d = null;
         Double lo = null, la = null;
         
-        boolean d_error = false;
-        try{
-            if(distance != null) distance = distance.replace('.', ',');
-            d = Double.parseDouble(distance);
-            lo = Double.parseDouble(longitude);
-            la = Double.parseDouble(latitude);
-        }catch (NumberFormatException | NullPointerException ep){
-            d_error = true;
-        }
         
         List<Restaurant> results;
         if(!r_query.isEmpty() || !p_query.isEmpty() || (distance != null && !distance.isEmpty())){
@@ -255,8 +246,14 @@ public class RestaurantsListServlet extends HttpServlet {
                 Logger.getLogger(PasswordRecoveryServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            if(!d_error && distance != null && longitude != null && latitude != null){
+            try{
+                if(distance != null) distance = distance.replace('.', ',');
+                d = Double.parseDouble(distance);
+                lo = Double.parseDouble(longitude);
+                la = Double.parseDouble(latitude);
                 results = filterByDistance(results, d, lo, la);
+            }catch (NumberFormatException | NullPointerException ep){
+                
             }
             
             
