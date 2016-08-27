@@ -8,6 +8,7 @@ package services;
 import com.google.gson.Gson;
 import db.DBManager;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,12 +67,14 @@ public class AutocompleteResource {
         DBManager manager = (DBManager)servletContext.getAttribute("dbmanager");
         
         List<String> results = null;
+        long inizio = new Date().getTime();
         try {
             results = manager.getRestaurantsNamesByTerm(term.toLowerCase(), 10);
         } catch (SQLException ex) {
             Logger.getLogger(AutocompleteResource.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        long fine = new Date().getTime();
+        System.out.println("risultati ottenuti in " + (fine - inizio)/1000.0);
         if(results != null){
             Gson gson = new Gson();
             System.out.println(results.size());
@@ -98,12 +101,15 @@ public class AutocompleteResource {
         DBManager manager = (DBManager)servletContext.getAttribute("dbmanager");
         
         List<String> results = null;
+        long inizio = new Date().getTime();
         try {
             results = manager.getPlaces(term.toLowerCase());
         } catch (SQLException ex) {
             Logger.getLogger(AutocompleteResource.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        long fine = new Date().getTime();
+        System.out.println("risultati ottenuti in " + (fine - inizio)/1000.0);
         
         if(results != null){
             /*if(results.isEmpty()){

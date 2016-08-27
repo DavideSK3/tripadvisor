@@ -9,7 +9,6 @@ import db.DBManager;
 import db.Restaurant;
 import db.Util;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +31,7 @@ public class RestaurantsListServlet extends HttpServlet {
 
     private DBManager manager;
 
-    public static final int LIMIT = 2;
+    public static final int LIMIT = 5;
     
     @Override
     public void init() throws ServletException {
@@ -170,6 +169,29 @@ public class RestaurantsListServlet extends HttpServlet {
         }else{
             newAdvancedResearch(req, resp);
         }
+        Research research = (Research) session.getAttribute(query_id);
+        synchronized(research){
+            List<Restaurant> results = research.getResults();
+        
+            int p=1;
+            if(results.size()>0) results.get(0).setPosizione(p);
+            for(int i=1; i<results.size(); i++){
+                Restaurant r = results.get(i);
+                if(r.getGlobal_review() < results.get(i-1).getGlobal_review()){
+                    p = i+1;
+                }
+                r.setPosizione(p);
+            }
+
+            for(Restaurant r : results){
+                try{
+                    manager.getRestaurantFirstPhoto(r);
+                } catch (SQLException ex) {
+                    Logger.getLogger(RestaurantsListServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
     }
     
     protected void newAdvancedResearch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -215,40 +237,38 @@ public class RestaurantsListServlet extends HttpServlet {
         
         boolean d_error = false;
         try{
+            if(distance != null) distance = distance.replace('.', ',');
             d = Double.parseDouble(distance);
             lo = Double.parseDouble(longitude);
             la = Double.parseDouble(latitude);
-        }catch (NumberFormatException e){
+        }catch (NumberFormatException | NullPointerException ep){
             d_error = true;
         }
         
         List<Restaurant> results;
-        
-        long inizio = new Date().getTime();
-        try{
-            results = manager.getRestaurantsFilteredOrderedBy(r_query, p_query, "position", minPrice, maxPrice, cuisines, val);
-        }catch (SQLException ex){
-            results = new ArrayList<>();
-            Logger.getLogger(PasswordRecoveryServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        if(!d_error && distance != null && longitude != null && latitude != null){
-            results = filterByDistance(results, d, lo, la);
-        }
-        int p=1;
-        if(results.size()>0) results.get(0).setPosizione(p);
-        for(int i=1; i<results.size(); i++){
-            Restaurant r = results.get(i);
-            if(r.getGlobal_review() < results.get(i-1).getGlobal_review()){
-                p = i+1;
+        if(!r_query.isEmpty() || !p_query.isEmpty() || (distance != null && !distance.isEmpty())){
+            long inizio = new Date().getTime();
+            try{
+                results = manager.getRestaurantsFilteredOrderedBy(r_query, p_query, "position", minPrice, maxPrice, cuisines, val);
+            }catch (SQLException ex){
+                results = new ArrayList<>();
+                Logger.getLogger(PasswordRecoveryServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            r.setPosizione(p);
+
+            if(!d_error && distance != null && longitude != null && latitude != null){
+                results = filterByDistance(results, d, lo, la);
+            }
+            
+            
+            
+            long fine = new Date().getTime();
+            System.out.println("Result size = " +results.size());
+            System.out.println("Risultati calcolati in " + (fine - inizio)/1000.0 + " secondi");
+
+        }else{
+            results = new ArrayList<>();
         }
         
-        long fine = new Date().getTime();
-        System.out.println("Result size = " +results.size());
-        System.out.println("Risultati calcolati in " + (fine - inizio)/1000.0 + " secondi");
-
         String query_id = (String) req.getAttribute("query_id");
         
         Research research = new Research();
@@ -293,7 +313,6 @@ public class RestaurantsListServlet extends HttpServlet {
                 results = manager.getRestaurantsByPlaceOrderedBy(p_query, "position");
 
             }else{
-                //TODO - scegliere cosa fare se non è specificata alcuna richiesta 
                 results = new ArrayList<>();
             }
         }catch (SQLException ex){
@@ -301,23 +320,6 @@ public class RestaurantsListServlet extends HttpServlet {
             Logger.getLogger(PasswordRecoveryServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        int p=1;
-        if(results.size()>0) results.get(0).setPosizione(p);
-        for(int i=1; i<results.size(); i++){
-            Restaurant r = results.get(i);
-            if(r.getGlobal_review() < results.get(i-1).getGlobal_review()){
-                p = i+1;
-            }
-            r.setPosizione(p);
-        }
-        
-        for(Restaurant r : results){
-            try{
-                manager.getRestaurantFirstPhoto(r);
-            } catch (SQLException ex) {
-                Logger.getLogger(RestaurantsListServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
         
         long fine = new Date().getTime();
         System.out.println("Result size = " +results.size());

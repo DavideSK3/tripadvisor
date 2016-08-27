@@ -363,48 +363,56 @@
                             </div>
                             <div class="col-md-3" style="padding: 0px 15px; ">
                                 <h5 style="margin: 0px 0px;padding-top: 20px; padding-bottom: 10px">Dettagli Voto :</h5>
-                                <span style="color: grey; padding: 10px 10px">Cucina :</span>
-                                <div style="padding: 5px 10%;">
-                                    <c:forEach var='i' begin='1' end='${rec.food}' step='1'>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                    </c:forEach>
-                                    <c:forEach var='i' begin='${rec.food + 1}' end ='5' step='1'>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    </c:forEach>
-                                    &nbsp;
-                                </div>
-                                <span style="color: grey; padding: 10px 10px">Servizio :</span>
-                                <div style="padding: 5px 10%;">
-                                    <c:forEach var='i' begin='1' end='${rec.service}' step='1'>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                    </c:forEach>
-                                    <c:forEach var='i' begin='${rec.service + 1}' end ='5' step='1'>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    </c:forEach>
-                                    &nbsp;
-                                </div>
-                                <span style="color: grey; padding: 10px 10px">Rapporto Qualit&agrave / Prezzo :</span>
-                                <div style="padding: 5px 10%;">
-                                    <c:forEach var='i' begin='1' end='${rec.value_for_money}' step='1'>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                    </c:forEach>
-                                    <c:forEach var='i' begin='${rec.value_for_money + 1}' end ='5' step='1'>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    </c:forEach>
-                                    &nbsp;
-                                </div>
-
-                                <span style="color: grey; padding: 10px 10px">Atmosfera :</span>
-                                <div style="padding: 5px 10%;">
-                                    <c:forEach var='i' begin='1' end='${rec.atmosphere}' step='1'>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                    </c:forEach>
-                                    <c:forEach var='i' begin='${rec.atmosphere + 1}' end ='5' step='1'>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    </c:forEach>
-                                    &nbsp;
-                                </div>
-
+                                <c:if test="${rec.food != null && rec.food > 0}">
+                                    <span style="color: grey; padding: 10px 10px">Cucina :</span>
+                                    <div style="padding: 5px 10%;">
+                                        <c:forEach var='i' begin='1' end='${rec.food}' step='1'>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                        </c:forEach>
+                                        <c:forEach var='i' begin='${rec.food + 1}' end ='5' step='1'>
+                                            <span class="glyphicon glyphicon-star-empty"></span>
+                                        </c:forEach>
+                                        &nbsp;
+                                    </div>
+                                </c:if>
+                                
+                                <c:if test="${rec.service != null && rec.service > 0}">
+                                    <span style="color: grey; padding: 10px 10px">Servizio :</span>
+                                    <div style="padding: 5px 10%;">
+                                        <c:forEach var='i' begin='1' end='${rec.service}' step='1'>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                        </c:forEach>
+                                        <c:forEach var='i' begin='${rec.service + 1}' end ='5' step='1'>
+                                            <span class="glyphicon glyphicon-star-empty"></span>
+                                        </c:forEach>
+                                        &nbsp;
+                                    </div>
+                                </c:if>
+                                <c:if test="${rec.service != null && rec.service > 0}">
+                                    <span style="color: grey; padding: 10px 10px">Rapporto Qualit&agrave / Prezzo :</span>
+                                    <div style="padding: 5px 10%;">
+                                        <c:forEach var='i' begin='1' end='${rec.value_for_money}' step='1'>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                        </c:forEach>
+                                        <c:forEach var='i' begin='${rec.value_for_money + 1}' end ='5' step='1'>
+                                            <span class="glyphicon glyphicon-star-empty"></span>
+                                        </c:forEach>
+                                        &nbsp;
+                                    </div>
+                                </c:if>
+                                
+                                <c:if test="${rec.service != null && rec.service > 0}">
+                                    <span style="color: grey; padding: 10px 10px">Atmosfera :</span>
+                                    <div style="padding: 5px 10%;">
+                                        <c:forEach var='i' begin='1' end='${rec.atmosphere}' step='1'>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                        </c:forEach>
+                                        <c:forEach var='i' begin='${rec.atmosphere + 1}' end ='5' step='1'>
+                                            <span class="glyphicon glyphicon-star-empty"></span>
+                                        </c:forEach>
+                                        &nbsp;
+                                    </div>
+                                </c:if>
 
                             </div>
                         </div>

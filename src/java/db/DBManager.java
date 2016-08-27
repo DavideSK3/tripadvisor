@@ -878,15 +878,16 @@ public class DBManager implements Serializable {
     /**
      * --------GESTIONE LUOGHI-----------
      */
-    private static final boolean USE_APPROXIMATE_MATCHING = true;
-    private static final boolean USE_APPROXIMATE_CONTAIN = false;
+    private static final int algorithm = 4;
+    private static final boolean use_full_matching = false;
 
     private void valuta(Place p, String[] words) {
         p.d = 0;
         String r_name = p.toString().toLowerCase();
-        if (USE_APPROXIMATE_MATCHING) {
-            if (USE_APPROXIMATE_CONTAIN) {
-
+        String[] name_ws;
+        
+        switch(algorithm){
+            case 0:
                 for (String word : words) {
                     int k = 1 + Math.round(word.length() / 8.0f);
                     int d = Util.containingDistanceLimited(word, r_name, k);
@@ -895,8 +896,9 @@ public class DBManager implements Serializable {
                         p.d += 1.0 - d / ((double) k);
                     }
                 }
-            } else {
-                String[] name_ws = r_name.split(" ");
+                break;
+            case 1:
+                name_ws = r_name.split(" ");
                 
                 for (String w : name_ws) {
                     for (String word : words) {
@@ -906,14 +908,27 @@ public class DBManager implements Serializable {
                         }
                     }
                 }
-            }
-
-        } else {
-            for (String word : words) {
-                if (r_name.contains(word)) {
-                    p.d++;
+                break;
+            case 2:
+                for (String word : words) {
+                    if (r_name.contains(word)) {
+                        p.d++;
+                    }
                 }
-            }
+                break;
+            default:
+                name_ws = r_name.split(" ");
+                for (String w : name_ws) {
+                    for (String word : words) {
+                        int k = 1 + Math.round(word.length() / 8.0f);
+                        int d = Util.containingDistanceLimited(word, w, k);
+                        if (d < k) {
+                            //p.d += 1.0/(d+1.0);
+                            p.d += 1.0 - d / ((double) k);
+                        }
+                    }
+                }
+                break;
         }
     }
 
@@ -930,8 +945,10 @@ public class DBManager implements Serializable {
             try {
                 while (rs.next()) {
                     Place p = new Place();
-                    p.setState(rs.getString("state"));
-                    p.setRegion(rs.getString("region"));
+                    if(use_full_matching){
+                        p.setState(rs.getString("state"));
+                        p.setRegion(rs.getString("region"));
+                    }
                     p.setCity(rs.getString("name"));
 
                     valuta(p, words);
@@ -947,9 +964,12 @@ public class DBManager implements Serializable {
             //aggiungo solo 5 città
             for (int i = 0; i < 5; i++) {
                 if (queue.peek() != null) {
-                    r_l.add(queue.poll().toString());
+                    Place p = queue.poll();
+                    r_l.add(p.toString());
+                    System.out.print(p.toString() + ": " + p.d + "; ");
                 }
             }
+            System.out.print("\n");
 
         } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
             stm.close();
@@ -962,7 +982,9 @@ public class DBManager implements Serializable {
             try {
                 while (rs.next()) {
                     Place p = new Place();
-                    p.setState(rs.getString("state"));
+                    if(use_full_matching){
+                        p.setState(rs.getString("state"));
+                    }
                     p.setRegion(rs.getString("name"));
                     valuta(p, words);
 
@@ -1621,6 +1643,42 @@ public class DBManager implements Serializable {
     public void getReviews(Restaurant res) throws SQLException {
 
         PreparedStatement stm = con.prepareStatement("SELECT r.*, u.name as name, u.surname as surname FROM App.REVIEWS r JOIN App.USERS u ON u.id = r.id_creator WHERE ID_RESTAURANT = ?");
+
+        try {
+            stm.setInt(1, res.getId());
+            ResultSet rs = stm.executeQuery();
+            try {
+                while (rs.next()) {
+                    Review r = new Review();
+                    r.setAtmosphere(rs.getInt("atmosphere"));
+                    r.setCreation(rs.getDate("date_creation"));
+                    r.setTitle(rs.getString("title"));
+                    r.setDescription(rs.getString("description"));
+                    r.setFood(rs.getInt("food"));
+                    r.setGlobal_value(rs.getInt("global_value"));
+                    r.setId_creator(rs.getInt("id_creator"));
+                    
+                    r.setId_photo((Integer)rs.getObject("id_photo"));
+                    
+                    r.setId_restaurant(rs.getInt("id_restaurant"));
+                    r.setService(rs.getInt("service"));
+                    r.setValue_for_money(rs.getInt("value_for_money"));
+                    r.setAuthor(rs.getString("name") + " " + rs.getString("surname"));
+                    
+                    res.addRecensione(r);
+                }
+            } finally {
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+
+    }
+    
+    public void getCompletedReviews(Restaurant res) throws SQLException {
+
+        PreparedStatement stm = con.prepareStatement("SELECT r.*, u.name as name, u.surname as surname FROM App.REVIEWS r JOIN App.USERS u ON u.id = r.id_creator WHERE ID_RESTAURANT = ? AND r.title IS NOT NULL");
 
         try {
             stm.setInt(1, res.getId());

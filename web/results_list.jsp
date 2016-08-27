@@ -87,7 +87,7 @@
                                 <br>
                                 <div style="margin-top:-10px;">
                                     <a href="<c:url value='Map'><c:param name='id' value='${r.id}'/></c:url>"><span class="glyphicon glyphicon-map-marker"></span>&nbsp; Mappa &nbsp;</a>|&nbsp;
-                                    <span>Prezzo: <b><c:out value="${r.min_price}"/> € - <c:out value="${r.max_price}"/> €</b></span><br>
+                                    <span>Prezzo: <b><c:if test="${r.min_price != null}"><c:out value="${r.min_price}"/> €</c:if><c:if test="${r.min_price != null && r.max_price != null}"> - </c:if><c:if test="${r.max_price != null}"><c:out value="${r.max_price}"/> €</c:if></b></span><br>
                                 </div>
                                 <div style="margin-top:10px;">
                                     <span class="glyphicon glyphicon-cutlery"></span>&nbsp;

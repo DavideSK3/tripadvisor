@@ -18,8 +18,8 @@ $(function () {
                 }
             });
         },
-        minLength: 4,
-        delay: 400
+        minLength: 3,
+        delay: 500
     });
     
     $("#advanced_search_name").autocomplete({
@@ -40,7 +40,7 @@ $(function () {
             });
         },
         minLength: 4,
-        delay: 400
+        delay: 500
     });
     
     $("#advanced_search_place").autocomplete({
@@ -60,8 +60,8 @@ $(function () {
                 }
             });
         },
-        minLength: 4,
-        delay: 400
+        minLength: 3,
+        delay: 500
     });
     
     
@@ -83,7 +83,7 @@ $(function () {
             });
         },
         minLength: 4,
-        delay: 400
+        delay: 500
     });
     
     

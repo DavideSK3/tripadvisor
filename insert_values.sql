@@ -1,6 +1,6 @@
 insert into USERS VALUES (default, 'Gabriele', 'Cesa', 'prova', 'gabriele.cesa@gmail.com', 'a');
 
-insert into USERS VALUES (default, 'Gianmaria', 'Sissa', 'pippo', 'gabriele.cesa@studenti.unitn.it', 'u');
+insert into USERS VALUES (default, 'Gianmaria', 'Sissa', 'prova', 'gabriele.cesa@studenti.unitn.it', 'u');
 
 insert into USERS VALUES (default, 'Piermaria', 'Arvani', 'prova', 'piermaria.arvani@studenti.unitn.it', 'r');
 
@@ -44,6 +44,7 @@ insert into STATES VALUES('Germania');
 insert into STATES VALUES('Cina');
 insert into STATES VALUES('Giappone');
 insert into STATES VALUES('Emirati Arabi Uniti');
+insert into STATES VALUES('Marocco');
 
 
 insert into REGIONS VALUES('Italia', 'Lombardia');
@@ -70,6 +71,7 @@ insert into REGIONS VALUES('Emirati Arabi Uniti', 'Dubai');
 insert into REGIONS VALUES('Emirati Arabi Uniti', 'Ajman');
 insert into REGIONS VALUES('Emirati Arabi Uniti', 'Abu Dhabi');
 insert into REGIONS VALUES('Emirati Arabi Uniti', 'Fujairah');
+insert into REGIONS VALUES('Marocco', 'Regione Marrakech-Tensift-El Haouz');
 
 insert into CITIES VALUES('Italia', 'Lombardia', 'Mantova');
 insert into CITIES VALUES('Italia', 'Lombardia', 'Milano');
@@ -95,6 +97,9 @@ insert into CITIES VALUES('Francia', 'Ile de France', 'Parigi');
 
 
 insert into CITIES VALUES('United States of America', 'New York', 'New York City');
+
+
+insert into CITIES VALUES('Marocco', 'Regione Marrakech-Tensift-El Haouz', 'Marrakech');
 
 /*
 insert into RESTAURANTS VALUES
