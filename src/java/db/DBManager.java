@@ -36,6 +36,7 @@ public class DBManager implements Serializable {
     private static final String duplicateKeyErrorCode = "23505";
     private transient Connection con;
 
+    
     /**
      * Costruisce un'istanza di DBManager usando il database che si trova nel percorso indicato da 'dburl'
      * @param dburl
@@ -107,6 +108,7 @@ public class DBManager implements Serializable {
         }
     }
 
+    
     /**
      * Cambia la password di un utente
      * @param id - id dell'utente di cui cambiare la password
@@ -240,6 +242,7 @@ public class DBManager implements Serializable {
         }
     }
 
+    
     /**
      * Cerca nella tabella TOKENS la stringa passata come parametro e restituisce (se trovata) l'utente a cui è stata associata
      * @param token - la stringa unica usata per identificare temporaneamente l'utente
@@ -308,6 +311,7 @@ public class DBManager implements Serializable {
         }
     }
 
+    
     /**
      * Crea un nuovo utente con questi valori e lo inserisce nel database
      * @param name
