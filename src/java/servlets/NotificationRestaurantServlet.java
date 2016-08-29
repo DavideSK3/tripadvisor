@@ -36,6 +36,13 @@ public class NotificationRestaurantServlet extends HttpServlet {
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
     }
     
+    /**
+     * Tramite il metodo GET il servlet si occupa di ottenere le notifiche foto di ristoranti indirizzate al ristoratore in modo da mostrarle in notification.jsp
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
      
@@ -55,10 +62,17 @@ public class NotificationRestaurantServlet extends HttpServlet {
         rd.forward(req, resp);
     }
 
+    /**
+     * Tramite il metodo POST vengon gestite le operazioni in uscita da notification.jsp che riguardano la segnalazione o approvazione delle foto, 
+     * chiamando gli appositi metodi per modificare il database
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
         
-        HttpSession session = req.getSession(true);
         String message="";
         
         String segnala_foto= req.getParameter("segnala_foto");

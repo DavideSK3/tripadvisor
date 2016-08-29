@@ -244,17 +244,22 @@ public final class Util {
         double coordinate[] = new double[2];
         try {
             results = GeocodingApi.geocode(context, target).await();
-            System.out.println(results[0].formattedAddress);
-            System.out.println(results[0].geometry.location);
+            
             
         } catch (Exception ex) {
-            Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
+            //System.out.println("Eccezione calcolo coordinate di: " + target);
+            //Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(results != null){
+        if(results != null && results.length > 0){
+            //System.out.println(results[0].formattedAddress);
+            //System.out.println(results[0].geometry.location);
+            
             coordinate[0] = results[0].geometry.location.lat;
             coordinate[1] = results[0].geometry.location.lng;
             return coordinate;
         }else{
+            System.out.println("Errore calcolo coordinate di: " + target);
+            //System.out.println("Errore calcolo coordinate di: " + target);
             return null;
         }
     }

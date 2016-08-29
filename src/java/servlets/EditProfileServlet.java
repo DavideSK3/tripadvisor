@@ -32,7 +32,13 @@ public class EditProfileServlet extends HttpServlet {
     }
     
     
-    
+    /**
+     * Chiama il metodo editProfile che andrà ad aggiornare la tupla nel database corrispondente all'utente corrente, gestendo un eventuale errore nell'esecuzione della query.
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

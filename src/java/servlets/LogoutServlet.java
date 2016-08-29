@@ -19,6 +19,13 @@ import javax.servlet.http.HttpSession;
  */
 public class LogoutServlet extends HttpServlet {
 
+    /**
+     * Termina la sessione in caso di Logout dell'utente
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

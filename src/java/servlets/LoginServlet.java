@@ -34,7 +34,14 @@ public class LoginServlet extends HttpServlet {
     }
     
     
-    
+    /**
+     * Effettua il login verificando la presenza di una coppia (email,password) nel database. In caso positivo crea una sessione in cui inserisce un'istanza di User
+     * contenente i dati dell'utente corrente
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         

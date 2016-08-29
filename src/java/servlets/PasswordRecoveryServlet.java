@@ -40,7 +40,7 @@ public class PasswordRecoveryServlet extends HttpServlet {
     
     
     /**
-     * Handles the HTTP <code>GET</code> method.
+     * Controlla che la mail fornita appartenga a un utente valido, crea un token di validità 2 ore e chiama il metodo sendMail
      *
      * @param request servlet request
      * @param response servlet response
@@ -90,7 +90,12 @@ public class PasswordRecoveryServlet extends HttpServlet {
     private final String username = "gabriele.cesa@gmail.com";
     private final String password = "aithixbtwdqyrppd";
     
-    
+    /**
+     * Crea ed invia il contenuto della mail di recovery password all'indirizzo specificato, usando un token dalla validità limitata
+     * @param to
+     * @param user
+     * @param token 
+     */
     private void sendMail(String to, String user, String token){
         
         String messageText = 

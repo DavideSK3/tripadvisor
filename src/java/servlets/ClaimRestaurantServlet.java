@@ -35,6 +35,18 @@ public class ClaimRestaurantServlet extends HttpServlet {
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
     }
     
+    /**
+     * Crea una richiesta di reclamo ristorante per l'utente speficicato nella sessione e il ristorante passato come parametro nella request.
+     * Controlla inoltre che l'utente non sia un amministratore e gestisce errori quali:
+     * ristorante già reclamato o inesistente,
+     * utente inesistente,
+     * errore nell'esecuzione della query.
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         

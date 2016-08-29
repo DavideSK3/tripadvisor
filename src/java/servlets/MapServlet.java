@@ -36,7 +36,8 @@ public class MapServlet extends HttpServlet {
     
     
     /**
-     * Handles the HTTP <code>GET</code> method.
+     * Controlla che il campo id sia valido e reindirizza alla pagina mappa.jsp dopo aver inserito nella sessione gli attributi relativi alla latitudine e longitudine 
+     * del ristorante
      *
      * @param request servlet request
      * @param response servlet response

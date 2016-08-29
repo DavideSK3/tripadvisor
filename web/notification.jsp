@@ -100,6 +100,12 @@
                             <input type="submit" value="calcola">
                         </form>
                     </div>
+                    <div class="col-sm-6 col-md-4 col-md-offset-4">
+                        <form method="POST" action ="<c:url value='NotificationAdmin'/>">
+                            <input type="hidden" name ="creaInsert" value="true">
+                            <input type="submit" value="crea">
+                        </form>
+                    </div>
                 </div>
                 
                 <div class="row">

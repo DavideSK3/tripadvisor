@@ -35,7 +35,14 @@ public class RegisterServlet extends HttpServlet {
     }
     
     
-    
+    /**
+     * Si occupa di registrare un nuovo utente nel database con i valori contenuti nei campi di register.html
+     * Gestisce errori del database o in caso di incoerenza tra i campi password e conferma password.
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -60,7 +67,7 @@ public class RegisterServlet extends HttpServlet {
 
             }
         }else{
-            message = "La registrazione non è andata a buon fine...";
+            message = "La registrazione non è andata a buon fine, le passsword devono coincidere!";
         }
         
 

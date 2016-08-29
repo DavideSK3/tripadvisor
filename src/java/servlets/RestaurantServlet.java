@@ -56,6 +56,16 @@ public class RestaurantServlet extends HttpServlet {
         manageRequest(req, resp);
     }
     
+    
+    /**
+     * Metodo che gestisce ogni richiesta a questa servlet. Cerca il ristorante richiesto nel database e ne costruisce l'oggetto Java corrispondente.
+     * Dopodichè reindirizza la richiesta alla pagina restaurant.jsp che costruisce la pagina con le informazioni contenute nell'oggetto Java passato.
+     * Il metodo gestisce errori generate dalla query nel database o il caso di un ristorante non esistente
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     protected void manageRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher rd;
         

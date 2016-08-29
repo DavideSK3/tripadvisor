@@ -34,7 +34,6 @@ public class PhotoUploadServlet extends HttpServlet {
 
     private String dirName;
     
-    private RenamePolicy rp = new RenamePolicy();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -45,10 +44,22 @@ public class PhotoUploadServlet extends HttpServlet {
         
         // read the uploadDir from the servlet parameters
         dirName = getServletContext().getRealPath("") +  super.getServletContext().getInitParameter("photoDir");
-        File p_dir = new File(dirName);    
+        
+        /*File p_dir = new File(dirName);    
         p_dir.mkdirs();
+        
+        File temp_dir = new File(dirName + "/temp");
+        temp_dir.mkdir();*/
     }
     
+    /**
+     * Gestisce il caricamento di una foto tramite classe MultipartRequest creando le cartelle e file necessari.
+     * Aggiorna poi la taballe Photo del database e crea una notifica per la nuova foto inserita in caso il ristorante in questione abbia un proprietario
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
@@ -60,11 +71,7 @@ public class PhotoUploadServlet extends HttpServlet {
         
         try {
 
-            
-            /*
-             * TODO - meglio usare una sola istanza di RenamePolicy o questo può avere problemi in caso di richieste concorrenti gestite in multithread???
-             */
-            MultipartRequest multi = new MultipartRequest(request, dirName+"/temp", 50*1024*1024, "UTF-8", rp);
+            MultipartRequest multi = new MultipartRequest(request, dirName+"/temp", 50*1024*1024, "UTF-8", new RenamePolicy());
             
             
             
@@ -134,7 +141,9 @@ public class PhotoUploadServlet extends HttpServlet {
             this.getServletContext().log("error saving file", lEx);
         }
     }
-    
+    /**
+     * Si occupa di rinominare il file in un formato omogeneo per tutte le foto 
+     */
     private class RenamePolicy implements FileRenamePolicy{
  
         @Override

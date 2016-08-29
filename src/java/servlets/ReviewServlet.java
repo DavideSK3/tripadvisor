@@ -37,7 +37,15 @@ public class ReviewServlet extends HttpServlet {
     }
     
     
-    
+    /**
+     * Gestisce l'inserimento di recensioni per un ristorante.
+     * Per prima cosa inlcude la chiamata alla Servlet PhotoUpload per gestire le recensioni con foto, poi si occupa di inserire nel database il contenuto dei restanti campi 
+     * della recensioni. Gestisce gli errori dati da recensioni duplicate e errori generati dal database
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         

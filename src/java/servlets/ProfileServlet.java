@@ -40,7 +40,13 @@ public class ProfileServlet extends HttpServlet {
     }
     
     
-    
+    /**
+     * Si occupa di ottenere i ristoranti posseduti da un ristoratore e passarli come attributi di sessione alla pagina profile.jsp
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         

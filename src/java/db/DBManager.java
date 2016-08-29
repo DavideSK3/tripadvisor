@@ -6,6 +6,9 @@
 package db;
 
 import com.sun.javafx.scene.control.skin.VirtualFlow;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -33,6 +36,11 @@ public class DBManager implements Serializable {
     private static final String duplicateKeyErrorCode = "23505";
     private transient Connection con;
 
+    /**
+     * Costruisce un'istanza di DBManager usando il database che si trova nel percorso indicato da 'dburl'
+     * @param dburl
+     * @throws SQLException 
+     */
     public DBManager(String dburl) throws SQLException {
 
         try {
@@ -72,8 +80,6 @@ public class DBManager implements Serializable {
      * esiste ed è autenticato
      */
     public User authenticate(String email, String password) throws SQLException {
-        // usare SEMPRE i PreparedStatement, anche per query banali. 
-        // *** MAI E POI MAI COSTRUIRE LE QUERY CONCATENANDO STRINGHE !!!! ***
         PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.users WHERE email = ? AND password = ?");
         try {
             stm.setString(1, email);
@@ -101,6 +107,12 @@ public class DBManager implements Serializable {
         }
     }
 
+    /**
+     * Cambia la password di un utente
+     * @param id - id dell'utente di cui cambiare la password
+     * @param new_password - nuova password dell'utente
+     * @throws SQLException 
+     */
     public void changePassword(int id, String new_password) throws SQLException {
         PreparedStatement stm = con.prepareStatement("UPDATE APP.users SET password = ? WHERE id = ?");
         try {
@@ -108,14 +120,21 @@ public class DBManager implements Serializable {
             stm.setString(1, new_password);
 
             int rs = stm.executeUpdate();
-            //TODO -fare qualcosa??
-
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally {
             stm.close();
         }
 
     }
 
+    /**
+     * Modifica il profilo di un utente cambiando i valori dei campi della tablla USERS
+     * 
+     * @param id - l'id dell'utente di cui modificare i dati
+     * @param newName - nuovo nome
+     * @param newSurname - nuovo cognome
+     * @param newEMail - nuova mail
+     * @throws SQLException 
+     */
     public void editProfile(int id, String newName, String newSurname, String newEMail) throws SQLException {
         StringBuilder builder = new StringBuilder("UPDATE APP.users ");
         
@@ -145,16 +164,23 @@ public class DBManager implements Serializable {
         PreparedStatement stm = con.prepareStatement(builder.toString());
         try {
             stm.setInt(1, id);
-            
-
             int rs = stm.executeUpdate();
 
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally { 
             stm.close();
         }
 
     }
     
+    
+    /**
+     * Controlla che la password sia corretta
+     * 
+     * @param id - id dell'utente
+     * @param password - password da controllare
+     * @return - true se la password è corretta, false altrimenti
+     * @throws SQLException 
+     */
     public boolean isPasswordCorrect(int id, String password) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.users WHERE id = ? AND password = ?");
         try {
@@ -173,7 +199,13 @@ public class DBManager implements Serializable {
         }
     }
     
-    
+    /**
+     * Inserisce un nuovo token nella tabella TOKENS per permettere il recupero dell'account all'utente che ha perso la password
+     * @param id - id dell'utente che ha perso la password
+     * @param token - stringa unica generata casualmente usata per identificare l'utente che ha perso la password
+     * @param expirationTime
+     * @throws SQLException 
+     */
     public void insertToken(int id, String token, int expirationTime) throws SQLException {
         PreparedStatement stm = con.prepareStatement("INSERT INTO APP.tokens VALUES(?, ?, ?)");
         try {
@@ -184,11 +216,17 @@ public class DBManager implements Serializable {
 
             int rs = stm.executeUpdate();
 
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally { 
             stm.close();
         }
     }
     
+    /**
+     * rimuove dalla tabella un token
+     * @param id
+     * @param token
+     * @throws SQLException 
+     */
     public void removeToken(int id, String token) throws SQLException {
         PreparedStatement stm = con.prepareStatement("DELETE FROM APP.tokens WHERE id = ? AND token = ?");
         try {
@@ -202,6 +240,12 @@ public class DBManager implements Serializable {
         }
     }
 
+    /**
+     * Cerca nella tabella TOKENS la stringa passata come parametro e restituisce (se trovata) l'utente a cui è stata associata
+     * @param token - la stringa unica usata per identificare temporaneamente l'utente
+     * @return - l'utente corrispondente se è stata trovata, null altrimenti
+     * @throws SQLException 
+     */
     public User getUserByToken(String token) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT id, name, surname, email, type "
                 + "FROM APP.tokens JOIN APP.users USING (id) "
@@ -232,6 +276,12 @@ public class DBManager implements Serializable {
         }
     }
 
+    /**
+     * Ritorna l'utente identificato da questa mail se esiste (il campo mail nella tabella USERS è UNIQUE)
+     * @param mail - indirizzo email dell'utente
+     * @return - l'utente che possiede questa mail, se esite, null altrimenti
+     * @throws SQLException 
+     */
     public User getUserByMail(String mail) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT id, name, surname, type FROM APP.users WHERE email = ?");
         try {
@@ -258,6 +308,14 @@ public class DBManager implements Serializable {
         }
     }
 
+    /**
+     * Crea un nuovo utente con questi valori e lo inserisce nel database
+     * @param name
+     * @param surname
+     * @param email
+     * @param password
+     * @throws SQLException 
+     */
     public void registerUser(String name, String surname, String email, String password) throws SQLException {
         //TODO - pasare come argomento un oggetto USER, non i vari attributi
         PreparedStatement stm = con.prepareStatement("INSERT INTO APP.users VALUES(default,?,?,?,?,'u')");
@@ -280,11 +338,13 @@ public class DBManager implements Serializable {
      * --------GESTIONE RISTORANTE-----------
      */
     
-    
+    /**
+     * Inserisce nel database un nuovo ristorante usando i valori contenuti dell'oggetto di tipo Restaurant passato come parametro
+     * @param r
+     * @throws SQLException 
+     */
     public void registerRestaurant(Restaurant r) throws SQLException {
         PreparedStatement stm = con.prepareStatement("INSERT INTO APP.resturants VALUES(default,?,?,?,?,?,?,?,?,?,?,?,?)");
-
-        //PreparedStatement stm2 = con.prepareStatement("INSERT INTO APP.names_term VALUES(?, ?)");
 
         if((r.getLongitude() == null || r.getLatitude() == null) && r.getCity() != null){
             double[] coordinate = Util.getCoordinates(r.getAddress(), r.getCity(), r.getRegion(), r.getState());
@@ -345,22 +405,17 @@ public class DBManager implements Serializable {
             
             int rs = stm.executeUpdate();
 
-            /*if (rs > 0) {
-                Set<String> terms = Util.generateNearTerms(r.getName());
-                for (String t : terms) {
-
-                    stm2.setInt(1, r.getId());
-                    stm2.setString(2, t);
-                    stm2.executeUpdate();
-
-                }
-            }*/
-
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally {
             stm.close();
         }
     }
 
+    /**
+     * Ritorna la lista di ristoranti di cui l'utente è in possesso
+     * @param id - id dell'utentes
+     * @return
+     * @throws SQLException 
+     */
     public List<Restaurant> getRestaurantsByOwnerID(int id) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants WHERE ID_OWNER = ?");
         try {
@@ -414,7 +469,7 @@ public class DBManager implements Serializable {
     public List<String> getRestaurantsNamesByTerm(String term, int limit) throws SQLException {
 
         List<String> result = new ArrayList<String>();
-        PreparedStatement stm = con.prepareStatement("SELECT name FROM APP.restaurants R WHERE lcase(name) LIKE '%" + term + "%'");
+        PreparedStatement stm = con.prepareStatement("SELECT name FROM APP.restaurants R WHERE lcase(name) LIKE '" + term + "%'");
         try {
             ResultSet rs = stm.executeQuery();
 
@@ -434,12 +489,20 @@ public class DBManager implements Serializable {
 
     }
     
-    /**
+    /*
      * Diversi metodi per ottenere una lista di ristoranti filtrati e ordinati
      * in modo predefinito per la ricerca
      */
     
     /*Metodi di base */
+    
+    /**
+     * Metodo usato per ottenere una lista di ristoranti a parire dai parametri di ricerca
+     * @param name
+     * @param place
+     * @return
+     * @throws SQLException 
+     */
     public List<Restaurant> getRestaurants(String name, String place) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
         try {
@@ -880,6 +943,7 @@ public class DBManager implements Serializable {
      */
     private static final int algorithm = 4;
     private static final boolean use_full_matching = false;
+    private static final boolean use_unique_queue = true;
 
     private void valuta(Place p, String[] words) {
         p.d = 0;
@@ -916,7 +980,7 @@ public class DBManager implements Serializable {
                     }
                 }
                 break;
-            default:
+            case 3:
                 name_ws = r_name.split(" ");
                 for (String w : name_ws) {
                     for (String word : words) {
@@ -929,6 +993,23 @@ public class DBManager implements Serializable {
                     }
                 }
                 break;
+            default:
+                ArrayList<String> p_names = new ArrayList<String>(3);
+                if(p.getCity() != null) p_names.add(p.getCity().toLowerCase());
+                if(p.getRegion() != null) p_names.add(p.getRegion().toLowerCase());
+                if(p.getState() != null) p_names.add(p.getState().toLowerCase());
+                
+                for(String w : p_names){
+                    for (String word : words) {
+                        int k = 1 + Math.round(word.length() / 8.0f);
+                        int d = Util.containingDistanceLimited(word, w, k);
+                        if (d < k) {
+                            p.d += 1.0 - d / ((double) k);
+                        }
+                    }
+                }
+                
+                break;
         }
     }
 
@@ -936,12 +1017,14 @@ public class DBManager implements Serializable {
         String[] words = term.toLowerCase().trim().split(" ");
         ArrayList<String> r_l = new ArrayList<>();
         
+        PriorityQueue<Place> queue = (use_unique_queue) ? new PriorityQueue<>(new Place.PlaceComparator()) : null;
+        
         PreparedStatement stm;
         
         stm = con.prepareStatement("SELECT * FROM APP.cities");
         try {
             ResultSet rs = stm.executeQuery();
-            PriorityQueue<Place> queue = new PriorityQueue<>(new Place.PlaceComparator());
+            if(!use_unique_queue) queue = new PriorityQueue<>(new Place.PlaceComparator());
             try {
                 while (rs.next()) {
                     Place p = new Place();
@@ -952,24 +1035,33 @@ public class DBManager implements Serializable {
                     p.setCity(rs.getString("name"));
 
                     valuta(p, words);
-
+                    
                     if (p.d > 0) {
+                        if(!use_full_matching){
+                            p.setState(rs.getString("state"));
+                            p.setRegion(rs.getString("region"));
+                        }
                         queue.add(p);
                     }
+                    
 
                 }
             } finally {
                 rs.close();
             }
-            //aggiungo solo 5 città
-            for (int i = 0; i < 5; i++) {
-                if (queue.peek() != null) {
-                    Place p = queue.poll();
-                    r_l.add(p.toString());
-                    System.out.print(p.toString() + ": " + p.d + "; ");
+            
+            if(!use_unique_queue){
+
+                //aggiungo solo 5 città
+                for (int i = 0; i < 5; i++) {
+                    if (queue.peek() != null) {
+                        Place p = queue.poll();
+                        r_l.add(p.toString());
+                        System.out.print(p.toString() + ": " + p.d + "; ");
+                    }
                 }
+                System.out.print("\n");
             }
-            System.out.print("\n");
 
         } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
             stm.close();
@@ -978,7 +1070,7 @@ public class DBManager implements Serializable {
         stm = con.prepareStatement("SELECT * FROM APP.regions");
         try {
             ResultSet rs = stm.executeQuery();
-            PriorityQueue<Place> queue = new PriorityQueue<>(new Place.PlaceComparator());
+            if(!use_unique_queue) queue = new PriorityQueue<>(new Place.PlaceComparator());
             try {
                 while (rs.next()) {
                     Place p = new Place();
@@ -989,6 +1081,9 @@ public class DBManager implements Serializable {
                     valuta(p, words);
 
                     if (p.d > 0) {
+                        if(!use_full_matching){
+                            p.setState(rs.getString("state"));
+                        }
                         queue.add(p);
                     }
 
@@ -996,10 +1091,12 @@ public class DBManager implements Serializable {
             } finally {
                 rs.close();
             }
-            //aggiungo solo 3 regioni
-            for (int i = 0; i < 3; i++) {
-                if (queue.peek() != null) {
-                    r_l.add(queue.poll().toString());
+            if(!use_unique_queue){
+                //aggiungo solo 3 regioni
+                for (int i = 0; i < 3; i++) {
+                    if (queue.peek() != null) {
+                        r_l.add(queue.poll().toString());
+                    }
                 }
             }
 
@@ -1011,7 +1108,7 @@ public class DBManager implements Serializable {
         stm = con.prepareStatement("SELECT * FROM APP.states");
         try {
             ResultSet rs = stm.executeQuery();
-            PriorityQueue<Place> queue = new PriorityQueue<>(new Place.PlaceComparator());
+            if(!use_unique_queue) queue = new PriorityQueue<>(new Place.PlaceComparator());
             try {
                 while (rs.next()) {
                     Place p = new Place();
@@ -1026,15 +1123,28 @@ public class DBManager implements Serializable {
             } finally {
                 rs.close();
             }
-            //aggiungo solo 2 stati
-            for (int i = 0; i < 2; i++) {
-                if (queue.peek() != null) {
-                    r_l.add(queue.poll().toString());
+            if(!use_unique_queue){
+                //aggiungo solo 2 stati
+                for (int i = 0; i < 2; i++) {
+                    if (queue.peek() != null) {
+                        r_l.add(queue.poll().toString());
+                    }
                 }
             }
-
         } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
             stm.close();
+        }
+        
+        if(use_unique_queue){
+            //aggiungo solo 10 luoghi
+            for (int i = 0; i < 10; i++) {
+                if (queue.peek() != null) {
+                    Place p = queue.poll();
+                    r_l.add(p.toString());
+                    System.out.print(p.toString() + ": " + p.d + "; ");
+                }
+            }
+            System.out.print("\n");
         }
         
 
@@ -1395,17 +1505,20 @@ public class DBManager implements Serializable {
         
         
         for(Restaurant r : restaurants){
-            stm = con.prepareStatement("UPDATE APP.RESTAURANTS SET latitude = ?, longitude = ? WHERE id = ?");
-            double[] coordinates = Util.getCoordinates(r.getAddress(), r.getCity(), r.getRegion(), r.getState());
             
-            try{
-                stm.setDouble(1, coordinates[0]);
-                stm.setDouble(2, coordinates[1]);
-                stm.setInt(3, r.getId());
-                stm.executeUpdate();
-            }finally {
-                stm.close();
+            double[] coordinates = Util.getCoordinates(r.getAddress(), r.getCity(), r.getRegion(), r.getState());
+            if(coordinates != null && coordinates.length == 2){
+                stm = con.prepareStatement("UPDATE APP.RESTAURANTS SET latitude = ?, longitude = ? WHERE id = ?");
+                try{
+                    stm.setDouble(1, coordinates[0]);
+                    stm.setDouble(2, coordinates[1]);
+                    stm.setInt(3, r.getId());
+                    stm.executeUpdate();
+                }finally {
+                    stm.close();
+                }
             }
+            
         }
         
     }
@@ -2067,6 +2180,44 @@ public class DBManager implements Serializable {
         }
     }
     
+    
+        
+    public void creaInsert(String file_name, String table, boolean id_as_default) throws IOException, SQLException{
+        PrintWriter out = new PrintWriter(new FileWriter("/home/gabriele/Scrivania/" + file_name, true));
+        
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP." + table);
+        try {
+            ResultSet rs = stm.executeQuery();
+            try {
+                while (rs.next()) {
+                    out.print("INSERT INTO APP." + table + " VALUES (");
+                    for(int i=1; i<=rs.getMetaData().getColumnCount(); i++){
+                        if(i>1){
+                            out.print(", ");
+                        }
+                        if(id_as_default && rs.getMetaData().getColumnLabel(i).toLowerCase().equals("id")){
+                            out.print("default");
+                        }else if(rs.getObject(i) == null){
+                            out.print("null");
+                        }else if(rs.getObject(i) instanceof String || rs.getObject(i) instanceof java.sql.Date || rs.getObject(i) instanceof java.sql.Time || rs.getObject(i) instanceof java.sql.Timestamp){
+                            out.print("'" + rs.getObject(i) + "'");
+                        }else{
+                            out.print(rs.getObject(i));
+                        }
+                        
+                    }
+                    out.println(");");
+                }
+            } finally {
+                rs.close();
+            }
+            
+        } finally {
+            stm.close();
+        }
+        out.close();
+    } 
+    
     /*
     public void genereteNearNameTerms() throws SQLException{
         PreparedStatement stm = con.prepareStatement("SELECT id, name FROM APP.restaurants");
@@ -2132,3 +2283,4 @@ public class DBManager implements Serializable {
     }
      */
 }
+

@@ -36,7 +36,11 @@ public class ValidateChangePasswordServlet extends HttpServlet {
     
     
     /**
-     * Handles the HTTP <code>POST</code> method.
+     * Gestisce il cambiamento password da parte di un utente notificando errori avvenuti in caso di: 
+     * password vecchia errata,
+     * utente inesistente in database o sessione vuota,
+     * vecchia password e conferma password non coincidenti.
+     * A cambiamento avvenuto con successo, la sessione corrente viene terminata e l'utente notificato del completamento con esito positivo dell'operazione.
      *
      * @param request servlet request
      * @param response servlet response

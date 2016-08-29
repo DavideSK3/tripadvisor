@@ -82,7 +82,7 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>RestaurateurFilter</filter-name>
-        <url-pattern>/ManageRestaurant</url-pattern>
+        <!--<url-pattern>/ManageRestaurant</url-pattern>-->
         <url-pattern>/NotificationRestaurant</url-pattern>
     </filter-mapping>
     <filter-mapping>

@@ -73,12 +73,12 @@
                         <c:forEach var="o" items="${results.orari}">
                             <form class="form-edit-restaurant" method="POST" action ="<c:url value='ManageRestaurant'/>">
                                 
-                                <input type="hidden" name="apertura" value="<c:out value='${o.apertura}'/>">
-                                <input type="hidden" name="chiusura" value="<c:out value='${o.chiusura}'/>">
+                                <input type="hidden" name="apertura" value="<c:out value='${o.getAperturaString()}'/>">
+                                <input type="hidden" name="chiusura" value="<c:out value='${o.getChiusuraString()}'/>">
                                 <input type="hidden" name="giorno" value="<c:out value='${o.getGiornoAsInt()}'/>">
                                 <input type="hidden" name="restaurantID" value="<c:out value='${results.id}'/>">
                                 <span>
-                                    <c:out value='${o.giorno}'/>: <c:out value='${o.apertura}'/> - <c:out value='${o.chiusura}'/> <button class="btn btn-primary" style="float: right" name="modifica" value ="rimuovi_orario" type="submit">Rimuovi</button>
+                                    <c:out value='${o.giorno}'/>: <c:out value='${o.getAperturaString()}'/> - <c:out value='${o.getChiusuraString()}'/> <button class="btn btn-primary" style="float: right" name="modifica" value ="rimuovi_orario" type="submit">Rimuovi</button>
                                 </span>
                                 
                             </form>

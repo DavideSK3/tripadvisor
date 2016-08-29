@@ -52,6 +52,14 @@ public class RestaurantsListServlet extends HttpServlet {
         manageRequest(req, resp);
     }
     
+    /**
+     * Gestisce il caso in cui sia necessaria una nuova Ricerca (default), chiamando il metodo newSearch, e il caso in cui sia stato premuto un pulsante per la modifica dell'ordine
+     * dei risultati o della pagina corrente, chiamando il metodo manageResults
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     protected void manageRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
         
@@ -133,7 +141,15 @@ public class RestaurantsListServlet extends HttpServlet {
         rd.forward(req, resp);
     }
     
-    
+    /**
+     * Gestisce inizialmente le ricerche sia semplici che avanzate. Se il campo "place" non corrisponde a nessuna posizione in database viene modificato nel place con distanza di
+     * editing minore.
+     * Successivamente viene chiamato il metodo newSimpleSearch se la richiesta è effettuata con metodo GET, newAdvancedSearch per il POST
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     protected void newSearch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String r_query = req.getParameter("r_query");
         String p_query = req.getParameter("place");
@@ -194,6 +210,14 @@ public class RestaurantsListServlet extends HttpServlet {
         
     }
     
+    /**
+     * Gestisce le richieste avanzate, che possono contenere oltre al nome e il posto, anche il range di prezzo, le tipologie di cucine, la valutazione, la distanza.
+     * Si occupa di chiamare i metodi necessari ad eseguire le query in database
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     protected void newAdvancedResearch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String r_query = (String) req.getAttribute("r_query");
         String p_query = (String) req.getAttribute("place");
@@ -289,7 +313,13 @@ public class RestaurantsListServlet extends HttpServlet {
     }
     
     
-    
+    /**
+     * Gestisce la ricerca semplice con i soli campi "Nome del Ristorante" e "Place", si occupa di chiamare i metodi necessari ad eseguire le query in database
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     protected void newSimpleSearch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String r_query = (String) req.getAttribute("r_query");
         String p_query = (String) req.getAttribute("place");
@@ -338,7 +368,13 @@ public class RestaurantsListServlet extends HttpServlet {
     }
     
     
-    
+    /**
+     * Si occupa delle richieste di cambio visualizzazione dei risultati, come cambio dell'ordinamento dei ristoranti o passaggio alla pagina successiva/precedente dei risultati
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     protected void manageResults(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
         String query_id = req.getParameter("query_id");
@@ -424,7 +460,14 @@ public class RestaurantsListServlet extends HttpServlet {
         req.setAttribute("page", page);
     }
     
-    
+    /**
+     * Filtro i risultati ottenuti dalla query selezionando i risoranti per distanza
+     * @param restaurants
+     * @param d
+     * @param lo
+     * @param la
+     * @return 
+     */
     public static final List<Restaurant> filterByDistance(List<Restaurant> restaurants, double d, double lo, double la){
         
         ArrayList<Restaurant> results = new ArrayList<>();
@@ -439,7 +482,10 @@ public class RestaurantsListServlet extends HttpServlet {
     }
     
     
-    
+    /**
+     * Classe Java usata per contenere i dati utili al fine di riassortire dinamicamente la pagina RisultatiRicerca ordinando per prezzo, valutazione, distanza
+     * senza dover ripetere la ricerca nel database e per mantenere salvati i form passando alla pagina successiva dell'elenco ristoranti trovati
+     */
     private class Research {
         
         private List<Restaurant> results = null;

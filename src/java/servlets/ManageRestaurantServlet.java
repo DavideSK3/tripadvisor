@@ -39,6 +39,14 @@ public class ManageRestaurantServlet extends HttpServlet {
         preparePage(req, resp);
     }
     
+    /**
+     * Ricava dal database i dati del ristorante per l'id in questione, generando un errore se l'id non è valido, il ristorante non viene trovato
+     * o l'utente della sessione corrente non è il proprietario del ristorante.
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     protected void preparePage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
      
         HttpSession session = req.getSession(true);
@@ -60,7 +68,7 @@ public class ManageRestaurantServlet extends HttpServlet {
         if(results == null){
             req.setAttribute("message", "Ristorante non trovato");
             req.getRequestDispatcher("message.jsp").forward(req, resp);
-        }else if(!Objects.equals(results.getId_owner(), ((User)session.getAttribute("user")).getId())){
+        }else if(!Objects.equals(results.getId_owner(), ((User)session.getAttribute("user")).getId()) && ((User)session.getAttribute("user")).getCharType() != 'a'){
             req.setAttribute("message", "Questo ristorante non ti appartiene, non puoi modificarne le informazioni");
             req.getRequestDispatcher("message.jsp").forward(req, resp);
         }else{
@@ -78,7 +86,14 @@ public class ManageRestaurantServlet extends HttpServlet {
         rd.forward(req, resp);
     }
     
-    
+     /**
+     * Ricava dal database i dati del ristorante per l'id in questione, generando un errore se l'id non è valido, il ristorante non viene trovato
+     * o l'utente della sessione corrente non è il proprietario del ristorante.
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -110,6 +125,14 @@ public class ManageRestaurantServlet extends HttpServlet {
 
     }
     
+    /**
+     * Gestisce le modifiche ai dati del ristorante (esclusi orari e cucina) tramite i campi in manage_restaurant.jsp
+     * Riconosce e notifica vari tipi di errori
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     void ModificaRistorante(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         String description = req.getParameter("description");
@@ -158,6 +181,13 @@ public class ManageRestaurantServlet extends HttpServlet {
         rd.forward(req, resp);
     }
     
+    /**
+     * Inserisce un orario (apertura e chiusura) in cui è aperto il ristorante nella tabella ORARI del database
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     void InserisciOrario(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String ora_apertura = req.getParameter("ora_apertura");
         String minuti_apertura = req.getParameter("minuti_apertura");
@@ -198,6 +228,13 @@ public class ManageRestaurantServlet extends HttpServlet {
         
     }
     
+    /**
+     * Si occupa della rimozione di un orario in cui il ristorante è aperto dalla tabella ORARI del database
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     void RimuoviOrario(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String apertura = req.getParameter("apertura");
         String chiusura = req.getParameter("chiusura");
@@ -229,6 +266,13 @@ public class ManageRestaurantServlet extends HttpServlet {
         
     }
     
+    /**
+     * Si occupa della rimozione di una tipologia di cucina del ristorante dalla tabella CUISINES del database
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     void RimuoviCucina(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
         String cuisine = req.getParameter("cucina");
@@ -255,7 +299,13 @@ public class ManageRestaurantServlet extends HttpServlet {
         
     }
     
-    
+    /**
+     * Inserisce una tipologia di cucina per il ristorante nella tabella CUISINES del database
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     void InserisciCucina(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
         Integer cuisine = null;

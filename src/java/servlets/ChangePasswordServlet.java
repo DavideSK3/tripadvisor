@@ -38,7 +38,10 @@ public class ChangePasswordServlet extends HttpServlet {
     
     
     /**
-     * Handles the HTTP <code>GET</code> method.
+     * Si accede a questa servlet tramite il link presente nella mail di recovery password
+     * Se il token presente nella request corrisponde a un token esistente nella corrispondente tabella, viene creata una nuova sessione 
+     * con l'user appaiato a questo token in database.
+     * Si rimanda quindi a change_password.jsp per effettuare il cambiamento effettivo della password, effettuato infine da ValidateChangePasswordServlet.java
      *
      * @param request servlet request
      * @param response servlet response
