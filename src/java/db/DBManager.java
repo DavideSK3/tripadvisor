@@ -941,7 +941,7 @@ public class DBManager implements Serializable {
          * 
          * Nel caso sia 'false' invece, al fine del matching, si usa solo il nome della città/regione/stato.
          * In questo modo, per esempio, città che appartengono a regioni con un nome simile non risultano avvantaggiate.
-         * (es: l'utente digita la stringa "Vene". Se questa flag fosse 'true' la città 'Italia Veneto Venezia' potrebbe ...)
+         * (es: l'utente digita la stringa "Vene". Se questa flag fosse 'true' la città 'Italia Veneto Venezia' potrebbe matchare 2 volte)
          */
         
         /**
