@@ -414,7 +414,7 @@ public class DBManager implements Serializable {
     public List<String> getRestaurantsNamesByTerm(String term, int limit) throws SQLException {
 
         List<String> result = new ArrayList<String>();
-        PreparedStatement stm = con.prepareStatement("SELECT name FROM APP.restaurants R WHERE lcase(name) LIKE '%" + term + "%'");
+        PreparedStatement stm = con.prepareStatement("SELECT name FROM APP.restaurants R WHERE lcase(name) LIKE '" + term + "%'");
         try {
             ResultSet rs = stm.executeQuery();
 
