@@ -54,7 +54,7 @@ public class ManageRestaurantServlet extends HttpServlet {
         try{
             ID = Integer.parseInt(req.getParameter("restaurantID"));
         }catch(NumberFormatException e){
-            req.setAttribute("message", "ID ristorante non valido");
+            req.setAttribute("message", "ID Ristorante non valido");
             req.getRequestDispatcher("message.jsp").forward(req, resp);
         }
         

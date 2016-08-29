@@ -142,13 +142,13 @@ public class DBManager implements Serializable {
         
         List<String> sets = new ArrayList<>();
         if(newName != null){
-            sets.add("name = '" + newName + "'" );
+            sets.add("name = ?" );
         }
         if(newSurname != null){
-            sets.add("surname = '" + newSurname + "'" );
+            sets.add("surname = ?" );
         }
         if(newEMail != null){
-            sets.add("email = '" + newEMail + "'" );
+            sets.add("email = ?" );
         }
         
         if(sets.size() > 0){
@@ -164,8 +164,21 @@ public class DBManager implements Serializable {
         builder.append("WHERE ID = ?");
         
         PreparedStatement stm = con.prepareStatement(builder.toString());
+        
+        
         try {
-            stm.setInt(1, id);
+            int i=1;
+            if(newName != null){
+               stm.setString(i++, newName);
+            }
+            if(newSurname != null){
+                stm.setString(i++, newSurname);
+            }
+            if(newEMail != null){
+                stm.setString(i++, newEMail);
+            }
+
+            stm.setInt(i++, id);
             int rs = stm.executeUpdate();
 
         } finally { 
@@ -321,7 +334,7 @@ public class DBManager implements Serializable {
      * @throws SQLException 
      */
     public void registerUser(String name, String surname, String email, String password) throws SQLException {
-        //TODO - pasare come argomento un oggetto USER, non i vari attributi
+        
         PreparedStatement stm = con.prepareStatement("INSERT INTO APP.users VALUES(default,?,?,?,?,'u')");
         try {
             stm.setString(1, name);
@@ -330,9 +343,8 @@ public class DBManager implements Serializable {
             stm.setString(4, email);
 
             int rs = stm.executeUpdate();
-            //TODO -fare qualcosa??
 
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally {
             stm.close();
         }
     }
@@ -431,6 +443,12 @@ public class DBManager implements Serializable {
         }
     }
 
+    /**
+     * Ritorna il ristorante identificato dalla chiave passata
+     * @param key - l'id del ristorante
+     * @return
+     * @throws SQLException 
+     */
     public Restaurant getRestaurant(int key) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE id = ?");
         try {
@@ -450,6 +468,12 @@ public class DBManager implements Serializable {
         }
     }
 
+    /**
+     * Ritorna la lista dei ristoranti che hanno questo nome
+     * @param name
+     * @return
+     * @throws SQLException 
+     */
     public List<Restaurant> getRestaurantsByName(String name) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE name = ?");
         try {
@@ -470,16 +494,35 @@ public class DBManager implements Serializable {
         }
     }
     
+    /**
+     * Metodo usato per ottenere i risultati visualizzati dall'autocompletamento.
+     * Ritorna una lista (di dimensione massima  di nomi di ristoranti che iniziano (esattamente) per la stringa passata come parametro.
+     * @param term - la stringa scritta dall'utente
+     * @param limit - il numero massimo di risultati da ritornare
+     * @return - una lista di possibili nomi di ristoranti
+     * @throws SQLException 
+     */
     public List<String> getRestaurantsNamesByTerm(String term, int limit) throws SQLException {
-
+        
+        //TODO - COME RISOLVERE SENZA USARE LA CONCATENZAIONE DI STRINGHE????
+        /*notes = notes
+            .replace("!", "!!")
+            .replace("%", "!%")
+            .replace("_", "!_")
+            .replace("[", "![");
+        PreparedStatement pstmt = con.prepareStatement(
+                "SELECT * FROM analysis WHERE notes LIKE ? ESCAPE '!'");
+        pstmt.setString(1, notes + "%");*/
+        
         List<String> result = new ArrayList<String>();
-        PreparedStatement stm = con.prepareStatement("SELECT name FROM APP.restaurants R WHERE lcase(name) LIKE '" + term + "%'");
+        PreparedStatement stm = con.prepareStatement("SELECT name FROM APP.restaurants R WHERE lcase(name) LIKE '" + term + "%' FETCH FIRST ? ROWS ONLY");
+        stm.setInt(1, limit);
         try {
             ResultSet rs = stm.executeQuery();
 
             try {
-                int count = 0;
-                while (rs.next() && count++ < limit) {
+                
+                while (rs.next()) {
                     result.add(rs.getString("name"));
                 }
 
@@ -498,52 +541,33 @@ public class DBManager implements Serializable {
      * in modo predefinito per la ricerca
      */
     
-    /*Metodi di base */
+
     
     /**
-     * Metodo usato per ottenere una lista di ristoranti a parire dai parametri di ricerca
+     * Metodo usato per la ricerca normale.
+     * Ricerca ristoranti che si trovino nel luogo specificato 
+     * (N.B.: deve essere nel formato 'Stato Regione Città', 'Stato Regione' o 'Stato';
+     * si consiglia di sfruttare la classe db.Place con il suo metodo .toString(); nel caso 
+     * il parametro "place" sia null o contenga una stringa vuota non vengono filtrati i ristoranti per luogo),
+     * ordinati per 'name', 'price' o 'position' (se non specificato uno di questi valori, i risultati non vengono ordinati).
+     * Successivamente vengono filtrati per somiglianza alla stringa "name" usando il metodo "getRestaurantsFilteredByNameSimilarity()"
+     * (se il parametro "name" non è null o non contiene una stringa vuota)
      * @param name
      * @param place
+     * @param order
      * @return
      * @throws SQLException 
      */
-    public List<Restaurant> getRestaurants(String name, String place) throws SQLException {
-        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
-        try {
-            return getRestaurantsFilteredByNameSimilarity(stm, name);
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-    }
-
-    public List<Restaurant> getRestaurantsByNameSimilarity(String name) throws SQLException {
-        ArrayList<Restaurant> r_l = new ArrayList<>();
-        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R");
-        try {
-            return getRestaurantsFilteredByNameSimilarity(stm, name);
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-
-    }
-    
-    public List<Restaurant> getRestaurantsByPlace(String place) throws SQLException {
-        PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
-        try {
-            return getRestaurantsUnfiltered(stm);
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-    }
-
-    
-    
-    /*Metodi usati per la ricerca normale */
-    
     public List<Restaurant> getRestaurantsOrderedBy(String name, String place, String order) throws SQLException {
 
+        
         StringBuilder query = new StringBuilder();
-        query.append("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '").append(place).append("%'");
+        if(place != null && !place.isEmpty()){
+            query.append("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '").append(place).append("%'");
+        }else{
+            query.append("SELECT * FROM APP.restaurants R");
+        }
+        
         switch (order) {
             case "name":
                 query.append(" ORDER BY name");
@@ -559,67 +583,36 @@ public class DBManager implements Serializable {
         }
         PreparedStatement stm = con.prepareStatement(query.toString());
         try {
-            return getRestaurantsFilteredByNameSimilarity(stm, name);
+            if(name != null && !name.isEmpty()){
+                return getRestaurantsFilteredByNameSimilarity(stm, name);
+            }else{
+                return getRestaurantsUnfiltered(stm);
+            }
         } finally { 
             stm.close();
         }
     }
     
-    public List<Restaurant> getRestaurantsByNameSimilarityOrderedBy(String name, String order) throws SQLException {
-        ArrayList<Restaurant> r_l = new ArrayList<>();
-        PreparedStatement stm;
-        switch (order) {
-            case "name":
-                stm = con.prepareStatement("SELECT * FROM APP.restaurants R ORDER BY name");
-                break;
-            case "price":
-                stm = con.prepareStatement("SELECT * FROM APP.restaurants R ORDER BY min_price + max_price");
-                break;
-            case "position":
-                stm = con.prepareStatement("SELECT * FROM APP.restaurants R ORDER BY (CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) DESC");
-                break;
-            default:
-                stm = con.prepareStatement("SELECT * FROM APP.restaurants R");
-                break;
-        }
-        try {
-            return getRestaurantsFilteredByNameSimilarity(stm, name);
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-
-    }
     
     
-    public List<Restaurant> getRestaurantsByPlaceOrderedBy(String place, String order) throws SQLException {
-        StringBuilder query = new StringBuilder();
-        query.append("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '").append(place).append("%'");
-        switch (order) {
-            case "name":
-                query.append(" ORDER BY name");
-                break;
-            case "price":
-                query.append(" ORDER BY min_price + max_price");
-                break;
-            case "position":
-                query.append(" ORDER BY (CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) DESC");
-                break;
-            default:
-                break;
-        }
-        PreparedStatement stm = con.prepareStatement(query.toString());
-        try {
-            return getRestaurantsUnfiltered(stm);
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-
-    }
-
-    
-    
-    /* Metodi usati per la ricerca avanzata*/
-    
+    /**
+     * Metodo usato per la ricerca avanzata.
+     * Ricerca ristoranti che si trovino nel luogo specificato 
+     * (N.B.: deve essere nel formato 'Stato Regione Città', 'Stato Regione' o 'Stato';
+     * si consiglia di sfruttare la classe db.Place con il suo metodo .toString(); nel caso 
+     * il parametro "place" sia null o contenga una stringa vuota non vengono filtrati i ristoranti per luogo),
+     * che abbiano un prezzo minimo superiore al parametro "minPrice" (se non è nullo),
+     * che abbiano un prezzo massimo inferiore al parametro "maxPrice" (se non è nullo),
+     * che posseggano le cucine specificate e abbiano una valutazione (approssimata all'intero più vicino) tra quelle specificate,
+     * ordinati per 'name', 'price' o 'position' (se non specificato uno di questi valori, i risultati non vengono ordinati).
+     * Successivamente vengono filtrati per somiglianza alla stringa "name" usando il metodo "getRestaurantsFilteredByNameSimilarity()"
+     * (se il parametro "name" non è null o non contiene una stringa vuota)
+     * @param name
+     * @param place
+     * @param order
+     * @return
+     * @throws SQLException 
+     */
     public List<Restaurant> getRestaurantsFilteredOrderedBy(String name, String place, String order,
             Integer minPrice, Integer maxPrice,
             String[] cuisines, ArrayList<Integer> valutazioni
@@ -636,7 +629,7 @@ public class DBManager implements Serializable {
                 if (i > 0) {
                     cond += " OR ";
                 }
-                cond += "name = '" + cuisines[i] + "'";
+                cond += "name = ?";
             }
             cond += ")";
 
@@ -654,10 +647,10 @@ public class DBManager implements Serializable {
         
         
         if (minPrice != null) {
-            conditions.add("min_price >= " + minPrice);
+            conditions.add("min_price >= ?");
         }
         if (maxPrice != null) {
-            conditions.add("max_price <= " + maxPrice);
+            conditions.add("max_price <= ?");
         }
         if (valutazioni.size() > 0) {
             StringBuilder cond = new StringBuilder();
@@ -666,7 +659,7 @@ public class DBManager implements Serializable {
                 if (i > 0) {
                     cond.append(" OR ");
                 }
-                cond.append("ABS(CAST((CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) as REAL) - ").append(valutazioni.get(i)).append(") <= 0.5");
+                cond.append("ABS(CAST((CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) as REAL) - ? ) <= 0.5");
             }
             
             conditions.add(cond.toString());
@@ -698,7 +691,37 @@ public class DBManager implements Serializable {
         
         PreparedStatement stm = con.prepareStatement(query.toString());
         System.out.println(query.toString());
+        
+        
+
+       
         try {
+            
+            int j=1;
+            if (cuisines != null && cuisines.length > 0) {
+                for (int i = 0; i < cuisines.length; i++) {
+                    stm.setString(j++, cuisines[i]);
+                }
+            }
+
+            /*if(place != null && !place.isEmpty()){
+                conditions.add("state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
+            }*/
+
+
+            if (minPrice != null) {
+                stm.setDouble(j++, minPrice);
+            }
+            if (maxPrice != null) {
+                stm.setDouble(j++, maxPrice);
+            }
+            if (valutazioni.size() > 0) {
+
+                for (int i = 0; i < valutazioni.size(); i++) {
+                    stm.setInt(j++, valutazioni.get(i));
+                }
+
+            }
             if(name != null && !name.isEmpty()){
                 return getRestaurantsFilteredByNameSimilarity(stm, name);
             }else{
@@ -710,163 +733,13 @@ public class DBManager implements Serializable {
 
     }
     
-    
-    public List<Restaurant> getRestaurantsByPlaceFilteredOrderedBy(String place, String order,
-            Integer minPrice, Integer maxPrice,
-            String[] cuisines, ArrayList<Integer> valutazioni
-    ) throws SQLException {
-        
-        StringBuilder query = new StringBuilder("SELECT DISTINCT R.* FROM APP.restaurants R");
-        
-
-        if (cuisines != null && cuisines.length > 0) {
-            String cond = " JOIN APP.Restaurants_Cuisines RC ON R.id =  RC.id_restaurant JOIN (SELECT * FROM APP.Cuisines WHERE ";
-            for (int i = 0; i < cuisines.length; i++) {
-                if (i > 0) {
-                    cond += " OR ";
-                }
-                cond += "name = '" + cuisines[i] + "'";
-            }
-            cond += ")";
-
-            cond += " C ON RC.id_cuisine = C.id";
-
-            query.append(cond);
-        }
-
-        ArrayList<String> conditions = new ArrayList<>();
-
-        conditions.add("state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
-        if (minPrice != null) {
-            conditions.add("min_price >= " + minPrice);
-        }
-        if (maxPrice != null) {
-            conditions.add("max_price <= " + maxPrice);
-        }
-        if (valutazioni.size() > 0) {
-            StringBuilder cond = new StringBuilder();
-            for (int i = 0; i < valutazioni.size(); i++) {
-                if (i > 0) {
-                    cond.append(" OR ");
-                }
-                cond.append("ABS((CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) - ").append(valutazioni.get(i)).append(") <= 0.5");
-            }
-            conditions.add(cond.toString());
-        }
-
-        if (conditions.size() > 0) {
-            query.append(" WHERE ");
-            for (int i = 0; i < conditions.size(); i++) {
-                if (i > 0) {
-                    query.append(" AND ");
-                }
-                query.append("(").append(conditions.get(i)).append(")");
-            }
-        }
-        
-        switch (order) {
-            case "name":
-                query.append(" ORDER BY name");
-                break;
-            case "price":
-                query.append(" ORDER BY min_price + max_price");
-                break;
-            case "position":
-                query.append(" ORDER BY (CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) DESC");
-                break;
-            default:
-                break;
-        }
-        
-        PreparedStatement stm = con.prepareStatement(query.toString());
-        try {
-            return getRestaurantsUnfiltered(stm);
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-
-    }
-    
-    public List<Restaurant> getRestaurantsByNameSimilarityFilteredOrderedBy(String name, String order,
-            Integer minPrice, Integer maxPrice,
-            String[] cuisines, ArrayList<Integer> valutazioni
-    ) throws SQLException {
-
-        StringBuilder query = new StringBuilder("SELECT DISTINCT R.* FROM APP.restaurants R");
-
-        if (cuisines != null && cuisines.length > 0) {
-            String cond = " JOIN APP.Restaurants_Cuisines RC ON R.id =  RC.id_restaurant JOIN (SELECT * FROM APP.Cuisines WHERE ";
-            for (int i = 0; i < cuisines.length; i++) {
-                if (i > 0) {
-                    cond += " OR ";
-                }
-                cond += "name = '" + cuisines[i] + "'";
-            }
-            cond += ")";
-
-            cond += " C ON RC.id_cuisine = C.id";
-
-            query.append(cond);
-        }
-
-        ArrayList<String> conditions = new ArrayList<>();
-
-        if (minPrice != null) {
-            conditions.add("min_price >= " + minPrice);
-        }
-        if (maxPrice != null) {
-            conditions.add("max_price <= " + maxPrice);
-        }
-        if (valutazioni.size() > 0) {
-            StringBuilder cond = new StringBuilder();
-            for (int i = 0; i < valutazioni.size(); i++) {
-                if (i > 0) {
-                    cond.append(" OR ");
-                }
-                cond.append("ABS((CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END) - ").append(valutazioni.get(i)).append(") <= 0.5");
-            }
-            conditions.add(cond.toString());
-        }
-
-        if (conditions.size() > 0) {
-            query.append(" WHERE ");
-            for (int i = 0; i < conditions.size(); i++) {
-                if (i > 0) {
-                    query.append(" AND ");
-                }
-                query.append("(").append(conditions.get(i)).append(")");
-            }
-        }
-
-        switch (order) {
-            case "name":
-                query.append(" ORDER BY name");
-                break;
-            case "price":
-                query.append(" ORDER BY min_price + max_price");
-                break;
-            case "position":
-                query.append(" ORDER BY (CASE WHEN REVIEW_COUNTER > 0 THEN GLOBAL_REVIEW/REVIEW_COUNTER ELSE 0 END), REVIEW_COUNT DESC");
-                break;
-            default:
-                break;
-        }
-        PreparedStatement stm = con.prepareStatement(query.toString());
-
-        try {
-            return getRestaurantsFilteredByNameSimilarity(stm, name);
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-
-    }
-
+  
     
     /**
-     * Costruisce e ritorna il prossimo oggetto restaurant letto dal database
-     * N.B.: DEVE ESSERE ESEGUITO DOPO rs.next() E SOLO SE QUESTA HA RESTITUITO
-     * true N.B.: FUNZIONA SOLO SE LA QUERY RITORNA UNA RIGA DELLA TABELLA
-     * RISTORANTE, e la tabella ristorante è chiamata R
+     * Costruisce e ritorna il prossimo oggetto restaurant letto dal database.
+     * N.B.: DEVE ESSERE ESEGUITO DOPO rs.next() E SOLO SE QUESTA HA RESTITUITO 'true'.
+     * N.B.: FUNZIONA SOLO SE LA QUERY RITORNA UNA RIGA DELLA TABELLA
+     * APP.RESTAURANTS che deve essere nominata 'R' all'interno della FROM
      *
      * @param rs
      * @return
@@ -905,6 +778,14 @@ public class DBManager implements Serializable {
         return r;
     }
 
+    
+    /**
+     * Esegue il prepared statement passato come parametro e ritorna la lista di Ristoranti che si ricava dalla query.
+     * N.B.: la query del prepared statement deve ritornare righe della tabella APP.RESTAURANTS che deve essere nominata 'R' all'interno della FROM
+     * @param stm
+     * @return
+     * @throws SQLException 
+     */
     private List<Restaurant> getRestaurantsUnfiltered(PreparedStatement stm) throws SQLException {
 
         ArrayList<Restaurant> r_l = new ArrayList<>();
@@ -920,6 +801,17 @@ public class DBManager implements Serializable {
         return r_l;
     }
 
+    /**
+     * Esegue il prepared statement passato come parametro e ritorna la lista di Ristoranti che si ricava dalla query 
+     * dopo averli filtrati per somiglianza del nome con la stringa "name" passata come parametro.
+     * N.B.: la query del prepared statement deve ritornare righe della tabella APP.RESTAURANTS che deve essere nominata 'R' all'interno della FROM.
+     * L'algoritmo utilizzato per confrontare le stringhe e determinarne la somiglianza implementato nel metodo "db.Util.containingDistanceLimited()".
+     * 
+     * @param stm
+     * @param name
+     * @return
+     * @throws SQLException 
+     */
     private List<Restaurant> getRestaurantsFilteredByNameSimilarity(PreparedStatement stm, String name) throws SQLException {
 
         ArrayList<Restaurant> r_l = new ArrayList<>();
@@ -945,10 +837,21 @@ public class DBManager implements Serializable {
     /**
      * --------GESTIONE LUOGHI-----------
      */
+    
+    /**
+     * alcuni parametri usati per scegliere il tipo di algoritmo da usare per ottenere la lista dei ristoranti nell'autocompletamento
+     */
     private static final int algorithm = 4;
     private static final boolean use_full_matching = false;
     private static final boolean use_unique_queue = true;
 
+    /**
+     * Metodo che valuta la "somiglianza" del place "p" passato come parametro alla stringa digitata dall'utente.
+     * Questo metodo calcola e imposta il valore dell'attributo "p.d" da utilizzare, poi, per scegliere quali risultati restituire
+     * 
+     * @param p - l'oggetto di tipo Place contenente il luogo da valutare
+     * @param words - le parole digitate dall'utente
+     */
     private void valuta(Place p, String[] words) {
         p.d = 0;
         String r_name = p.toString().toLowerCase();
@@ -957,10 +860,13 @@ public class DBManager implements Serializable {
         switch(algorithm){
             case 0:
                 for (String word : words) {
+                    /*
+                     * permetto un numero massimo di errori proporzionale alla lunghezza della parola digitata
+                     * essendo il minor numero di caratteri 4, con la seguente formula si accetta un solo errore all'inizio
+                     */
                     int k = 1 + Math.round(word.length() / 8.0f);
                     int d = Util.containingDistanceLimited(word, r_name, k);
                     if (d < k) {
-                        //p.d += 1.0/(d+1.0);
                         p.d += 1.0 - d / ((double) k);
                     }
                 }
@@ -988,10 +894,13 @@ public class DBManager implements Serializable {
                 name_ws = r_name.split(" ");
                 for (String w : name_ws) {
                     for (String word : words) {
+                        /*
+                        * permetto un numero massimo di errori proporzionale alla lunghezza della parola digitata
+                        * essendo il minor numero di caratteri 4, con la seguente formula si accetta un solo errore all'inizio
+                        */
                         int k = 1 + Math.round(word.length() / 8.0f);
                         int d = Util.containingDistanceLimited(word, w, k);
                         if (d < k) {
-                            //p.d += 1.0/(d+1.0);
                             p.d += 1.0 - d / ((double) k);
                         }
                     }
@@ -1005,6 +914,10 @@ public class DBManager implements Serializable {
                 
                 for(String w : p_names){
                     for (String word : words) {
+                        /*
+                        * permetto un numero massimo di errori proporzionale alla lunghezza della parola digitata
+                        * essendo il minor numero di caratteri 4, con la seguente formula si accetta un solo errore all'inizio
+                        */
                         int k = 1 + Math.round(word.length() / 8.0f);
                         int d = Util.containingDistanceLimited(word, w, k);
                         if (d < k) {
@@ -1017,7 +930,31 @@ public class DBManager implements Serializable {
         }
     }
 
+
+    /**
+     * Metodo usato per ottenere i risultati visualizzati dall'autocompletamento.
+     * Ritorna una lista luoghi che "assomigliano" alla stringa passata come paramentro.
+     * @param term - la stringa scritta dall'utente
+     * @return - una lista di possibili nomi di luoghi
+     * @throws SQLException 
+     */
     public List<String> getPlaces(String term) throws SQLException {
+        /**
+         * Se l'attributo "use_full_matching" è impostato a 'true' per valutare un certo luogo si utilizza il suo nome completo:
+         * per una città si utilizza la stringa ottenuta concatenando lo stato d'appartenenza, la regione e poi la città mentre per una regione si utilizza la concatenazione di stato e regione.
+         * 
+         * Nel caso sia 'false' invece, al fine del matching, si usa solo il nome della città/regione/stato.
+         * In questo modo, per esempio, città che appartengono a regioni con un nome simile non risultano avvantaggiate.
+         * (es: l'utente digita la stringa "Vene". Se questa flag fosse 'true' la città 'Italia Veneto Venezia' potrebbe ...)
+         */
+        
+        /**
+         * Se l'attributo "use_unique_queue" è impostato a 'true', si utilizza un'unica priority queue per scegliere i risultati migliori,
+         * indipendentemente da che tipo di area geografica siano.
+         * Nel caso sia 'false', invece, si utilizzano 3 code diverse, una per le città, una per le regioni ed una per gli stati;
+         * in questo modo i consigli che appaiono sono ordinati prima per tipo di area ed è più facile ci siano dei risultati appartenenti a ciascuna tipologia.
+         */
+        
         String[] words = term.toLowerCase().trim().split(" ");
         ArrayList<String> r_l = new ArrayList<>();
         
@@ -1061,13 +998,12 @@ public class DBManager implements Serializable {
                     if (queue.peek() != null) {
                         Place p = queue.poll();
                         r_l.add(p.toString());
-                        System.out.print(p.toString() + ": " + p.d + "; ");
+                        
                     }
                 }
-                System.out.print("\n");
             }
 
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally { 
             stm.close();
         }
         
@@ -1104,7 +1040,7 @@ public class DBManager implements Serializable {
                 }
             }
 
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally { 
             stm.close();
         }
 
@@ -1135,20 +1071,20 @@ public class DBManager implements Serializable {
                     }
                 }
             }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally {
             stm.close();
         }
         
         if(use_unique_queue){
-            //aggiungo solo 10 luoghi
+            //aggiungo 10 luoghi
             for (int i = 0; i < 10; i++) {
                 if (queue.peek() != null) {
                     Place p = queue.poll();
                     r_l.add(p.toString());
-                    System.out.print(p.toString() + ": " + p.d + "; ");
+                    
                 }
             }
-            System.out.print("\n");
+            
         }
         
 
@@ -1156,6 +1092,17 @@ public class DBManager implements Serializable {
 
     }
 
+    /**
+     * Ritorna il luogo che più somiglia alla stringa digitata dall'utente.
+     * Se non viene trovato nessun risultato abbastanza simile (un valore calcolato dal metodo "valuta()" maggiore di 0) viene ritornato il valore null.
+     * 
+     * Questo metodo viene usato in quanto l'utente ha la possibilità di scrivere qualunque stringa nel campo di ricerca, non essendo vincolato dall'autocompletamento,
+     * mentre le query usate per effettuare la ricerca pretendono un luogo esistente e scritto in un formato predefinito.
+     * 
+     * @param query - la stringa digitata dall'utente
+     * @return - il luogo più somigliante alla richiesta o null nel caso non sia stato trovato un risultato soddisfacente
+     * @throws SQLException 
+     */
     public Place getPlaceBySimilarity(String query) throws SQLException {
         String[] words = query.toLowerCase().trim().split(" ");
         Place place = new Place();
@@ -1182,7 +1129,7 @@ public class DBManager implements Serializable {
             } finally {
                 rs.close();
             }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally { 
             stm.close();
         }
 
@@ -1203,14 +1150,13 @@ public class DBManager implements Serializable {
             } finally {
                 rs.close();
             }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally {
             stm.close();
         }
 
         stm = con.prepareStatement("SELECT * FROM APP.cities");
         try {
             ResultSet rs = stm.executeQuery();
-            PriorityQueue<Place> queue = new PriorityQueue<>(new Place.PlaceComparator());
             try {
                 while (rs.next()) {
                     Place p = new Place();
@@ -1227,17 +1173,30 @@ public class DBManager implements Serializable {
                 rs.close();
             }
 
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally {
             stm.close();
         }
-
-        return place;
+        
+        if(place.d > 0){
+            return place;
+        }else{
+            return null;
+        }
 
     }
 
     
     /**
      * -------- GESTIONE TABELLE LEGATE AI RISTORANTI -----------
+     */
+    
+    /**
+     * Calcola la posizione in classifica di questo ristorante nella sua città.
+     * Se nell'oggetto "r" passato come parametro gli attributi che indicano il luogo in cui risiede il ristorante non sono completi/specificati
+     * il metodo ritorna immediatamente senza calcolare la posizione.
+     * 
+     * @param r - l'oggetto che contiene le informazioni del ristorante
+     * @throws SQLException 
      */
     public void calcolaPosizioneInClassifica(Restaurant r) throws SQLException {
         if (r.getCity() == null || r.getRegion() == null || r.getState() == null) {
@@ -1263,12 +1222,19 @@ public class DBManager implements Serializable {
             } finally {
                 rs.close();
             }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally { 
             stm.close();
         }
 
     }
 
+    /**
+     * Cerca nella tabella APP.ORARI gli orari del ristorante.
+     * Il metodo inserisce direttamente dentro l'oggetto Restaurant passato la lista degli orari.
+     * 
+     * @param r - l'oggetto che contiene le informazioni del ristorante
+     * @throws SQLException 
+     */
     public void getRestaurantTimes(Restaurant r) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT giorno, apertura, chiusura FROM APP.ORARIO WHERE id = ? ORDER BY giorno, apertura");
         try {
@@ -1281,13 +1247,19 @@ public class DBManager implements Serializable {
             } finally {
                 rs.close();
             }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally {
             stm.close();
         }
     }
 
     
-    
+    /**
+     * Calcola i valori medi delle recensioni ricevute dal ristorante.
+     * Il metodo inserisce direttamente dentro l'oggetto Restaurant passato i valori calcolati.
+     * 
+     * @param r - l'oggetto che contiene le informazioni del ristorante
+     * @throws SQLException 
+     */
     public void getRestaurantReviewValues(Restaurant r) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT AVG(service) as service, AVG(food) as food, AVG(atmosphere) as atmosphere, AVG(value_for_money) as value_for_money FROM APP.REVIEWS WHERE id_restaurant = ? GROUP BY id_restaurant");
         
@@ -1321,35 +1293,20 @@ public class DBManager implements Serializable {
             } finally {
                 rs.close();
             }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally { 
             stm.close();
         }
     }
-
-    public List<String> getCuisines() throws SQLException {
-
-        ArrayList<String> r_l = new ArrayList<>();
-
-        PreparedStatement stm = con.prepareStatement("SELECT name FROM APP.cuisines ORDER BY ID ASC");
-        try {
-            ResultSet rs = stm.executeQuery();
-
-            try {
-                while (rs.next()) {
-                    r_l.add(rs.getString("name"));
-
-                }
-            } finally {
-                rs.close();
-            }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-
-        return r_l;
-
-    }
-
+    
+    
+    /**
+     * Cerca nella tabella APP.RESTAURANTS_CUISINES le cucine del ristorante.
+     * Il metodo inserisce direttamente dentro l'oggetto Restaurant passato la lista delle cucine.
+     * 
+     * 
+     * @param r - l'oggetto che contiene le informazioni del ristorante
+     * @throws SQLException 
+     */
     public void getRestaurantCuisines(Restaurant r) throws SQLException {
 
         ArrayList<String> cuisines = new ArrayList<>();
@@ -1376,6 +1333,46 @@ public class DBManager implements Serializable {
 
     }
 
+    
+    /**
+     * Ritorna la lista di tutte le cucine accettabili nel database.
+     * 
+     * @return - lista delle cucine esistenti
+     * @throws SQLException 
+     */
+    public List<String> getCuisines() throws SQLException {
+
+        ArrayList<String> r_l = new ArrayList<>();
+
+        PreparedStatement stm = con.prepareStatement("SELECT name FROM APP.cuisines ORDER BY ID ASC");
+        try {
+            ResultSet rs = stm.executeQuery();
+
+            try {
+                while (rs.next()) {
+                    r_l.add(rs.getString("name"));
+
+                }
+            } finally {
+                rs.close();
+            }
+        } finally { 
+            stm.close();
+        }
+
+        return r_l;
+
+    }
+
+    
+    /**
+     * Elimina dal database l'orario specificato
+     * @param id
+     * @param day
+     * @param apertura
+     * @param chiusura
+     * @throws SQLException 
+     */
     public void rimuoviOrario(Integer id, Integer day, String apertura, String chiusura)throws SQLException {
         PreparedStatement stm = con.prepareStatement("DELETE FROM APP.ORARIO WHERE id = ? AND giorno = ? AND apertura = ? AND chiusura = ?");
 
@@ -1394,6 +1391,21 @@ public class DBManager implements Serializable {
         }
     }
         
+    /**
+     * Inserisce nel database l'orario specificato.
+     * 
+     * N.B.: l'orario di apertura è ottenuto come (ora_apertura+":"+minuti_apertura+":00") mentre quello di chiusura come (ora_chiusura+":"+minuti_chiusura+":00").
+     * Perciò, i parametri passati devono essere nel formato giusto affinchè il risultato possa essere poi valutato come java.sql.Time
+     * 
+     * @param id
+     * @param day
+     * @param ora_apertura
+     * @param minuti_apertura
+     * @param ora_chiusura
+     * @param minuti_chiusura
+     * @return
+     * @throws SQLException 
+     */
     public boolean inserisciOrario(Integer id, Integer day, String ora_apertura, String minuti_apertura, String ora_chiusura, String minuti_chiusura)throws SQLException {
         PreparedStatement stm = con.prepareStatement("INSERT INTO APP.ORARIO VALUES (?,?,?,?)");
 
@@ -1420,6 +1432,13 @@ public class DBManager implements Serializable {
         return true;
     }
     
+    /**
+     * Rimuove la cucina specificata dal ristorante identificato da "restaurantID".
+     * 
+     * @param restaurantID
+     * @param cuisine
+     * @throws SQLException 
+     */
     public void rimuoviCucina(Integer restaurantID, String cuisine)throws SQLException {
         PreparedStatement stm = con.prepareStatement("DELETE FROM APP.RESTAURANTS_CUISINES "
                                                    + "WHERE id_restaurant = ? "
@@ -1436,6 +1455,13 @@ public class DBManager implements Serializable {
         }
     }
     
+    /**
+     * Inserici nel ristorante identificato da "restaurantID" la cucina specificata.
+     * @param restaurantID
+     * @param cuisineID
+     * @return
+     * @throws SQLException 
+     */
     public boolean inserisciCucina(Integer restaurantID, Integer cuisineID)throws SQLException {
         PreparedStatement stm = con.prepareStatement("INSERT INTO APP.RESTAURANTS_CUISINES VALUES (?,?)");
 
@@ -1457,7 +1483,13 @@ public class DBManager implements Serializable {
         return true;
     }
     
-    public String[] getRestaurantLocation(int restaurant) throws SQLException {
+    /**
+     * Ritorna la città, la regione e lo stato in cui risiede il ristorante
+     * @param restaurant
+     * @return
+     * @throws SQLException 
+     */
+    private String[] getRestaurantLocation(int restaurant) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT city, region, state FROM APP.RESTAURANTS WHERE id = ?");
         try {
             stm.setInt(1, restaurant);
@@ -1481,81 +1513,46 @@ public class DBManager implements Serializable {
     }
 
     
-    public void computeRestaurantsCoordinate()throws SQLException {
-        PreparedStatement stm = con.prepareStatement("SELECT id, address, city, region, state FROM APP.RESTAURANTS WHERE latitude IS NULL OR longitude IS NULL");
-        
-        List<Restaurant> restaurants = new ArrayList<Restaurant>();
-        
-        
-        try {
-            ResultSet rs = stm.executeQuery();
-            try{
-                while(rs.next()){
-                    Restaurant r = new Restaurant();
-                    r.setId(rs.getInt("id"));
-                    r.setAddress(rs.getString("address"));
-                    r.setCity(rs.getString("city"));
-                    r.setRegion(rs.getString("region"));
-                    r.setState(rs.getString("state"));
-                    restaurants.add(r);
-                }
-                
-            } finally{
-                rs.close();
-            }
-        } finally {
-            stm.close();
-        }
-        
-        
-        for(Restaurant r : restaurants){
-            
-            double[] coordinates = Util.getCoordinates(r.getAddress(), r.getCity(), r.getRegion(), r.getState());
-            if(coordinates != null && coordinates.length == 2){
-                stm = con.prepareStatement("UPDATE APP.RESTAURANTS SET latitude = ?, longitude = ? WHERE id = ?");
-                try{
-                    stm.setDouble(1, coordinates[0]);
-                    stm.setDouble(2, coordinates[1]);
-                    stm.setInt(3, r.getId());
-                    stm.executeUpdate();
-                }finally {
-                    stm.close();
-                }
-            }
-            
-        }
-        
-    }
-
     
+    /**
+     * Metodo per modificare le informazioni di un ristorante.
+     * Se un parametro ha come valore 'null' o la stringa vuota "", allora non viene sovrascritto.
+     * Se cambiato l'indirizzo, calcola in automatico le nuove coordinate geografiche.
+     * @param id - chiave che identifica il ristorante
+     * @param name - nuovo nome del ristorante
+     * @param description - nuova descrizione
+     * @param url - nuovo url del sito
+     * @param address - nuovo indirizzo
+     * @param min_price - nuovo prezzo minimo
+     * @param max_price - nuovo prezzo massimo
+     * @throws SQLException 
+     */
     public void manageRestaurant(Integer id, String name, String description, String url, String address, Integer min_price, Integer max_price)throws SQLException {
         
         
         StringBuilder query=new StringBuilder("UPDATE App.Restaurants SET ");
         
-        ArrayList<String> lista = new ArrayList<>();
         
-        if(!name.isEmpty()){
-            lista.add("name='"+name+"'");
+        ArrayList<String> lista = new ArrayList<>();
+        if(name != null && !name.isEmpty()){
+            lista.add("name=?");
         }
-        if(!description.isEmpty()){
-            lista.add("description='"+description+"'");
+        if(description != null && !description.isEmpty()){
+            lista.add("description=?");
         }
-        if(!url.isEmpty()){
-            lista.add("web_site_url='"+url+"'");
+        if(utl != null && !url.isEmpty()){
+            lista.add("web_site_url=?");
         }
-        if(!address.isEmpty()){
-            String[] location = getRestaurantLocation(id);
-            double[] coordinates = Util.getCoordinates(address, location[0], location[1], location[2]);
-            lista.add("address='"+address+"'");
-            lista.add("latitude = " + coordinates[0]);
-            lista.add("longitude = " + coordinates[1]);
+        if(address != null && !address.isEmpty()){
+            lista.add("address=?");
+            lista.add("latitude = ?");
+            lista.add("longitude = ?");
         }
         if(min_price!=null){
-            lista.add("min_price="+min_price.toString());
+            lista.add("min_price=?");
         }
         if(max_price!=null){
-            lista.add("max_price="+max_price.toString());
+            lista.add("max_price=?");
         }
         
         for (int i=0; i<lista.size(); i++) {
@@ -1565,9 +1562,38 @@ public class DBManager implements Serializable {
             query.append(lista.get(i));
         }
         
-        query.append(" WHERE id=").append(id);
-        System.out.println(query.toString());
+        query.append(" WHERE id=?");
+        
+        System.out.println(query);
         PreparedStatement stm = con.prepareStatement(query.toString());
+        
+        int i = 1;
+        
+        if(name != null && !name.isEmpty()){
+            stm.setString(i++, name);
+        }
+        
+        if(description != null && !description.isEmpty()){
+            stm.setString(i++, description);
+        }
+        if(url != null && !url.isEmpty()){
+            stm.setString(i++, url);
+        }
+        if(address != null && !address.isEmpty()){
+            String[] location = getRestaurantLocation(id);
+            double[] coordinates = Util.getCoordinates(address, location[0], location[1], location[2]);
+            stm.setString(i++, address);
+            stm.setDouble(i++, coordinates[0]);
+            stm.setDouble(i++, coordinates[1]);
+        }
+        if(min_price!=null){
+            stm.setDouble(i++, min_price);
+        }
+        if(max_price!=null){
+            stm.setDouble(i++, max_price);
+        }
+        stm.setInt(i++, id);
+        
         try {
             stm.executeUpdate();
         } finally {
@@ -1575,7 +1601,13 @@ public class DBManager implements Serializable {
         }
     }
 
-
+    /**
+     * Aggiorna il database con il nuovo percorso per il file contenente il QR CODE rappresentate il ristorante identificato da "id"
+     * 
+     * @param id
+     * @param path
+     * @throws SQLException 
+     */
     public void setRestaurantQRPath(Integer id, String path)throws SQLException {
         
         
@@ -1595,6 +1627,13 @@ public class DBManager implements Serializable {
      * ------- GESTIONE FOTO/RECENSIONI -----------------
      */
     
+    /**
+     * Cerca la prima foto da mostrare del ristorante.
+     * Nello specifico, è la prima foto trovata dando, però, maggior priorità a quelle inserite dal proprietario del ristorante (avendo type = 1)
+     * 
+     * @param r
+     * @throws SQLException 
+     */
     public void getRestaurantFirstPhoto(Restaurant r) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT name, path, type FROM APP.photos WHERE id_restaurant = ? ORDER BY type DESC FETCH FIRST 1 ROWS ONLY");
         
@@ -1608,12 +1647,19 @@ public class DBManager implements Serializable {
             } finally {
                 rs.close();
             }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally {
             stm.close();
         }        
     }
 
-    
+    /**
+     * Cerca le foto caricate sul ristorante.
+     * Nello specifico, è la prima foto trovata (dando sempre maggior priorità a quelle inserite dal proprietario del ristorante)
+     * viene assegnata all'attributo "firstPhoto" mentre le altre all'attributo "photos".
+     * 
+     * @param r
+     * @throws SQLException 
+     */
     public void getRestaurantPhotos(Restaurant r) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT name, path, type FROM APP.photos WHERE id_restaurant = ? ORDER BY type DESC");
         ArrayList<Photo> photos = new ArrayList<>();
@@ -1623,12 +1669,11 @@ public class DBManager implements Serializable {
             try {
                 while (rs.next()) {
                     photos.add(new Photo(rs.getString("name"), rs.getString("path"), rs.getInt("type")));
-                    //System.out.println(rs.getString("path"));
                 }
             } finally {
                 rs.close();
             }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally { 
             stm.close();
         }
         if(photos.size() > 0){
@@ -1641,11 +1686,12 @@ public class DBManager implements Serializable {
     }
 
     /**
-     *
+     * Inserisce una nuova foto con i parametri specificati nel ristorante e
+     * restituisce la chiave generata automaticamente dal database .
      * @param name
      * @param path
      * @param restaurant_id
-     * @return
+     * @return - la chiave primaria che identifica questa foto nel db
      * @throws SQLException
      */
     public Integer insertPhoto(String name, String path, int restaurant_id, int type) throws SQLException {
@@ -1667,12 +1713,33 @@ public class DBManager implements Serializable {
             } finally {
                 keys.close();
             }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally {
             stm.close();
         }
         return k;
     }
 
+    /**
+     * Inserisce una nuova recensione nel database con in parametri specificati.
+     * Se l'esecuzione non è andata a buon fine a causa di un iserimento di una chiave duplicata
+     * (l'utente ha già inserito una recensione in questo ristorante questo giorno), allora il metodo ritorna false.
+     * Nel caso l'esecuzione sia andata a buon fine viene ritornato true.
+     * 
+     * Aggiorna in automatico il review_counter e il global_review della tabella APP.RESTAURANT
+     * 
+     * @param global_value
+     * @param food
+     * @param service
+     * @param value_for_money
+     * @param atmosphere
+     * @param title
+     * @param description
+     * @param id_restaurant
+     * @param id_creator
+     * @param id_photo
+     * @return - true se l'esecuzione è andata a buon fine, false se l'utente ha già recesnito questo ristorante oggi
+     * @throws SQLException 
+     */
     public boolean insertReview(Integer global_value, Integer food, Integer service, Integer value_for_money,
             Integer atmosphere, String title, String description,
             Integer id_restaurant, Integer id_creator, Integer id_photo) throws SQLException {
@@ -1716,11 +1783,6 @@ public class DBManager implements Serializable {
                 stm.setNull(2, Types.INTEGER);
             }
             
-            
-            
-            
-            
-            
             stm.setInt(8, id_restaurant);
             stm.setInt(9, id_creator);
             if(id_photo >= 0){
@@ -1739,18 +1801,18 @@ public class DBManager implements Serializable {
             }else{
                 throw e; 
             }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally {
             stm.close();
         }
         
-        stm = con.prepareStatement("UPDATE APP.RESTAURANTS SET REVIEW_COUNTER = REVIEW_COUNTER + 1, GLOBAL_REVIEW = GLOBAL_REVIEW + ?WHERE id = ?");
+        stm = con.prepareStatement("UPDATE APP.RESTAURANTS SET REVIEW_COUNTER = REVIEW_COUNTER + 1, GLOBAL_REVIEW = GLOBAL_REVIEW + ? WHERE id = ?");
         try {
             stm.setInt(1, global_value);
             stm.setInt(2, id_restaurant);
             
             int rs = stm.executeUpdate();
 
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally { 
             stm.close();
         }
         
@@ -1795,7 +1857,7 @@ public class DBManager implements Serializable {
     
     public void getCompletedReviews(Restaurant res) throws SQLException {
 
-        PreparedStatement stm = con.prepareStatement("SELECT r.*, u.name as name, u.surname as surname FROM App.REVIEWS r JOIN App.USERS u ON u.id = r.id_creator WHERE ID_RESTAURANT = ? AND r.title IS NOT NULL");
+        PreparedStatement stm = con.prepareStatement("SELECT r.*, u.name as name, u.surname as surname, p.path as photo_path, p.name as photo_name FROM App.REVIEWS r JOIN App.USERS u ON u.id = r.id_creator LEFT OUTER JOIN APP.PHOTOS p ON r.id_photo = p.id WHERE r.ID_RESTAURANT = ? AND r.title IS NOT NULL");
 
         try {
             stm.setInt(1, res.getId());
@@ -1817,6 +1879,9 @@ public class DBManager implements Serializable {
                     r.setService(rs.getInt("service"));
                     r.setValue_for_money(rs.getInt("value_for_money"));
                     r.setAuthor(rs.getString("name") + " " + rs.getString("surname"));
+                    
+                    r.setPhotoPath(rs.getString("photo_path"));
+                    r.setPhotoName(rs.getString("photo_name"));
                     
                     res.addRecensione(r);
                 }
@@ -1925,14 +1990,19 @@ public class DBManager implements Serializable {
     public int contaNotificheFoto(User u) throws SQLException{
         StringBuilder builder = new StringBuilder("SELECT COUNT(*) FROM APP.NOTIFICATIONS_PHOTO N ");
 
-        if (u.getCharType() == 'r') {
-            builder.append("WHERE id_target = ").append(u.getId());
+        
+       if (u.getCharType() == 'r') {
+            builder.append("WHERE id_target = ?");
         } else if (u.getCharType() == 'a') {
             builder.append("WHERE id_target IS NULL");
         }
 
         PreparedStatement stm = con.prepareStatement(builder.toString());
-
+        
+        if (u.getCharType() == 'r') {
+            stm.setInt(1, u.getId());
+        }
+        
         try {
             ResultSet rs = stm.executeQuery();
             try {
@@ -1955,17 +2025,21 @@ public class DBManager implements Serializable {
                                                  + "ON N.id_photo = P.id JOIN App.RESTAURANTS R ON P.id_restaurant = R.id ");
 
         if (u.getCharType() == 'r') {
-            builder.append("WHERE id_target = ").append(u.getId());
+            builder.append("WHERE id_target = ?");
         } else if (u.getCharType() == 'a') {
             builder.append("WHERE id_target IS NULL");
         }
-
         builder.append(" FETCH FIRST 1 ROWS ONLY");
-        
-        PreparedStatement stm = con.prepareStatement(builder.toString());
 
+        PreparedStatement stm = con.prepareStatement(builder.toString());
+        
+        if (u.getCharType() == 'r') {
+            stm.setInt(1, u.getId());
+        }        
+        
         try {
             ResultSet rs = stm.executeQuery();
+            
             try {
                 if (rs.next()) {
                     return new NotificaFoto(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5));
@@ -1987,13 +2061,19 @@ public class DBManager implements Serializable {
                                                  + "ON N.id_photo = P.id JOIN App.RESTAURANTS R ON P.id_restaurant = R.id ");
 
         if (u.getCharType() == 'r') {
-            builder.append("WHERE id_target = ").append(u.getId());
+            builder.append("WHERE id_target = ?");
         } else if (u.getCharType() == 'a') {
             builder.append("WHERE id_target IS NULL");
         }
+        
+        
 
         PreparedStatement stm = con.prepareStatement(builder.toString());
-
+        
+        if (u.getCharType() == 'r') {
+            stm.setInt(1, u.getId());
+        } 
+        
         ArrayList<NotificaFoto> list = new ArrayList<>();
 
         try {
@@ -2091,7 +2171,6 @@ public class DBManager implements Serializable {
         } finally {
             stm.close();
         }
-        System.out.println("reclami "+list.size());
 
         return list;
 
@@ -2185,9 +2264,61 @@ public class DBManager implements Serializable {
     }
     
     
+    
+    
+    /**
+     * Metodo che calcola per tutti i ristoranti che ne sono ancora privi le coordinate geografiche a partire dal loro indirizzo
+     * @throws SQLException 
+     */
+    public void computeRestaurantsCoordinate()throws SQLException {
+        PreparedStatement stm = con.prepareStatement("SELECT id, address, city, region, state FROM APP.RESTAURANTS WHERE latitude IS NULL OR longitude IS NULL");
+        
+        List<Restaurant> restaurants = new ArrayList<Restaurant>();
+        
+        
+        try {
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    Restaurant r = new Restaurant();
+                    r.setId(rs.getInt("id"));
+                    r.setAddress(rs.getString("address"));
+                    r.setCity(rs.getString("city"));
+                    r.setRegion(rs.getString("region"));
+                    r.setState(rs.getString("state"));
+                    restaurants.add(r);
+                }
+                
+            } finally{
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        
+        
+        for(Restaurant r : restaurants){
+            
+            double[] coordinates = Util.getCoordinates(r.getAddress(), r.getCity(), r.getRegion(), r.getState());
+            if(coordinates != null && coordinates.length == 2){
+                stm = con.prepareStatement("UPDATE APP.RESTAURANTS SET latitude = ?, longitude = ? WHERE id = ?");
+                try{
+                    stm.setDouble(1, coordinates[0]);
+                    stm.setDouble(2, coordinates[1]);
+                    stm.setInt(3, r.getId());
+                    stm.executeUpdate();
+                }finally {
+                    stm.close();
+                }
+            }
+            
+        }
+        
+    }
+
         
     public void creaInsert(String file_name, String table, boolean id_as_default) throws IOException, SQLException{
-        PrintWriter out = new PrintWriter(new FileWriter("/home/gabriele/Scrivania/" + file_name, true));
+        PrintWriter out = new PrintWriter(new FileWriter("/home/gabriele/Scrivania/" + file_name, false));
         
         PreparedStatement stm = con.prepareStatement("SELECT * FROM APP." + table);
         try {
@@ -2222,69 +2353,5 @@ public class DBManager implements Serializable {
         out.close();
     } 
     
-    /*
-    public void genereteNearNameTerms() throws SQLException{
-        PreparedStatement stm = con.prepareStatement("SELECT id, name FROM APP.restaurants");
-        ArrayList<Restaurant> restaurants = new ArrayList();
-        try{
-            ResultSet rs = stm.executeQuery();
-            try{
-                while(rs.next()){
-                    Restaurant r = new Restaurant();
-                    r.setId(rs.getInt("id"));
-                    r.setName(rs.getString("name"));
-                    restaurants.add(r);
-                }
-            } finally {
-                rs.close();
-            }
-            
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-            stm.close();
-        }
-        
-        for(Restaurant r : restaurants){
-            Set<String> terms = StringDistanceUtil.generateNearTerms(r.getName());
-            for(String t : terms){
-                stm = con.prepareStatement("INSERT INTO APP.names_term VALUES(?, ?)");
-                try{
-                    stm.setInt(1, r.getId());
-                    stm.setString(2, t);
-                    stm.executeUpdate();
-                }finally{
-                    stm.close();
-                }
-            }
-        }
-    }
-    
-    public List<Restaurant> getRestaurantsByNameSimilarity(String name) throws SQLException {
-        Set<String> terms = StringDistanceUtil.generateNearTerms(name);
-        Set<Integer> ids = new HashSet<Integer>();
-        PreparedStatement stm;
-        for(String t : terms){
-            stm = con.prepareStatement("SELECT id FROM APP.names_term WHERE term = ?");
-            try {
-                    stm.setString(1, t);
-                    ResultSet rs = stm.executeQuery();
-                    try{
-                        while(rs.next()) {
-                            ids.add(rs.getInt("id"));
-                        }
-                    }finally {
-                        rs.close();
-                    }
-            } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
-                stm.close();
-            }
-        }
-        ArrayList<Restaurant> restaurants = new ArrayList<>(ids.size());
-        for(Integer id : ids){
-            restaurants.add(getRestaurant(id));
-        }
-        return restaurants;
-        
-    }
-     */
 }
 

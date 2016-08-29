@@ -70,12 +70,15 @@
         <url-pattern>/Logout</url-pattern>
         <url-pattern>/PhotoUpload</url-pattern>
         <url-pattern>/EditProfile</url-pattern>
+        <url-pattern>/ClaimRestaurant</url-pattern>
+        
     </filter-mapping>
     <filter-mapping>
         <filter-name>LoggedOutFilter</filter-name>
         <servlet-name>Login</servlet-name>
         <servlet-name>Register</servlet-name>
         <servlet-name>PasswordRecovery</servlet-name>
+        <servlet-name>ChangePassword</servlet-name>
         <url-pattern>/register.html</url-pattern>
         <url-pattern>/login.html</url-pattern>
         

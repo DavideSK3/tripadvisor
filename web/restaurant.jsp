@@ -334,8 +334,9 @@
                 </c:if>
             </div>
                        
-            
+            <%! int i=0; %>
             <c:forEach var='rec' items='${restaurant.recensioni}'>
+                
                 
 
                 <div class="col-md-12" style="padding: 10px 0px;">
@@ -345,18 +346,46 @@
                                 <span style="color: #428bca;"><i><b><c:out value='${rec.author}'/></b></i></span><br><br>
                                 <span>Recensito il <c:out value='${rec.creation}' /></span> 
                                 
-                                <!-- Trigger the Modal -->
-                                <img id="myImg" src="data/sfondo_restaurant.jpg" alt="Descrizione" style="width: 90%; margin-top: 5%">
+                                <c:if test="${rec.photoPath != null}">
+                                    <!-- Trigger the Modal -->
+                                    <img id="photo<%= i %>" src="<c:out value='${rec.photoPath}'/>" alt="<c:out value='${rec.photoName}'/>" style="width: 90%; margin-top: 5%">
 
-                                <!-- The Modal -->
-                                <div id="modalphoto" class="modal">
-                                    <!-- The Close Button -->
-                                    <span class="close" onclick="document.getElementById('modalphot').style.display='none'">&times;</span>
-                                    <!-- Modal Content (The Image) -->
-                                    <img class="modal-content" id="img01">
-                                    <!-- Modal Caption (Image Text) -->
-                                    <div id="caption"></div>
-                                </div>
+                                    <!-- The Modal -->
+                                    <div id="modalphoto<%= i %>" class="modal">
+                                        <!-- The Close Button -->
+                                        <span class="close" onclick="document.getElementById('modalphot<%= i %>').style.display='none'">&times;</span>
+                                        <!-- Modal Content (The Image) -->
+                                        <img class="modal-content" id="img<%= i %>">
+                                        <!-- Modal Caption (Image Text) -->
+                                        <div id="caption<%= i %>"></div>
+                                    </div>
+                                    
+                                    
+                                    <script>
+                                        // Get the modal
+                                        var modal = document.getElementById('modalphoto<%= i %>');
+
+                                        // Get the image and insert it inside the modal - use its "alt" text as a caption
+                                        var img = document.getElementById('photo');
+                                        var modalImg = document.getElementById("img<%= i %>");
+                                        var captionText = document.getElementById("caption<%= i %>");
+                                        img.onclick = function(){
+                                            modal.style.display = "block";
+                                            modalImg.src = this.src;
+                                            modalImg.alt = this.alt;
+                                            captionText.innerHTML = this.alt;
+                                        }
+
+                                        // Get the <span> element that closes the modal
+                                        var span = document.getElementsByClassName("close")[0];
+
+                                        // When the user clicks on <span> (x), close the modal
+                                        span.onclick = function() { 
+                                          modal.style.display = "none";
+                                        }
+                                    </script>
+                                </c:if>
+                                
                                 
                             </div>
                             <div class="col-md-7" style="padding: 2px 5px;  border-right: 1px solid limegreen; ">
@@ -473,29 +502,7 @@
             });
         </script>
         
-        <script>
-            // Get the modal
-            var modal = document.getElementById('modalphoto');
-
-            // Get the image and insert it inside the modal - use its "alt" text as a caption
-            var img = document.getElementById('myImg');
-            var modalImg = document.getElementById("img01");
-            var captionText = document.getElementById("caption");
-            img.onclick = function(){
-                modal.style.display = "block";
-                modalImg.src = this.src;
-                modalImg.alt = this.alt;
-                captionText.innerHTML = this.alt;
-            }
-
-            // Get the <span> element that closes the modal
-            var span = document.getElementsByClassName("close")[0];
-
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function() { 
-              modal.style.display = "none";
-            }
-        </script>
+        
         
         </body>
 </html>

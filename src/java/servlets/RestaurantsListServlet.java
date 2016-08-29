@@ -185,6 +185,9 @@ public class RestaurantsListServlet extends HttpServlet {
         }else{
             newAdvancedResearch(req, resp);
         }
+        
+        
+        
         Research research = (Research) session.getAttribute(query_id);
         synchronized(research){
             List<Restaurant> results = research.getResults();
@@ -329,18 +332,11 @@ public class RestaurantsListServlet extends HttpServlet {
         
         long inizio = new Date().getTime();
         try{
-            if(!r_query.isEmpty() && !p_query.isEmpty()){
-                results = manager.getRestaurantsOrderedBy(r_query, p_query, "position");
-
-            }else if(!r_query.isEmpty() && p_query.isEmpty()){
-
-                results = manager.getRestaurantsByNameSimilarityOrderedBy(r_query, "position");
-
-            }else if(r_query.isEmpty() && !p_query.isEmpty()){
-                results = manager.getRestaurantsByPlaceOrderedBy(p_query, "position");
-
-            }else{
+            
+            if(r_query.isEmpty() && p_query.isEmpty()){
                 results = new ArrayList<>();
+            }else{
+                results = manager.getRestaurantsOrderedBy(r_query, p_query, "position");
             }
         }catch (SQLException ex){
             results = new ArrayList<>();

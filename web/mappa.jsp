@@ -10,7 +10,7 @@
       }
     </style>
     <link rel="icon" href="favicon.png" type="image/png" />
-    <title>Mapp</title>
+    <title>Map</title>
   </head>
   <body>
     <div id="map"></div>

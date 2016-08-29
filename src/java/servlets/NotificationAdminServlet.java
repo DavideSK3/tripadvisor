@@ -76,7 +76,7 @@ public class NotificationAdminServlet extends HttpServlet {
             if(segnala_foto.equals("conferma")){
                 try {
                     manager.confermaFoto(id_photo);
-                    message = "Foto "+id_photo+" Approvata!";
+                    message = "Foto Approvata!";
                 } catch (SQLException ex) {
                     message = "L'operazione non è andata a buon fine";
                     Logger.getLogger(NotificationRestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -84,7 +84,7 @@ public class NotificationAdminServlet extends HttpServlet {
             } else if(segnala_foto.equals("elimina")){
                  try {
                     manager.eliminaFoto(id_photo);
-                    message = "Foto "+id_photo+" Eliminata con successo";
+                    message = "Foto eliminata con successo";
                 } catch (SQLException ex) {
                     message = "L'operazione non è andata a buon fine";
                     Logger.getLogger(NotificationRestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -101,7 +101,7 @@ public class NotificationAdminServlet extends HttpServlet {
             if(reclamo.equals("conferma")){
                 try {
                         manager.confermaReclamo(id_restaurant,id_user);
-                        message = "Ristorante "+id_restaurant+" assegnato al ristoratore "+id_user;
+                        message = "Ristorante assegnato al ristoratore";
                     } catch (SQLException ex) {
                         message = "L'operazione non è andata a buon fine";
                         Logger.getLogger(NotificationRestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -109,7 +109,7 @@ public class NotificationAdminServlet extends HttpServlet {
             } else if(reclamo.equals("elimina")){
                 try {
                         manager.eliminaReclamo(id_restaurant,id_user);
-                        message = "Ristorante "+id_restaurant+" non assegnato all'utente "+id_user;
+                        message = "Ristorante non assegnato all'utente";
                     } catch (SQLException ex) {
                         message = "L'operazione non è andata a buon fine";
                         Logger.getLogger(NotificationRestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);

@@ -30,6 +30,7 @@ public class NotificationRestaurantServlet extends HttpServlet {
 
     private DBManager manager;
     
+    @Override
     public void init() throws ServletException {
 
         // inizializza il DBManager dagli attributi di Application
@@ -70,6 +71,7 @@ public class NotificationRestaurantServlet extends HttpServlet {
      * @throws ServletException
      * @throws IOException 
      */
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
         
@@ -90,7 +92,7 @@ public class NotificationRestaurantServlet extends HttpServlet {
             } else if(segnala_foto.equals("segnala")){
                  try {
                     manager.segnalaAdminFoto(id_photo);
-                    message = "Foto "+id_photo+" Segnalata agli Amministratori!";
+                    message = "Foto Segnalata agli Amministratori!";
                 } catch (SQLException ex) {
                     message = "L'operazione non è andata a buon fine";
                     Logger.getLogger(NotificationRestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);

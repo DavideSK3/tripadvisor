@@ -41,7 +41,8 @@ public class EditProfileServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        
+        
         HttpSession session = req.getSession(true);
         
         User user = ((User)session.getAttribute("user"));
@@ -49,7 +50,6 @@ public class EditProfileServlet extends HttpServlet {
         String email = req.getParameter("email");
         String name = req.getParameter("name");
         String surname = req.getParameter("surname");
-        
         synchronized(user){
             try{
                 manager.editProfile(user.getId(), name, surname, email);
@@ -59,7 +59,7 @@ public class EditProfileServlet extends HttpServlet {
                 req.setAttribute("message", "Profilo aggiornato");
             } catch (SQLException ex) {
                 Logger.getLogger(EditProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
-                req.setAttribute("message", "C'è stato un errore nell'aggiornamento del suo profilo.");
+                req.setAttribute("message", "C'è stato un errore nell'aggiornamento del suo profilo.");   
                 
             }
         }

@@ -25,6 +25,9 @@ public class Review implements Serializable{
     private Integer id_creator;
     private Integer id_photo;
     private String author;
+    
+    private String photoPath;
+    private String photoName;
 
     /**
      * @return the global_value
@@ -192,6 +195,34 @@ public class Review implements Serializable{
      */
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    /**
+     * @return the photo
+     */
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    /**
+     * @param photo the photo to set
+     */
+    public void setPhotoPath(String photo) {
+        this.photoPath = photo;
+    }
+
+    /**
+     * @return the photoName
+     */
+    public String getPhotoName() {
+        return photoName;
+    }
+
+    /**
+     * @param photoName the photoName to set
+     */
+    public void setPhotoName(String photoName) {
+        this.photoName = photoName;
     }
     
 }

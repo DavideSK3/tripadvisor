@@ -6,7 +6,6 @@
 package servlets;
 
 import db.DBManager;
-import db.Orario;
 import db.Restaurant;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -17,15 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
-import net.glxn.qrgen.QRCode;
-import net.glxn.qrgen.image.ImageType;
-import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  *
@@ -98,8 +90,8 @@ public class RestaurantServlet extends HttpServlet {
             }
             
         }else{
-            
-            rd = req.getRequestDispatcher("/results_list.jsp");
+            req.setAttribute("message", "Nessun ristorante specificato");
+            rd = req.getRequestDispatcher("/message.jsp");
         }
         
         if(r != null){

@@ -13,7 +13,7 @@
                 margin: 0;
             }
         </style>
-        <title>Profilo</title>
+        <title>Notifiche</title>
     </head>
     <body>
         <nav class="navbar header">

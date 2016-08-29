@@ -1,9 +1,3 @@
-<%-- 
-    Document   : message
-    Created on : 15-mag-2016, 13.56.02
-    Author     : gabriele
---%>
-
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
