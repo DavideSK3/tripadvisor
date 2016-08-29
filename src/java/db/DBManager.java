@@ -5,7 +5,6 @@
  */
 package db;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,15 +15,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -1818,7 +1814,13 @@ public class DBManager implements Serializable {
         
         return true;
     }
-
+    
+    /**
+     * Cerca nella tabella APP.REVIEWS le recensioni del ristorante specificato.
+     * 
+     * @param res
+     * @throws SQLException 
+     */
     public void getReviews(Restaurant res) throws SQLException {
 
         PreparedStatement stm = con.prepareStatement("SELECT r.*, u.name as name, u.surname as surname FROM App.REVIEWS r JOIN App.USERS u ON u.id = r.id_creator WHERE ID_RESTAURANT = ?");
@@ -1855,6 +1857,11 @@ public class DBManager implements Serializable {
 
     }
     
+    /**
+     * Cerca nella tabella APP.REVIEWS le recensioni del ristorante specificato che abbiano un titolo, evitando così le recensioni "veloci" (quelle in cui è specificato solo il voto generico)
+     * @param res
+     * @throws SQLException 
+     */
     public void getCompletedReviews(Restaurant res) throws SQLException {
 
         PreparedStatement stm = con.prepareStatement("SELECT r.*, u.name as name, u.surname as surname, p.path as photo_path, p.name as photo_name FROM App.REVIEWS r JOIN App.USERS u ON u.id = r.id_creator LEFT OUTER JOIN APP.PHOTOS p ON r.id_photo = p.id WHERE r.ID_RESTAURANT = ? AND r.title IS NOT NULL");
@@ -1892,9 +1899,16 @@ public class DBManager implements Serializable {
             stm.close();
         }
 
+        
     }
     
-    
+    /**
+     * Controlla se l'utente identificato dalla chiave contenuta in "user" coincide con l'utente proprietario del ristorante identificato dalla chiave contenuta in "restaurant".
+     * @param user
+     * @param restaurant
+     * @return
+     * @throws SQLException 
+     */
     public boolean isRestaurantOwner(int user, int restaurant) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT id_owner FROM APP.RESTAURANTS WHERE id = ? AND id_owner = ?");
         try {
@@ -1912,12 +1926,14 @@ public class DBManager implements Serializable {
         
     }
     
+    
+    
     /**
      * -------------- GESTIONE NOTIFICHE -----------------
      */
     
     /**
-     * 
+     * Ritorna la chiave identificativa del proprietario del ristorante identificato dalla chiave contenuta in "restaurant".
      * @param restaurant
      * @return id del proprietario se esiste, null se il ristorante non ha un proprietario o -1 se il ristorante non è stato trovato
      * @throws SQLException 
@@ -1946,9 +1962,12 @@ public class DBManager implements Serializable {
     }
 
     /**
-     * Se target impostato ad un valore < 0, viene inserito il valore null In
-     * tal caso la notifica viene inviata a tutti gli admin @param photo @param
-     * target @throws SQLException
+     * Metodo che crea una nuova notifica di inserimento/segnalazione foto nel database.
+     * Se "target" viene impostato ad un valore minore di 0, viene inserito il valore null.
+     * In tal caso la notifica viene inviata a tutti gli admin.
+     * @param photo - id della foto
+     * @param target - identificativo del ristoratore proprietario del ristorante o un numero negativo per indicare tutti gli admin
+     * @throws SQLException
      */
     public void newPhotoNotification(int photo, int target) throws SQLException {
         PreparedStatement stm = con.prepareStatement("INSERT INTO APP.NOTIFICATIONS_PHOTO VALUES (?, ?)");
@@ -1971,6 +1990,13 @@ public class DBManager implements Serializable {
 
     }
 
+    /**
+     * Metodo che crea una nuova notifica di reclamo ristorante per gli admin.
+     * 
+     * @param user - identificativo dell'utente che vuole reclamare il ristorante
+     * @param restaurant - identificativo del ristorante
+     * @throws SQLException 
+     */
     public void richiestaReclamoRistorante(int user, int restaurant) throws SQLException {
         PreparedStatement stm = con.prepareStatement("INSERT INTO APP.NOTIFICATIONS_RESTAURANT VALUES (?, ?)");
 
