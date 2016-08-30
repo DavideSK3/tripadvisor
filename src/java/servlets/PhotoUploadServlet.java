@@ -24,10 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.io.FilenameUtils;
 
-/**
- *
- * @author gabriele
- */
+
 public class PhotoUploadServlet extends HttpServlet {
     
     private DBManager manager;

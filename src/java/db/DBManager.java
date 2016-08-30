@@ -23,10 +23,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.logging.Logger;
 
-/**
- *
- * @author gabriele
- */
+
 public class DBManager implements Serializable {
     
     private static final String duplicateKeyErrorCode = "23505";
@@ -202,10 +199,9 @@ public class DBManager implements Serializable {
             try {
                 return (rs.next());
             } finally {
-                // ricordarsi SEMPRE di chiudere i ResultSet in un blocco finally 
                 rs.close();
             }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally {
             stm.close();
         }
     }
@@ -246,7 +242,7 @@ public class DBManager implements Serializable {
 
             int rs = stm.executeUpdate();
 
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally { 
             stm.close();
         }
     }
@@ -280,10 +276,10 @@ public class DBManager implements Serializable {
                     return null;
                 }
             } finally {
-                // ricordarsi SEMPRE di chiudere i ResultSet in un blocco finally 
+                
                 rs.close();
             }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally { 
             stm.close();
         }
     }
@@ -312,10 +308,9 @@ public class DBManager implements Serializable {
                     return null;
                 }
             } finally {
-                // ricordarsuser.setType(rs.getString("type").charAt(0));i SEMPRE di chiudere i ResultSet in un blocco finally 
                 rs.close();
             }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally { 
             stm.close();
         }
     }
@@ -482,10 +477,10 @@ public class DBManager implements Serializable {
                 }
                 return r_l;
             } finally {
-                // ricordarsuser.setType(rs.getString("type").charAt(0));i SEMPRE di chiudere i ResultSet in un blocco finally 
+                
                 rs.close();
             }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally { 
             stm.close();
         }
     }
@@ -502,19 +497,16 @@ public class DBManager implements Serializable {
      */
     public List<String> getRestaurantsNamesByTerm(String term, int limit) throws SQLException {
         
-        //TODO - COME RISOLVERE SENZA USARE LA CONCATENZAIONE DI STRINGHE????
-        /*notes = notes
+        term = term
             .replace("!", "!!")
             .replace("%", "!%")
             .replace("_", "!_")
             .replace("[", "![");
-        PreparedStatement pstmt = con.prepareStatement(
-                "SELECT * FROM analysis WHERE notes LIKE ? ESCAPE '!'");
-        pstmt.setString(1, notes + "%");*/
         
         List<String> result = new ArrayList<String>();
-        PreparedStatement stm = con.prepareStatement("SELECT name FROM APP.restaurants R WHERE lcase(name) LIKE '" + term + "%' FETCH FIRST ? ROWS ONLY");
-        stm.setInt(1, limit);
+        PreparedStatement stm = con.prepareStatement("SELECT name FROM APP.restaurants R WHERE lcase(name) LIKE ? ESCAPE '!' FETCH FIRST ? ROWS ONLY");
+        stm.setString(1, term + "%");
+        stm.setInt(2, limit);
         try {
             ResultSet rs = stm.executeQuery();
 
@@ -561,7 +553,7 @@ public class DBManager implements Serializable {
         
         StringBuilder query = new StringBuilder();
         if(place != null && !place.isEmpty()){
-            query.append("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE '").append(place).append("%'");
+            query.append("SELECT * FROM APP.restaurants R WHERE state || ' ' || region || ' ' ||  city LIKE  ? ESCAPE '!'");
         }else{
             query.append("SELECT * FROM APP.restaurants R");
         }
@@ -580,6 +572,14 @@ public class DBManager implements Serializable {
                 break;
         }
         PreparedStatement stm = con.prepareStatement(query.toString());
+        if(place != null && !place.isEmpty()){
+            place = place
+                .replace("!", "!!")
+                .replace("%", "!%")
+                .replace("_", "!_")
+                .replace("[", "![");
+            stm.setString(1, place + "%");
+        }
         try {
             if(name != null && !name.isEmpty()){
                 return getRestaurantsFilteredByNameSimilarity(stm, name);
@@ -640,7 +640,7 @@ public class DBManager implements Serializable {
 
         
         if(place != null && !place.isEmpty()){
-            conditions.add("state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
+            conditions.add("state || ' ' || region || ' ' ||  city LIKE ?");
         }
         
         
@@ -691,8 +691,6 @@ public class DBManager implements Serializable {
         System.out.println(query.toString());
         
         
-
-       
         try {
             
             int j=1;
@@ -702,9 +700,14 @@ public class DBManager implements Serializable {
                 }
             }
 
-            /*if(place != null && !place.isEmpty()){
-                conditions.add("state || ' ' || region || ' ' ||  city LIKE '" + place + "%'");
-            }*/
+            if(place != null && !place.isEmpty()){
+                place = place
+                    .replace("!", "!!")
+                    .replace("%", "!%")
+                    .replace("_", "!_")
+                    .replace("[", "![");
+                stm.setString(j++, place + "%");
+            }
 
 
             if (minPrice != null) {

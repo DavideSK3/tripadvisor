@@ -27,7 +27,6 @@ import javax.ws.rs.core.MediaType;
 /**
  * REST Web Service
  *
- * @author gabriele
  */
 @Path("autocomplete")
 public class AutocompleteResource {

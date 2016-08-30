@@ -7,9 +7,6 @@ package filters;
 
 import db.DBManager;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,15 +16,9 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import servlets.RestaurantsListServlet;
 
-/**
- *
- * @author gabriele
- */
+
 public class AdvancedSearchParameterFilter implements Filter {
     
     // The filter configuration object we are associated with.  If

@@ -7,10 +7,6 @@ package db;
 
 import java.io.Serializable;
 
-/**
- *
- * @author gabriele
- */
 public class User implements Serializable{
     
     private Integer id;

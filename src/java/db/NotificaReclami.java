@@ -5,10 +5,7 @@
  */
 package db;
 
-/**
- *
- * @author Davide
- */
+
 public class NotificaReclami {
     
     

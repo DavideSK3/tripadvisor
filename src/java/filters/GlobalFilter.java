@@ -22,10 +22,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author gabriele
+ * Filtro che si occupa di impostare il character encoding per le request e le response per ogni pagina dell'applicazione.
+ * Inoltre, dato che l'header è visualizzato in quasi ogni pagina e necessita delle anteprime notifiche, il compito di recuperarle dal database
+ * è lasciato a questo filtro invece che implementarlo in ogni servlet.
+ * 
  */
-public class EncodingFilter implements Filter {
+public class GlobalFilter implements Filter {
     
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
@@ -71,7 +73,7 @@ public class EncodingFilter implements Filter {
                     request.setAttribute("notificaFoto", manager.getUnaNotificaFoto((User)session.getAttribute("user")));
                     request.setAttribute("numeroNotifiche", manager.contaNotificheFoto((User)session.getAttribute("user")));
                 } catch (SQLException ex) {
-                    Logger.getLogger(EncodingFilter.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(GlobalFilter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else if(((User)session.getAttribute("user")).getCharType() == 'a'){
                 try {
@@ -79,7 +81,7 @@ public class EncodingFilter implements Filter {
                     request.setAttribute("notificaReclamo", manager.getUnReclamoRistorante());
                     request.setAttribute("numeroNotifiche", manager.contaNotificheFoto((User)session.getAttribute("user")) + manager.contaNotificheReclami());
                 } catch (SQLException ex) {
-                    Logger.getLogger(EncodingFilter.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(GlobalFilter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

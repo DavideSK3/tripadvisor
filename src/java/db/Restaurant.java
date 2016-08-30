@@ -20,12 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.glxn.qrgen.QRCode;
 import net.glxn.qrgen.image.ImageType;
-import org.apache.commons.lang3.RandomStringUtils;
 
-/**
- *
- * @author gabriele
- */
+
 public class Restaurant implements Serializable{
     
     private Integer id;
@@ -63,7 +59,7 @@ public class Restaurant implements Serializable{
     
     
     private Integer posizione = null;
-    private Integer numeroTotaleRistoranti = null;
+    //private Integer numeroTotaleRistoranti = null;
     
     /**
      * @return the id
@@ -471,7 +467,16 @@ public class Restaurant implements Serializable{
         else return getMin_price()+getMax_price();
     }
     
-    
+    /**
+     * Metodo che costruisce e salva l'immagine del QR del ristorante identificato da "id".
+     * Questo metodo in particolare si occupa di costruire e salvare sul file system l'immagine
+     * e poi aggiornare il database inserendone il percorso 
+     * @param id
+     * @param qrDir - il nome della directory cotenente il QR
+     * @param contextPath - il percorso assoluto sul filesystem dell'applicazione
+     * @param manager - il DBManager che interfaccia il database
+     * @return il percorso per il file contenente il QR se tutte le operazioni sono andate a buon fine, null altrimenti
+     */
     public static final String buildQR(int id, String qrDir, String contextPath, DBManager manager){
         
         Restaurant r;
@@ -526,27 +531,30 @@ public class Restaurant implements Serializable{
                 fout.close();
 
         } catch (FileNotFoundException e) {
-                // Do Logging
+            Logger.getLogger(Restaurant.class.getName()).log(Level.SEVERE, null, e);
+            return null;
         } catch (IOException e) {
-                // Do Logging
+            Logger.getLogger(Restaurant.class.getName()).log(Level.SEVERE, null, e);
+            return null;
         }
         
         if(r.getQr_path() != null){
-            System.out.println("old (real) path = " + contextPath + r.getQr_path());
+            //System.out.println("old (real) path = " + contextPath + r.getQr_path());
             File f = new File(contextPath + r.getQr_path());
             f.delete();
         }
         
         r.setQr_path(qrDir + "/" + name);
         
-        System.out.println("new (real) path = " + contextPath + r.getQr_path());
+        /*System.out.println("new (real) path = " + contextPath + r.getQr_path());
         System.out.println("new (relative) path = " + r.getQr_path());
-        System.out.println("new (absolute) path = " + file.getAbsolutePath());
+        System.out.println("new (absolute) path = " + file.getAbsolutePath());*/
         
         try {
             manager.setRestaurantQRPath(id, r.getQr_path());
         } catch (SQLException ex) {
             Logger.getLogger(Restaurant.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
         
         return r.getQr_path();

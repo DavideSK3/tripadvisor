@@ -7,10 +7,7 @@ package db;
 
 import java.io.Serializable;
 
-/**
- *
- * @author gabriele
- */
+
 public class Photo implements Serializable{
 
     public Photo(String name, String path, int type) {

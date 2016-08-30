@@ -8,10 +8,7 @@ package db;
 import java.io.Serializable;
 import java.sql.Time;
 
-/**
- *
- * @author gabriele
- */
+
 public class Orario implements Serializable{
     
     public static final String[] days = {"Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"};

@@ -16,7 +16,6 @@ import javax.servlet.ServletContextListener;
 /**
  * Web application lifecycle listener.
  *
- * @author gabriele
  */
 public class WebappContextListener implements ServletContextListener {
     

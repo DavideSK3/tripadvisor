@@ -16,10 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author gabriele
- */
+
 public class LoggedInFilter implements Filter {
     
     // The filter configuration object we are associated with.  If

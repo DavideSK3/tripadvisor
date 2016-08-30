@@ -15,10 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- *
- * @author gabriele
- */
+
 public final class Util {
     
     
@@ -221,17 +218,18 @@ public final class Util {
     
    
     
-    public static double degToRad(double a){
-        return Math.PI*a/180.0;
-    }
     public static final double R = 6371; // in km
     
     /**
-     * si assume che gli angoli siano sessadecimali!!!
+     * Calcola la distanza linerare (in km) tra due punti sul globo date le loro coordinate georgrafiche.
+     * 
+     * N.B.: si assume che gli angoli siano espressi in gradi sessadecimali.
+     * 
      * @param lo1
      * @param la1
      * @param lo2
      * @param la2
+     * 
      * @return 
      */
     public static double computeLinearDistance(double lo1, double la1, double lo2, double la2){
@@ -255,6 +253,7 @@ public final class Util {
         
     }
     
+    
     public static void sortByValue(List<Restaurant> r){
         Collections.sort(r, new Restaurant.ComparatorByValue());
     }
@@ -267,6 +266,16 @@ public final class Util {
         Collections.sort(r, new Restaurant.ComparatorByPrice());
     }
     
+    /**
+     * Metodo che calcolo le coordinate geografiche di un indirizzo.
+     * 
+     * @param address
+     * @param city
+     * @param region
+     * @param state
+     * 
+     * @return null se l'indirizzo non è stato trovato, la coppia latitudine e longitudine in caso contrario
+     */
     public static double[] getCoordinates(String address, String city, String region, String state){
         String target = address.trim().replace(" ", "+") + "+" + city.replace(" ", "") + (region != null? "+" + region.replace(" ", "") : "") + (state != null ? "+"+state.replace(" ", "") : "");
         

@@ -19,10 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-/**
- *
- * @author gabriele
- */
+
 public class RestaurantServlet extends HttpServlet {
 
     private DBManager manager;

@@ -23,10 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author Davide
- */
+
 public class NotificationAdminServlet extends HttpServlet {
 
     private DBManager manager;
@@ -133,6 +130,7 @@ public class NotificationAdminServlet extends HttpServlet {
                 manager.creaInsert("cuisines.sql", "CUISINES", true);
                 manager.creaInsert("photos.sql", "PHOTOS", true);
                 manager.creaInsert("restaurants_cuisines.sql", "RESTAURANTS_CUISINES", false);
+                manager.creaInsert("restaurants.sql", "RESTAURANTS", true);
                 message ="Fatto!";
             } catch (SQLException ex) {
                 Logger.getLogger(NotificationAdminServlet.class.getName()).log(Level.SEVERE, null, ex);

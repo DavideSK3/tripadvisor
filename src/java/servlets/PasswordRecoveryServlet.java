@@ -22,10 +22,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import javax.servlet.RequestDispatcher;
 
-/**
- *
- * @author gabriele
- */
+
 public class PasswordRecoveryServlet extends HttpServlet {
 
     private DBManager manager;

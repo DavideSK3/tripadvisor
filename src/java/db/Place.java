@@ -8,10 +8,7 @@ package db;
 import java.io.Serializable;
 import java.util.Comparator;
 
-/**
- *
- * @author gabriele
- */
+
 public class Place implements Serializable{
     
     private String state = null;
@@ -61,7 +58,12 @@ public class Place implements Serializable{
         this.city = city;
     }
     
-    
+    /**
+     * Crea la stringa nel formato utilizzato anche per le query nel database.
+     * È consigliato utilizzare questo metodo per nelle query.
+     * @return 
+     */
+    @Override
     public String toString(){
         String r = "";
         if(state != null){
@@ -77,7 +79,9 @@ public class Place implements Serializable{
     }
     
     
-    
+    /**
+     * Classe che implementa l'interfaccia Comparator per poter ordinare gli oggetti di tipo Place all'interno della priority queue
+     */
     public static class PlaceComparator implements Comparator<Place> {
         @Override
         public int compare(Place x, Place y){

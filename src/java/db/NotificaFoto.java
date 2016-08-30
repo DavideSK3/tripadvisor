@@ -5,10 +5,6 @@
  */
 package db;
 
-/**
- *
- * @author gabriele
- */
 public class NotificaFoto {
     
     
