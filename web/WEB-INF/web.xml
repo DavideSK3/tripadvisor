@@ -3,7 +3,6 @@
     <context-param>
         <param-name>dburl</param-name>
         <param-value>jdbc:derby:/home/gabriele/NetBeansProjects/TripAdvisor/db</param-value>
-        <!--<param-value>jdbc:postgresql://localhost/tripadvisordb</param-value>-->
     </context-param>
     <context-param>
         <param-name>webAddress</param-name>
@@ -82,7 +81,7 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>RestaurateurFilter</filter-name>
-        <!--<url-pattern>/ManageRestaurant</url-pattern>-->
+        <url-pattern>/ManageRestaurant</url-pattern>
         <url-pattern>/NotificationRestaurant</url-pattern>
     </filter-mapping>
     <filter-mapping>

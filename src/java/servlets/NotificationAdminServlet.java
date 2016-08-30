@@ -115,29 +115,7 @@ public class NotificationAdminServlet extends HttpServlet {
             }
         }
         
-        if(req.getParameter("computeCoordinates") != null){
-            try {
-                manager.computeRestaurantsCoordinate();
-                message ="Fatto!";
-            } catch (SQLException ex) {
-                Logger.getLogger(NotificationAdminServlet.class.getName()).log(Level.SEVERE, null, ex);
-                message ="Ahia";
-            }
-        }
-        
-        if(req.getParameter("creaInsert") != null){
-            try {
-                manager.creaInsert("cuisines.sql", "CUISINES", true);
-                manager.creaInsert("photos.sql", "PHOTOS", true);
-                manager.creaInsert("restaurants_cuisines.sql", "RESTAURANTS_CUISINES", false);
-                manager.creaInsert("restaurants.sql", "RESTAURANTS", true);
-                message ="Fatto!";
-            } catch (SQLException ex) {
-                Logger.getLogger(NotificationAdminServlet.class.getName()).log(Level.SEVERE, null, ex);
-                message ="Ahia";
-            }
-        }
-        
+                
         req.setAttribute("message", message);
         RequestDispatcher rd = req.getRequestDispatcher("message.jsp");
         

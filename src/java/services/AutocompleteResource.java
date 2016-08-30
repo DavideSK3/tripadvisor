@@ -76,7 +76,7 @@ public class AutocompleteResource {
         System.out.println("risultati ottenuti in " + (fine - inizio)/1000.0);
         if(results != null){
             Gson gson = new Gson();
-            System.out.println(results.size());
+            //System.out.println(results.size());
             return gson.toJson(results);
         }else{
             return null;

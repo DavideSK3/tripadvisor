@@ -65,7 +65,7 @@ public class ManageRestaurantServlet extends HttpServlet {
         if(results == null){
             req.setAttribute("message", "Ristorante non trovato");
             req.getRequestDispatcher("message.jsp").forward(req, resp);
-        }else if(!Objects.equals(results.getId_owner(), ((User)session.getAttribute("user")).getId()) && ((User)session.getAttribute("user")).getCharType() != 'a'){
+        }else if(!Objects.equals(results.getId_owner(), ((User)session.getAttribute("user")).getId())){
             req.setAttribute("message", "Questo ristorante non ti appartiene, non puoi modificarne le informazioni");
             req.getRequestDispatcher("message.jsp").forward(req, resp);
         }else{

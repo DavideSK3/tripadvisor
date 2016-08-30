@@ -335,7 +335,7 @@
                                             <input type="text" name="photoName" style="width:100%; padding: 5px 10px; margin: 10px 0px;" maxlength="25" placeholder="Cosa rappresenta questa foto?">
                                         </div>
                                         <input style="float: right" class="btn btn-default" TYPE='submit' value="Invia">
-                                        <button style="float: left" type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
+                                        
                                     </form>
                                 </div>
                                 <div class="modal-footer" style="border-top-width: 0;">

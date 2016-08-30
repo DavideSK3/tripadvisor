@@ -688,7 +688,7 @@ public class DBManager implements Serializable {
         }
         
         PreparedStatement stm = con.prepareStatement(query.toString());
-        System.out.println(query.toString());
+        //System.out.println(query.toString());
         
         
         try {
@@ -1578,7 +1578,7 @@ public class DBManager implements Serializable {
         
         query.append(" WHERE id=?");
         
-        System.out.println(query);
+        //System.out.println(query);
         PreparedStatement stm = con.prepareStatement(query.toString());
         
         int i = 1;
