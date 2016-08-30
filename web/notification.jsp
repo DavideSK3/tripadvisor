@@ -33,7 +33,7 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">    
-                            <li><a href="<c:url value='Profile'/>" class="glyphicon glyphicon-log-out utente"> Profilo </a></li>
+                            <li><a href="<c:url value='Profile'/>" class="glyphicon glyphicon-user utente"> Profilo </a></li>
                             <li><a href="<c:url value='Logout'/>" class="glyphicon glyphicon-log-out utente"> Logout </a></li>
                         </ul>
                     </div>

@@ -16,13 +16,31 @@
                             <label style="padding-left: 7%;"> Min : &nbsp;<input type="number" class="form-control" id= "min_max" min="0"   style="max-width: 30%" name ="min_price" value ="<c:out value='${requestScope.min_price}'/>"/></label>
                             <label style="padding-left: 7%;"> Max : &nbsp;<input type="number" class="form-control" id= "min_max"  min="0" style="max-width: 30%" name ="max_price"  value ="<c:out value='${requestScope.max_price}'/>"/></label>
                         </li>
-                        <li><label style="padding-left: 6%; ">Categorie:</label><br>
-                            <div style="padding-left: 10%">
-                                <c:forEach var ='c' items ='${cuisines}'>
-                                    <input type="checkbox" name= "cuisines" value="<c:out value='${c}'/>" <c:if test='${requestScope[c] == true}'>checked</c:if>>
-                                    <c:out value='${c}'/><br>
-                                </c:forEach>
+                        <li><br>
+                            <div style="padding-left: 6%">
+                                <!--<div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">-->
+                                <div class="smallfont" style="margin-bottom: 2px;"><input value="Categorie Cucine" class="btn btn-default" style="font-weight: bold;"
+                                                                                          onclick="if (this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display != '') {
+                                                                                                        this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display = '';
+                                                                                                        this.innerText = '';
+                                                                                                    } else {
+                                                                                                        this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display = 'none';
+                                                                                                        this.innerText = '';
+                                                                                                    }"
+                                                                                          type="button"> 
+                                </div>
+                                <div class="alt2" style="border: 1px inset ; margin: 0px; padding: 6px;">
+                                    <div style="display: none;">
+                                        <c:forEach var ='c' items ='${cuisines}'>
+                                            <input type="checkbox" name= "cuisines" value="<c:out value='${c}'/>" <c:if test='${requestScope[c] == true}'>checked</c:if>>
+                                            <c:out value='${c}'/><br>
+                                        </c:forEach>
+                                    </div>
+                                </div>
                             </div>
+                                <br>
                         </li>
                         <li><label style="padding-left: 6%;">Valutazione:</label><br>
                             <div style="padding-left: 10%">  

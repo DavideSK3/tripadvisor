@@ -181,16 +181,16 @@
 }
 
 /* Style the Image Used to Trigger the Modal */
-#myImg {
+.revPhoto {
     border-radius: 5px;
     cursor: pointer;
     transition: 0.3s;
 }
 
-#myImg:hover {opacity: 0.7;}
+.revPhoto:hover {opacity: 0.7;}
 
 /* The Modal (background) */
-#modalphoto {
+.modal.pippo {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -205,7 +205,7 @@
 }
 
 /* Modal Content (Image) */
-#img01 {
+.modal-content.pippo {
     margin: auto;
     display: block;
     width: 80%;
@@ -213,7 +213,7 @@
 }
 
 /* Caption of Modal Image (Image Text) - Same Width as the Image */
-#caption {
+.revCaption {
     margin: auto;
     display: block;
     width: 80%;
@@ -225,7 +225,7 @@
 }
 
 /* Add Animation - Zoom in the Modal */
-#img01, #caption { 
+.modal-content.pippo, .revCaption { 
     -webkit-animation-name: zoom;
     -webkit-animation-duration: 0.6s;
     animation-name: zoom;
@@ -262,7 +262,7 @@
 
 /* 100% Image Width on Smaller Screens */
 @media only screen and (max-width: 700px){
-    #img01 {
+    .modal-content.pippo {
         width: 100%;
     }
 }

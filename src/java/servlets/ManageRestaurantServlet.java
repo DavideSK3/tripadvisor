@@ -165,8 +165,12 @@ public class ManageRestaurantServlet extends HttpServlet {
         
         String message;
         try {
-            manager.manageRestaurant(id, name, description, url, address, min_price, max_price);
-            message = "Modifica del Ristorante completata con successo!";
+            boolean risp = manager.manageRestaurant(id, name, description, url, address, min_price, max_price);
+            if(risp){
+                message = "Modifica del Ristorante completata con successo!";
+            }else{
+                message = "La modifica non è andata a buon fine.\nProbabilmente l'indirizzo inserito non esiste o è scritto male.\nControlla che l'indirizzo sia corretto e riprova.";
+            }
         } catch (SQLException ex) {
             message = "La modifica non è andata a buon fine...";
             throw new ServletException(ex);

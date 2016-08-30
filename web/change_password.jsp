@@ -1,3 +1,4 @@
+<!-- FORM PER LA REIMPOSTAZIONE DELLA PASSWORD -->
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -6,7 +7,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="header_head.jsp" %>
-        <title>Change Password</title>
+        <title>Cambio Password</title>
     </head>
     <body style="background-color:gainsboro">
         <%@include file="header.jsp" %>

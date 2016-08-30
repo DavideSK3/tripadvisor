@@ -1,3 +1,4 @@
+<!-- PAGINA CHE NOTIFICA L'AVVENIMENTO DI UN ERRORE -->
 
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -19,7 +20,8 @@
                 
                 <span style="font-size: 200%; padding-left: 25%"> <b>Something went wrong !</b></span>
                 <br><br>
-                <c:if test="${exception != null}">
+                <c:if test='${exception != null}'>
+                    <!-- bottone che apre la finestra -->
                     <button type="button" class="btn btn-info " data-toggle="modal" data-target="#error_message_modal" style="background-color: limegreen; border-color: limegreen; margin-left: 45%;"> Message</button>
                     <div class="modal fade" id="error_message_modal" role="dialog">
                         <div class="modal-dialog modal-sm">
@@ -28,10 +30,11 @@
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     <h3 class="modal-title"> <b>Error :</b></h3>
                                 </div>
-                                    <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
-                                        <%= exception.toString() %>
-                                        <%--<c:out value="${exception.toString()}"/>--%>
-                                    </div>
+                                <!-- Mostra alcune informazioni sull'errore verificatosi -->
+                                <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
+                                    <%= exception.toString() %>
+                                    <%--<c:out value="${exception.toString()}"/>--%>
+                                </div>
 
                                 <div class="modal-footer" style="border-top-width: 0;">
                                 </div>

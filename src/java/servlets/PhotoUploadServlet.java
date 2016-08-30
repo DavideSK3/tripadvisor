@@ -45,11 +45,6 @@ public class PhotoUploadServlet extends HttpServlet {
         // read the uploadDir from the servlet parameters
         dirName = getServletContext().getRealPath("") +  super.getServletContext().getInitParameter("photoDir");
         
-        /*File p_dir = new File(dirName);    
-        p_dir.mkdirs();
-        
-        File temp_dir = new File(dirName + "/temp");
-        temp_dir.mkdir();*/
     }
     
     /**
@@ -71,33 +66,66 @@ public class PhotoUploadServlet extends HttpServlet {
         
         try {
 
+            /**
+             * Creo la MultipartRequest.
+             * Uso la sottocartella "temp" per salvare inizialmente la foto.
+             */
             MultipartRequest multi = new MultipartRequest(request, dirName+"/temp", 50*1024*1024, "UTF-8", new RenamePolicy());
             
             
             
             name = multi.getParameter("photoName");
+            
+            /**
+             * Utilizzo questo parametro per capire se si tratta solo di un upload di foto o è una recensione.
+             */
             isReview = multi.getParameter("review");
             
             id_restaurant = Integer.parseInt(multi.getParameter("id_restaurant"));
             
             
-            
+            /**
+             * Recupero la foto appena salvata.
+             */
             File photo = multi.getFile("img");
+            
             int id = -1;
-            if(photo != null){
+            if(photo != null){  //se è stata effettivamente inviata una foto
+                
+                /**
+                 * creo la cartella che conterrà le foto di questo ristorante nel caso non esista già
+                 */
                 File dir = new File(dirName+"/"+id_restaurant);
                 dir.mkdir();
-
+                
+                /**
+                 * creo il file finale che conterrà la foto
+                 */
                 File copy = new File(dirName+"/"+id_restaurant + "/" + photo.getName());
                 copy.createNewFile();
+                /**
+                 * copio la foto nella cartella temporanea nel file finale
+                 */
                 Files.move(photo, copy);
+                
+                /**
+                 * cancello il file temporaneo
+                 */
                 photo.delete();
-
+                
+                /**
+                 * calcolo il percorso relativo della foto rispetto alla cartella di base dell'applicazione
+                 */
                 path = copy.getAbsolutePath().substring(getServletContext().getRealPath("").length());
                 System.out.println("Salvata immagine al percorso: " + path);
 
                 HttpSession session = request.getSession();
+                
                 User user = (User) session.getAttribute("user");
+                
+                /**
+                 * Controlla se chi ha fatto l'upload della foto è il proprietario del ristorante
+                 */
                 boolean own = false;
                 if(user != null){
                     try{
@@ -106,17 +134,26 @@ public class PhotoUploadServlet extends HttpServlet {
                         Logger.getLogger(PhotoUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+                
+                /**
+                 * Inserisco la foto nel database
+                 */
                 try {
                     id = manager.insertPhoto(name, path, id_restaurant, own? 1 : 0);
                 } catch (SQLException ex) {
                     Logger.getLogger(PhotoUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
                 int owner = -1;
                 try {
                     owner = manager.getRestaurantOwner(id_restaurant);
                 } catch (SQLException ex) {
                     Logger.getLogger(PhotoUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
+                
                 }
+                /**
+                 * Se il ristorante è di proprietà di un ristoratore e la foto è stata inserita con successo mando una notifica al proprietario
+                 */
                 if(owner >=0 && id >=0){
                     try {
                         manager.newPhotoNotification(id, owner);
@@ -127,7 +164,10 @@ public class PhotoUploadServlet extends HttpServlet {
             }
             
             
-            
+            /**
+             * se si tratta di una recensione rimando il controllo alla ReviewServlet che ha "incluso" questa servlet
+             * e gli passo come attributi l'id della foto e la multipartRequest
+             */
             if(isReview.equals("true")){
                 request.setAttribute("photo_id", id);
                 request.setAttribute("multi", multi);

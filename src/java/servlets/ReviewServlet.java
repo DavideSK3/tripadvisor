@@ -50,11 +50,15 @@ public class ReviewServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
         HttpSession session = req.getSession(false);
+        
         RequestDispatcher rd = req.getRequestDispatcher("/PhotoUpload");
         rd.include(req, resp);
         
         Integer id_photo = (Integer)req.getAttribute("photo_id");
         
+        /**
+         * Utilizzo il MultipartRequest creato e utilizzato dalla PhotoUpload Servlet
+         */
         MultipartRequest multi = (MultipartRequest)req.getAttribute("multi");
         
         Integer global_value = multi.getParameter("global")!=null ? Integer.parseInt(multi.getParameter("global")) : null;

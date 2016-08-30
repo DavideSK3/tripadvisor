@@ -1,22 +1,30 @@
-
+<!-- Header -->
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+        <!-- barra in alto contenente il logo e i pulsanti per accesso/ registrazione oppure per la gestione 
+            del proprio profilo e delle notifiche (in caso di amministratore o ristoratore) -->
         <nav class="navbar header">
             <div class="container-fluid header" >
-                    
+                <!-- logo -->    
                 <div class="col-md-4 header" style="min-height: 50px">
                     <a class="navbar-brand header" href="<c:url value='/'/>">
                       <img src="data/TripAdvisor_logo.png" class="header" alt="TripAdvisor"  /> 
                     </a>
                 </div>
                 
+                <!-- Descrizione del sito -->
                 <div class="col-md-4 header" style="padding-top: 1.5%">
                     <span>Leggi le recensioni e prenota il miglior ristorante</span>
                 </div>
                 
-                      
+                <!-- A seconda del tipo di utente vengono mostrati bottoni diversi:
+                     - Utente Anonimo : Accedi e Registrati
+                     - Utente Registrato : Profilo
+                     - Ristoratore e amministatore : Notifiche e Profilo
+                -->    
                 <c:choose>
 		    <c:when test="${sessionScope.user == null}">
+                        <!-- utente anonimo -->
 			<div class="col-md-4 header">
                             <ul class="nav navbar-nav navbar-right header " >
                                 <li><a href="<c:url value='login.html'/>" class="glyphicon glyphicon-log-in utente "> Accedi </a></li>
@@ -25,6 +33,7 @@
                         </div>
 		    </c:when>
                     <c:when test="${sessionScope.user.type == 'U'}">
+                        <!-- utente registrato --> 
                         <div class="col-md-3 header" style=" padding-top: 10px; float: right">
                             <div class="dropdown" style="float:right;">
                                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: limegreen; border-color: limegreen;">
@@ -39,6 +48,7 @@
                         </div>
                     </c:when>
 		    <c:otherwise>
+                        <!-- utente amministratore o ristoratore -->
                         <div class="col-md-3 header" style=" padding-top: 10px; float: right">
                             
                             <div class="dropdown" style="float:right;">
@@ -51,6 +61,7 @@
                                 </ul>
                             </div>
                                 
+                            <!-- bottone che mostra una finestra con la prima notifica e da la possibilità  di accedere alla pagina con tutte le notifiche -->
                             <button type="button" class="btn btn-info " data-toggle="modal" data-target="#notificationModal" style="background-color: limegreen; border-color: limegreen; float: right;">
                                 Notifiche
                             </button>
@@ -80,17 +91,18 @@
                                     </c:if>
                                   </div>
                                   <div class="modal-footer" style="border-top-width: 0;">
-                                      <span>
-                                            <c:choose>
-                                                <c:when test="${sessionScope.user.getType() == 'R'}">
-                                                    <a href="<c:url value='NotificationRestaurant'/>" class="glyphicon glyphicon-plus" style="float:left; top: 10px;">Vedi tutte le <c:out value='${numeroNotifiche}'/> notifiche</a>
-                                                </c:when>
-                                                <c:when test="${sessionScope.user.getType() == 'A'}">
-                                                    <a href="<c:url value='NotificationAdmin'/>" class="glyphicon glyphicon-plus" style="float:left; top: 10px;"> Vedi tutte  le <c:out value='${numeroNotifiche}'/> notifiche</a>
-                                                </c:when>
-                                            </c:choose>
-                                      </span>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <span>
+                                          <c:choose>
+                                              <c:when test="${sessionScope.user.getType() == 'R'}">
+                                                  <a href="<c:url value='NotificationRestaurant'/>" class="glyphicon glyphicon-plus" style="float:left; top: 10px;">Vedi tutte le <c:out value='${numeroNotifiche}'/> notifiche</a>
+                                              </c:when>
+                                              <c:when test="${sessionScope.user.getType() == 'A'}">
+                                                  <a href="<c:url value='NotificationAdmin'/>" class="glyphicon glyphicon-plus" style="float:left; top: 10px;"> Vedi tutte  le <c:out value='${numeroNotifiche}'/> notifiche</a>
+                                              </c:when>
+                                          </c:choose>
+                                    </span>
+                                      <br><br>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
                                   </div>
                                 </div>
                               </div>
@@ -101,6 +113,9 @@
                 
             </div>
         </nav>
+                      
+                      
+        <!-- form per la ricerca di luoghi e ristoranti -->
         <div class="navbar search">
               <div class="container-fluid" >
                   <div class="row">

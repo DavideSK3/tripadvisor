@@ -1,4 +1,4 @@
-
+<!-- PAGINA DI VISUALIZZAZIONE DI UN RISTORANTE -->
 
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -7,10 +7,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <!-- This meta tags makes sure accents and other special caracters are displayed correctly -->
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><c:out value='${restaurant.name}'/></title>
-        
         <%@include file="header_head.jsp"%>
     </head>
     
@@ -19,6 +17,9 @@
         
         <div class="container" style="background-color: white; width: 100%">
             <div class="col-md-9">
+                
+                <!-- Nome ristorante, se il ristorante non ha ancora un ristorantore compare un tooltip che da
+                    la possibilità di reclamarlo -->
                 <div class="col-md-12" style="padding-top: 20px">
                     <span style="font-size: 250%;"><c:out value='${restaurant.name}'/></span>
                     <c:choose>
@@ -27,6 +28,9 @@
                         </c:when>
                     </c:choose>
                 </div>
+                
+                <!-- Mostra il voto generale del ristorante, quante recensioni sono state fatte 
+                    e la posizione in classifica nella città -->
                 <div class="col-md-12" style="padding-left: 2%; padding-top: 10px;">
                     <div style="">
                         <c:forEach var='i' begin='1' end='${restaurant.global_review}' step='1'>
@@ -37,11 +41,11 @@
                         </c:forEach>
                             &nbsp;
                         <span class="badge"><fmt:formatNumber type="number" maxFractionDigits="2" value="${restaurant.global_review}" />&nbsp;<span class="glyphicon glyphicon-star-empty"></span>&nbsp; su <c:out value='${restaurant.review_count}'/> recensioni</span>
-                        <span style="color: green; padding-left: 1%; font-size: 135%;"> |&nbsp; &nbsp; &nbsp;N. <c:out value='${restaurant.posizione}'/> dei ristoranti in <c:out value='${restaurant.city}'/></span>    
-                            
-
+                        <span style="color: green; padding-left: 1%; font-size: 135%;"> |&nbsp; &nbsp; &nbsp;N. <c:out value='${restaurant.posizione}'/> dei ristoranti a <c:out value='${restaurant.city}'/></span>    
                     </div>
                 </div>
+                    
+                <!-- Mostra i tipi di cucine -->  
                 <div class="col-md-12" style="padding-left: 2%; padding-bottom: 10px;">
                     <div style="margin-top:10px;">
                         <span class="glyphicon glyphicon-cutlery"></span>&nbsp;
@@ -52,16 +56,18 @@
                     </div>
                 </div>
             </div>
+             
+            <!-- QR CODE -->
             <div class="col-md-3">
-                
                 <img src="<c:out value='${restaurant.qr_path}'/>">
             </div>
-            
         </div>
                     
         <div class="col-md-12">
             <div class="col-md-8" style="padding-left: 2%; padding-top: 2%">
                 <div class="row">
+                    
+                    <!-- Visualizzatore immagini -->
                     <div id="myCarousel" class="carousel slide" data-ride="carousel" >
                         <!-- Indicators -->
                         <c:choose>
@@ -95,8 +101,6 @@
                                 </div>
                             </c:otherwise>
                         </c:choose>
-
-
                         <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
                           <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                           <span class="sr-only">Previous</span>
@@ -107,6 +111,8 @@
                         </a>
                     </div>
                 </div>
+                
+                <!-- Descrizione del ristorante -->
                <div class="row">
                     <div class="jumbotron" style ="padding:2% 1%">
                         <span style ="color: limegreen; font-size: 140%;"><b>Descrizione:</b></span><br>
@@ -115,6 +121,7 @@
                 </div>
             </div>
 
+            <!-- Informazioni sul ristorante -->
             <div class="col-md-4" style="padding-left: 2%; padding-top: 2%;">
                 <div>
                     <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
@@ -126,11 +133,12 @@
                                     <span class="country-name"><c:out value='${restaurant.region}'/>,</span>
                                 </span>
                                 <span class="country-name"><c:out value='${restaurant.state}'/></span>
-                                
-                            </span>
+                            </span><br>
                             <a href="<c:url value='Map'><c:param name='id' value='${restaurant.id}'/></c:url>"><span class="glyphicon glyphicon-map-marker"></span>&nbsp; Mappa</a>
                         </div>
                     </div>
+                    
+                    <!-- Orari -->
                     <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
                         <div style="padding: 15px 18px; border-top: 1px solid #F4F3F0; overflow: hidden">
                             <span class="glyphicon glyphicon-time" style="top: 0;"><b>&nbsp;Orari:</b></span><br>
@@ -139,18 +147,19 @@
                                 <span style="float: right; padding-right: 5%"><c:out value='${o.getAperturaString()}'/> - <c:out value='${o.getChiusuraString()}'/> &nbsp; </span>
                                 <br>
                             </c:forEach>
-
-
-
                         </div>
                     </div>
+                
+                    <!-- Range di spesa e link al sito web del ristorante -->
                     <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
                         <div style="padding: 15px 18px; border-top: 1px solid #F4F3F0; overflow: hidden">
                             <span>Prezzo: <b><c:out value='${restaurant.min_price}'/> &euro; - <c:out value='${restaurant.max_price}'/> &euro;</b></span>
                             <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                            <a href="http://<c:out value='${restaurant.url}'/>"><span class="glyphicon glyphicon-globe"></span> Sito Web</a>
+                            <c:if test='${restaurant.url != null}'><a href="http://<c:out value='${restaurant.url}'/>"><span class="glyphicon glyphicon-globe"></span> Sito Web</a></c:if>
                         </div>
                     </div>
+                    
+                    <!-- Media voti per cucina, servizio, qualità prezzo, atmosfera -->    
                     <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
                         <div style="padding: 15px 18px; border-top: 1px solid #F4F3F0; overflow: hidden">
                             <h5 style="margin: 0px 0px;padding-bottom: 10px"><b>Dettagli Voto :</b></h5>
@@ -202,12 +211,15 @@
             
         <div class="col-md-10 col-md-offset-1" style="background-color: whitesmoke; margin-top: 20px; padding: 15px 2%;">
             
+            <!-- Mostra quante notifiche ci sono -->
             <div class="col-md-12" style="padding-left: 0; padding-right: 0;">
                 <h3 style="margin: 0 0; color: green"><c:out value='${restaurant.review_count}'/> recensioni su questo ristorante</h3>
             </div>
+            
             <div class="col-md-6 col-md-offset-6" style="padding-left: 0; padding-right: 0;">
                 <c:if test="${user != null && user.type != 'A' && user.id != restaurant.id_owner}">
                 
+                    <!-- Apre una finestra per assegnare un voto al ristorante -->
                     <button type="button" class="btn btn-info " data-toggle="modal" data-target="#voto" style="background-color: limegreen; border-color: limegreen;"> Dai un voto</button>
                     <div class="modal fade" id="voto" role="dialog">
                         <div class="modal-dialog modal-sm">
@@ -229,17 +241,17 @@
                                             <span><input type="radio" name="global" id="str1f" value="1" required><label for="str1f"></label></span>
                                         </div>
                                         <br>
-                                        <input style="float: right" class="btn btn-default" TYPE='submit'>
+                                        <input style="float: right" class="btn btn-default" TYPE='submit' value="Invia">
                                     </form>
                                 </div>
                                 <div class="modal-footer" style="border-top-width: 0;">
-                                    
+                                    <button style="float: left" type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    
+                    <!-- Apre una finestra per inserire una recensione completa -->
                     <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal" style="background-color: limegreen; border-color: limegreen;"> Scrivi una recensione</button>
                     <div class="modal fade" id="myModal" role="dialog">
                         <div class="modal-dialog modal-lg">
@@ -265,9 +277,8 @@
                                                 <span><input type="radio" name="global" id="str2" value="2" required><label for="str2"></label></span>
                                                 <span><input type="radio" name="global" id="str1" value="1" required><label for="str1"></label></span>
                                             </div>
-                                        </div>
+                                        </div><br><br>
                                         
-                                        <br><br>
                                         <span style="font-size: 120%"><b>Titolo della recensione</b></span> <br><br>
                                         <input type="text" name="title" style="width:100%" maxlength="120" placeholder="Riassumi la tua visita o concentrati su un dettaglio interessante" required>
                                         <br><br>
@@ -293,16 +304,18 @@
                                             <input style=" display: initial"  TYPE='file' NAME='img'>
                                             <input type="text" name="photoName" style="width:50%; padding: 5px 10px" maxlength="25" placeholder="Cosa rappresenta questa foto?">
                                         </div>
-                                        <input style="float: right" class="btn btn-default" TYPE='submit'>
-                                        <button style="float: left" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <input style="float: right" class="btn btn-default" TYPE='submit' value="Invia">
+                                        
                                     </form>
                                 </div>
                                 <div class="modal-footer" style="border-top-width: 0;">
-
+                                    <button style="float: left" type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                                        
+                    <!-- Apre una finestra per l'inserimento di una foto -->
                     <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal2" style="background-color: limegreen; border-color: limegreen; margin-right: 5%;"> Aggiungi una foto</button>
                     <div class="modal fade" id="myModal2" role="dialog">
                         <div class="modal-dialog modal-sm">
@@ -321,12 +334,12 @@
                                             <input style=" display: initial"  TYPE='file' NAME='img'>
                                             <input type="text" name="photoName" style="width:100%; padding: 5px 10px; margin: 10px 0px;" maxlength="25" placeholder="Cosa rappresenta questa foto?">
                                         </div>
-                                        <input style="float: right" class="btn btn-default" TYPE='submit'>
-                                        <button style="float: left" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <input style="float: right" class="btn btn-default" TYPE='submit' value="Invia">
+                                        <button style="float: left" type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
                                     </form>
                                 </div>
                                 <div class="modal-footer" style="border-top-width: 0;">
-
+                                    <button style="float: left" type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
                                 </div>
                             </div>
                         </div>
@@ -337,8 +350,7 @@
             <%! int i=0; %>
             <c:forEach var='rec' items='${restaurant.recensioni}'>
                 
-                
-
+                <!-- Recensioni -->
                 <div class="col-md-12" style="padding: 10px 0px;">
                     <div style="background-color: white; border: 2px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
                         <div style="padding: 15px 18px; border-top: 2px solid #F4F3F0; overflow: hidden">
@@ -346,27 +358,28 @@
                                 <span style="color: #428bca;"><i><b><c:out value='${rec.author}'/></b></i></span><br><br>
                                 <span>Recensito il <c:out value='${rec.creation}' /></span> 
                                 
+                                <!-- Foto della recensione -->
                                 <c:if test="${rec.photoPath != null}">
                                     <!-- Trigger the Modal -->
-                                    <img id="photo<%= i %>" src="<c:out value='${rec.photoPath}'/>" alt="<c:out value='${rec.photoName}'/>" style="width: 90%; margin-top: 5%">
+                                    <img id="photo<%= i %>" class="revPhoto" src="<c:out value='${rec.photoPath}'/>" alt="<c:out value='${rec.photoName}'/>" style="width: 90%; margin-top: 5%">
 
                                     <!-- The Modal -->
-                                    <div id="modalphoto<%= i %>" class="modal">
+                                    <div id="modalphoto<%= i %>" class="modal pippo">
                                         <!-- The Close Button -->
-                                        <span class="close" onclick="document.getElementById('modalphot<%= i %>').style.display='none'">&times;</span>
+                                        <span class="close" onclick="document.getElementById('modalphoto<%= i %>').style.display='none'">&times;</span>
                                         <!-- Modal Content (The Image) -->
-                                        <img class="modal-content" id="img<%= i %>">
+                                        <img class="modal-content pippo" id="img<%= i %>">
                                         <!-- Modal Caption (Image Text) -->
-                                        <div id="caption<%= i %>"></div>
+                                        <div id="caption<%= i %>" class="revCaption"></div>
                                     </div>
                                     
-                                    
+                                    <!-- Script per visualizzare a tutto schermo le foto nelle recensioni -->
                                     <script>
                                         // Get the modal
                                         var modal = document.getElementById('modalphoto<%= i %>');
 
                                         // Get the image and insert it inside the modal - use its "alt" text as a caption
-                                        var img = document.getElementById('photo');
+                                        var img = document.getElementById('photo<%= i %>');
                                         var modalImg = document.getElementById("img<%= i %>");
                                         var captionText = document.getElementById("caption<%= i %>");
                                         img.onclick = function(){
@@ -384,8 +397,8 @@
                                           modal.style.display = "none";
                                         }
                                     </script>
+                                    <% i++; %>
                                 </c:if>
-                                
                                 
                             </div>
                             <div class="col-md-7" style="padding: 2px 5px;  border-right: 1px solid limegreen; ">
@@ -401,9 +414,9 @@
                                     &nbsp;
                                 </div>
                                 <p style="padding: 5px 5%; margin:0 0; border-bottom: 1px solid limegreen; line-height: 1.7"><c:out value='${rec.description}'/> <br></p>
-                                
-
                             </div>
+                                
+                            <!-- Voti in dettaglio -->
                             <div class="col-md-3" style="padding: 0px 15px; ">
                                 <h5 style="margin: 0px 0px;padding-top: 20px; padding-bottom: 10px">Dettagli Voto :</h5>
                                 <c:if test="${rec.food != null && rec.food > 0}">
@@ -418,7 +431,6 @@
                                         &nbsp;
                                     </div>
                                 </c:if>
-                                
                                 <c:if test="${rec.service != null && rec.service > 0}">
                                     <span style="color: grey; padding: 10px 10px">Servizio :</span>
                                     <div style="padding: 5px 10%;">
@@ -443,7 +455,6 @@
                                         &nbsp;
                                     </div>
                                 </c:if>
-                                
                                 <c:if test="${rec.service != null && rec.service > 0}">
                                     <span style="color: grey; padding: 10px 10px">Atmosfera :</span>
                                     <div style="padding: 5px 10%;">
@@ -456,21 +467,17 @@
                                         &nbsp;
                                     </div>
                                 </c:if>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </c:forEach>
-                                    
         </div>
         
-        
-        
         <%@include file="footer.html" %>
-        
         <%@include file="js_include.jsp" %>
         
+        <!-- script per animazione inserimento voto -->
         <script type="text/javascript">
             $(document).ready(function(){
             //  Check Radio-box
@@ -479,30 +486,15 @@
                     $("#rating span").removeClass('checked');
                     $(this).parent().addClass('checked');
                 });
-
             });
-        
-            <%--$(document).ready(function(){
-            //  Check Radio-box
-                $("#fast_rating input:radio").attr("checked", false);
-                $('#fast_rating input').click(function () {
-                    $("#fast_rating span").removeClass('checked');
-                    $(this).parent().addClass('checked');
-                });
-            };--%>
         </script>
         
-        
-        
-        
-        
+        <!-- Animazione tooltip per il reclamo di un ristorante -->
         <script>
             $(document).ready(function(){
                 $('[data-toggle="tooltip"]').tooltip();   
             });
         </script>
-        
-        
         
         </body>
 </html>

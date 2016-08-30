@@ -6,7 +6,7 @@
 package db;
 
 
-import com.google.maps.GaeRequestHandler;
+
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.model.GeocodingResult;
@@ -14,8 +14,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -58,6 +56,13 @@ public final class Util {
         return terms;
     }
     
+    
+    /**
+     * Metodo che implementa l'algoritmo di Levenshtein per la distanza di editing tra due stringhe
+     * @param s1
+     * @param s2
+     * @return 
+     */
     public static int editDistance(String s1, String s2){
         int n = s1.length();
         int m = s2.length();
@@ -76,7 +81,15 @@ public final class Util {
         return d[n][m];
     }
     
-    
+    /**
+     * Metodo che implementa l'algoritmo di Levenshtein limitando il numero massimo di errori da cercare a "k".
+     * È ottimizzato l'utilizzo della memoria e la complessità.
+     * L'algortitmo ritorna la distanza di editing se essa è minore di "k", il valore di "k" altrimenti.
+     * @param s1
+     * @param s2
+     * @param k
+     * @return 
+     */
     public static int editDistanceLimited(String s1, String s2, int k){
         
         int n = s1.length();
@@ -140,7 +153,47 @@ public final class Util {
         return d[end-st+1];
     }
     
-     public static int containingDistanceLimited(String s1, String s2, int k){
+    
+    /**
+     * Variante dell'algortimo di Levenshtein che calcola il numero minimo di modifiche da fare alla prima stringa affinchè sia contenuta nella seconda
+     * @param s1
+     * @param s2
+     * @return 
+     */
+    public static int containingDistance(String s1, String s2){
+        int n = s1.length();
+        int m = s2.length();
+        int d[][] = new int[n+1][m+1];
+        for(int i=0; i<=n; i++){
+            d[i][0] = i;
+        }
+        for(int j=1; j<=m; j++){
+            d[0][j] = 0;
+        }
+        for(int i=1; i<=n; i++){
+            for(int j=1; j<=m; j++){
+                if(s1.charAt(i-1) == s2.charAt(j-1)){
+                    d[i][j] = Math.min(d[i-1][j-1], ((i == n) ? 0 : 1) + d[i][j-1]);
+                }else{
+                    d[i][j] = Math.min(1 + d[i-1][j-1], Math.min(((i == n) ? 0 : 1) + d[i][j-1], 1 + d[i-1][j]));
+                }
+            }
+        }
+        return d[n][m];
+    }
+    
+    
+    
+    /**
+     * Variante dell'algortimo di Levenshtein che calcola il numero minimo di modifiche da fare alla prima stringa affinchè sia contenuta nella seconda, limitando il numero massimo di errori da cercare a "k".
+     * È ottimizzato l'utilizzo della memoria e la complessità.
+     * L'algortitmo ritorna la distanza se essa è minore di "k", il valore di "k" altrimenti.
+     * @param s1
+     * @param s2
+     * @param k
+     * @return 
+     */
+    public static int containingDistanceLimited(String s1, String s2, int k){
         int n = s1.length();
         int m = s2.length();
         
@@ -166,28 +219,7 @@ public final class Util {
         return d[(m+1)%2][n];
     }
     
-    public static int containingDistance(String s1, String s2){
-        int n = s1.length();
-        int m = s2.length();
-        int d[][] = new int[n+1][m+1];
-        for(int i=0; i<=n; i++){
-            d[i][0] = i;
-        }
-        for(int j=1; j<=m; j++){
-            d[0][j] = 0;
-        }
-        for(int i=1; i<=n; i++){
-            for(int j=1; j<=m; j++){
-                if(s1.charAt(i-1) == s2.charAt(j-1)){
-                    d[i][j] = Math.min(d[i-1][j-1], ((i == n) ? 0 : 1) + d[i][j-1]);
-                }else{
-                    d[i][j] = Math.min(1 + d[i-1][j-1], Math.min(((i == n) ? 0 : 1) + d[i][j-1], 1 + d[i-1][j]));
-                }
-            }
-        }
-        return d[n][m];
-    }
-    
+   
     
     public static double degToRad(double a){
         return Math.PI*a/180.0;

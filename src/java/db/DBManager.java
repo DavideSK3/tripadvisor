@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 public class DBManager implements Serializable {
     
     private static final String duplicateKeyErrorCode = "23505";
-    private transient Connection con;
+    private final transient Connection con;
 
     
     /**
@@ -489,6 +489,8 @@ public class DBManager implements Serializable {
             stm.close();
         }
     }
+   
+ 
     
     /**
      * Metodo usato per ottenere i risultati visualizzati dall'autocompletamento.
@@ -525,7 +527,7 @@ public class DBManager implements Serializable {
             } finally {
                 rs.close();
             }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally 
+        } finally {
             stm.close();
         }
         return result;
@@ -835,7 +837,7 @@ public class DBManager implements Serializable {
      */
     
     /**
-     * alcuni parametri usati per scegliere il tipo di algoritmo da usare per ottenere la lista dei ristoranti nell'autocompletamento
+     * alcuni parametri usati per scegliere il tipo di algoritmo da usare per ottenere la lista dei luoghi nell'autocompletamento
      */
     private static final int algorithm = 4;
     private static final boolean use_full_matching = false;
@@ -1514,6 +1516,7 @@ public class DBManager implements Serializable {
      * Metodo per modificare le informazioni di un ristorante.
      * Se un parametro ha come valore 'null' o la stringa vuota "", allora non viene sovrascritto.
      * Se cambiato l'indirizzo, calcola in automatico le nuove coordinate geografiche.
+     * Se c'è stato un errore nel calcolo delle nuove coordinate, il metodo ritorna false prima di eseguire la query.
      * @param id - chiave che identifica il ristorante
      * @param name - nuovo nome del ristorante
      * @param description - nuova descrizione
@@ -1521,9 +1524,21 @@ public class DBManager implements Serializable {
      * @param address - nuovo indirizzo
      * @param min_price - nuovo prezzo minimo
      * @param max_price - nuovo prezzo massimo
+     * @return - true se l'esecuzione è andata a buon fine, false se non è stato possibile trovare le coordinate del nuovo indirizzo
      * @throws SQLException 
      */
-    public void manageRestaurant(Integer id, String name, String description, String url, String address, Integer min_price, Integer max_price)throws SQLException {
+    public boolean manageRestaurant(Integer id, String name, String description, String url, String address, Integer min_price, Integer max_price)throws SQLException {
+        
+        double[] coordinates = null;
+        
+        if(address != null && !address.isEmpty()){
+            String[] location = getRestaurantLocation(id);
+            coordinates = Util.getCoordinates(address, location[0], location[1], location[2]);
+            
+            if(coordinates == null || coordinates.length != 2){
+                return false;
+            }
+        }
         
         
         StringBuilder query=new StringBuilder("UPDATE App.Restaurants SET ");
@@ -1536,7 +1551,7 @@ public class DBManager implements Serializable {
         if(description != null && !description.isEmpty()){
             lista.add("description=?");
         }
-        if(utl != null && !url.isEmpty()){
+        if(url != null && !url.isEmpty()){
             lista.add("web_site_url=?");
         }
         if(address != null && !address.isEmpty()){
@@ -1576,8 +1591,7 @@ public class DBManager implements Serializable {
             stm.setString(i++, url);
         }
         if(address != null && !address.isEmpty()){
-            String[] location = getRestaurantLocation(id);
-            double[] coordinates = Util.getCoordinates(address, location[0], location[1], location[2]);
+            
             stm.setString(i++, address);
             stm.setDouble(i++, coordinates[0]);
             stm.setDouble(i++, coordinates[1]);
@@ -1595,6 +1609,7 @@ public class DBManager implements Serializable {
         } finally {
             stm.close();
         }
+        return true;
     }
 
     /**
@@ -2012,7 +2027,13 @@ public class DBManager implements Serializable {
 
     }
 
-    
+    /**
+     * Metodo che conta le notifiche esistenti nella tabella notifiche_foto per l'user in questione.
+     * 
+     * @param u
+     * @return
+     * @throws SQLException 
+     */
     public int contaNotificheFoto(User u) throws SQLException{
         StringBuilder builder = new StringBuilder("SELECT COUNT(*) FROM APP.NOTIFICATIONS_PHOTO N ");
 
@@ -2045,6 +2066,14 @@ public class DBManager implements Serializable {
         }
     }
     
+    /**
+     * Metodo che restituisce una tra le notifiche foto esistenti per l'utente corrente (ristoratore o admin)
+     * Se non son presenti notifiche ritorna null.
+     * 
+     * @param u
+     * @return
+     * @throws SQLException 
+     */
     public NotificaFoto getUnaNotificaFoto(User u) throws SQLException {
 
         StringBuilder builder = new StringBuilder("SELECT R.name, R.id, P.id, P.path, P.name FROM APP.NOTIFICATIONS_PHOTO N JOIN APP.PHOTOS P "
@@ -2080,7 +2109,15 @@ public class DBManager implements Serializable {
         }
     }
 
-    
+    /**
+     * Restituisce la lista di notifiche foto presenti nel database per l'utente, differenziando tra:
+     * ristoratore (prende tutte le notifiche che puntano al suo id)
+     * admin (prende tutte le notifiche con id_target null)
+     * 
+     * @param u
+     * @return
+     * @throws SQLException 
+     */
     public List<NotificaFoto> getNotificheFoto(User u) throws SQLException {
 
         StringBuilder builder = new StringBuilder("SELECT R.name, R.id, P.id, P.path, P.name FROM APP.NOTIFICATIONS_PHOTO N JOIN APP.PHOTOS P "
@@ -2122,7 +2159,12 @@ public class DBManager implements Serializable {
 
     
 
-     
+    /**
+     * Metodo che conta le notifiche esistenti nella tabella notifiche_reclami per l'user in questione (admin)
+     * 
+     * @return
+     * @throws SQLException 
+     */ 
     public int contaNotificheReclami() throws SQLException {
 
         String query = "SELECT COUNT(*) FROM APP.NOTIFICATIONS_RESTAURANT";
@@ -2144,7 +2186,14 @@ public class DBManager implements Serializable {
             stm.close();
         }
     }
-
+    
+    /**
+     * Metodo che restituisce una tra le notifiche di reclami esistenti per l'utente corrente (admin)
+     * Se non son presenti notifiche ritorna null.
+     * 
+     * @return
+     * @throws SQLException 
+     */
      public NotificaReclami getUnReclamoRistorante() throws SQLException {
 
         String query = "SELECT R.name, R.id, U.id, U.name, U.surname, U.email\n"
@@ -2172,7 +2221,12 @@ public class DBManager implements Serializable {
         }
     }
 
-    
+    /**
+     * Restituisce la lista di notifiche reclami presenti nel database per l'admin.
+     * 
+     * @return
+     * @throws SQLException 
+     */
     public List<NotificaReclami> getReclamiRistoranti() throws SQLException {
 
         String query = "SELECT R.name, R.id, U.id, U.name, U.surname, U.email\n"
@@ -2203,7 +2257,12 @@ public class DBManager implements Serializable {
     }
 
     
-    
+    /**
+     * Approva la foto in questione, eliminando la notifica di conferma/supervisione dalla tabella notifiche_foto
+     * 
+     * @param id_photo
+     * @throws SQLException 
+     */
     public void confermaFoto(int id_photo) throws SQLException {
         PreparedStatement stm = con.prepareStatement("DELETE FROM APP.NOTIFICATIONS_PHOTO WHERE ID_PHOTO=?");
         
@@ -2215,6 +2274,12 @@ public class DBManager implements Serializable {
         }
     }
     
+    /**
+     * Segnala ad un admin la foto, cambiando il target della notifica in NULL
+     * 
+     * @param id_photo
+     * @throws SQLException 
+     */
     public void segnalaAdminFoto(int id_photo) throws SQLException {
         PreparedStatement stm = con.prepareStatement("UPDATE APP.NOTIFICATIONS_PHOTO SET ID_TARGET=NULL WHERE ID_PHOTO=?");
         
@@ -2226,6 +2291,12 @@ public class DBManager implements Serializable {
         }
     }
     
+    /**
+     * Elimina una foto segnalata dalla tabella delle foto, elimina inoltre la notifica ad essa collegata
+     * 
+     * @param id_photo
+     * @throws SQLException 
+     */
     public void eliminaFoto(int id_photo) throws SQLException {
         PreparedStatement stm = con.prepareStatement("DELETE FROM APP.NOTIFICATIONS_PHOTO WHERE ID_PHOTO=?");
         
@@ -2246,6 +2317,13 @@ public class DBManager implements Serializable {
         }
     }
     
+    /**
+     * Elimina la notifica di un reclamo di ristorante dalla tabella apposita
+     * 
+     * @param id_restaurant
+     * @param id_user
+     * @throws SQLException 
+     */
     public void eliminaReclamo(int id_restaurant, int id_user) throws SQLException {
         PreparedStatement stm = con.prepareStatement("DELETE FROM APP.NOTIFICATIONS_RESTAURANT WHERE ID_RESTAURANT=? AND ID_USER=?");
         
@@ -2258,6 +2336,17 @@ public class DBManager implements Serializable {
         }
     }
     
+    /**
+     * Conferma il reclamo di un ristorante, aggiornando:
+     * l'owner_id del ristorante
+     * il tipo dell'utente (user->ristoratore)
+     * 
+     * ed eliminando la notifica di reclamo dalla sua tabella
+     * 
+     * @param id_restaurant
+     * @param id_user
+     * @throws SQLException 
+     */
     public void confermaReclamo(int id_restaurant, int id_user) throws SQLException {
         PreparedStatement stm = con.prepareStatement("UPDATE APP.RESTAURANTS SET ID_OWNER=? WHERE ID=?");
         
@@ -2294,6 +2383,7 @@ public class DBManager implements Serializable {
     
     /**
      * Metodo che calcola per tutti i ristoranti che ne sono ancora privi le coordinate geografiche a partire dal loro indirizzo
+     * 
      * @throws SQLException 
      */
     public void computeRestaurantsCoordinate()throws SQLException {
@@ -2342,7 +2432,15 @@ public class DBManager implements Serializable {
         
     }
 
-        
+    /**
+     * Crea un file contenente insert per backup e testing
+     * 
+     * @param file_name
+     * @param table
+     * @param id_as_default
+     * @throws IOException
+     * @throws SQLException 
+     */    
     public void creaInsert(String file_name, String table, boolean id_as_default) throws IOException, SQLException{
         PrintWriter out = new PrintWriter(new FileWriter("/home/gabriele/Scrivania/" + file_name, false));
         
