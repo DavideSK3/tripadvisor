@@ -72,6 +72,7 @@ public class DBManager implements Serializable {
      * @param password la password
      * @return null se l'utente non è autenticato, un oggetto User se l'utente
      * esiste ed è autenticato
+     * @throws java.sql.SQLException
      */
     public User authenticate(String email, String password) throws SQLException {
         PreparedStatement stm = con.prepareStatement("SELECT * FROM APP.users WHERE email = ? AND password = ?");
@@ -608,6 +609,10 @@ public class DBManager implements Serializable {
      * @param name
      * @param place
      * @param order
+     * @param minPrice
+     * @param maxPrice
+     * @param cuisines
+     * @param valutazioni
      * @return
      * @throws SQLException 
      */
@@ -1705,6 +1710,7 @@ public class DBManager implements Serializable {
      * @param name
      * @param path
      * @param restaurant_id
+     * @param type
      * @return - la chiave primaria che identifica questa foto nel db
      * @throws SQLException
      */
@@ -2383,6 +2389,11 @@ public class DBManager implements Serializable {
     
     
     
+    
+    
+    
+    
+    /** Alcuni metodi utili durante l'inizializzazione del db (non utilizzati dentro l'applicazione vera e propria) **/
     
     /**
      * Metodo che calcola per tutti i ristoranti che ne sono ancora privi le coordinate geografiche a partire dal loro indirizzo

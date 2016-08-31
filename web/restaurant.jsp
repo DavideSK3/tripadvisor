@@ -33,10 +33,10 @@
                     e la posizione in classifica nella città -->
                 <div class="col-md-12" style="padding-left: 2%; padding-top: 10px;">
                     <div style="">
-                        <c:forEach var='i' begin='1' end='${restaurant.global_review}' step='1'>
+                        <c:forEach var='i' begin='1' end='${Math.round(restaurant.global_review)}' step='1'>
                             <span class="glyphicon glyphicon-star media"></span>
                         </c:forEach>
-                        <c:forEach var='i' begin='${restaurant.global_review + 1}' end ='5' step='1'>
+                        <c:forEach var='i' begin='${Math.round(restaurant.global_review) + 1}' end ='5' step='1'>
                             <span class="glyphicon glyphicon-star-empty media"></span>
                         </c:forEach>
                             &nbsp;
@@ -123,7 +123,8 @@
 
             <!-- Informazioni sul ristorante -->
             <div class="col-md-4" style="padding-left: 2%; padding-top: 2%;">
-                <div>
+                 
+                <!-- Indirizzo e link alla mappa -->
                     <div style="background-color: white; border: 1px solid #e3e3e3; border-bottom: 1px solid #dad7c8;margin: 0">
                         <div style="padding: 15px 18px; border-top: 1px solid #F4F3F0; overflow: hidden">
                             <span class="format_address">
@@ -165,40 +166,40 @@
                             <h5 style="margin: 0px 0px;padding-bottom: 10px"><b>Dettagli Voto :</b></h5>
                             <span style="color: grey; padding: 10px 10px">Cucina :</span>
                             <div style="padding-left:40% ;">
-                                <c:forEach var='i' begin='1' end='${restaurant.food_review}' step='1'>
+                                <c:forEach var='i' begin='1' end='${Math.round(restaurant.food_review)}' step='1'>
                                     <span class="glyphicon glyphicon-star media"></span>
                                 </c:forEach>
-                                <c:forEach var='i' begin='${restaurant.food_review + 1}' end ='5' step='1'>
+                                <c:forEach var='i' begin='${Math.round(restaurant.food_review) + 1}' end ='5' step='1'>
                                     <span class="glyphicon glyphicon-star-empty media"></span>
                                 </c:forEach>
                                 &nbsp;
                             </div>
                             <span style="color: grey; padding: 10px 10px">Servizio :</span>
                             <div style="padding-left:40% ;">
-                                <c:forEach var='i' begin='1' end='${restaurant.service_review}' step='1'>
+                                <c:forEach var='i' begin='1' end='${Math.round(restaurant.service_review)}' step='1'>
                                     <span class="glyphicon glyphicon-star media"></span>
                                 </c:forEach>
-                                <c:forEach var='i' begin='${restaurant.service_review + 1}' end ='5' step='1'>
+                                <c:forEach var='i' begin='${Math.round(restaurant.service_review) + 1}' end ='5' step='1'>
                                     <span class="glyphicon glyphicon-star-empty media"></span>
                                 </c:forEach>
                                 &nbsp;
                             </div>
                             <span style="color: grey; padding: 10px 10px">Rapporto Qualit&agrave / Prezzo :</span>
                             <div style="padding-left:40% ;">
-                                <c:forEach var='i' begin='1' end='${restaurant.money_review}' step='1'>
+                                <c:forEach var='i' begin='1' end='${Math.round(restaurant.money_review)}' step='1'>
                                     <span class="glyphicon glyphicon-star media"></span>
                                 </c:forEach>
-                                <c:forEach var='i' begin='${restaurant.money_review + 1}' end ='5' step='1'>
+                                <c:forEach var='i' begin='${Math.round(restaurant.money_review) + 1}' end ='5' step='1'>
                                     <span class="glyphicon glyphicon-star-empty media"></span>
                                 </c:forEach>
                                 &nbsp;
                             </div>
                             <span style="color: grey; padding: 10px 10px">Atmosfera :</span>
                             <div style="padding-left:40% ;">
-                                <c:forEach var='i' begin='1' end='${restaurant.atmosphere_review}' step='1'>
+                                <c:forEach var='i' begin='1' end='${Math.round(restaurant.atmosphere_review)}' step='1'>
                                     <span class="glyphicon glyphicon-star media"></span>
                                 </c:forEach>
-                                <c:forEach var='i' begin='${restaurant.atmosphere_review + 1}' end ='5' step='1'>
+                                <c:forEach var='i' begin='${Math.round(restaurant.atmosphere_review) + 1}' end ='5' step='1'>
                                     <span class="glyphicon glyphicon-star-empty media"></span>
                                 </c:forEach>
                                 &nbsp;
@@ -207,7 +208,6 @@
                     </div>
                 </div>
             </div>
-        </div>
             
         <div class="col-md-10 col-md-offset-1" style="background-color: whitesmoke; margin-top: 20px; padding: 15px 2%;">
             
@@ -288,16 +288,16 @@
                                         <span style="font-size: 120%"><b>Ulteriori dettagli sul voto</b></span><br><br>
                                         <div class="voti">
                                             <span style="color: grey; padding: 10px 10px">Cucina :</span>
-                                            <input type="number" name="food" min="1" max="5" required>    
+                                            <input type="number" name="food" min="1" max="5" >    
                                             &nbsp;
                                             <span style="color: grey; padding: 10px 10px">Servizio :</span>
-                                            <input type="number" name="service" min="1" max="5" required>     
+                                            <input type="number" name="service" min="1" max="5">     
                                             &nbsp;
                                             <span style="color: grey; padding: 10px 10px">Rapporto Qualit&agrave / Prezzo :</span>
-                                            <input type="number" name="money" min="1" max="5" required> 
+                                            <input type="number" name="money" min="1" max="5" > 
                                             &nbsp;
                                             <span style="color: grey; padding: 10px 10px">Atmosfera :</span>
-                                            <input type="number" name="atmosphere" min="1" max="5" required>     
+                                            <input type="number" name="atmosphere" min="1" max="5">     
                                         </div>
                                         <div style="padding: 15px 10px;">
                                             <span style="color: grey;" >Inserisci una foto: &nbsp; </span>
@@ -387,7 +387,7 @@
                                             modalImg.src = this.src;
                                             modalImg.alt = this.alt;
                                             captionText.innerHTML = this.alt;
-                                        }
+                                        };
 
                                         // Get the <span> element that closes the modal
                                         var span = document.getElementsByClassName("close")[0];
@@ -395,7 +395,7 @@
                                         // When the user clicks on <span> (x), close the modal
                                         span.onclick = function() { 
                                           modal.style.display = "none";
-                                        }
+                                        };
                                     </script>
                                     <% i++; %>
                                 </c:if>
@@ -443,7 +443,7 @@
                                         &nbsp;
                                     </div>
                                 </c:if>
-                                <c:if test="${rec.service != null && rec.service > 0}">
+                                <c:if test="${rec.value_for_money != null && rec.value_for_money > 0}">
                                     <span style="color: grey; padding: 10px 10px">Rapporto Qualit&agrave / Prezzo :</span>
                                     <div style="padding: 5px 10%;">
                                         <c:forEach var='i' begin='1' end='${rec.value_for_money}' step='1'>
@@ -455,7 +455,7 @@
                                         &nbsp;
                                     </div>
                                 </c:if>
-                                <c:if test="${rec.service != null && rec.service > 0}">
+                                <c:if test="${rec.atmosphere != null && rec.atmosphere > 0}">
                                     <span style="color: grey; padding: 10px 10px">Atmosfera :</span>
                                     <div style="padding: 5px 10%;">
                                         <c:forEach var='i' begin='1' end='${rec.atmosphere}' step='1'>

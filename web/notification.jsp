@@ -1,3 +1,6 @@
+<!-- Pagina che permette a un amministratore o ristoratore di visualizzare, 
+    accettare o rifiutare tutte le notifiche presenti. -->
+   
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -6,7 +9,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="header_head.jsp" %>
-         
         <%@ page import="db.User" %>
         <style>
             .row{
@@ -15,7 +17,9 @@
         </style>
         <title>Notifiche</title>
     </head>
+    
     <body>
+        <!-- Header senza campi di ricerca -->
         <nav class="navbar header">
             <div class="container-fluid header" >
                 <div class="col-md-4 header">
@@ -40,6 +44,7 @@
                 </div>
             </div>
         </nav>
+                        
         <div class="row">
             <div class="col-sm-6 col-md-4 col-md-offset-4">
                 <h1 class="text-center login-title">Ciao <c:out value="${sessionScope.user.name} ${sessionScope.user.surname}"/>! </h1>
@@ -50,8 +55,8 @@
             </div>
         </div>
         
-                
-                
+        <!-- Mostra notifiche di nuove foto inserite relative ai ristoranti posseduti dal ristoratore
+            e permette a questi di segnalarle all'amministratore o approvarle -->
         <c:choose>
             <c:when test="${sessionScope.user.getType() == 'R'}">
             
@@ -88,26 +93,12 @@
         </c:choose>
         
                 
-                
-                
+        <!-- Mostra notifiche di foto segnalate da qualsiasi ristoratore
+            e permette all' amministratore di approvarle o eliminarle -->       
         <c:choose>
             <c:when test="${sessionScope.user.getType() == 'A'}">
             
-                <div class="row">
-                    <div class="col-sm-6 col-md-4 col-md-offset-4">
-                        <form method="POST" action ="<c:url value='NotificationAdmin'/>">
-                            <input type="hidden" name ="computeCoordinates" value="true">
-                            <input type="submit" value="calcola">
-                        </form>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-md-offset-4">
-                        <form method="POST" action ="<c:url value='NotificationAdmin'/>">
-                            <input type="hidden" name ="creaInsert" value="true">
-                            <input type="submit" value="crea">
-                        </form>
-                    </div>
-                </div>
-                
+               
                 <div class="row">
                     <div class="col-sm-6 col-md-4 col-md-offset-4">
                         <h3 class="text-center">Notifiche da Ristoratori </h3> <br>
@@ -144,6 +135,8 @@
                     </div>
                 </div>
 
+                <!-- Mostra notifiche di reclami per ristoranti richiesti da utenti 
+                     e permette all' amministratore di approvarle o eliminarle -->
                 <c:forEach var='rr' items="${requestScope.results_reclami}">
                     <div class="container-fluid riquadro_ristorante">
                         <div class="col-md-9" style=" padding-left: 1%; padding-top: 1%; padding-bottom: 1%; ">

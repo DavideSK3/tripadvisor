@@ -32,11 +32,11 @@
                                 </div>
                                 <!-- Mostra alcune informazioni sull'errore verificatosi -->
                                 <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
-                                    <%= exception.toString() %>
-                                    <%--<c:out value="${exception.toString()}"/>--%>
+                                    <c:out value="${exception.toString()}"/>
                                 </div>
 
                                 <div class="modal-footer" style="border-top-width: 0;">
+                                    <button style="float: left" type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
                                 </div>
                             </div>
                         </div>

@@ -59,10 +59,27 @@ public class ReviewServlet extends HttpServlet {
         MultipartRequest multi = (MultipartRequest)req.getAttribute("multi");
         
         Integer global_value = multi.getParameter("global")!=null ? Integer.parseInt(multi.getParameter("global")) : null;
-        Integer food = multi.getParameter("food")!= null ? Integer.parseInt(multi.getParameter("food")) : null;
-        Integer service = multi.getParameter("service")!= null ? Integer.parseInt(multi.getParameter("service")) : null;
-        Integer value_for_money = multi.getParameter("money")!= null ? Integer.parseInt(multi.getParameter("money")) : null;
-        Integer atmosphere = multi.getParameter("atmosphere")!= null ? Integer.parseInt(multi.getParameter("atmosphere")) : null;
+        
+        Integer food = null;
+        try{
+            food = Integer.parseInt(multi.getParameter("food"));
+        }catch (NumberFormatException e){}
+        
+        Integer service =  null;
+        try{
+            service = Integer.parseInt(multi.getParameter("service"));
+        }catch (NumberFormatException e){}
+        
+        Integer value_for_money = null;
+        try{
+            value_for_money = Integer.parseInt(multi.getParameter("money"));
+        }catch (NumberFormatException e){}
+        
+        Integer atmosphere = null;
+        try{
+            atmosphere = Integer.parseInt(multi.getParameter("atmosphere"));
+        }catch (NumberFormatException e){}
+        
         String title = multi.getParameter("title");
         String description = multi.getParameter("description");
         Integer id_restaurant = Integer.parseInt(multi.getParameter("id_restaurant"));

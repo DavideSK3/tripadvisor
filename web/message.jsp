@@ -1,4 +1,4 @@
-
+<!-- Pagina che visualizza diversi messaggi generati dalle servlets -->
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

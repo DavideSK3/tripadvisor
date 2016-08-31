@@ -1,23 +1,18 @@
+<!-- PAGINA PER IL LOGIN -->
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>Login</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/bootstrap.css">
-        
         <style> 
             input, label {
                 margin: 5px 0;
             }
         </style> 
-              
     </head>
+              
     <body>
    <div class="container">
     <div class="row">
@@ -25,11 +20,13 @@ and open the template in the editor.
             <h1 class="text-center login-title">Login</h1>
             <div class="account-wall">
                 <img class="profile-img" src="data/TripAdvisor_logo.png" alt="logo" style="max-width:360px; max-height: 90px;">
+                        
+                <!-- Form per inserimento email e password -->
                 <form class="form-signin" action ="Login" method ="POST">
                     <input type="text" class="form-control" placeholder="Email" name ="email" required autofocus>
                     <input type="password" class="form-control" placeholder="Password" name ="password" required>
                     <button class="btn btn-lg btn-primary btn-block" type="submit"> Login</button>
-                    <a href="mail_form.jsp" class="pull-right need-help">Hai dimenticato la tua password? </a><span class="clearfix"></span>
+                    <a href="MailForm" class="pull-right need-help">Hai dimenticato la tua password? </a><span class="clearfix"></span>
                 </form>
             </div>
         </div>

@@ -1,3 +1,4 @@
+<!-- Pagina che contiene tutti i form necessari per modificare i dati di un ristorante -->
 
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -6,17 +7,14 @@
 <html>
     <head>
         <title>Modifica Ristorante</title>
-        
         <%@include file="header_head.jsp" %>
         <style> 
             input, label {
                 margin: 5px 0;
             }
         </style>
-        
-        
-        
     </head>
+        
     <body>
         <div class="container">
             <div class="row">
@@ -27,6 +25,7 @@
                             <img class="profile-img" src="data/TripAdvisor_logo.png" alt="logo" style="max-width:360px; max-height: 90px;">
                         </a><br><br><br><br><br>
 
+                        <!-- Modifica i dettagli relativi al ristorante, contenuti nella tabella restaurant del db -->
                         <form class="form-edit-restaurant" action="<c:url value='ManageRestaurant'/>" method="POST">
                             <input type="text" class="form-control" name="name" placeholder="name" value="<c:out value='${requestScope.results.name}'/>">
                             <input type="text" class="form-control" name="description" placeholder="description" value="<c:out value='${requestScope.results.description}'/>">
@@ -43,7 +42,7 @@
                         <button class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#newFoto"> Aggiungi Foto</button>
                         <br>
                         
-                        <!--<button class="btn btn-lg btn-primary btn-danger" type="submit" style="width:150px" name="cancella_orario" value="segnala"> Cancella Orario</button>-->
+                        <!-- Form per inserire un nuovo orario all' interno della tabella Orari e relativo al ristorante in questione -->
                         <form class="form-edit-restaurant" action="<c:url value='ManageRestaurant'/>" method="POST">    
                             <h3 class="text-center login-title">Inserisci Orario</h3>
                             Giorno:<br><br>
@@ -63,7 +62,6 @@
                             <input type="hidden" class="form-control" name="restaurantID" value="<c:out value='${requestScope.results.id}'/>">
                             
                             <button class="btn btn-lg btn-primary btn-block" name="modifica" value ="inserisci_orario" type="submit"> Aggiungi Orario</button>
-                        
                         </form>
                         <br>
                         <h3 class="text-center login-title">Rimuovi Orari</h3><br>
@@ -71,6 +69,8 @@
                             <p>Nessun orario impostato per questo ristorante</p>
                         </c:if>
                         <c:forEach var="o" items="${results.orari}">
+                            
+                            <!-- Form per rimuovere un orario dalla tabella Orari  -->
                             <form class="form-edit-restaurant" method="POST" action ="<c:url value='ManageRestaurant'/>">
                                 
                                 <input type="hidden" name="apertura" value="<c:out value='${o.getAperturaString()}'/>">
@@ -86,6 +86,8 @@
                         </c:forEach>
                         
                         <br><h3 class="text-center login-title">Modifica Cucine</h3><br>
+                        
+                        <!-- Form per inserire un nuovo tipo di cucina all' interno della tabella Cucina  -->
                         <form class="form-edit-restaurant" action="<c:url value='ManageRestaurant'/>" method="POST">    
                             <input type="hidden" class="form-control" name="restaurantID" value="<c:out value='${requestScope.results.id}'/>">
                             <span>
@@ -103,6 +105,7 @@
 
                         <c:forEach var="c" items="${results.cuisines}">
                             <br>
+                            <!-- Form per rimuovere un tipo di cucina della tabella Cucina  -->
                             <form class="form-edit-restaurant" method="POST" action ="<c:url value='ManageRestaurant'/>">
                                 <input type="hidden" name="restaurantID" value="<c:out value='${results.id}'/>">
                                 <input type="hidden" name="cucina" value="<c:out value='${c}'/>">
@@ -123,6 +126,8 @@
                                         <h3 class="modal-title"> <b>Aggiungi una foto</b></h3>
                                     </div>
                                     <div class="modal-body" style="border-radius: 20px; border-top-width: 0;border-bottom-width: 0;">
+                                        
+                                        <!-- Form per inserire una nuova foto all' interno della tabella Photos  -->
                                         <form ENCTYPE='multipart/form-data' method='POST' action='<c:url value='PhotoUpload'/>'>
                                             <input type="hidden" name ="id_restaurant" value ="<c:out value='${results.id}'/>">
                                             <input type ="hidden" name ="return_address" value ="<c:url value='Restaurant'><c:param value='${results.id}' name='restaurantID'/></c:url>">
@@ -133,11 +138,10 @@
                                                 <input type="text" name="photoName" style="width:100%; padding: 5px 10px; margin: 10px 0px;" maxlength="25" placeholder="Cosa rappresenta questa foto?">
                                             </div>
                                             <input style="float: right" class="btn btn-default" TYPE='submit'>
-                                            <button style="float: left" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                         </form>
                                     </div>
                                     <div class="modal-footer" style="border-top-width: 0;">
-
+                                        <button style="float: left" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                     </div>
                                 </div>
                             </div>

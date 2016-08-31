@@ -1,15 +1,15 @@
-
+<!-- Form per la ricerca avanzata -->
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="sidebar-nav" <c:if test='${distance != null}'>onload="getlocation()"</c:if>>
+
+<div class="sidebar-nav" <c:if test='${distance != null}'> </c:if>>
         <nav class="navbar navbar-default" role="navigation" style="border-radius: 15px; padding: 1.5%; margin: 3%;">
-            <!--<div class = "collapse navbar-collapse" id = "example-navbar-collapse">-->
+            
                 <form action="<c:url value='RestaurantsList'/>" method="POST">
                     <ul class="nav navbar-nav">
+                    
                         <li><input type="text" class="form-control" style="width: 90%; margin: 2% 5% " placeholder="Dove vai?" name="place" id ="advanced_search_place" value="<c:out value='${requestScope.place}'/>"></li>
                         <li><input type="text" class="form-control" style="width: 90%; margin: 2% 5% " placeholder="Ricerca ristorante" name="r_query" id ="advanced_search_name" value="<c:out value='${requestScope.r_query}'/>"></li>
-
-
                         <li><label style="padding-left: 5%; padding-top: 2%; font-size: 150%">Ricerca avanzata:</label>
                         <br>
                         <li><label style="padding-left: 6%;">Range di prezzo:</label>
@@ -18,21 +18,18 @@
                         </li>
                         <li><br>
                             <div style="padding-left: 6%">
-                                <!--<div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example <span class="caret"></span></button>
-                                        <ul class="dropdown-menu">-->
                                 <div class="smallfont" style="margin-bottom: 2px;"><input value="Categorie Cucine" class="btn btn-default" style="font-weight: bold;"
-                                                                                          onclick="if (this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display != '') {
+                                                                                          onclick="if (this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display !== '') {
                                                                                                         this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display = '';
-                                                                                                        this.innerText = '';
+                                                                                                        
                                                                                                     } else {
                                                                                                         this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display = 'none';
-                                                                                                        this.innerText = '';
+                                                                                                        
                                                                                                     }"
                                                                                           type="button"> 
                                 </div>
                                 <div class="alt2" style="border: 1px inset ; margin: 0px; padding: 6px;">
-                                    <div style="display: none;">
+                                    <div id="cuisines_dropdown" style="display: none;">
                                         <c:forEach var ='c' items ='${cuisines}'>
                                             <input type="checkbox" name= "cuisines" value="<c:out value='${c}'/>" <c:if test='${requestScope[c] == true}'>checked</c:if>>
                                             <c:out value='${c}'/><br>
@@ -55,17 +52,16 @@
                             <label style="padding-left: 4%;" id ="error"></label><br>
                             <label style="padding-left: 6%;">Distanza massima: (in kilometri)</label>
                             <p id="geolocation_error" style="text-align: center; color: red; font-weight: bold"></p>
-                            <label style="padding-left: 7%;"> Max : &nbsp;<input type="number" min="0" step="0.1" class="form-control" id= "min_max" onclick="getLocation()"  style="max-width: 30%" name ="distance" value = "<c:out value='${requestScope.distance}'/>"/></label>
+                            <label style="padding-left: 7%;"> Max : &nbsp; <input type="number" min="0" step="0.1" class="form-control" id= "min_max" onclick="getLocation()"  style="max-width: 30%" name ="distance" value = "<c:out value='${requestScope.distance}'/>"/></label>
                         </li>
                         <li>
                             <input type="submit" class="btn btn-default" style="margin-left: 10%"name="button" value="Search">
                         </li>
-                        <input type="hidden" name ="longitude" id ="long">
-                        <input type="hidden" name ="latitude" id ="lat">
+                        <li><input type="hidden" name ="longitude" id ="long"></li>
+                        <li><input type="hidden" name ="latitude" id ="lat"></li>
 
                     </ul>
                 </form>
-            <!--</div>-->
         </nav>
 
         <script type="text/javascript">
@@ -84,9 +80,7 @@
                     } else {
                         alert("Sorry, no position available.");
                         document.getElementById("geolocation_error").textContent = "No position available.";
-                        //document.getElementById("min_max").disabled = true;
                     }
                 }
         </script>
-
     </div>

@@ -1,4 +1,5 @@
-
+<!-- Inclusione css di Bootstrap, Jquery e styles.css;
+     Definizione del charset utilizzato e dell' icona personalizzata del portale --> 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="styles.css">

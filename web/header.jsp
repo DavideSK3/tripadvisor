@@ -1,11 +1,14 @@
 <!-- Header -->
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
+
         <!-- barra in alto contenente il logo e i pulsanti per accesso/ registrazione oppure per la gestione 
             del proprio profilo e delle notifiche (in caso di amministratore o ristoratore) -->
         <nav class="navbar header">
             <div class="container-fluid header" >
-                <!-- logo -->    
+                
+                <!-- Immagine del sito -->
                 <div class="col-md-4 header" style="min-height: 50px">
                     <a class="navbar-brand header" href="<c:url value='/'/>">
                       <img src="data/TripAdvisor_logo.png" class="header" alt="TripAdvisor"  /> 
@@ -23,6 +26,8 @@
                      - Ristoratore e amministatore : Notifiche e Profilo
                 -->    
                 <c:choose>
+		    
+                    
 		    <c:when test="${sessionScope.user == null}">
                         <!-- utente anonimo -->
 			<div class="col-md-4 header">
@@ -32,6 +37,8 @@
                             </ul>
                         </div>
 		    </c:when>
+                    
+                    
                     <c:when test="${sessionScope.user.type == 'U'}">
                         <!-- utente registrato --> 
                         <div class="col-md-3 header" style=" padding-top: 10px; float: right">
@@ -47,6 +54,8 @@
                             </div>
                         </div>
                     </c:when>
+                    
+                    
 		    <c:otherwise>
                         <!-- utente amministratore o ristoratore -->
                         <div class="col-md-3 header" style=" padding-top: 10px; float: right">

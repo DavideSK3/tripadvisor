@@ -129,7 +129,7 @@ public class RestaurantsListServlet extends HttpServlet {
                     req.setAttribute("v"+s, true);
                 }
             }
-            if(research.getDistance() != null) req.setAttribute("distance", research.getDistance());
+            //if(research.getDistance() != null) req.setAttribute("distance", research.getDistance());
         }
         
         

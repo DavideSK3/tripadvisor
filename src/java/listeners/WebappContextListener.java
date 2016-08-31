@@ -34,6 +34,7 @@ public class WebappContextListener implements ServletContextListener {
         File qrDir = new File(sce.getServletContext().getRealPath("") + sce.getServletContext().getInitParameter("qrDir"));
         qrDir.mkdir();
         
+        
         String dburl = sce.getServletContext().getInitParameter("dburl");
         
         
