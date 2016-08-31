@@ -51,11 +51,11 @@ public class AutocompleteResource {
 
     
     /**
-     * Retrieves representation of an instance of
-     * services.AutoCompleteService
+     * Metodo che si occupa di interagire con il database per
+     * cercare dei nomi di ristorante da consigliare all'utente durante la digitazione.
      *
-     * @param term
-     * @return an instance of java.lang.String
+     * @param term - La stringa già digitata dall'utente
+     * @return - la lista dei nomi consigliati in formato JSON
      */
     @GET
     @Path("/restaurants/{term}")
@@ -86,11 +86,11 @@ public class AutocompleteResource {
     
     
     /**
-     * Retrieves representation of an instance of
-     * services.AutoCompleteService
+     * Metodo che si occupa di interagire con il database per
+     * cercare dei nomi dei luoghi da consigliare all'utente durante la digitazione.
      *
-     * @param term
-     * @return an instance of java.lang.String
+     * @param term - La stringa già digitata dall'utente
+     * @return - la lista dei luoghi consigliati in formato JSON
      */
     @GET
     @Path("/places/{term}")
@@ -111,9 +111,6 @@ public class AutocompleteResource {
         System.out.println("risultati ottenuti in " + (fine - inizio)/1000.0);
         
         if(results != null){
-            /*if(results.isEmpty()){
-                results.add("");
-            }*/
             Gson gson = new Gson();
             return gson.toJson(results);
         }else{
@@ -123,25 +120,4 @@ public class AutocompleteResource {
     }
     
     
-    /**
-     * Retrieves representation of an instance of services.AutocompleteResource
-     * @return an instance of java.lang.String
-     */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getJson() {
-        
-        
-        return null;
-        
-    }
-
-    /**
-     * PUT method for updating or creating an instance of AutocompleteResource
-     * @param content representation for the resource
-     */
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void putJson(String content) {
-    }
 }

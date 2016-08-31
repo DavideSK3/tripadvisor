@@ -364,11 +364,11 @@
                                     <img id="photo<%= i %>" class="revPhoto" src="<c:out value='${rec.photoPath}'/>" alt="<c:out value='${rec.photoName}'/>" style="width: 90%; margin-top: 5%">
 
                                     <!-- The Modal -->
-                                    <div id="modalphoto<%= i %>" class="modal pippo">
+                                    <div id="modalphoto<%= i %>" class="modal rev_p">
                                         <!-- The Close Button -->
-                                        <span class="close" onclick="document.getElementById('modalphoto<%= i %>').style.display='none'">&times;</span>
+                                        <span class="close" id = "close<%= i %>" onclick="document.getElementById('modalphoto<%= i %>').style.display='none'">&times;</span>
                                         <!-- Modal Content (The Image) -->
-                                        <img class="modal-content pippo" id="img<%= i %>">
+                                        <img class="modal-content rev_p" id="img<%= i %>">
                                         <!-- Modal Caption (Image Text) -->
                                         <div id="caption<%= i %>" class="revCaption"></div>
                                     </div>
@@ -390,7 +390,7 @@
                                         };
 
                                         // Get the <span> element that closes the modal
-                                        var span = document.getElementsByClassName("close")[0];
+                                        var span = document.getElementsById("close<%= i %>");
 
                                         // When the user clicks on <span> (x), close the modal
                                         span.onclick = function() { 

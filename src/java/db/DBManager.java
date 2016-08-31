@@ -1295,6 +1295,12 @@ public class DBManager implements Serializable {
                         r.setMoney_review(.0);
                     }
                     
+                }else{
+                    r.setService_review(.0);
+                    r.setFood_review(.0);
+                    r.setAtmosphere_review(.0);
+                    r.setMoney_review(.0);
+                    
                 }
             } finally {
                 rs.close();

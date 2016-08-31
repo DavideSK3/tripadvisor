@@ -11,7 +11,7 @@
                 <!-- Immagine del sito -->
                 <div class="col-md-4 header" style="min-height: 50px">
                     <a class="navbar-brand header" href="<c:url value='/'/>">
-                      <img src="data/TripAdvisor_logo.png" class="header" alt="TripAdvisor"  /> 
+                      <img src="<c:out value='${pageContext.servletContext.contextPath}'/>/data/TripAdvisor_logo.png" class="header" alt="TripAdvisor"  /> 
                     </a>
                 </div>
                 
@@ -32,8 +32,8 @@
                         <!-- utente anonimo -->
 			<div class="col-md-4 header">
                             <ul class="nav navbar-nav navbar-right header " >
-                                <li><a href="<c:url value='login.html'/>" class="glyphicon glyphicon-log-in utente "> Accedi </a></li>
-                                <li><a href="<c:url value='register.html'/>" class="glyphicon glyphicon-user utente">  Registrati</a></li>
+                                <li><a href="${pageContext.servletContext.contextPath}/<c:url value='login.html'/>" class="glyphicon glyphicon-log-in utente "> Accedi </a></li>
+                                <li><a href="${pageContext.servletContext.contextPath}/<c:url value='register.html'/>" class="glyphicon glyphicon-user utente">  Registrati</a></li>
                             </ul>
                         </div>
 		    </c:when>
@@ -48,8 +48,8 @@
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a href="<c:url value='Profile'/>" class="glyphicon glyphicon-user utente"> Profilo</a></li>
-                                  <li><a href="<c:url value='Logout'/>" class="glyphicon glyphicon-log-out utente"> Logout </a></li>
+                                    <li><a href="${pageContext.servletContext.contextPath}/<c:url value='Profile'/>" class="glyphicon glyphicon-user utente"> Profilo</a></li>
+                                  <li><a href="${pageContext.servletContext.contextPath}/<c:url value='Logout'/>" class="glyphicon glyphicon-log-out utente"> Logout </a></li>
                                 </ul>
                             </div>
                         </div>
@@ -65,8 +65,8 @@
                                     <c:out value="${sessionScope.user.name} ${sessionScope.user.surname}"/>
                                 <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
-                                  <li><a href="<c:url value='Profile'/>" class="glyphicon glyphicon-user utente"> Profile</a></li>
-                                  <li><a href="<c:url value='Logout'/>" class="glyphicon glyphicon-log-out utente"> Logout </a></li>
+                                  <li><a href="${pageContext.servletContext.contextPath}/<c:url value='Profile'/>" class="glyphicon glyphicon-user utente"> Profile</a></li>
+                                  <li><a href="${pageContext.servletContext.contextPath}/<c:url value='Logout'/>" class="glyphicon glyphicon-log-out utente"> Logout </a></li>
                                 </ul>
                             </div>
                                 
@@ -103,10 +103,10 @@
                                     <span>
                                           <c:choose>
                                               <c:when test="${sessionScope.user.getType() == 'R'}">
-                                                  <a href="<c:url value='NotificationRestaurant'/>" class="glyphicon glyphicon-plus" style="float:left; top: 10px;">Vedi tutte le <c:out value='${numeroNotifiche}'/> notifiche</a>
+                                                  <a href="${pageContext.servletContext.contextPath}/<c:url value='NotificationRestaurant'/>" class="glyphicon glyphicon-plus" style="float:left; top: 10px;">Vedi tutte le <c:out value='${numeroNotifiche}'/> notifiche</a>
                                               </c:when>
                                               <c:when test="${sessionScope.user.getType() == 'A'}">
-                                                  <a href="<c:url value='NotificationAdmin'/>" class="glyphicon glyphicon-plus" style="float:left; top: 10px;"> Vedi tutte  le <c:out value='${numeroNotifiche}'/> notifiche</a>
+                                                  <a href="${pageContext.servletContext.contextPath}/<c:url value='NotificationAdmin'/>" class="glyphicon glyphicon-plus" style="float:left; top: 10px;"> Vedi tutte  le <c:out value='${numeroNotifiche}'/> notifiche</a>
                                               </c:when>
                                           </c:choose>
                                     </span>
@@ -128,7 +128,7 @@
         <div class="navbar search">
               <div class="container-fluid" >
                   <div class="row">
-                      <form class="navbar-search" role="search" action="<c:url value='RestaurantsList'/>">
+                      <form class="navbar-search" role="search" action="${pageContext.servletContext.contextPath}/<c:url value='RestaurantsList'/>">
 
                           <div class=" col-md-5 col-sm-5"><input type="text" class="form-control" placeholder="Dove vai?" name="place" id ="search_place" value="<c:out value='${requestScope.place}'/>"></div>
                           <div class=" col-md-5 col-sm-5 ui-widget"> <input type="text" class="form-control" placeholder="Ricerca ristorante" name="r_query" id ="search_name" value="<c:out value='${requestScope.r_query}'/>"></div>

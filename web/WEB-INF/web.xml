@@ -3,11 +3,12 @@
     <context-param>
         <param-name>dburl</param-name>
         <param-value>jdbc:derby:/home/gabriele/NetBeansProjects/TripAdvisor/db</param-value>
+        
     </context-param>
     <context-param>
         <param-name>webAddress</param-name>
-        <param-value>192.168.43.129:8084</param-value>
-        <!--<param-value>localhost:8084</param-value>-->
+        <!--<param-value>192.168.43.129:8084</param-value>-->
+        <param-value>localhost:8084</param-value>
     </context-param>
     <context-param>
         <param-name>photoDir</param-name>
